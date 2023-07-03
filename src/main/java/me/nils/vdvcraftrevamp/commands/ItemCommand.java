@@ -23,6 +23,10 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (args.length == 0) {
+            return true;
+        }
+
         String param = args[0].toLowerCase();
 
         if ("get".equals(param)) {

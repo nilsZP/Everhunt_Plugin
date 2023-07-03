@@ -4,6 +4,7 @@ import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
 import me.nils.vdvcraftrevamp.entities.Meteor;
 import me.nils.vdvcraftrevamp.entities.ThunderBolt;
+import me.nils.vdvcraftrevamp.utils.Chat;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -12,19 +13,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.awt.event.FocusEvent;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 public class AbilityListener implements Listener {
+
     @EventHandler
     public void onRightClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -34,11 +36,16 @@ public class AbilityListener implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        Chat.debug(player, "1");
         if (pdc.has(key)) {
+            Chat.debug(player, "2");
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                Chat.debug(player, "3");
                 String ability = pdc.get(key, PersistentDataType.STRING);
                 if (ability.equals(Ability.METEOR_BLAST.getName())) {
+                    Chat.debug(player, "4");
                     if (!(Cooldown.hasCooldown(item))) {
+                        Chat.debug(player, "5");
                         Cooldown.setCooldown(item, 1);
                         player.swingMainHand();
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
