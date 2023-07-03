@@ -73,6 +73,7 @@ public class AbilityListener implements Listener {
 
     @EventHandler
     public void onTridentThrow(ProjectileLaunchEvent event) {
+        // TODO fix this not working
         if (event.getEntity().getType() == EntityType.TRIDENT) {
             Player player = (Player) event.getEntity().getShooter();
             NamespacedKey key = VDVCraftRevamp.getKey();
@@ -96,6 +97,7 @@ public class AbilityListener implements Listener {
 
     @EventHandler
     public void tridentHit(ProjectileHitEvent event) {
+        // TODO fix this not working
         if (event.getEntity().getType() == EntityType.TRIDENT) {
             NamespacedKey key = VDVCraftRevamp.getKey();
             Entity entity = event.getEntity();
