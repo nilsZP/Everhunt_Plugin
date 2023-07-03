@@ -1,5 +1,6 @@
 package me.nils.vdvcraftrevamp.commands;
 
+import me.nils.vdvcraftrevamp.items.materials.Materials;
 import me.nils.vdvcraftrevamp.items.weapons.Weapons;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -48,6 +49,26 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                     getItem(azureWrath,player);
                     return true;
                 }
+                case "shatteredshard" -> {
+                    ItemStack shard = new Materials().ShatteredShard();
+                    getItem(shard,player);
+                    return true;
+                }
+                case "unisonshard" -> {
+                    ItemStack shard = new Materials().UnisonShard();
+                    getItem(shard,player);
+                    return true;
+                }
+                case "rippeddimension" -> {
+                    ItemStack rippedDimension = new Materials().RippedDimension();
+                    getItem(rippedDimension,player);
+                    return true;
+                }
+                case "dagger" -> {
+                    ItemStack dagger = new Weapons().Dagger();
+                    getItem(dagger,player);
+                    return true;
+                }
                 default -> {
                     player.sendMessage(Component.text(Chat.color("&cUse: /item get <name>")));
                     return true;
@@ -78,6 +99,10 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                 if ("get".equalsIgnoreCase(args[0])) {
                     completions.add("MeteorBlade");
                     completions.add("AzureWrath");
+                    completions.add("ShatteredShard");
+                    completions.add("UnisonShard");
+                    completions.add("RippedDimension");
+                    completions.add("Dagger");
                 }
             }
         }

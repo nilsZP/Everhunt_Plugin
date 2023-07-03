@@ -32,6 +32,7 @@ public class Weapons {
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED,modifier);
 
         meta.setDisplayName(rarity.getColor() + "Meteor Blade");
+        meta.setUnbreakable(true);
 
         List<String> lore = getLore(ability,rarity);
 
@@ -54,6 +55,30 @@ public class Weapons {
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED,modifier);
 
         meta.setDisplayName(rarity.getColor() + "AzureWrath");
+        meta.setUnbreakable(true);
+
+        List<String> lore = getLore(ability,rarity);
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public ItemStack Dagger() {
+        ItemStack item = new ItemStack(Material.IRON_SWORD);
+        ItemMeta meta = item.getItemMeta();
+        Rarity rarity = Rarity.COMMON;
+
+        Ability ability = Ability.NONE;
+        meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(),PersistentDataType.STRING, ability.getName());
+
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"damage",3, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
+        modifier = new AttributeModifier(UUID.randomUUID(),"speed",2, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED,modifier);
+
+        meta.setDisplayName(rarity.getColor() + "Dagger");
+        meta.setUnbreakable(true);
 
         List<String> lore = getLore(ability,rarity);
 

@@ -1,7 +1,10 @@
 package me.nils.vdvcraftrevamp;
 
 import me.nils.vdvcraftrevamp.commands.ItemCommand;
+import me.nils.vdvcraftrevamp.commands.SpawnCommand;
+import me.nils.vdvcraftrevamp.items.Recipes;
 import me.nils.vdvcraftrevamp.listeners.AbilityListener;
+import me.nils.vdvcraftrevamp.listeners.EntityListener;
 import me.nils.vdvcraftrevamp.listeners.PlayerListener;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
 import net.kyori.adventure.text.Component;
@@ -22,23 +25,27 @@ public final class VDVCraftRevamp extends JavaPlugin {
         loadCommands();
         loadListeners();
         Cooldown.setupCooldown();
+        Recipes.loadRecipes();
 
     }
 
     @Override
     public void reloadConfig() {
-       loadCommands();
-       loadListeners();
+        loadCommands();
+        loadListeners();
         Cooldown.setupCooldown();
+        Recipes.loadRecipes();
     }
 
     private void loadCommands() {
         Bukkit.getPluginCommand("item").setExecutor(new ItemCommand());
+        Bukkit.getPluginCommand("spawn").setExecutor(new SpawnCommand());
     }
 
     private void loadListeners() {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityListener(), this);
     }
 
     @Override

@@ -36,16 +36,11 @@ public class AbilityListener implements Listener {
         ItemStack item = player.getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        Chat.debug(player, "1");
         if (pdc.has(key)) {
-            Chat.debug(player, "2");
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                Chat.debug(player, "3");
                 String ability = pdc.get(key, PersistentDataType.STRING);
                 if (ability.equals(Ability.METEOR_BLAST.getName())) {
-                    Chat.debug(player, "4");
                     if (!(Cooldown.hasCooldown(item))) {
-                        Chat.debug(player, "5");
                         Cooldown.setCooldown(item, 1);
                         player.swingMainHand();
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
@@ -124,7 +119,7 @@ public class AbilityListener implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         if (!(damager instanceof Player)) {
-            if (!(entity instanceof Item || entity instanceof Player)) {
+            if (!(entity instanceof Item)) {
                 PersistentDataContainer pdc = damager.getPersistentDataContainer();
                 if (pdc.has(VDVCraftRevamp.getKey())) {
                     if (entity instanceof LivingEntity livingEntity) {
