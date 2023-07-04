@@ -1,32 +1,16 @@
 package me.nils.vdvcraftrevamp.items;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
+import me.nils.vdvcraftrevamp.items.materials.Materials;
 import me.nils.vdvcraftrevamp.items.weapons.Weapons;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class Recipes {
- /*   public static void DaggerOfShatteredDimensionsRecipe() {
-        // TODO fix recipe not working
-        ItemStack item = new DaggerOfShatteredDimensions().getItem();
-
-        NamespacedKey key = VDVCraftRevamp.getKey();
-
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-
-        recipe.shape("SBS", "SRS", "SHS");
-
-        recipe.setIngredient('B', new DaggerBlade().getItem());
-        recipe.setIngredient('R', new RippedDimension().getItem());
-        recipe.setIngredient('H', new DaggerHandle().getItem());
-        recipe.setIngredient('S', new ShatteredShard().getItem());
-
-        Bukkit.addRecipe(recipe);
-    } */
-
     public static void DaggerRecipe() {
         ItemStack item = new Weapons().Dagger();
 
@@ -41,8 +25,25 @@ public class Recipes {
 
         Bukkit.addRecipe(recipe);
     }
+
+    public static void DaggerURecipe() {
+        ItemStack item = new Weapons().DaggerOfShatteredDimensions();
+
+        NamespacedKey key = new NamespacedKey(VDVCraftRevamp.getInstance(),"DaggerURecipe");
+
+        ShapedRecipe recipe = new ShapedRecipe(key, item);
+
+        recipe.shape("S S", "SRS", "SDS");
+
+        recipe.setIngredient('S', new Materials().ShatteredShard());
+        recipe.setIngredient('R', new Materials().RippedDimension());
+        recipe.setIngredient('D', new Weapons().Dagger());
+        // TODO fix daggerpart of recipe not working
+
+        Bukkit.addRecipe(recipe);
+    }
     public static void loadRecipes() {
-//        DaggerOfShatteredDimensionsRecipe();
         DaggerRecipe();
+        DaggerURecipe();
     }
 }

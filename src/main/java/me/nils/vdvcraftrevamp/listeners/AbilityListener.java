@@ -22,6 +22,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -46,6 +48,16 @@ public class AbilityListener implements Listener {
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
                         new Meteor(loc);
+                    }
+                }
+                if (ability.equals(Ability.DIMENSION_SHATTER.getName())) {
+                    Entity entity = player.getTargetEntity(3);
+                    if (entity instanceof LivingEntity livingEntity) {
+                        if (!(Cooldown.hasCooldown(item))) {
+                            Cooldown.setCooldown(item,10);
+                            player.swingMainHand();
+                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,255,false,true));
+                        }
                     }
                 }
             }
@@ -126,6 +138,25 @@ public class AbilityListener implements Listener {
                         event.setCancelled(true);
                         double damage = pdc.get(VDVCraftRevamp.getKey(),PersistentDataType.DOUBLE);
                         livingEntity.damage(damage);
+                    }
+                }
+            }
+        }
+        if (damager instanceof Player player) {
+            NamespacedKey key = VDVCraftRevamp.getKey();
+
+            ItemStack item = player.getInventory().getItemInMainHand();
+            ItemMeta meta = item.getItemMeta();
+            PersistentDataContainer pdc = meta.getPersistentDataContainer();
+            if (pdc.has(key)) {
+                String ability = pdc.get(key, PersistentDataType.STRING);
+                if (ability.equals(Ability.DIMENSION_SHATTER.getName())) {
+                    if (entity instanceof LivingEntity livingEntity) {
+                        if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
+                            livingEntity.setMaximumNoDamageTicks(0);
+                        } else {
+                            livingEntity.setMaximumNoDamageTicks(20);
+                        }
                     }
                 }
             }

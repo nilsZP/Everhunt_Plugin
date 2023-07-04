@@ -32,14 +32,13 @@ public class PlayerListener implements Listener {
                 List<Block> blocks = getNearbyBlocks(player.getLocation(),6);
                 for (int i = 0; i < blocks.size(); i++) {
                     if (blocks.get(i).getType() == Material.REDSTONE_BLOCK) {
-                        // TODO stop mobs from infinitely spawning
                         Location loc = blocks.get(i).getLocation();
                         loc.add(0,1,0);
                         new SkeletonKnight(loc);
                     }
                 }
             }
-        }.runTaskTimer(VDVCraftRevamp.getInstance(),3600L,50L);
+        }.runTaskTimer(VDVCraftRevamp.getInstance(),50L,3600L);
     }
 
     @EventHandler

@@ -21,7 +21,7 @@ public class Weapons {
     public ItemStack MeteorBlade() {
         ItemStack item = new ItemStack(Material.GOLDEN_SWORD);
         ItemMeta meta = item.getItemMeta();
-        Rarity rarity = Rarity.EPIC;
+        Rarity rarity = Rarity.GRAND;
 
         Ability ability = Ability.METEOR_BLAST;
         meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(),PersistentDataType.STRING, ability.getName());
@@ -67,7 +67,7 @@ public class Weapons {
     public ItemStack Dagger() {
         ItemStack item = new ItemStack(Material.IRON_SWORD);
         ItemMeta meta = item.getItemMeta();
-        Rarity rarity = Rarity.COMMON;
+        Rarity rarity = Rarity.BASIC;
 
         Ability ability = Ability.NONE;
         meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(),PersistentDataType.STRING, ability.getName());
@@ -78,6 +78,29 @@ public class Weapons {
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED,modifier);
 
         meta.setDisplayName(rarity.getColor() + "Dagger");
+        meta.setUnbreakable(true);
+
+        List<String> lore = getLore(ability,rarity);
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public ItemStack DaggerOfShatteredDimensions() {
+        ItemStack item = new ItemStack(Material.NETHERITE_SWORD);
+        ItemMeta meta = item.getItemMeta();
+        Rarity rarity = Rarity.CURSED;
+
+        Ability ability = Ability.DIMENSION_SHATTER;
+        meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(),PersistentDataType.STRING, ability.getName());
+
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"damage",5, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
+        modifier = new AttributeModifier(UUID.randomUUID(),"speed",6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED,modifier);
+
+        meta.setDisplayName(rarity.getColor() + "Dagger Of Shattered Dimensions");
         meta.setUnbreakable(true);
 
         List<String> lore = getLore(ability,rarity);

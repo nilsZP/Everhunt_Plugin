@@ -5,16 +5,12 @@ import me.nils.vdvcraftrevamp.constants.Ability;
 import me.nils.vdvcraftrevamp.constants.Rarity;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Materials {
     public ItemStack RippedDimension() {
@@ -37,7 +33,7 @@ public class Materials {
     public ItemStack UnisonShard() {
         ItemStack item = new ItemStack(Material.PRISMARINE_SHARD);
         ItemMeta meta = item.getItemMeta();
-        Rarity rarity = Rarity.EPIC;
+        Rarity rarity = Rarity.GRAND;
 
         Ability ability = Ability.NONE;
         meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(), PersistentDataType.STRING, ability.getName());
@@ -54,7 +50,7 @@ public class Materials {
     public ItemStack ShatteredShard() {
         ItemStack item = new ItemStack(Material.PRISMARINE_CRYSTALS);
         ItemMeta meta = item.getItemMeta();
-        Rarity rarity = Rarity.EPIC;
+        Rarity rarity = Rarity.GRAND;
 
         Ability ability = Ability.NONE;
         meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(), PersistentDataType.STRING, ability.getName());

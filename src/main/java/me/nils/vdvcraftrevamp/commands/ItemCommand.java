@@ -69,6 +69,11 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                     getItem(dagger,player);
                     return true;
                 }
+                case "daggers" -> {
+                    ItemStack dagger = new Weapons().DaggerOfShatteredDimensions();
+                    getItem(dagger,player);
+                    return true;
+                }
                 default -> {
                     player.sendMessage(Component.text(Chat.color("&cUse: /item get <name>")));
                     return true;
@@ -103,6 +108,7 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                     completions.add("UnisonShard");
                     completions.add("RippedDimension");
                     completions.add("Dagger");
+                    completions.add("DaggerS");
                 }
             }
         }
