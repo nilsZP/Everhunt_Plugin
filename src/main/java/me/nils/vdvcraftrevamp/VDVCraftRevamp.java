@@ -25,7 +25,6 @@ public final class VDVCraftRevamp extends JavaPlugin {
         loadCommands();
         loadListeners();
         Cooldown.setupCooldown();
-        Recipes.loadRecipes();
         WeaponManager.registerItems();
 
     }
@@ -35,7 +34,6 @@ public final class VDVCraftRevamp extends JavaPlugin {
         loadCommands();
         loadListeners();
         Cooldown.setupCooldown();
-        Recipes.loadRecipes();
         WeaponManager.registerItems();
     }
 

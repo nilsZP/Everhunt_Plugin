@@ -1,7 +1,7 @@
 package me.nils.vdvcraftrevamp.listeners;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
-import me.nils.vdvcraftrevamp.items.weapons.Weapons;
+import me.nils.vdvcraftrevamp.items.weapons.AzureWrath;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -26,12 +26,12 @@ public class EntityListener implements Listener {
                 Random rand = new Random();
                 int randomNumber = rand.nextInt(101);
                 if (randomNumber >= 80) {
-                    ItemStack drop = new Weapons().AzureWrath();
+                    ItemStack drop = new AzureWrath().getItemStack();
                     entity.getWorld().dropItemNaturally(entity.getLocation(),drop);
                     Bukkit.broadcast(Component.text(Chat.color("&eRARE DROP " + drop.getItemMeta().getDisplayName())));
                 }
             }
-            PersistentDataContainer pdc = entity.getPersistentDataContainer();
+ /*           PersistentDataContainer pdc = entity.getPersistentDataContainer();
             if (pdc.has(VDVCraftRevamp.getKey())) {
                 if (Objects.equals(pdc.get(VDVCraftRevamp.getKey(), PersistentDataType.STRING), "boss")) {
                     Random rand = new Random();
@@ -48,7 +48,7 @@ public class EntityListener implements Listener {
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 }
