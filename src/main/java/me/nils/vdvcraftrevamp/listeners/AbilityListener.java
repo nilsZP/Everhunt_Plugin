@@ -2,8 +2,10 @@ package me.nils.vdvcraftrevamp.listeners;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
+import me.nils.vdvcraftrevamp.constants.ItemType;
 import me.nils.vdvcraftrevamp.entities.Meteor;
 import me.nils.vdvcraftrevamp.entities.ThunderBolt;
+import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
 import org.bukkit.Location;
@@ -39,9 +41,10 @@ public class AbilityListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(key)) {
+            WeaponManager weapon = WeaponManager.items.get(meta.getDisplayName());
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                String ability = pdc.get(key, PersistentDataType.STRING);
-                if (ability.equals(Ability.METEOR_BLAST.getName())) {
+                Ability ability = weapon.getAbility();
+                if (ability.equals(Ability.METEOR_BLAST)) {
                     if (!(Cooldown.hasCooldown(item))) {
                         Cooldown.setCooldown(item, 1);
                         player.swingMainHand();
@@ -50,7 +53,7 @@ public class AbilityListener implements Listener {
                         new Meteor(loc);
                     }
                 }
-                if (ability.equals(Ability.DIMENSION_SHATTER.getName())) {
+                if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
                     Entity entity = player.getTargetEntity(3);
                     if (entity instanceof LivingEntity livingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
@@ -149,13 +152,22 @@ public class AbilityListener implements Listener {
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
             if (pdc.has(key)) {
-                String ability = pdc.get(key, PersistentDataType.STRING);
-                if (ability.equals(Ability.DIMENSION_SHATTER.getName())) {
+                WeaponManager weapon = WeaponManager.items.get(meta.getDisplayName());
+                Ability ability = weapon.getAbility();
+                if (ability.equals(Ability.DIMENSION_SHATTER)) {
                     if (entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
                             livingEntity.setMaximumNoDamageTicks(0);
                         } else {
                             livingEntity.setMaximumNoDamageTicks(20);
+                        }
+                    }
+                }
+                if (ability.equals(Ability.DIMENSION_UNISON)) {
+                    if (entity instanceof LivingEntity livingEntity) {
+                        if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
+                            List<Entity> entityList = livingEntity.getNearbyEntities(5,5,5);
+                            livingEntity.damage(entityList.size()*5);
                         }
                     }
                 }

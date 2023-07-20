@@ -1,7 +1,8 @@
 package me.nils.vdvcraftrevamp.commands;
 
 import me.nils.vdvcraftrevamp.items.materials.Materials;
-import me.nils.vdvcraftrevamp.items.weapons.Weapons;
+import me.nils.vdvcraftrevamp.items.weapons.MeteorBlade;
+import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
@@ -40,38 +41,8 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
 
             switch (name) {
                 case "meteorblade" -> {
-                    ItemStack meteorBlade = new Weapons().MeteorBlade();
+                    WeaponManager meteorBlade = new MeteorBlade();
                     getItem(meteorBlade, player);
-                    return true;
-                }
-                case "azurewrath" -> {
-                    ItemStack azureWrath = new Weapons().AzureWrath();
-                    getItem(azureWrath,player);
-                    return true;
-                }
-                case "shatteredshard" -> {
-                    ItemStack shard = new Materials().ShatteredShard();
-                    getItem(shard,player);
-                    return true;
-                }
-                case "unisonshard" -> {
-                    ItemStack shard = new Materials().UnisonShard();
-                    getItem(shard,player);
-                    return true;
-                }
-                case "rippeddimension" -> {
-                    ItemStack rippedDimension = new Materials().RippedDimension();
-                    getItem(rippedDimension,player);
-                    return true;
-                }
-                case "dagger" -> {
-                    ItemStack dagger = new Weapons().Dagger();
-                    getItem(dagger,player);
-                    return true;
-                }
-                case "daggers" -> {
-                    ItemStack dagger = new Weapons().DaggerOfShatteredDimensions();
-                    getItem(dagger,player);
                     return true;
                 }
                 default -> {
@@ -84,8 +55,8 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    public void getItem(ItemStack item, Player player) {
-        player.getInventory().addItem(item);
+    public void getItem(WeaponManager item, Player player) {
+        player.getInventory().addItem(item.getItemStack());
     }
 
     @Override
@@ -103,12 +74,6 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
             case 2 -> {
                 if ("get".equalsIgnoreCase(args[0])) {
                     completions.add("MeteorBlade");
-                    completions.add("AzureWrath");
-                    completions.add("ShatteredShard");
-                    completions.add("UnisonShard");
-                    completions.add("RippedDimension");
-                    completions.add("Dagger");
-                    completions.add("DaggerS");
                 }
             }
         }

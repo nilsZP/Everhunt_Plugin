@@ -6,6 +6,7 @@ import me.nils.vdvcraftrevamp.items.Recipes;
 import me.nils.vdvcraftrevamp.listeners.AbilityListener;
 import me.nils.vdvcraftrevamp.listeners.EntityListener;
 import me.nils.vdvcraftrevamp.listeners.PlayerListener;
+import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -26,6 +27,7 @@ public final class VDVCraftRevamp extends JavaPlugin {
         loadListeners();
         Cooldown.setupCooldown();
         Recipes.loadRecipes();
+        WeaponManager.registerItems();
 
     }
 
@@ -35,6 +37,7 @@ public final class VDVCraftRevamp extends JavaPlugin {
         loadListeners();
         Cooldown.setupCooldown();
         Recipes.loadRecipes();
+        WeaponManager.registerItems();
     }
 
     private void loadCommands() {
