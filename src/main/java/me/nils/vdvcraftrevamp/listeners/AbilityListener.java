@@ -2,11 +2,9 @@ package me.nils.vdvcraftrevamp.listeners;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
-import me.nils.vdvcraftrevamp.constants.ItemType;
 import me.nils.vdvcraftrevamp.entities.Meteor;
 import me.nils.vdvcraftrevamp.entities.ThunderBolt;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
-import me.nils.vdvcraftrevamp.utils.Chat;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;

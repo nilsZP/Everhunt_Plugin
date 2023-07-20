@@ -2,7 +2,6 @@ package me.nils.vdvcraftrevamp;
 
 import me.nils.vdvcraftrevamp.commands.ItemCommand;
 import me.nils.vdvcraftrevamp.commands.SpawnCommand;
-import me.nils.vdvcraftrevamp.items.Recipes;
 import me.nils.vdvcraftrevamp.listeners.AbilityListener;
 import me.nils.vdvcraftrevamp.listeners.EntityListener;
 import me.nils.vdvcraftrevamp.listeners.PlayerListener;

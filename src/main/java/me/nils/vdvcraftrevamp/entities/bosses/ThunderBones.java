@@ -2,7 +2,7 @@ package me.nils.vdvcraftrevamp.entities.bosses;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.entities.ThunderBolt;
-import me.nils.vdvcraftrevamp.items.weapons.Weapons;
+import me.nils.vdvcraftrevamp.items.weapons.AzureWrath;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -21,7 +21,7 @@ public class ThunderBones {
 
         bones.setCustomName("Thunder Bones");
         bones.setCustomNameVisible(true);
-        ItemStack azurewrath = new Weapons().AzureWrath();
+        ItemStack azurewrath = new AzureWrath().getItemStack();
         bones.getEquipment().setItemInMainHand(azurewrath);
         bones.getEquipment().setHelmet(new ItemStack(Material.DIAMOND_HELMET));
         bones.getPersistentDataContainer().set(VDVCraftRevamp.getKey(), PersistentDataType.STRING,"boss");

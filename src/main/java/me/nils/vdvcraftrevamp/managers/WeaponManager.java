@@ -2,6 +2,7 @@ package me.nils.vdvcraftrevamp.managers;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
+import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.constants.Rarity;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -44,15 +45,17 @@ public class WeaponManager {
     private final String displayName;
     private final Rarity rarity;
     private final Ability ability;
+    private final Flow flow;
 
     private final ItemStack itemStack;
     private final YamlConfiguration configuration;
 
-    public WeaponManager(Material material, String displayName, Ability ability, Rarity rarity, double damage) {
+    public WeaponManager(Material material, String displayName, Ability ability, Rarity rarity, double damage, Flow flow) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
         this.rarity = rarity;
+        this.flow = flow;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
@@ -64,6 +67,7 @@ public class WeaponManager {
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
+        lore.add(Chat.color("&7Flow: ") + flow.getColor() + String.valueOf(flow));
         if (!(ability == Ability.NONE)) {
             lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&lRIGHT CLICK"));
             lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
@@ -81,6 +85,7 @@ public class WeaponManager {
         configuration.set("rarity", rarity.toString());
         configuration.set("ability", ability.toString());
         configuration.set("damage", damage);
+        configuration.set("flow", flow.toString());
 
         fileManager.save();
         items.put(displayName, this);
@@ -99,8 +104,13 @@ public class WeaponManager {
             Rarity rarity = Rarity.valueOf(fileConfiguration.getString("rarity"));
             Ability ability = Ability.valueOf(fileConfiguration.getString("ability"));
             double damage = fileConfiguration.getDouble("damage");
+            Flow flow = Flow.valueOf(fileConfiguration.getString("flow"));
 
-            new WeaponManager(material, displayName, ability, rarity, damage);
+            new WeaponManager(material, displayName, ability, rarity, damage, flow);
         }
+    }
+
+    public Flow getFlow() {
+        return flow;
     }
 }

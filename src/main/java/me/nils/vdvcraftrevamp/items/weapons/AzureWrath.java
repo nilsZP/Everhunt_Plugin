@@ -6,9 +6,8 @@ import me.nils.vdvcraftrevamp.constants.Rarity;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import org.bukkit.Material;
 
-public class MeteorBlade extends WeaponManager {
-
-    public MeteorBlade() {
-        super(Material.GOLDEN_SWORD,"Meteor Blade",Ability.METEOR_BLAST,Rarity.GRAND,7, Flow.BURNING);
+public class AzureWrath extends WeaponManager {
+    public AzureWrath() {
+        super(Material.TRIDENT,"AzureWrath", Ability.THUNDER_WARP, Rarity.LEGENDARY,9, Flow.SURGING);
     }
 }

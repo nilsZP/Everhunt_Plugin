@@ -1,6 +1,6 @@
 package me.nils.vdvcraftrevamp.commands;
 
-import me.nils.vdvcraftrevamp.items.materials.Materials;
+import me.nils.vdvcraftrevamp.items.weapons.AzureWrath;
 import me.nils.vdvcraftrevamp.items.weapons.MeteorBlade;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Chat;
@@ -10,7 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +44,11 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                     getItem(meteorBlade, player);
                     return true;
                 }
+                case "azurewrath" -> {
+                    WeaponManager azurewrath = new AzureWrath();
+                    getItem(azurewrath, player);
+                    return true;
+                }
                 default -> {
                     player.sendMessage(Component.text(Chat.color("&cUse: /item get <name>")));
                     return true;
@@ -74,6 +78,7 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
             case 2 -> {
                 if ("get".equalsIgnoreCase(args[0])) {
                     completions.add("MeteorBlade");
+                    completions.add("AzureWrath");
                 }
             }
         }
