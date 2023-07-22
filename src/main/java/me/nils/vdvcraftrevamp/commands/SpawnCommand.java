@@ -1,6 +1,7 @@
 package me.nils.vdvcraftrevamp.commands;
 
 import me.nils.vdvcraftrevamp.entities.SkeletonKnight;
+import me.nils.vdvcraftrevamp.entities.Springer;
 import me.nils.vdvcraftrevamp.entities.bosses.ThunderBones;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -33,6 +34,10 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 new ThunderBones(player.getLocation());
                 return true;
             }
+            case "springer" -> {
+                new Springer(player.getLocation());
+                return true;
+            }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
                 return true;
@@ -51,6 +56,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             completions.add("SkeletonKnight");
             completions.add("ThunderBones");
+            completions.add("Springer");
         }
 
         return completions;

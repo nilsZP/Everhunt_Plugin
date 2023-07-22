@@ -34,14 +34,15 @@ public class ThunderBones {
             @Override
             public void run() {
                 if (bones.isDead()) {
-                    return;
+                    cancel();
                 }
                 List<Entity> entityList = bones.getNearbyEntities(4,4,4);
                 Location loc1;
                 for (int i = 0; i < entityList.size(); i++) {
                     if (!(entityList.get(i) instanceof Item)) {
                         loc1 = entityList.get(i).getLocation();
-                        new ThunderBolt(loc1);
+                        double damage = 5;
+                        new ThunderBolt(loc1, damage);
                     }
                 }
             }

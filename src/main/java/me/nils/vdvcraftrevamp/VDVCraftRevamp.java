@@ -5,6 +5,7 @@ import me.nils.vdvcraftrevamp.commands.SpawnCommand;
 import me.nils.vdvcraftrevamp.listeners.AbilityListener;
 import me.nils.vdvcraftrevamp.listeners.EntityListener;
 import me.nils.vdvcraftrevamp.listeners.PlayerListener;
+import me.nils.vdvcraftrevamp.managers.ArmorManager;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
 import net.kyori.adventure.text.Component;
@@ -26,7 +27,7 @@ public final class VDVCraftRevamp extends JavaPlugin {
         loadListeners();
         Cooldown.setupCooldown();
         WeaponManager.registerItems();
-
+        ArmorManager.registerItems();
     }
 
     @Override
@@ -35,6 +36,7 @@ public final class VDVCraftRevamp extends JavaPlugin {
         loadListeners();
         Cooldown.setupCooldown();
         WeaponManager.registerItems();
+        ArmorManager.registerItems();
     }
 
     private void loadCommands() {

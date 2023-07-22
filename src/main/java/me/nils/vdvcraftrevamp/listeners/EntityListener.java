@@ -1,6 +1,7 @@
 package me.nils.vdvcraftrevamp.listeners;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
+import me.nils.vdvcraftrevamp.items.armor.UnitedHelmet;
 import me.nils.vdvcraftrevamp.items.weapons.AzureWrath;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -24,10 +26,15 @@ public class EntityListener implements Listener {
             Entity entity = event.getEntity();
             if (entity.getName().equals("Thunder Bones")) {
                 Random rand = new Random();
-                int randomNumber = rand.nextInt(101);
+                double randomNumber = rand.nextDouble(101);
                 if (randomNumber >= 80) {
                     ItemStack drop = new AzureWrath().getItemStack();
-                    entity.getWorld().dropItemNaturally(entity.getLocation(),drop);
+                    entity.getWorld().dropItemNaturally(entity.getLocation(), drop);
+                    Bukkit.broadcast(Component.text(Chat.color("&eRARE DROP " + drop.getItemMeta().getDisplayName())));
+                }
+                if (randomNumber >= 99.9) {
+                    ItemStack drop = new UnitedHelmet().getItemStack();
+                    entity.getWorld().dropItemNaturally(entity.getLocation(), drop);
                     Bukkit.broadcast(Component.text(Chat.color("&eRARE DROP " + drop.getItemMeta().getDisplayName())));
                 }
             }

@@ -6,6 +6,7 @@ import me.nils.vdvcraftrevamp.entities.Meteor;
 import me.nils.vdvcraftrevamp.entities.ThunderBolt;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
@@ -39,7 +40,7 @@ public class AbilityListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(key)) {
-            WeaponManager weapon = WeaponManager.items.get(meta.getDisplayName());
+            WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Ability ability = weapon.getAbility();
                 if (ability.equals(Ability.METEOR_BLAST)) {
@@ -48,7 +49,8 @@ public class AbilityListener implements Listener {
                         player.swingMainHand();
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        new Meteor(loc);
+                        double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                        new Meteor(loc, damage);
                     }
                 }
                 if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
@@ -91,11 +93,13 @@ public class AbilityListener implements Listener {
             if (!(pdc.getKeys().contains(key))) {
                 return;
             }
-            String ability = pdc.get(key, PersistentDataType.STRING);
-            if (ability.equals(Ability.THUNDER_WARP.getName())) {
+            WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+            Ability ability = weapon.getAbility();
+            if (ability.equals(Ability.THUNDER_WARP)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, 2);
-                    event.getEntity().getPersistentDataContainer().set(key,PersistentDataType.STRING,ability);
+                    double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                    event.getEntity().getPersistentDataContainer().set(key,PersistentDataType.DOUBLE,damage);
                 } else {
                     event.setCancelled(true);
                 }
@@ -120,7 +124,8 @@ public class AbilityListener implements Listener {
                 for (int i = 0; i < entityList.size(); i++) {
                     if (!(entityList.get(i) instanceof Player) && !(entityList.get(i) instanceof Item)) {
                         loc = entityList.get(i).getLocation();
-                        new ThunderBolt(loc);
+                        double damage = entity.getPersistentDataContainer().get(key,PersistentDataType.DOUBLE);
+                        new ThunderBolt(loc, damage);
                     }
                 }
             }
@@ -150,7 +155,7 @@ public class AbilityListener implements Listener {
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
             if (pdc.has(key)) {
-                WeaponManager weapon = WeaponManager.items.get(meta.getDisplayName());
+                WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
                 Ability ability = weapon.getAbility();
                 if (ability.equals(Ability.DIMENSION_SHATTER)) {
                     if (entity instanceof LivingEntity livingEntity) {

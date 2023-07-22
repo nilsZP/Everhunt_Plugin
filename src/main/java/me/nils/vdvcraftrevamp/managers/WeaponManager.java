@@ -46,6 +46,7 @@ public class WeaponManager {
     private final Rarity rarity;
     private final Ability ability;
     private final Flow flow;
+    private final double damage;
 
     private final ItemStack itemStack;
     private final YamlConfiguration configuration;
@@ -56,6 +57,7 @@ public class WeaponManager {
         this.material = material;
         this.rarity = rarity;
         this.flow = flow;
+        this.damage = damage;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
@@ -92,7 +94,7 @@ public class WeaponManager {
     }
 
     public static void registerItems() {
-        List<File> files = FileManager.getFiles("items");
+        List<File> files = FileManager.getFiles("weapons");
         if (files == null) {
             return;
         }
@@ -112,5 +114,9 @@ public class WeaponManager {
 
     public Flow getFlow() {
         return flow;
+    }
+
+    public double getDamage() {
+        return damage;
     }
 }
