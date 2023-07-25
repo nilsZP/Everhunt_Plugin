@@ -11,6 +11,8 @@ public class ThunderBolt {
     public ThunderBolt(Location loc, double damage) {
         LightningStrike thunder = (LightningStrike) loc.getWorld().spawnEntity(loc, EntityType.LIGHTNING);
 
+        thunder.setCustomName("thunder");
+
         thunder.getPersistentDataContainer().set(VDVCraftRevamp.getKey(), PersistentDataType.DOUBLE, damage);
     }
 }

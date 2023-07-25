@@ -2,10 +2,14 @@ package me.nils.vdvcraftrevamp.listeners;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
+import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.entities.Meteor;
+import me.nils.vdvcraftrevamp.entities.SnowBall;
 import me.nils.vdvcraftrevamp.entities.ThunderBolt;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -43,9 +47,10 @@ public class AbilityListener implements Listener {
             WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 Ability ability = weapon.getAbility();
+                int cooldown = ability.getCooldown();
                 if (ability.equals(Ability.METEOR_BLAST)) {
                     if (!(Cooldown.hasCooldown(item))) {
-                        Cooldown.setCooldown(item, 1);
+                        Cooldown.setCooldown(item, cooldown);
                         player.swingMainHand();
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
@@ -53,11 +58,33 @@ public class AbilityListener implements Listener {
                         new Meteor(loc, damage);
                     }
                 }
+                if (ability.equals(Ability.SNOWBALL)) {
+                    if (!(Cooldown.hasCooldown(item))) {
+                        Cooldown.setCooldown(item,cooldown);
+                        player.swingMainHand();
+                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                        double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                        new SnowBall(loc, damage, player);
+                    }
+                }
+                if (ability.equals(Ability.THUNDER_CLAP)) {
+                    Entity entity = player.getTargetEntity(3);
+                    if (entity instanceof LivingEntity livingEntity) {
+                        if (!(Cooldown.hasCooldown(item))) {
+                            Cooldown.setCooldown(item,cooldown);
+                            player.swingMainHand();
+                            Location loc = entity.getLocation();
+                            double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                            new ThunderBolt(loc, damage);
+                        }
+                    }
+                }
                 if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
                     Entity entity = player.getTargetEntity(3);
                     if (entity instanceof LivingEntity livingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
-                            Cooldown.setCooldown(item,10);
+                            Cooldown.setCooldown(item,cooldown);
                             player.swingMainHand();
                             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,255,false,true));
                         }
@@ -140,6 +167,21 @@ public class AbilityListener implements Listener {
             if (!(entity instanceof Item)) {
                 PersistentDataContainer pdc = damager.getPersistentDataContainer();
                 if (pdc.has(VDVCraftRevamp.getKey())) {
+                    if (entity instanceof Player player) {
+                        NamespacedKey key = VDVCraftRevamp.getKey();
+                        ItemStack item = player.getInventory().getItemInMainHand();
+                        ItemMeta meta = item.getItemMeta();
+                        PersistentDataContainer pdc1 = meta.getPersistentDataContainer();
+                        if (pdc1.has(key)) {
+                            WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                            if (weapon.getFlow().equals(Flow.SURGING)) {
+                                if (damager.getName().equals("thunder")) {
+                                    event.setDamage(0);
+                                    event.setCancelled(true); // TODO fix this
+                                }
+                            }
+                        }
+                    }
                     if (entity instanceof LivingEntity livingEntity) {
                         event.setCancelled(true);
                         double damage = pdc.get(VDVCraftRevamp.getKey(),PersistentDataType.DOUBLE);

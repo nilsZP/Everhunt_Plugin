@@ -2,13 +2,13 @@ package me.nils.vdvcraftrevamp.constants;
 
 public enum Ability {
     METEOR_BLAST("Meteor Blast", 1.8, 1),
-    EVOCATION("Evocation", 3, 5),
+    EVOCATION("Evocation", 3, 5), // TODO ADD IN LISTENER
     DIMENSION_SHATTER("Dimension Shatter", 0, 10),
-    LETHAL_ABSORPTION("Lethal Absorption", 0, 10),
+    LETHAL_ABSORPTION("Lethal Absorption", 0, 10), // TODO add in listener
     THUNDER_WARP("Thunder Warp", 1.1, 2),
     DIMENSION_UNISON("Dimension Unison", 0, 10),
-    SNOWBALL("Snowball",0.5,0), // TODO add this ability in abilitylistener
-    THUNDER_CLAP("Thunder Clap",2,4), // TODO add ability in listener
+    SNOWBALL("Snowball",0.5,0),
+    THUNDER_CLAP("Thunder Clap",2,4),
     THUNDER_FLASH("Thunder Flash",2.1,4), // TODO add ability
     NONE("NONE", 0, 0);
 

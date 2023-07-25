@@ -65,6 +65,15 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                 case "nixeus" -> {
                     item = new Nixeus().getItemStack();
                 }
+                case "luciai" -> {
+                    item = new LuciaI().getItemStack();
+                }
+                case "luciaii" -> {
+                    item = new LuciaII().getItemStack();
+                }
+                case "luciaiii" -> {
+                    item = new LuciaIII().getItemStack();
+                }
                 default -> {
                     player.sendMessage(Component.text(Chat.color("&cUse: /item get <name>")));
                     return true;
@@ -101,6 +110,9 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                     completions.add("WoodenBat");
                     completions.add("SnowShovel");
                     completions.add("Nixeus");
+                    completions.add("LuciaI");
+                    completions.add("LuciaII");
+                    completions.add("LuciaIII");
                 }
             }
         }
