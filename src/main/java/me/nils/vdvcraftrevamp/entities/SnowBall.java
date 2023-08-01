@@ -4,11 +4,8 @@ import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Snowball;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.projectiles.ProjectileSource;
-import org.bukkit.util.Vector;
 
 public class SnowBall {
     public SnowBall(Location loc, double damage, Entity entity) {

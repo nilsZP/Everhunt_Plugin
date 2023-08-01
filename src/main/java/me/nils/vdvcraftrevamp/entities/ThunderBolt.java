@@ -1,7 +1,6 @@
 package me.nils.vdvcraftrevamp.entities;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
-import me.nils.vdvcraftrevamp.constants.Ability;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LightningStrike;

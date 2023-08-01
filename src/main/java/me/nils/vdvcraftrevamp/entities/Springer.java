@@ -1,13 +1,8 @@
 package me.nils.vdvcraftrevamp.entities;
 
-import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.List;
+import org.bukkit.entity.CaveSpider;
+import org.bukkit.entity.EntityType;
 
 public class Springer {
     public Springer(Location loc) {

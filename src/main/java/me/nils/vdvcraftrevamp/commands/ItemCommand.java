@@ -3,8 +3,6 @@ package me.nils.vdvcraftrevamp.commands;
 import me.nils.vdvcraftrevamp.items.armor.SpringerBoots;
 import me.nils.vdvcraftrevamp.items.armor.UnitedHelmet;
 import me.nils.vdvcraftrevamp.items.weapons.*;
-import me.nils.vdvcraftrevamp.managers.ArmorManager;
-import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
@@ -42,51 +40,21 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
             String name = args[1].toLowerCase();
             ItemStack item;
             switch (name) {
-                case "meteorblade" -> {
-                    item = new MeteorBlade().getItemStack();
-                }
-                case "azurewrath" -> {
-                    item = new AzureWrath().getItemStack();
-                }
-                case "unitedhelmet" -> {
-                    item = new UnitedHelmet().getItemStack();
-                }
-                case "daggerofshattereddimensions" -> {
-                    item = new DaggerOfShatteredDimensions().getItemStack();
-                }
-                case "daggerofuniteddimensions" -> {
-                    item = new DaggerOfUnitedDimensions().getItemStack();
-                }
-                case "woodenbat" -> {
-                    item = new WoodenBat().getItemStack();
-                }
-                case "snowshovel" -> {
-                    item = new SnowShovel().getItemStack();
-                }
-                case "nixeus" -> {
-                    item = new Nixeus().getItemStack();
-                }
-                case "luciai" -> {
-                    item = new LuciaI().getItemStack();
-                }
-                case "luciaii" -> {
-                    item = new LuciaII().getItemStack();
-                }
-                case "luciaiii" -> {
-                    item = new LuciaIII().getItemStack();
-                }
-                case "luciaiv" -> {
-                    item = new LuciaIV().getItemStack();
-                }
-                case "luciav" -> {
-                    item = new LuciaV().getItemStack();
-                }
-                case "luciavi" -> {
-                    item = new LuciaVI().getItemStack();
-                }
-                case "springerboots" -> {
-                    item = new SpringerBoots().getItemStack();
-                }
+                case "meteorblade" -> item = new MeteorBlade().getItemStack();
+                case "azurewrath" -> item = new AzureWrath().getItemStack();
+                case "unitedhelmet" -> item = new UnitedHelmet().getItemStack();
+                case "daggerofshattereddimensions" -> item = new DaggerOfShatteredDimensions().getItemStack();
+                case "daggerofuniteddimensions" -> item = new DaggerOfUnitedDimensions().getItemStack();
+                case "woodenbat" -> item = new WoodenBat().getItemStack();
+                case "snowshovel" -> item = new SnowShovel().getItemStack();
+                case "nixeus" -> item = new Nixeus().getItemStack();
+                case "luciai" -> item = new LuciaI().getItemStack();
+                case "luciaii" -> item = new LuciaII().getItemStack();
+                case "luciaiii" -> item = new LuciaIII().getItemStack();
+                case "luciaiv" -> item = new LuciaIV().getItemStack();
+                case "luciav" -> item = new LuciaV().getItemStack();
+                case "luciavi" -> item = new LuciaVI().getItemStack();
+                case "springerboots" -> item = new SpringerBoots().getItemStack();
                 default -> {
                     player.sendMessage(Component.text(Chat.color("&cUse: /item get <name>")));
                     return true;
@@ -110,9 +78,7 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         switch (args.length) {
-            case 1 -> {
-                completions.add("get");
-            }
+            case 1 -> completions.add("get");
             case 2 -> {
                 if ("get".equalsIgnoreCase(args[0])) {
                     completions.add("MeteorBlade");

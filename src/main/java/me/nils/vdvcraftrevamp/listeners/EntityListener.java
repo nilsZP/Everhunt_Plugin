@@ -1,6 +1,5 @@
 package me.nils.vdvcraftrevamp.listeners;
 
-import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.items.armor.UnitedHelmet;
 import me.nils.vdvcraftrevamp.items.weapons.AzureWrath;
 import me.nils.vdvcraftrevamp.utils.Chat;
@@ -11,12 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class EntityListener implements Listener {
