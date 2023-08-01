@@ -51,6 +51,7 @@ public class ArmorManager {
     private final EquipmentSlot slot;
     private final AttributeModifier.Operation operation;
 
+
     private final ItemStack itemStack;
     private final YamlConfiguration configuration;
 

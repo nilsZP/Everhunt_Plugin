@@ -6,6 +6,7 @@ import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.entities.Meteor;
 import me.nils.vdvcraftrevamp.entities.SnowBall;
 import me.nils.vdvcraftrevamp.entities.ThunderBolt;
+import me.nils.vdvcraftrevamp.managers.ArmorManager;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
 import net.kyori.adventure.text.Component;
@@ -23,12 +24,14 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 
@@ -42,6 +45,9 @@ public class AbilityListener implements Listener {
 
         ItemStack item = player.getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
+        if (meta == null) {
+            return;
+        }
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(key)) {
             WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
@@ -68,15 +74,24 @@ public class AbilityListener implements Listener {
                         new SnowBall(loc, damage, player);
                     }
                 }
-                if (ability.equals(Ability.THUNDER_CLAP)) {
+                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
                     Entity entity = player.getTargetEntity(3);
-                    if (entity instanceof LivingEntity livingEntity) {
+                    if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
                             Cooldown.setCooldown(item,cooldown);
                             player.swingMainHand();
                             Location loc = entity.getLocation();
                             double damage = weapon.getDamage() * ability.getDamageMultiplier();
                             new ThunderBolt(loc, damage);
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,255,false,true));
+                            if (ability.equals(Ability.THUNDER_FLASH)) {
+                                loc = player.getLocation();
+                                Vector dir = loc.getDirection();
+                                dir.normalize();
+                                dir.multiply(5);
+                                loc.add(dir);
+                                player.teleport(loc);
+                            }
                         }
                     }
                 }
@@ -89,6 +104,63 @@ public class AbilityListener implements Listener {
                             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,255,false,true));
                         }
                     }
+                }
+                if (ability.equals(Ability.LETHAL_ABSORPTION)) {
+                    if (!(Cooldown.hasCooldown(item))) {
+                        Cooldown.setCooldown(item,cooldown);
+                        player.swingMainHand();
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE,200,3,false,true));
+                        player.damage(player.getHealth()/2);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onSneak(PlayerToggleSneakEvent event) {
+        Player player = event.getPlayer();
+
+        ItemStack helmet = player.getInventory().getHelmet();
+        ItemStack chestplate = player.getInventory().getChestplate();
+        ItemStack leggings = player.getInventory().getLeggings();
+        ItemStack boots = player.getInventory().getBoots();
+        ItemMeta meta;
+        ArmorManager armor;
+        Ability ability;
+        NamespacedKey key = VDVCraftRevamp.getKey();
+
+        if (helmet != null) {
+            meta = helmet.getItemMeta();
+            if (meta.getPersistentDataContainer().has(key)) {
+                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                ability = armor.getAbility();
+                if (ability.equals(Ability.UNITE)) {
+
+                }
+            }
+        }
+        if (chestplate != null) {
+            meta = chestplate.getItemMeta();
+            if (meta.getPersistentDataContainer().has(key)) {
+                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                ability = armor.getAbility();
+            }
+        }
+        if (leggings != null) {
+            meta = leggings.getItemMeta();
+            if (meta.getPersistentDataContainer().has(key)) {
+                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                ability = armor.getAbility();
+            }
+        }
+        if (boots != null) {
+            meta = boots.getItemMeta();
+            if (meta.getPersistentDataContainer().has(key)) {
+                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                ability = armor.getAbility();
+                if (ability.equals(Ability.SPRING)) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,100,3,false,true));
                 }
             }
         }
@@ -167,21 +239,6 @@ public class AbilityListener implements Listener {
             if (!(entity instanceof Item)) {
                 PersistentDataContainer pdc = damager.getPersistentDataContainer();
                 if (pdc.has(VDVCraftRevamp.getKey())) {
-                    if (entity instanceof Player player) {
-                        NamespacedKey key = VDVCraftRevamp.getKey();
-                        ItemStack item = player.getInventory().getItemInMainHand();
-                        ItemMeta meta = item.getItemMeta();
-                        PersistentDataContainer pdc1 = meta.getPersistentDataContainer();
-                        if (pdc1.has(key)) {
-                            WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-                            if (weapon.getFlow().equals(Flow.SURGING)) {
-                                if (damager.getName().equals("thunder")) {
-                                    event.setDamage(0);
-                                    event.setCancelled(true); // TODO fix this
-                                }
-                            }
-                        }
-                    }
                     if (entity instanceof LivingEntity livingEntity) {
                         event.setCancelled(true);
                         double damage = pdc.get(VDVCraftRevamp.getKey(),PersistentDataType.DOUBLE);

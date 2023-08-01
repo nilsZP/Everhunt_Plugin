@@ -6,8 +6,8 @@ import me.nils.vdvcraftrevamp.constants.Rarity;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import org.bukkit.Material;
 
-public class LuciaIII extends WeaponManager {
-    public LuciaIII() {
-        super(Material.STONE_SWORD,"Lucia III", Ability.THUNDER_CLAP, Rarity.EXCELLENT,5, Flow.SURGING);
-    } // TODO add more lucia's
+public class LuciaIV extends WeaponManager {
+    public LuciaIV() {
+        super(Material.IRON_SWORD,"Lucia IV", Ability.THUNDER_CLAP, Rarity.EXCELLENT,6, Flow.SURGING);
+    }
 }
