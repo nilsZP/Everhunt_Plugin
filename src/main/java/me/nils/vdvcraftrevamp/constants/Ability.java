@@ -12,6 +12,7 @@ public enum Ability {
     THUNDER_FLASH("Thunder Flash",2.1,4),
     SPRING("Spring",0,2),
     UNITE("Unite",0,5),
+    MECHANICAL_SHOT("Mechanical Shot", 0.8,1),
     NONE("NONE", 0, 0);
 
     private final String name;

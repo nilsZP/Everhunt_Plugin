@@ -2,15 +2,16 @@ package me.nils.vdvcraftrevamp.listeners;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
-import me.nils.vdvcraftrevamp.entities.Meteor;
-import me.nils.vdvcraftrevamp.entities.SnowBall;
-import me.nils.vdvcraftrevamp.entities.ThunderBolt;
+import me.nils.vdvcraftrevamp.entities.*;
 import me.nils.vdvcraftrevamp.managers.ArmorManager;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Cooldown;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,6 +62,21 @@ public class AbilityListener implements Listener {
                         new Meteor(loc, damage);
                     }
                 }
+                if (ability.equals(Ability.EVOCATION)) {
+                    if (!(Cooldown.hasCooldown(item))) {
+                        Cooldown.setCooldown(item, cooldown);
+                        player.swingMainHand();
+                        Location loc;
+                        double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                        for (int i = 1; i <= 4; i++) {
+                            loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
+                                    toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                            loc.add(0,-1,0);
+                            new EvocationFang(loc, damage);
+                        }
+                        player.damage(player.getHealth()/4);
+                    }
+                }
                 if (ability.equals(Ability.SNOWBALL)) {
                     if (!(Cooldown.hasCooldown(item))) {
                         Cooldown.setCooldown(item,cooldown);
@@ -80,7 +96,7 @@ public class AbilityListener implements Listener {
                             Location loc = entity.getLocation();
                             double damage = weapon.getDamage() * ability.getDamageMultiplier();
                             new ThunderBolt(loc, damage);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,255,false,true));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,254,false,true));
                             if (ability.equals(Ability.THUNDER_FLASH)) {
                                 loc = player.getLocation();
                                 Vector dir = loc.getDirection();
@@ -98,7 +114,10 @@ public class AbilityListener implements Listener {
                         if (!(Cooldown.hasCooldown(item))) {
                             Cooldown.setCooldown(item,cooldown);
                             player.swingMainHand();
-                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,255,false,true));
+                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,254,false,true));
+                            if (ability.equals(Ability.DIMENSION_SHATTER)) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.POISON,100,0,false,true));
+                            }
                         }
                     }
                 }
@@ -106,7 +125,7 @@ public class AbilityListener implements Listener {
                     if (!(Cooldown.hasCooldown(item))) {
                         Cooldown.setCooldown(item,cooldown);
                         player.swingMainHand();
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE,200,3,false,true));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE,200,2,false,true));
                         player.damage(player.getHealth()/2);
                     }
                 }
@@ -132,8 +151,11 @@ public class AbilityListener implements Listener {
             if (meta.getPersistentDataContainer().has(key)) {
                 armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
                 ability = armor.getAbility();
-                if (ability.equals(Ability.UNITE)) {
-
+                if (ability.equals(Ability.UNITE)) { // TODO same fix as dimension unison
+                    if (!(Cooldown.hasCooldown(helmet))) {
+                        Cooldown.setCooldown(helmet, ability.getCooldown());
+                        List<Entity> entityList = player.getNearbyEntities(5,5,5);
+                    }
                 }
             }
         }
@@ -142,6 +164,16 @@ public class AbilityListener implements Listener {
             if (meta.getPersistentDataContainer().has(key)) {
                 armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
                 ability = armor.getAbility();
+                if (ability.equals(Ability.MECHANICAL_SHOT)) {
+                    if (!(Cooldown.hasCooldown(chestplate))) {
+                        Cooldown.setCooldown(chestplate,ability.getCooldown());
+                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
+                        damage = damage * ability.getDamageMultiplier();
+                        new MechanicalBullet(loc,damage,player);
+                    }
+                }
             }
         }
         if (leggings != null) {
@@ -157,7 +189,10 @@ public class AbilityListener implements Listener {
                 armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
                 ability = armor.getAbility();
                 if (ability.equals(Ability.SPRING)) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,100,3,false,true));
+                    if (!(Cooldown.hasCooldown(boots))) {
+                        Cooldown.setCooldown(boots, ability.getCooldown());
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 2, false, true));
+                    }
                 }
             }
         }
@@ -173,6 +208,9 @@ public class AbilityListener implements Listener {
     @EventHandler
     public void onStrike(BlockIgniteEvent event) {
         if (event.getCause() == BlockIgniteEvent.IgniteCause.LIGHTNING) {
+            event.setCancelled(true);
+        }
+        if (event.getCause() == BlockIgniteEvent.IgniteCause.FIREBALL) {
             event.setCancelled(true);
         }
     }
@@ -262,7 +300,7 @@ public class AbilityListener implements Listener {
                         }
                     }
                 }
-                if (ability.equals(Ability.DIMENSION_UNISON)) {
+                if (ability.equals(Ability.DIMENSION_UNISON)) { // TODO fix ability so it works with players
                     if (entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
                             List<Entity> entityList = livingEntity.getNearbyEntities(5,5,5);

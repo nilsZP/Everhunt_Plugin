@@ -2,6 +2,7 @@ package me.nils.vdvcraftrevamp;
 
 import me.nils.vdvcraftrevamp.commands.ItemCommand;
 import me.nils.vdvcraftrevamp.commands.SpawnCommand;
+import me.nils.vdvcraftrevamp.data.EntityData;
 import me.nils.vdvcraftrevamp.listeners.AbilityListener;
 import me.nils.vdvcraftrevamp.listeners.EntityListener;
 import me.nils.vdvcraftrevamp.listeners.PlayerListener;
@@ -28,6 +29,7 @@ public final class VDVCraftRevamp extends JavaPlugin {
         Cooldown.setupCooldown();
         WeaponManager.registerItems();
         ArmorManager.registerItems();
+        EntityData.registerEntities();
     }
 
     @Override
@@ -37,6 +39,7 @@ public final class VDVCraftRevamp extends JavaPlugin {
         Cooldown.setupCooldown();
         WeaponManager.registerItems();
         ArmorManager.registerItems();
+        EntityData.registerEntities();
     }
 
     private void loadCommands() {

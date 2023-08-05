@@ -1,5 +1,6 @@
 package me.nils.vdvcraftrevamp.commands;
 
+import me.nils.vdvcraftrevamp.items.armor.MechanicalChestplate;
 import me.nils.vdvcraftrevamp.items.armor.SpringerBoots;
 import me.nils.vdvcraftrevamp.items.armor.UnitedHelmet;
 import me.nils.vdvcraftrevamp.items.weapons.*;
@@ -55,6 +56,8 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                 case "luciav" -> item = new LuciaV().getItemStack();
                 case "luciavi" -> item = new LuciaVI().getItemStack();
                 case "springerboots" -> item = new SpringerBoots().getItemStack();
+                case "evokus" -> item = new Evokus().getItemStack();
+                case "mechanicalchestplate" -> item = new MechanicalChestplate().getItemStack();
                 default -> {
                     player.sendMessage(Component.text(Chat.color("&cUse: /item get <name>")));
                     return true;
@@ -96,6 +99,8 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                     completions.add("LuciaV");
                     completions.add("LuciaVI");
                     completions.add("SpringerBoots");
+                    completions.add("Evokus");
+                    completions.add("MechanicalChestplate");
                 }
             }
         }

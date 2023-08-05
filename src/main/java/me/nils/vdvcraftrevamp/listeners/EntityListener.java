@@ -1,5 +1,7 @@
 package me.nils.vdvcraftrevamp.listeners;
 
+import me.nils.vdvcraftrevamp.items.armor.MechanicalChestplate;
+import me.nils.vdvcraftrevamp.items.armor.SpringerBoots;
 import me.nils.vdvcraftrevamp.items.armor.UnitedHelmet;
 import me.nils.vdvcraftrevamp.items.weapons.AzureWrath;
 import me.nils.vdvcraftrevamp.utils.Chat;
@@ -19,8 +21,8 @@ public class EntityListener implements Listener {
     public void onDeath(EntityDeathEvent event) {
         if (!(event.getEntity() instanceof Player)) {
             Entity entity = event.getEntity();
+            Random rand = new Random();
             if (entity.getName().equals("Thunder Bones")) {
-                Random rand = new Random();
                 double randomNumber = rand.nextDouble(101);
                 if (randomNumber >= 80) {
                     ItemStack drop = new AzureWrath().getItemStack();
@@ -29,6 +31,22 @@ public class EntityListener implements Listener {
                 }
                 if (randomNumber >= 99.9) {
                     ItemStack drop = new UnitedHelmet().getItemStack();
+                    entity.getWorld().dropItemNaturally(entity.getLocation(), drop);
+                    Bukkit.broadcast(Component.text(Chat.color("&eRARE DROP " + drop.getItemMeta().getDisplayName())));
+                }
+            }
+            if (entity.getName().equals("Springer")) {
+                double randomNumber = rand.nextInt(3);
+                if (randomNumber == 2) {
+                    ItemStack drop = new SpringerBoots().getItemStack();
+                    entity.getWorld().dropItemNaturally(entity.getLocation(), drop);
+                    Bukkit.broadcast(Component.text(Chat.color("&eRARE DROP " + drop.getItemMeta().getDisplayName())));
+                }
+            }
+            if (entity.getName().equals("Mechanical Zombie")) {
+                double randomNumber = rand.nextInt(10);
+                if (randomNumber == 9) {
+                    ItemStack drop = new MechanicalChestplate().getItemStack();
                     entity.getWorld().dropItemNaturally(entity.getLocation(), drop);
                     Bukkit.broadcast(Component.text(Chat.color("&eRARE DROP " + drop.getItemMeta().getDisplayName())));
                 }

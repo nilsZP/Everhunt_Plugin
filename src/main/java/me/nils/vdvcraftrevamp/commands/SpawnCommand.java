@@ -2,7 +2,12 @@ package me.nils.vdvcraftrevamp.commands;
 
 import me.nils.vdvcraftrevamp.entities.SkeletonKnight;
 import me.nils.vdvcraftrevamp.entities.Springer;
+import me.nils.vdvcraftrevamp.entities.bosses.MechanicalZombie;
 import me.nils.vdvcraftrevamp.entities.bosses.ThunderBones;
+import me.nils.vdvcraftrevamp.entities.npc.Marcus;
+import me.nils.vdvcraftrevamp.entities.npc.Mi;
+import me.nils.vdvcraftrevamp.entities.npc.Mikull;
+import me.nils.vdvcraftrevamp.entities.npc.OldManDave;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
@@ -38,6 +43,26 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 new Springer(player.getLocation());
                 return true;
             }
+            case "oldmandave" -> {
+                new OldManDave(player.getLocation());
+                return true;
+            }
+            case "mechanicalzombie" -> {
+                new MechanicalZombie(player.getLocation());
+                return true;
+            }
+            case "marcus" -> {
+                new Marcus(player.getLocation());
+                return true;
+            }
+            case "mi" -> {
+                new Mi(player.getLocation());
+                return true;
+            }
+            case "mikull" -> {
+                new Mikull(player.getLocation());
+                return true;
+            }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
                 return true;
@@ -57,6 +82,11 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             completions.add("SkeletonKnight");
             completions.add("ThunderBones");
             completions.add("Springer");
+            completions.add("OldManDave");
+            completions.add("MechanicalZombie");
+            completions.add("Mi");
+            completions.add("Mikull");
+            completions.add("Marcus");
         }
 
         return completions;
