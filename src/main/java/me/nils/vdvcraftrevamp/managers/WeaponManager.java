@@ -3,7 +3,7 @@ package me.nils.vdvcraftrevamp.managers;
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
 import me.nils.vdvcraftrevamp.constants.Flow;
-import me.nils.vdvcraftrevamp.constants.Rarity;
+import me.nils.vdvcraftrevamp.constants.Tier;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -29,8 +29,8 @@ public class WeaponManager {
         return displayName;
     }
 
-    public Rarity getRarity() {
-        return rarity;
+    public Tier getTier() {
+        return tier;
     }
 
     public Ability getAbility() {
@@ -43,7 +43,7 @@ public class WeaponManager {
 
     private final Material material;
     private final String displayName;
-    private final Rarity rarity;
+    private final Tier tier;
     private final Ability ability;
     private final Flow flow;
     private final double damage;
@@ -51,17 +51,17 @@ public class WeaponManager {
     private final ItemStack itemStack;
     private final YamlConfiguration configuration;
 
-    public WeaponManager(Material material, String displayName, Ability ability, Rarity rarity, double damage, Flow flow) {
+    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage, Flow flow) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
-        this.rarity = rarity;
+        this.tier = tier;
         this.flow = flow;
         this.damage = damage;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.displayName(Component.text(rarity.getColor() + displayName));
+        meta.displayName(Component.text(tier.getColor() + displayName));
         meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(), PersistentDataType.STRING, displayName);
 
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
@@ -75,7 +75,7 @@ public class WeaponManager {
             lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
         }
         lore.add(Chat.color("&r"));
-        lore.add(rarity.getColor() + String.valueOf(rarity) + " WEAPON");
+        lore.add(tier.getColor() + String.valueOf(tier) + " WEAPON");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
@@ -84,7 +84,7 @@ public class WeaponManager {
         configuration = fileManager.getFile();
         configuration.set("material", material.toString());
         configuration.set("displayName", displayName);
-        configuration.set("rarity", rarity.toString());
+        configuration.set("tier", tier.toString());
         configuration.set("ability", ability.toString());
         configuration.set("damage", damage);
         configuration.set("flow", flow.toString());
@@ -103,12 +103,12 @@ public class WeaponManager {
 
             Material material = Material.getMaterial(Objects.requireNonNull(fileConfiguration.getString("material")));
             String displayName = fileConfiguration.getString("displayName");
-            Rarity rarity = Rarity.valueOf(fileConfiguration.getString("rarity"));
+            Tier tier = Tier.valueOf(fileConfiguration.getString("tier"));
             Ability ability = Ability.valueOf(fileConfiguration.getString("ability"));
             double damage = fileConfiguration.getDouble("damage");
             Flow flow = Flow.valueOf(fileConfiguration.getString("flow"));
 
-            new WeaponManager(material, displayName, ability, rarity, damage, flow);
+            new WeaponManager(material, displayName, ability, tier, damage, flow);
         }
     }
 

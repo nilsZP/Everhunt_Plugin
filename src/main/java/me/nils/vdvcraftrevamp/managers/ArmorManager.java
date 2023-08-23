@@ -3,7 +3,7 @@ package me.nils.vdvcraftrevamp.managers;
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
 import me.nils.vdvcraftrevamp.constants.Pattern;
-import me.nils.vdvcraftrevamp.constants.Rarity;
+import me.nils.vdvcraftrevamp.constants.Tier;
 import me.nils.vdvcraftrevamp.constants.Trim;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -34,8 +34,8 @@ public class ArmorManager {
         return displayName;
     }
 
-    public Rarity getRarity() {
-        return rarity;
+    public Tier getTier() {
+        return tier;
     }
 
     public Ability getAbility() {
@@ -50,7 +50,7 @@ public class ArmorManager {
     private final Trim trim;
     private final Pattern pattern;
     private final String displayName;
-    private final Rarity rarity;
+    private final Tier tier;
     private final Ability ability;
     private final double armor;
     private final double toughness;
@@ -63,13 +63,13 @@ public class ArmorManager {
     private final ItemStack itemStack;
     private final YamlConfiguration configuration;
 
-    public ArmorManager(Material material, Trim trim, Pattern pattern, String displayName, Ability ability, Rarity rarity, double health, double armor, double toughness, double damage, AttributeModifier.Operation operation, EquipmentSlot slot) {
+    public ArmorManager(Material material, Trim trim, Pattern pattern, String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, AttributeModifier.Operation operation, EquipmentSlot slot) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
         this.trim = trim;
         this.pattern = pattern;
-        this.rarity = rarity;
+        this.tier = tier;
         this.armor = armor;
         this.toughness = toughness;
         this.health = health;
@@ -79,7 +79,7 @@ public class ArmorManager {
 
         itemStack = new ItemStack(material);
         ArmorMeta meta = (ArmorMeta) itemStack.getItemMeta();
-        meta.displayName(Component.text(rarity.getColor() + displayName));
+        meta.displayName(Component.text(tier.getColor() + displayName));
         meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(), PersistentDataType.STRING, displayName);
 
         AttributeModifier modifier;
@@ -110,7 +110,7 @@ public class ArmorManager {
             lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
         }
         lore.add(Chat.color("&r"));
-        lore.add(rarity.getColor() + String.valueOf(rarity) + " ARMOR");
+        lore.add(tier.getColor() + String.valueOf(tier) + " ARMOR");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
@@ -121,7 +121,7 @@ public class ArmorManager {
         configuration.set("trim", trim.toString());
         configuration.set("pattern", pattern.toString());
         configuration.set("displayName", displayName);
-        configuration.set("rarity", rarity.toString());
+        configuration.set("tier", tier.toString());
         configuration.set("ability", ability.toString());
         configuration.set("health",String.valueOf(health));
         configuration.set("armor", String.valueOf(armor));
@@ -146,7 +146,7 @@ public class ArmorManager {
             Trim trim = Trim.valueOf(fileConfiguration.getString("trim"));
             Pattern pattern = Pattern.valueOf(fileConfiguration.getString("pattern"));
             String displayName = fileConfiguration.getString("displayName");
-            Rarity rarity = Rarity.valueOf(fileConfiguration.getString("rarity"));
+            Tier tier = Tier.valueOf(fileConfiguration.getString("tier"));
             Ability ability = Ability.valueOf(fileConfiguration.getString("ability"));
             double health = (fileConfiguration.getDouble("health"));
             double armor = (fileConfiguration.getDouble("armor"));
@@ -155,7 +155,7 @@ public class ArmorManager {
             AttributeModifier.Operation operation = AttributeModifier.Operation.valueOf(fileConfiguration.getString("operation"));
             EquipmentSlot slot = EquipmentSlot.valueOf(fileConfiguration.getString("slot"));
 
-            new ArmorManager(material, trim, pattern, displayName, ability, rarity, health, armor, toughness, damage, operation, slot);
+            new ArmorManager(material, trim, pattern, displayName, ability, tier, health, armor, toughness, damage, operation, slot);
         }
     }
 
