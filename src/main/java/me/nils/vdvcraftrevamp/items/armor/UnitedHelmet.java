@@ -11,6 +11,6 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class UnitedHelmet extends ArmorManager {
     public UnitedHelmet() {
-        super(Material.DIAMOND_HELMET, Trim.NONE, Pattern.NONE,"United Helmet", Ability.NONE, Tier.A, 10,4, 2, 1, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.HEAD);
+        super(Material.DIAMOND_HELMET, Trim.EMERALD, Pattern.TIDE,"United Helmet", Ability.NONE, Tier.A, 10,4, 2, 1, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.HEAD);
     }
 }
