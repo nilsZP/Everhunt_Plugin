@@ -7,6 +7,8 @@ import me.nils.vdvcraftrevamp.data.EntityData;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class Marcus extends EntityData {
     public Marcus(Location loc) {
@@ -16,6 +18,7 @@ public class Marcus extends EntityData {
 
         villager.setAI(false);
         villager.setInvulnerable(true);
+        villager.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,999999999,254,false,false));
 
         villager.setCustomName("Marcus");
         villager.setCustomNameVisible(true);

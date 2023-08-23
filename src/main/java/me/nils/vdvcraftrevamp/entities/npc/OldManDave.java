@@ -10,6 +10,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class OldManDave extends EntityData {
     public OldManDave(Location loc) {
@@ -19,6 +21,7 @@ public class OldManDave extends EntityData {
 
         villager.setAI(false);
         villager.setInvulnerable(true);
+        villager.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,999999999,254,false,false));
 
         villager.setCustomName("Old Man Dave");
         villager.setCustomNameVisible(true);

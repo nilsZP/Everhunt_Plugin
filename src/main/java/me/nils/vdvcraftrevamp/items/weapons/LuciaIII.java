@@ -9,5 +9,5 @@ import org.bukkit.Material;
 public class LuciaIII extends WeaponManager {
     public LuciaIII() {
         super(Material.STONE_SWORD,"Lucia III", Ability.THUNDER_CLAP, Rarity.EXCELLENT,5, Flow.SURGING);
-    } // TODO add more lucia's
+    }
 }
