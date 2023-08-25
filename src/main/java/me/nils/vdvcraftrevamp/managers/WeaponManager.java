@@ -71,11 +71,12 @@ public class WeaponManager {
         List<String> lore = new ArrayList<>();
         lore.add(Chat.color("&7Flow: ") + flow.getColor() + String.valueOf(flow));
         if (!(ability == Ability.NONE)) {
-            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&lRIGHT CLICK"));
+            String action = ability.getActivation().getAction();
+            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
             lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
         }
         lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " WEAPON");
+        lore.add(tier.getColor() + String.valueOf(tier) + " TIER WEAPON");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);

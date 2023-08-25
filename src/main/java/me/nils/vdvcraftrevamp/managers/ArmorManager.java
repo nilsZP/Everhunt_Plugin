@@ -106,11 +106,12 @@ public class ArmorManager {
 
         List<String> lore = new ArrayList<>();
         if (!(ability == Ability.NONE)) {
-            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&lSNEAK"));
+            String action = ability.getActivation().getAction();
+            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
             lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
         }
         lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " ARMOR");
+        lore.add(tier.getColor() + String.valueOf(tier) + " TIER ARMOR");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);

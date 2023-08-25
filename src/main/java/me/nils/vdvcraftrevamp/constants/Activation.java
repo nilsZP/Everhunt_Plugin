@@ -1,0 +1,18 @@
+package me.nils.vdvcraftrevamp.constants;
+
+public enum Activation {
+    RIGHT_CLICK("RIGHT CLICK"),
+    LEFT_CLICK("LEFT CLICK"),
+    THROW("THROW"),
+    SNEAK("SNEAK");
+
+    private final String action;
+
+    Activation(String action) {
+        this.action = action;
+    }
+
+    public String getAction() {
+        return action;
+    }
+}
