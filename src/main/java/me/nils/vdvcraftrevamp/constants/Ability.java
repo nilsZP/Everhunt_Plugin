@@ -1,8 +1,8 @@
 package me.nils.vdvcraftrevamp.constants;
 
 public enum Ability {
-    METEOR_BLAST("Meteor Blast", 1.8, 1,Activation.RIGHT_CLICK),
-    EVOCATION("Evocation", 3, 5,Activation.RIGHT_CLICK),
+    METEOR_BLAST("Meteor Blast", 1.3, 1,Activation.RIGHT_CLICK),
+    EVOCATION("Evocation", 2, 5,Activation.RIGHT_CLICK),
     DIMENSION_SHATTER("Dimension Shatter", 0, 10,Activation.RIGHT_CLICK),
     LETHAL_ABSORPTION("Lethal Absorption", 0, 20,Activation.RIGHT_CLICK),
     THUNDER_WARP("Thunder Warp", 1.1, 2,Activation.THROW),
