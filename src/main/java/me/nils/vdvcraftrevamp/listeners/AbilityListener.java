@@ -58,7 +58,7 @@ public class AbilityListener implements Listener {
                         player.swingMainHand();
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         new Meteor(loc, damage);
                     }
                 }
@@ -67,7 +67,7 @@ public class AbilityListener implements Listener {
                         Cooldown.setCooldown(item, cooldown);
                         player.swingMainHand();
                         Location loc;
-                        double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         for (int i = 1; i <= 4; i++) {
                             loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
                                     toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
@@ -83,7 +83,7 @@ public class AbilityListener implements Listener {
                         player.swingMainHand();
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         new SnowBall(loc, damage, player);
                     }
                 }
@@ -117,7 +117,7 @@ public class AbilityListener implements Listener {
                             Cooldown.setCooldown(item,cooldown);
                             player.swingMainHand();
                             Location loc = entity.getLocation();
-                            double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             new ThunderBolt(loc, damage);
                             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,254,false,true));
                             if (ability.equals(Ability.THUNDER_FLASH)) {
@@ -234,7 +234,7 @@ public class AbilityListener implements Listener {
             if (ability.equals(Ability.THUNDER_WARP)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, 2);
-                    double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                    double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                     event.getEntity().getPersistentDataContainer().set(key,PersistentDataType.DOUBLE,damage);
                 } else {
                     event.setCancelled(true);
