@@ -49,9 +49,9 @@ public class AbilityListener implements Listener {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(key)) {
             WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+            Ability ability = weapon.getAbility();
+            int cooldown = ability.getCooldown();
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                Ability ability = weapon.getAbility();
-                int cooldown = ability.getCooldown();
                 if (ability.equals(Ability.METEOR_BLAST)) {
                     if (!(Cooldown.hasCooldown(item))) {
                         Cooldown.setCooldown(item, cooldown);
@@ -87,27 +87,6 @@ public class AbilityListener implements Listener {
                         new SnowBall(loc, damage, player);
                     }
                 }
-                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
-                    Entity entity = player.getTargetEntity(3);
-                    if (entity instanceof LivingEntity) {
-                        if (!(Cooldown.hasCooldown(item))) {
-                            Cooldown.setCooldown(item,cooldown);
-                            player.swingMainHand();
-                            Location loc = entity.getLocation();
-                            double damage = weapon.getDamage() * ability.getDamageMultiplier();
-                            new ThunderBolt(loc, damage);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,254,false,true));
-                            if (ability.equals(Ability.THUNDER_FLASH)) {
-                                loc = player.getLocation();
-                                Vector dir = loc.getDirection();
-                                dir.normalize();
-                                dir.multiply(5);
-                                loc.add(dir);
-                                player.teleport(loc);
-                            }
-                        }
-                    }
-                }
                 if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
                     Entity entity = player.getTargetEntity(3);
                     if (entity instanceof LivingEntity livingEntity) {
@@ -127,6 +106,29 @@ public class AbilityListener implements Listener {
                         player.swingMainHand();
                         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE,200,2,false,true));
                         player.damage(player.getHealth()/2);
+                    }
+                }
+            }
+            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
+                    Entity entity = player.getTargetEntity(3);
+                    if (entity instanceof LivingEntity) {
+                        if (!(Cooldown.hasCooldown(item))) {
+                            Cooldown.setCooldown(item,cooldown);
+                            player.swingMainHand();
+                            Location loc = entity.getLocation();
+                            double damage = weapon.getDamage() * ability.getDamageMultiplier();
+                            new ThunderBolt(loc, damage);
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,254,false,true));
+                            if (ability.equals(Ability.THUNDER_FLASH)) {
+                                loc = player.getLocation();
+                                Vector dir = loc.getDirection();
+                                dir.normalize();
+                                dir.multiply(5);
+                                loc.add(dir);
+                                player.teleport(loc);
+                            }
+                        }
                     }
                 }
             }
