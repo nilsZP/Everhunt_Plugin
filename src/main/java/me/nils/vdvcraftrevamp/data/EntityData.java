@@ -4,7 +4,6 @@ import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
 import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.constants.MobType;
-import me.nils.vdvcraftrevamp.constants.Rarity;
 import me.nils.vdvcraftrevamp.managers.FileManager;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Chat;

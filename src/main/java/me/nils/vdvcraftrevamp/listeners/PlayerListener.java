@@ -5,6 +5,7 @@ import io.papermc.paper.event.player.PlayerTradeEvent;
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.MobType;
 import me.nils.vdvcraftrevamp.data.EntityData;
+import me.nils.vdvcraftrevamp.data.QuestData;
 import me.nils.vdvcraftrevamp.entities.SkeletonKnight;
 import me.nils.vdvcraftrevamp.entities.Springer;
 import me.nils.vdvcraftrevamp.items.armor.SpringerBoots;
@@ -15,6 +16,7 @@ import me.nils.vdvcraftrevamp.managers.ArmorManager;
 import me.nils.vdvcraftrevamp.managers.WeaponManager;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,6 +26,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -44,6 +47,10 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         event.joinMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&a" + player.getName() + " &fhas joined the server!")));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,999999999,254,false,false,false));
+        String uuid = player.getUniqueId().toString();
+        if (QuestData.questdata.get(uuid) == null) {
+            new QuestData(uuid,0,0);
+        }
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -66,14 +73,6 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onRespawn(PlayerDeathEvent event) {
-        Player player = event.getPlayer();
-        if (player.getInventory().contains(ArmorManager.items.get("Springer Boots").getItemStack())) {
-            player.teleport(new Location(player.getWorld(), 411, -58, 8));
-        }
-    }
-
-    @EventHandler
     public void onHunger(FoodLevelChangeEvent event) {
         if (event.getEntity() instanceof Player player) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,999999999,254,false,false,false));
@@ -83,27 +82,31 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onNPCInteract(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
+        String uuid = player.getUniqueId().toString();
         Entity entity = event.getRightClicked();
         EntityData data = EntityData.entities.get(ChatColor.stripColor(entity.getName()));
         if (data != null) {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
-                    if (!(player.getInventory().contains(WeaponManager.items.get("Wooden Bat").getItemStack()))) {
+                    if (QuestData.questdata.get(uuid).getNumber() == 0) {
+                        QuestData.questdata.get(uuid).setNumber(uuid,1);
+                        QuestData.questdata.get(uuid).setCompletion(uuid,0);
                         player.getInventory().addItem(new WoodenBat().getItemStack());
                         player.sendMessage(Component.text(Chat.color("&fCan you please kill the springers upstairs?")));
-                    }
-                    if (!(player.getInventory().contains(ArmorManager.items.get("Springer Boots").getItemStack()))) {
                         Location loc = entity.getLocation();
                         loc.add(0,5,0);
                         for (int i = 0; i < 3; i++) {
                             new Springer(loc);
                         }
+                    }
+                    if (QuestData.questdata.get(uuid).getCompletion() < 3) {
+                        player.sendMessage(Component.text(Chat.color("&fWhat are you waiting for go kill them all!")));
                     } else {
-                        if (!(player.getInventory().contains(WeaponManager.items.get("Snow Shovel").getItemStack()))) {
-                            player.getInventory().addItem(new SnowShovel().getItemStack());
-                            player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
-                            player.teleport(new Location(player.getWorld(), 411, -58, 8));
-                        }
+                        player.getInventory().addItem(new SnowShovel().getItemStack());
+                        player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
+                        player.teleport(new Location(player.getWorld(), 411, -58, 8));
+                        QuestData.questdata.get(uuid).setNumber(uuid,0);
+                        QuestData.questdata.get(uuid).setCompletion(uuid,0);
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
@@ -131,6 +134,25 @@ public class PlayerListener implements Listener {
     public void onTrade(InventoryOpenEvent event) {
         if ((event.getPlayer() instanceof Player) && (event.getInventory().getType() == InventoryType.MERCHANT)) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onKill(EntityDeathEvent event) {
+        Entity entity = event.getEntity();
+        Entity killer = event.getEntity().getKiller();
+
+        if (killer instanceof Player player){
+            Bukkit.broadcast(Component.text("1"));
+            if (entity.getName().equals("Springer")) {
+                Bukkit.broadcast(Component.text("2"));
+                String uuid = player.getUniqueId().toString();
+                if (QuestData.questdata.get(uuid).getNumber() == 1) {
+                    Bukkit.broadcast(Component.text("3"));
+                    double completion = QuestData.questdata.get(uuid).getCompletion() + 1;
+                    QuestData.questdata.get(uuid).setCompletion(uuid, completion);
+                }
+            }
         }
     }
 

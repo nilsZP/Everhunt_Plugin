@@ -109,29 +109,6 @@ public class AbilityListener implements Listener {
                     }
                 }
             }
-            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
-                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
-                    Entity entity = player.getTargetEntity(3);
-                    if (entity instanceof LivingEntity) {
-                        if (!(Cooldown.hasCooldown(item))) {
-                            Cooldown.setCooldown(item,cooldown);
-                            player.swingMainHand();
-                            Location loc = entity.getLocation();
-                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                            new ThunderBolt(loc, damage);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,254,false,true));
-                            if (ability.equals(Ability.THUNDER_FLASH)) {
-                                loc = player.getLocation();
-                                Vector dir = loc.getDirection();
-                                dir.normalize();
-                                dir.multiply(5);
-                                loc.add(dir);
-                                player.teleport(loc);
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -169,8 +146,9 @@ public class AbilityListener implements Listener {
                 if (ability.equals(Ability.MECHANICAL_SHOT)) {
                     if (!(Cooldown.hasCooldown(chestplate))) {
                         Cooldown.setCooldown(chestplate,ability.getCooldown());
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(1)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                        loc = loc.add(0,-0.5,0);
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
                         damage = damage * ability.getDamageMultiplier();
                         new MechanicalBullet(loc,damage,player);
@@ -307,6 +285,26 @@ public class AbilityListener implements Listener {
                         if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
                             List<Entity> entityList = livingEntity.getNearbyEntities(5,5,5);
                             livingEntity.damage(entityList.size()*5);
+                        }
+                    }
+                }
+                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
+                    int cooldown = ability.getCooldown();
+                    if (entity instanceof LivingEntity) {
+                        if (!(Cooldown.hasCooldown(item))) {
+                            Cooldown.setCooldown(item,cooldown);
+                            Location loc = entity.getLocation();
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            new ThunderBolt(loc, damage);
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,254,false,true));
+                            if (ability.equals(Ability.THUNDER_FLASH)) {
+                                loc = player.getLocation();
+                                Vector dir = loc.getDirection();
+                                dir.normalize();
+                                dir.multiply(5);
+                                loc.add(dir);
+                                player.teleport(loc);
+                            }
                         }
                     }
                 }

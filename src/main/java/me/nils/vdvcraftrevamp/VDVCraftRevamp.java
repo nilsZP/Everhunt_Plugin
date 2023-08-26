@@ -3,6 +3,7 @@ package me.nils.vdvcraftrevamp;
 import me.nils.vdvcraftrevamp.commands.ItemCommand;
 import me.nils.vdvcraftrevamp.commands.SpawnCommand;
 import me.nils.vdvcraftrevamp.data.EntityData;
+import me.nils.vdvcraftrevamp.data.QuestData;
 import me.nils.vdvcraftrevamp.listeners.AbilityListener;
 import me.nils.vdvcraftrevamp.listeners.EntityListener;
 import me.nils.vdvcraftrevamp.listeners.PlayerListener;
@@ -24,22 +25,12 @@ public final class VDVCraftRevamp extends JavaPlugin {
         instance = this;
         key = new NamespacedKey(this, "key");
 
-        loadCommands();
-        loadListeners();
-        Cooldown.setupCooldown();
-        WeaponManager.registerItems();
-        ArmorManager.registerItems();
-        EntityData.registerEntities();
+        register();
     }
 
     @Override
     public void reloadConfig() {
-        loadCommands();
-        loadListeners();
-        Cooldown.setupCooldown();
-        WeaponManager.registerItems();
-        ArmorManager.registerItems();
-        EntityData.registerEntities();
+        register();
     }
 
     private void loadCommands() {
@@ -51,6 +42,16 @@ public final class VDVCraftRevamp extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityListener(), this);
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
+    }
+
+    private void register() {
+        loadCommands();
+        loadListeners();
+        Cooldown.setupCooldown();
+        WeaponManager.registerItems();
+        ArmorManager.registerItems();
+        EntityData.registerEntities();
+        QuestData.registerQuestData();
     }
 
     @Override
