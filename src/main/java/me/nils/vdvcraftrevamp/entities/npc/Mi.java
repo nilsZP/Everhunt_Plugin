@@ -9,7 +9,7 @@ import org.bukkit.entity.EntityType;
 
 public class Mi extends EntityData {
     public Mi(Location loc) {
-        super("Mi", Ability.NONE, MobType.NPC, Flow.BURNING);
+        super("Mi", Ability.NONE, MobType.NPC);
 
         Cat mi = (Cat) loc.getWorld().spawnEntity(loc, EntityType.CAT);
 

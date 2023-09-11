@@ -13,21 +13,18 @@ public class EntityData {
     private final String displayName;
     private final MobType type;
     private final Ability ability;
-    private final Flow flow;
     private final YamlConfiguration configuration;
 
-    public EntityData(String displayName, Ability ability, MobType type, Flow flow) {
+    public EntityData(String displayName, Ability ability, MobType type) {
         this.ability = ability;
         this.displayName = displayName;
         this.type = type;
-        this.flow = flow;
 
         FileManager fileManager = new FileManager("entities", displayName);
         configuration = fileManager.getFile();
         configuration.set("displayName", displayName);
         configuration.set("type", type.toString());
         configuration.set("ability", ability.toString());
-        configuration.set("flow", flow.toString());
 
         fileManager.save();
         entities.put(displayName, this);
@@ -44,9 +41,8 @@ public class EntityData {
             String displayName = fileConfiguration.getString("displayName");
             MobType type = MobType.valueOf(fileConfiguration.getString("type"));
             Ability ability = Ability.valueOf(fileConfiguration.getString("ability"));
-            Flow flow = Flow.valueOf(fileConfiguration.getString("flow"));
 
-            new EntityData(displayName, ability, type, flow);
+            new EntityData(displayName, ability, type);
         }
     }
 
