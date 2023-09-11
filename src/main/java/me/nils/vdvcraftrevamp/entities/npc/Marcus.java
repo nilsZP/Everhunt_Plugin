@@ -1,7 +1,6 @@
 package me.nils.vdvcraftrevamp.entities.npc;
 
 import me.nils.vdvcraftrevamp.constants.Ability;
-import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.constants.MobType;
 import me.nils.vdvcraftrevamp.data.EntityData;
 import org.bukkit.Location;

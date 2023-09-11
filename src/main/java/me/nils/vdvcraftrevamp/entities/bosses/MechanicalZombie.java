@@ -1,14 +1,12 @@
 package me.nils.vdvcraftrevamp.entities.bosses;
 
 import me.nils.vdvcraftrevamp.constants.Ability;
-import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.constants.MobType;
 import me.nils.vdvcraftrevamp.data.EntityData;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;

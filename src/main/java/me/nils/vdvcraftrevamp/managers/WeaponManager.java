@@ -2,7 +2,6 @@ package me.nils.vdvcraftrevamp.managers;
 
 import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
-import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.constants.Tier;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -45,18 +44,16 @@ public class WeaponManager {
     private final String displayName;
     private final Tier tier;
     private final Ability ability;
-    private final Flow flow;
     private final double damage;
 
     private final ItemStack itemStack;
     private final YamlConfiguration configuration;
 
-    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage, Flow flow) {
+    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
-        this.flow = flow;
         this.damage = damage;
 
         itemStack = new ItemStack(material);
@@ -69,14 +66,13 @@ public class WeaponManager {
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
-        lore.add(Chat.color("&7Flow: ") + flow.getColor() + String.valueOf(flow));
         if (!(ability == Ability.NONE)) {
             String action = ability.getActivation().getAction();
             lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
             lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
         }
         lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " TIER WEAPON");
+        lore.add(tier.getColor() + String.valueOf(tier) + " WEAPON");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
@@ -88,7 +84,6 @@ public class WeaponManager {
         configuration.set("tier", tier.toString());
         configuration.set("ability", ability.toString());
         configuration.set("damage", damage);
-        configuration.set("flow", flow.toString());
 
         fileManager.save();
         items.put(displayName, this);
@@ -107,14 +102,9 @@ public class WeaponManager {
             Tier tier = Tier.valueOf(fileConfiguration.getString("tier"));
             Ability ability = Ability.valueOf(fileConfiguration.getString("ability"));
             double damage = fileConfiguration.getDouble("damage");
-            Flow flow = Flow.valueOf(fileConfiguration.getString("flow"));
 
-            new WeaponManager(material, displayName, ability, tier, damage, flow);
+            new WeaponManager(material, displayName, ability, tier, damage);
         }
-    }
-
-    public Flow getFlow() {
-        return flow;
     }
 
     public double getDamage() {

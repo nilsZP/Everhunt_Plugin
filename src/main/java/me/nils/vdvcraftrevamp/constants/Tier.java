@@ -4,13 +4,13 @@ import org.bukkit.ChatColor;
 
 public enum Tier {
 
-    F(ChatColor.DARK_RED),
-    E(ChatColor.RED),
-    D(ChatColor.GOLD),
-    C(ChatColor.YELLOW),
-    B(ChatColor.GREEN),
+    BASIC(ChatColor.WHITE),
+    MECHANICAL(ChatColor.GOLD),
+    NATURAL(ChatColor.DARK_GREEN),
+    MAGICAL(ChatColor.DARK_PURPLE),
+    CURSED(ChatColor.GREEN),
     A(ChatColor.DARK_GREEN),
-    S(ChatColor.DARK_AQUA);
+    AQUATIC(ChatColor.DARK_AQUA);
 
     private final ChatColor color;
 

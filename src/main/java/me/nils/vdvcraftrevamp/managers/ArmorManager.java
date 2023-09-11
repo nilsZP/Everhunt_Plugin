@@ -111,7 +111,7 @@ public class ArmorManager {
             lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
         }
         lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " TIER ARMOR");
+        lore.add(tier.getColor() + String.valueOf(tier) + " ARMOR");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);

@@ -1,21 +1,9 @@
 package me.nils.vdvcraftrevamp.data;
 
-import me.nils.vdvcraftrevamp.VDVCraftRevamp;
 import me.nils.vdvcraftrevamp.constants.Ability;
-import me.nils.vdvcraftrevamp.constants.Flow;
 import me.nils.vdvcraftrevamp.constants.MobType;
 import me.nils.vdvcraftrevamp.managers.FileManager;
-import me.nils.vdvcraftrevamp.managers.WeaponManager;
-import me.nils.vdvcraftrevamp.utils.Chat;
-import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.util.*;
