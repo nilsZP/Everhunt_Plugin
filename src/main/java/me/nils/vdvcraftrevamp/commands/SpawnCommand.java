@@ -66,6 +66,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             }
             case "wolfking" -> {
                 new WolfKing(player.getLocation());
+                return true;
             }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
