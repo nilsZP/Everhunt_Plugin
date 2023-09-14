@@ -7,6 +7,8 @@ import me.nils.vdvcraftrevamp.constants.Tier;
 import me.nils.vdvcraftrevamp.constants.Trim;
 import me.nils.vdvcraftrevamp.utils.Chat;
 import net.kyori.adventure.text.Component;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -15,6 +17,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
@@ -23,8 +26,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.io.File;
 import java.util.*;
 
-public class ArmorManager {
-    public static final HashMap<String, ArmorManager> items = new HashMap<>();
+public class LArmorManager {
+    public static final HashMap<String, LArmorManager> items = new HashMap<>();
 
     public Material getMaterial() {
         return material;
@@ -47,8 +50,7 @@ public class ArmorManager {
     }
 
     private final Material material;
-    private final Trim trim;
-    private final Pattern pattern;
+    private final Color color;
     private final String displayName;
     private final Tier tier;
     private final Ability ability;
@@ -62,12 +64,11 @@ public class ArmorManager {
     private final ItemStack itemStack;
     private final YamlConfiguration configuration;
 
-    public ArmorManager(Material material, Trim trim, Pattern pattern, String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, EquipmentSlot slot) {
+    public LArmorManager(Material material, Color color, String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, EquipmentSlot slot) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
-        this.trim = trim;
-        this.pattern = pattern;
+        this.color = color;
         this.tier = tier;
         this.armor = armor;
         this.toughness = toughness;
@@ -76,7 +77,7 @@ public class ArmorManager {
         this.damage = damage;
 
         itemStack = new ItemStack(material);
-        ArmorMeta meta = (ArmorMeta) itemStack.getItemMeta();
+        LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
         meta.displayName(Component.text(tier.getColor() + displayName));
         meta.getPersistentDataContainer().set(VDVCraftRevamp.getKey(), PersistentDataType.STRING, displayName);
 
@@ -98,9 +99,7 @@ public class ArmorManager {
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
         }
         meta.setUnbreakable(true);
-        if (trim != Trim.NONE && pattern != Pattern.NONE) {
-            meta.setTrim(new ArmorTrim(trim.getMaterial(),pattern.getPattern()));
-        }
+        meta.setColor(color);
 
         List<String> lore = new ArrayList<>();
         if (!(ability == Ability.NONE)) {
@@ -114,11 +113,10 @@ public class ArmorManager {
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
 
-        FileManager fileManager = new FileManager("armor", displayName);
+        FileManager fileManager = new FileManager("larmor", displayName);
         configuration = fileManager.getFile();
         configuration.set("material", material.toString());
-        configuration.set("trim", trim.toString());
-        configuration.set("pattern", pattern.toString());
+        configuration.set("color", color);
         configuration.set("displayName", displayName);
         configuration.set("tier", tier.toString());
         configuration.set("ability", ability.toString());
@@ -133,7 +131,7 @@ public class ArmorManager {
     }
 
     public static void registerItems() {
-        List<File> files = FileManager.getFiles("armor");
+        List<File> files = FileManager.getFiles("larmor");
         if (files == null) {
             return;
         }
@@ -141,8 +139,7 @@ public class ArmorManager {
             YamlConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
 
             Material material = Material.getMaterial(Objects.requireNonNull(fileConfiguration.getString("material")));
-            Trim trim = Trim.valueOf(fileConfiguration.getString("trim"));
-            Pattern pattern = Pattern.valueOf(fileConfiguration.getString("pattern"));
+            Color color = fileConfiguration.getColor("color");
             String displayName = fileConfiguration.getString("displayName");
             Tier tier = Tier.valueOf(fileConfiguration.getString("tier"));
             Ability ability = Ability.valueOf(fileConfiguration.getString("ability"));
@@ -152,7 +149,7 @@ public class ArmorManager {
             double damage = (fileConfiguration.getDouble("damage"));
             EquipmentSlot slot = EquipmentSlot.valueOf(fileConfiguration.getString("slot"));
 
-            new ArmorManager(material, trim, pattern, displayName, ability, tier, health, armor, toughness, damage, slot);
+            new LArmorManager(material, color, displayName, ability, tier, health, armor, toughness, damage, slot);
         }
     }
 
@@ -175,13 +172,4 @@ public class ArmorManager {
     public double getDamage() {
         return damage;
     }
-
-    public Trim getTrim() {
-        return trim;
-    }
-
-    public Pattern getPattern() {
-        return pattern;
-    }
 }
-

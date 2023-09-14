@@ -4,6 +4,7 @@ import me.nils.vdvcraftrevamp.entities.SkeletonKnight;
 import me.nils.vdvcraftrevamp.entities.Springer;
 import me.nils.vdvcraftrevamp.entities.bosses.MechanicalZombie;
 import me.nils.vdvcraftrevamp.entities.bosses.ThunderBones;
+import me.nils.vdvcraftrevamp.entities.bosses.kings.WolfKing;
 import me.nils.vdvcraftrevamp.entities.npc.Marcus;
 import me.nils.vdvcraftrevamp.entities.npc.Mi;
 import me.nils.vdvcraftrevamp.entities.npc.Mikull;
@@ -63,6 +64,9 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 new Mikull(player.getLocation());
                 return true;
             }
+            case "wolfking" -> {
+                new WolfKing(player.getLocation());
+            }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
                 return true;
@@ -87,6 +91,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             completions.add("Mi");
             completions.add("Mikull");
             completions.add("Marcus");
+            completions.add("WolfKing");
         }
 
         return completions;

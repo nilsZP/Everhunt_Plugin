@@ -11,6 +11,6 @@ import org.bukkit.inventory.EquipmentSlot;
 
 public class SpringerBoots extends ArmorManager {
     public SpringerBoots() {
-        super(Material.CHAINMAIL_BOOTS, Trim.NONE, Pattern.NONE,"Springer Boots", Ability.SPRING, Tier.NATURAL,2,2,0,0, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET);
+        super(Material.CHAINMAIL_BOOTS, Trim.NONE, Pattern.NONE,"Springer Boots", Ability.SPRING, Tier.NATURAL,2,2,0,0, EquipmentSlot.FEET);
     }
 }
