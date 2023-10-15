@@ -7,6 +7,6 @@ import org.bukkit.Material;
 
 public class AzureWrath extends WeaponManager {
     public AzureWrath() {
-        super(Material.TRIDENT,"AzureWrath", Ability.THUNDER_WARP, Tier.A,9);
+        super(Material.TRIDENT,"AzureWrath", Ability.THUNDER_WARP, Tier.SOUL,9);
     }
 }

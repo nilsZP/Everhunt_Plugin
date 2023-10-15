@@ -7,6 +7,6 @@ import org.bukkit.Material;
 
 public class DaggerOfUnitedDimensions extends WeaponManager {
     public DaggerOfUnitedDimensions() {
-        super(Material.DIAMOND_SWORD,"Dagger Of United Dimensions", Ability.DIMENSION_UNISON, Tier.A, 10);
+        super(Material.DIAMOND_SWORD,"Dagger Of United Dimensions", Ability.DIMENSION_UNISON, Tier.SOUL, 10);
     }
 }

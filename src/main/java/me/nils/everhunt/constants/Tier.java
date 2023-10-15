@@ -8,9 +8,8 @@ public enum Tier {
     MECHANICAL(ChatColor.GOLD),
     NATURAL(ChatColor.DARK_GREEN),
     MAGICAL(ChatColor.DARK_PURPLE),
-    CURSED(ChatColor.GREEN),
-    A(ChatColor.DARK_GREEN),
-    AQUATIC(ChatColor.DARK_AQUA);
+    CURSED(ChatColor.DARK_RED),
+    SOUL(ChatColor.DARK_AQUA);
 
     private final ChatColor color;
 

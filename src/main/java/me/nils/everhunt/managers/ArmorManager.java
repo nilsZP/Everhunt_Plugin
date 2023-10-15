@@ -155,7 +155,7 @@ public class ArmorManager {
         }
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES (" + material + "," + color + "," + trim + "," +
+            Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES (" + material + "," + color.asRGB() + "," + trim + "," +
                     pattern + "," + displayName + "," + ability + "," + tier + "," + health + "," + armor + "," + toughness + "," + damage + "," + slot + "," + leather).executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -168,7 +168,7 @@ public class ArmorManager {
 
             while (resultSet.next()) {
                 Material material = Material.valueOf(resultSet.getString("material"));
-                String color = resultSet.getString("color");
+                Color color = Color.fromRGB(resultSet.getInt("color"));
                 Trim trim = Trim.valueOf(resultSet.getString("trim"));
                 Pattern pattern = Pattern.valueOf(resultSet.getString("pattern"));
                 String displayName = resultSet.getString("displayname");
