@@ -12,7 +12,6 @@ public class Database {
             String DATABASE = "dbeverhunt";
             String USERNAME = "root";
             String PASSWORD = "";
-            System.out.println(HOST);
             connection = DriverManager.getConnection(
                     "jdbc:mysql://" + HOST + ":3306/" + DATABASE + "?useSSL=false", USERNAME, PASSWORD);
         } catch (SQLException exception) {
@@ -25,7 +24,6 @@ public class Database {
             try {
                 connection.close();
             } catch (SQLException exception) {
-                ErrorUtil.handleError("Could not disconnect from the database.", exception);
                 throw new RuntimeException(exception);
             }
         }

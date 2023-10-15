@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.utils.Chat;
+import me.nils.everhunt.utils.Database;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -15,11 +16,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class WeaponManager {
-    public static final HashMap<String, WeaponManager> items = new HashMap<>();
-
     public Material getMaterial() {
         return material;
     }
@@ -47,7 +48,6 @@ public class WeaponManager {
     private final double damage;
 
     private final ItemStack itemStack;
-    private final YamlConfiguration configuration;
 
     public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage) {
         this.ability = ability;
@@ -77,33 +77,29 @@ public class WeaponManager {
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
 
-        FileManager fileManager = new FileManager("weapons", displayName);
-        configuration = fileManager.getFile();
-        configuration.set("material", material.toString());
-        configuration.set("displayName", displayName);
-        configuration.set("tier", tier.toString());
-        configuration.set("ability", ability.toString());
-        configuration.set("damage", damage);
-
-        fileManager.save();
-        items.put(displayName, this);
+        try {
+            Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES (" + material.toString() + "," + displayName + "," + ability.toString() + "," +
+                    tier.toString() + "," + damage).executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void registerItems() {
-        List<File> files = FileManager.getFiles("weapons");
-        if (files == null) {
-            return;
-        }
-        for (File file : files) {
-            YamlConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon").executeQuery();
 
-            Material material = Material.getMaterial(Objects.requireNonNull(fileConfiguration.getString("material")));
-            String displayName = fileConfiguration.getString("displayName");
-            Tier tier = Tier.valueOf(fileConfiguration.getString("tier"));
-            Ability ability = Ability.valueOf(fileConfiguration.getString("ability"));
-            double damage = fileConfiguration.getDouble("damage");
+            while (resultSet.next()) {
+                Material material = Material.valueOf(resultSet.getString("material"));
+                String displayName = resultSet.getString("displayname");
+                Tier tier = Tier.valueOf(resultSet.getString("tier"));
+                Ability ability = Ability.valueOf(resultSet.getString("ability"));
+                double damage = resultSet.getDouble("damage");
 
-            new WeaponManager(material, displayName, ability, tier, damage);
+                new WeaponManager(material,displayName,ability,tier,damage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

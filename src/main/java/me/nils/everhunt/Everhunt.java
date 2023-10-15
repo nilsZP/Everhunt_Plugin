@@ -21,12 +21,13 @@ public final class Everhunt extends JavaPlugin {
 
     public static Everhunt instance;
     public static NamespacedKey key;
+    private static Database database;
 
     @Override
     public void onEnable() {
         instance = this;
         key = new NamespacedKey(this, "key");
-        new Database();
+        database = new Database();
 
         register();
     }
@@ -69,5 +70,9 @@ public final class Everhunt extends JavaPlugin {
 
     public static NamespacedKey getKey() {
         return key;
+    }
+
+    public static Database getDatabase() {
+        return database;
     }
 }
