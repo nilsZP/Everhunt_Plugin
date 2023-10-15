@@ -78,8 +78,8 @@ public class WeaponManager {
         itemStack.setItemMeta(meta);
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES (" + material.toString() + "," + displayName + "," + ability.toString() + "," +
-                    tier.toString() + "," + damage).executeQuery();
+            Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES (" + material + "," + displayName + "," + ability + "," +
+                    tier + "," + damage).executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

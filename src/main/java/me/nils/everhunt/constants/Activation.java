@@ -5,6 +5,7 @@ public enum Activation {
     LEFT_CLICK("LEFT CLICK"),
     THROW("THROW"),
     FULL_SET("FULL SET"),
+    PASSIVE("PASSIVE"),
     SNEAK("SNEAK");
 
     private final String action;

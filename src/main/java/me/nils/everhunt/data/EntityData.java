@@ -2,7 +2,6 @@ package me.nils.everhunt.data;
 
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
-import me.nils.everhunt.managers.FileManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

@@ -8,7 +8,6 @@ import me.nils.everhunt.listeners.AbilityListener;
 import me.nils.everhunt.listeners.EntityListener;
 import me.nils.everhunt.listeners.PlayerListener;
 import me.nils.everhunt.managers.ArmorManager;
-import me.nils.everhunt.managers.LArmorManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Database;

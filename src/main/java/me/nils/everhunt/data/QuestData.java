@@ -1,6 +1,5 @@
 package me.nils.everhunt.data;
 
-import me.nils.everhunt.managers.FileManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
