@@ -164,7 +164,7 @@ public class ArmorManager {
 
     public static void registerItems() {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblarmor").executeQuery();
 
             while (resultSet.next()) {
                 Material material = Material.valueOf(resultSet.getString("material"));
