@@ -2,6 +2,7 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
 import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.items.weapons.LuciaI;
@@ -27,7 +28,7 @@ public class QuestListener implements Listener {
     public void onNPCInteract(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
-
+        int playerID = PlayerData.getPlayerID(uuid);
         Entity entity = event.getRightClicked();
         EntityData data = EntityData.entities.get(ChatColor.stripColor(entity.getName()));
         if (data != null) {
