@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class EntityData {
+    public static final HashMap<String, EntityData> data = new HashMap<>();
     private final String displayName;
     private final MobType type;
     private final Ability ability;
@@ -29,6 +30,7 @@ public class EntityData {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        data.put(displayName,this);
     }
 
     public static void registerEntities() {

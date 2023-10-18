@@ -3,6 +3,7 @@ package me.nils.everhunt.managers;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
+import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Database;
 import net.kyori.adventure.text.Component;
@@ -21,6 +22,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class WeaponManager {
+    public static final HashMap<String, WeaponManager> items = new HashMap<>();
     public Material getMaterial() {
         return material;
     }
@@ -83,6 +85,8 @@ public class WeaponManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        items.put(displayName,this);
     }
 
     public static void registerItems() {
@@ -96,7 +100,11 @@ public class WeaponManager {
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
                 double damage = resultSet.getDouble("damage");
 
-                new WeaponManager(material,displayName,ability,tier,damage);
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = " + displayName).executeQuery();
+                check.next();
+                if (check.getInt(1) < 1) {
+                    new WeaponManager(material,displayName,ability,tier,damage);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

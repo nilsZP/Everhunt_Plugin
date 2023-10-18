@@ -5,6 +5,7 @@ import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Pattern;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.constants.Trim;
+import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Color;
@@ -25,6 +26,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class ArmorManager {
+    public static final HashMap<String, ArmorManager> items = new HashMap<>();
     public Material getMaterial() {
         return material;
     }
@@ -160,6 +162,7 @@ public class ArmorManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        items.put(displayName,this);
     }
 
     public static void registerItems() {
@@ -181,7 +184,11 @@ public class ArmorManager {
                 EquipmentSlot slot = EquipmentSlot.valueOf(resultSet.getString("slot"));
                 boolean leather = resultSet.getBoolean("leather");
 
-                new ArmorManager(material,color,trim,pattern,displayName,ability,tier,health,armor,toughness,damage,slot,leather);
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = " + displayName).executeQuery();
+                check.next();
+                if (check.getInt(1) < 1) {
+                    new ArmorManager(material,color,trim,pattern,displayName,ability,tier,health,armor,toughness,damage,slot,leather);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

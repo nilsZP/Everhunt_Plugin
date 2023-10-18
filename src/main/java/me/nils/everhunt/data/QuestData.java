@@ -3,6 +3,7 @@ package me.nils.everhunt.data;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.managers.WeaponManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class QuestData {
+    public static final HashMap<Integer, QuestData> data = new HashMap<>();
     private final int playerID;
     private int number;
     private double completion;
@@ -29,6 +31,7 @@ public class QuestData {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        data.put(playerID,this);
     }
 
     public static void registerQuestData() {
@@ -41,7 +44,11 @@ public class QuestData {
                 double completion = resultSet.getDouble("progress");
                 boolean done = resultSet.getBoolean("done");
 
-                new QuestData(playerID,number,completion,done);
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
+                check.next();
+                if (check.getInt(1) < 1) {
+                    new QuestData(playerID,number,completion,done);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

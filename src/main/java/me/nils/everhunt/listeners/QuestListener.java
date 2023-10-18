@@ -28,7 +28,7 @@ public class QuestListener implements Listener {
     public void onNPCInteract(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
-        int playerID = PlayerData.getPlayerID(uuid);
+        int playerID = PlayerData.data.get(uuid).getPlayerID();
         Entity entity = event.getRightClicked();
         EntityData data = EntityData.entities.get(ChatColor.stripColor(entity.getName()));
         if (data != null) {

@@ -1,12 +1,15 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.managers.WeaponManager;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class PlayerData {
+    public static final HashMap<String, PlayerData> data = new HashMap<>();
     private String uuid;
     private String username;
     private int xp;
@@ -24,6 +27,8 @@ public class PlayerData {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        data.put(uuid,this);
     }
 
     public static void registerPlayerData() {
@@ -36,14 +41,18 @@ public class PlayerData {
                 int xp = resultSet.getInt("xp");
                 int coins = resultSet.getInt("coins");
 
-                new PlayerData(uuid,username,xp,coins);
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblplayer WHERE UUID = " + uuid).executeQuery();
+                check.next();
+                if (check.getInt(1) < 1) {
+                    new PlayerData(uuid,username,xp,coins);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static int getPlayerID(String uuid) {
+    public int getPlayerID() {
         try {
             ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblplayer WHERE UUID = " + uuid).executeQuery();
 
