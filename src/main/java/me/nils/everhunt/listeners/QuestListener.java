@@ -35,22 +35,25 @@ public class QuestListener implements Listener {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
                     if (!(QuestData.getDone(playerID,1))) {
-                        player.getInventory().addItem(new WoodenBat().getItemStack());
-                        player.sendMessage(Component.text(Chat.color("&fCan you please kill the springers upstairs?")));
-                        Location loc = entity.getLocation();
-                        loc.add(0,5,0);
-                        for (int i = 0; i < 3; i++) {
-                            new Springer(loc);
+                        if (QuestData.getCompletion(playerID,1) < 0.5) {
+                            player.getInventory().addItem(new WoodenBat().getItemStack());
+                            player.sendMessage(Component.text(Chat.color("&fCan you please kill the springers upstairs?")));
+                            Location loc = entity.getLocation();
+                            loc.add(0, 5, 0);
+                            for (int i = 0; i < 3; i++) {
+                                new Springer(loc);
+                            }
+                            QuestData.setCompletion(playerID,1,0.5);
                         }
-                    }
-                    if (QuestData.getCompletion(playerID,1) < 3) {
-                        player.sendMessage(Component.text(Chat.color("&fWhat are you waiting for go kill them all!")));
-                    } else {
-                        player.getInventory().addItem(new SnowShovel().getItemStack());
-                        player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
-                        player.teleport(new Location(player.getWorld(), 411, -58, 8));
-                        QuestData.setDone(playerID,1);
-                        PlayerData.data.get(uuid).
+                        if (QuestData.getCompletion(playerID,1) < 3 && QuestData.getCompletion(playerID,1) >= 0.5) {
+                            player.sendMessage(Component.text(Chat.color("&fWhat are you waiting for go kill them all!")));
+                        } else {
+                            player.getInventory().addItem(new SnowShovel().getItemStack());
+                            player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
+                            player.teleport(new Location(player.getWorld(), 411, -58, 8));
+                            QuestData.setDone(playerID,1);
+                            PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 100);
+                        }
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
