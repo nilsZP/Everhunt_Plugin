@@ -76,4 +76,23 @@ public class PlayerData {
         }
         return 0;
     }
+
+    public int getXp() {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT xp FROM tblplayer WHERE uuid = " + uuid).executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            return xp;
+        }
+    }
+
+    public void setXp(int xp) {
+        try {
+            Everhunt.getDatabase().run("UPDATE tblplayer SET xp = " + xp + " WHERE uuid = " + uuid).executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        this.xp = xp;
+    }
 }

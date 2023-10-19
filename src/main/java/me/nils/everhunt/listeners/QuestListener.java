@@ -50,6 +50,7 @@ public class QuestListener implements Listener {
                         player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
                         player.teleport(new Location(player.getWorld(), 411, -58, 8));
                         QuestData.setDone(playerID,1);
+                        PlayerData.data.get(uuid).
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
