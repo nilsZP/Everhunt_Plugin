@@ -55,20 +55,6 @@ public class QuestData {
         }
     }
 
-    public static Boolean getOngoing(int playerID, int number) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
-
-            resultSet.next();
-            int count = resultSet.getInt(1);
-
-            return count == 1;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static void setCompletion(int playerID, int number, double value) {
         try {
             Everhunt.getDatabase().run("UPDATE tblquest SET progress = " + value + " WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
@@ -83,5 +69,13 @@ public class QuestData {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
     }
 }

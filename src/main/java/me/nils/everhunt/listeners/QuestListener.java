@@ -30,11 +30,11 @@ public class QuestListener implements Listener {
         String uuid = player.getUniqueId().toString();
         int playerID = PlayerData.data.get(uuid).getPlayerID();
         Entity entity = event.getRightClicked();
-        EntityData data = EntityData.entities.get(ChatColor.stripColor(entity.getName()));
+        EntityData data = EntityData.data.get(ChatColor.stripColor(entity.getName()));
         if (data != null) {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
-                    if (!(QuestData.getOngoing(playerID,1))) {
+                    if (QuestData.data.get(playerID).isDone()) {
                         QuestData.questdata.get(uuid).setNumber(uuid,1);
                         QuestData.questdata.get(uuid).setCompletion(uuid,0);
                         player.getInventory().addItem(new WoodenBat().getItemStack());
