@@ -42,7 +42,11 @@ public class EntityData {
                 MobType type = MobType.valueOf(resultSet.getString("tier"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
 
-                new EntityData(displayName,ability,type);
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblentity WHERE displayname = " + displayName).executeQuery();
+                check.next();
+                if (check.getInt(1) < 1) {
+                    new EntityData(displayName,ability,type);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

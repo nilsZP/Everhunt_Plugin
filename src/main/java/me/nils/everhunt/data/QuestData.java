@@ -55,7 +55,7 @@ public class QuestData {
         }
     }
 
-    public static boolean getOngoing(int playerID, int number) {
+    public static Boolean getOngoing(int playerID, int number) {
         try {
             ResultSet resultSet = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
 
@@ -66,6 +66,7 @@ public class QuestData {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void setCompletion(int playerID, int number, double value) {
