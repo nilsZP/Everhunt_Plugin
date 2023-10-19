@@ -34,9 +34,7 @@ public class QuestListener implements Listener {
         if (data != null) {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
-                    if (QuestData.data.get(playerID).isDone()) {
-                        QuestData.questdata.get(uuid).setNumber(uuid,1);
-                        QuestData.questdata.get(uuid).setCompletion(uuid,0);
+                    if (!(QuestData.getDone(playerID,1))) {
                         player.getInventory().addItem(new WoodenBat().getItemStack());
                         player.sendMessage(Component.text(Chat.color("&fCan you please kill the springers upstairs?")));
                         Location loc = entity.getLocation();
@@ -45,14 +43,13 @@ public class QuestListener implements Listener {
                             new Springer(loc);
                         }
                     }
-                    if (QuestData.questdata.get(uuid).getCompletion() < 3) {
+                    if (QuestData.getCompletion(playerID,1) < 3) {
                         player.sendMessage(Component.text(Chat.color("&fWhat are you waiting for go kill them all!")));
                     } else {
                         player.getInventory().addItem(new SnowShovel().getItemStack());
                         player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
                         player.teleport(new Location(player.getWorld(), 411, -58, 8));
-                        QuestData.questdata.get(uuid).setNumber(uuid,0);
-                        QuestData.questdata.get(uuid).setCompletion(uuid,0);
+                        QuestData.setDone(playerID,1);
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
@@ -93,10 +90,10 @@ public class QuestListener implements Listener {
             if (entity.getName().equals("Springer")) {
                 Bukkit.broadcast(Component.text("2"));
                 String uuid = player.getUniqueId().toString();
-                if (QuestData.questdata.get(uuid).getNumber() == 1) {
+                if (QuestData.getDone(PlayerData.getPlayerID(player),1)) {
                     Bukkit.broadcast(Component.text("3"));
-                    double completion = QuestData.questdata.get(uuid).getCompletion() + 1;
-                    QuestData.questdata.get(uuid).setCompletion(uuid, completion);
+                    double completion = QuestData.getCompletion(PlayerData.getPlayerID(player),1) + 1;
+                    QuestData.setCompletion(PlayerData.getPlayerID(player),1,completion);
                 }
             }
         }
