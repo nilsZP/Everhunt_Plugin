@@ -25,8 +25,8 @@ public class QuestData {
         this.done = done;
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblquest (playerID, questnumber, type, done) VALUES (" + playerID + "," + number + "," +
-                    completion + "," + done).executeQuery();
+            Everhunt.getDatabase().run("INSERT INTO tblquest (playerID, questnumber, type, done) VALUES ('" + playerID + "','" + number + "','" +
+                    completion + "','" + done + "')").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -42,7 +42,7 @@ public class QuestData {
                 double completion = resultSet.getDouble("progress");
                 boolean done = resultSet.getBoolean("done");
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
                 check.next();
                 if (check.getInt(1) < 1) {
                     new QuestData(playerID,number,completion,done);
@@ -55,7 +55,7 @@ public class QuestData {
 
     public static void setCompletion(int playerID, int number, double value) {
         try {
-            Everhunt.getDatabase().run("UPDATE tblquest SET progress = " + value + " WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
+            Everhunt.getDatabase().run("UPDATE tblquest SET progress = '" + value + "' WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +63,7 @@ public class QuestData {
 
     public static int getCompletion(int playerID, int number) {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT completion FROM tblquest WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT completion FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class QuestData {
 
     public static void setDone(int playerID, int number) {
         try {
-            Everhunt.getDatabase().run("UPDATE tblquest SET done = " + true + " WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
+            Everhunt.getDatabase().run("UPDATE tblquest SET done = '" + true + "' WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -81,11 +81,11 @@ public class QuestData {
 
     public static boolean getDone(int playerID, int number) {
         try {
-            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
             check.next();
             if (check.getInt(1) > 0) {
                 try {
-                    ResultSet resultSet = Everhunt.getDatabase().run("SELECT done FROM tblquest WHERE playerID = " + playerID + " AND questnumber = " + number).executeQuery();
+                    ResultSet resultSet = Everhunt.getDatabase().run("SELECT done FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
                     resultSet.next();
                     return resultSet.getBoolean(1);
                 } catch (SQLException e) {

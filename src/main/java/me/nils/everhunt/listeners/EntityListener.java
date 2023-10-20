@@ -82,20 +82,27 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onSpawn(EntitySpawnEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
-            ArmorStand hologram = (ArmorStand) new Hologram(entity.getLocation());
+            if (entity instanceof ArmorStand) {
+                return;
+            }
+            Bukkit.broadcast(Component.text(entity.getName()));
+            Bukkit.broadcast(Component.text(entity.getCustomName()));
+            ArmorStand hologram = Hologram.Hologram(entity.getLocation());
             entity.addPassenger(hologram);
-            EntityData data = EntityData.data.get(entity.getName());
+            EntityData data = EntityData.data.get(entity.getCustomName());
             double maxHealth = data.getMaxHealth();
             hologram.setCustomName(String.format("%s %f/%f", entity.getName(), entity.getHealth(), maxHealth));
+            hologram.setCustomNameVisible(true);
         }
-
     }
 
     @EventHandler
     public void onHit(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
+            Bukkit.broadcast(Component.text(entity.getName()));
+            Bukkit.broadcast(Component.text(entity.getCustomName()));
             List<Entity> entityList = entity.getPassengers();
-            EntityData data = EntityData.data.get(entity.getName());
+            EntityData data = EntityData.data.get(entity.getCustomName());
             double maxHealth = data.getMaxHealth();
             for (Entity passenger : entityList) {
                 if (passenger instanceof ArmorStand) {

@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Marcus extends EntityData {
     public Marcus(Location loc) {
-        super("Marcus", Ability.NONE, MobType.NPC);
+        super("Marcus",0,1, Ability.NONE, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

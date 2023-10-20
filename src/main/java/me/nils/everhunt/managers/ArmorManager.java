@@ -157,8 +157,8 @@ public class ArmorManager {
         }
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES (" + material + "," + color.asRGB() + "," + trim + "," +
-                    pattern + "," + displayName + "," + ability + "," + tier + "," + health + "," + armor + "," + toughness + "," + damage + "," + slot + "," + leather).executeQuery();
+            Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES ('" + material + "','" + color.asRGB() + "','" + trim + "','" +
+                    pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + slot + "','" + leather + "')").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -184,7 +184,7 @@ public class ArmorManager {
                 EquipmentSlot slot = EquipmentSlot.valueOf(resultSet.getString("slot"));
                 boolean leather = resultSet.getBoolean("leather");
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = " + displayName).executeQuery();
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
                 check.next();
                 if (check.getInt(1) < 1) {
                     new ArmorManager(material,color,trim,pattern,displayName,ability,tier,health,armor,toughness,damage,slot,leather);

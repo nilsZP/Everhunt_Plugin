@@ -22,8 +22,8 @@ public class PlayerData {
         this.coins = coins;
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblplayer (uuid, username, xp, coins) VALUES (" + uuid + "," + username + "," +
-                    xp + "," + coins).executeQuery();
+            Everhunt.getDatabase().run("INSERT INTO tblplayer (uuid, username, xp, coins) VALUES ('" + uuid + "','" + username + "','" +
+                    xp + "','" + coins + "')").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +41,7 @@ public class PlayerData {
                 int xp = resultSet.getInt("xp");
                 int coins = resultSet.getInt("coins");
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblplayer WHERE UUID = " + uuid).executeQuery();
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
                 check.next();
                 if (check.getInt(1) < 1) {
                     new PlayerData(uuid,username,xp,coins);
@@ -54,7 +54,7 @@ public class PlayerData {
 
     public int getPlayerID() {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblplayer WHERE UUID = " + uuid).executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
 
             resultSet.next();
             return resultSet.getInt(1);
@@ -67,7 +67,7 @@ public class PlayerData {
     public static int getPlayerID(Player player) {
         String uuid = player.getUniqueId().toString();
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblplayer WHERE UUID = " + uuid).executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
 
             resultSet.next();
             return resultSet.getInt(1);
@@ -79,7 +79,7 @@ public class PlayerData {
 
     public int getXp() {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT xp FROM tblplayer WHERE uuid = " + uuid).executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT xp FROM tblplayer WHERE uuid = '" + uuid + "'").executeQuery();
             resultSet.next();
             return resultSet.getInt(1);
         } catch (SQLException e) {
@@ -89,7 +89,7 @@ public class PlayerData {
 
     public void setXp(int xp) {
         try {
-            Everhunt.getDatabase().run("UPDATE tblplayer SET xp = " + xp + " WHERE uuid = " + uuid).executeQuery();
+            Everhunt.getDatabase().run("UPDATE tblplayer SET xp = " + xp + " WHERE uuid = '" + uuid + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

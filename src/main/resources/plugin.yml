@@ -1,6 +1,6 @@
 name: Everhunt
 version: '${project.version}'
-main: me.nils.vdvcraftrevamp.Everhunt
+main: me.nils.everhunt.Everhunt
 api-version: '1.20'
 commands:
   item:

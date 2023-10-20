@@ -11,9 +11,9 @@ public class Springer {
     public Springer(Location loc) {
         new EntityData("Springer", 1, 6, Ability.NONE, MobType.ENEMY);
         CaveSpider springer = (CaveSpider) loc.getWorld().spawnEntity(loc, EntityType.CAVE_SPIDER);
-
+// TODO setcustomname before it spawns
         springer.setCustomName("Springer");
-        springer.setCustomNameVisible(false);
+        springer.setCustomNameVisible(true);
 
         springer.setMaxHealth(6);
         springer.setHealth(6);

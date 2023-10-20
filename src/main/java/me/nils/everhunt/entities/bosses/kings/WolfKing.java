@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WolfKing extends EntityData {
     public WolfKing(Location loc) {
-        super("Wolf King", Ability.NONE, MobType.BOSS);
+        super("Wolf King",10,25, Ability.NONE, MobType.BOSS);
         Wolf wolf = (Wolf) loc.getWorld().spawnEntity(loc, EntityType.WOLF);
 
         wolf.setAngry(true);

@@ -29,8 +29,8 @@ public class EntityData {
         this.maxHealth = maxHealth;
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, level, ability, type) VALUES (" + displayName + "," + "," + level + "," + ability + "," +
-                    type).executeQuery();
+            Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, level, maxhealth, ability, type) VALUES ('" + displayName + "','" + level + "','" + maxHealth + "','" + ability + "','" +
+                    type + "')").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -45,10 +45,10 @@ public class EntityData {
                 String displayName = resultSet.getString("displayname");
                 int level = resultSet.getInt("level");
                 int maxHealth = resultSet.getInt("maxhealth");
-                MobType type = MobType.valueOf(resultSet.getString("tier"));
+                MobType type = MobType.valueOf(resultSet.getString("type"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblentity WHERE displayname = " + displayName).executeQuery();
+                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblentity WHERE displayname = '" + displayName + "'").executeQuery();
                 check.next();
                 if (check.getInt(1) < 1) {
                     new EntityData(displayName,level,maxHealth,ability,type);
