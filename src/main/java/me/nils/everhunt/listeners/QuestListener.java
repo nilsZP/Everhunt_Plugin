@@ -93,7 +93,6 @@ public class QuestListener implements Listener {
             Bukkit.broadcast(Component.text("1"));
             if (entity.getName().equals("Springer")) {
                 Bukkit.broadcast(Component.text("2"));
-                String uuid = player.getUniqueId().toString();
                 if (QuestData.getDone(PlayerData.getPlayerID(player),1)) {
                     Bukkit.broadcast(Component.text("3"));
                     double completion = QuestData.getCompletion(PlayerData.getPlayerID(player),1) + 1;

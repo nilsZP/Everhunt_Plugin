@@ -5,5 +5,6 @@ public enum MobType {
     BOSS,
     ENEMY,
     FRIENDLY,
+    UTIL,
     ABILITY;
 }

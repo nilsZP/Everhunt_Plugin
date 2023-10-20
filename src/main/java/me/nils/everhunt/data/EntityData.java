@@ -18,14 +18,18 @@ public class EntityData {
     private final String displayName;
     private final MobType type;
     private final Ability ability;
+    private final int level;
+    private final double maxHealth;
 
-    public EntityData(String displayName, Ability ability, MobType type) {
+    public EntityData(String displayName, int level, double maxHealth, Ability ability, MobType type) {
         this.ability = ability;
         this.displayName = displayName;
         this.type = type;
+        this.level = level;
+        this.maxHealth = maxHealth;
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, ability, type) VALUES (" + displayName + "," + ability + "," +
+            Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, level, ability, type) VALUES (" + displayName + "," + "," + level + "," + ability + "," +
                     type).executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -39,13 +43,15 @@ public class EntityData {
 
             while (resultSet.next()) {
                 String displayName = resultSet.getString("displayname");
+                int level = resultSet.getInt("level");
+                int maxHealth = resultSet.getInt("maxhealth");
                 MobType type = MobType.valueOf(resultSet.getString("tier"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
 
                 ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblentity WHERE displayname = " + displayName).executeQuery();
                 check.next();
                 if (check.getInt(1) < 1) {
-                    new EntityData(displayName,ability,type);
+                    new EntityData(displayName,level,maxHealth,ability,type);
                 }
             }
         } catch (SQLException e) {
@@ -59,5 +65,9 @@ public class EntityData {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
     }
 }

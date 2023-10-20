@@ -1,4 +1,4 @@
-package me.nils.everhunt.entities;
+package me.nils.everhunt.entities.abilities;
 
 import me.nils.everhunt.Everhunt;
 import org.bukkit.Location;

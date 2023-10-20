@@ -1,7 +1,7 @@
 package me.nils.everhunt.entities.bosses;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.entities.ThunderBolt;
+import me.nils.everhunt.entities.abilities.ThunderBolt;
 import me.nils.everhunt.items.weapons.AzureWrath;
 import org.bukkit.Location;
 import org.bukkit.Material;

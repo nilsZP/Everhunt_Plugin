@@ -2,7 +2,7 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.entities.*;
+import me.nils.everhunt.entities.abilities.*;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
