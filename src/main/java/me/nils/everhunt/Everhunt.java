@@ -8,6 +8,7 @@ import me.nils.everhunt.data.QuestData;
 import me.nils.everhunt.listeners.AbilityListener;
 import me.nils.everhunt.listeners.EntityListener;
 import me.nils.everhunt.listeners.PlayerListener;
+import me.nils.everhunt.listeners.QuestListener;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
@@ -46,6 +47,7 @@ public final class Everhunt extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityListener(), this);
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
+        getServer().getPluginManager().registerEvents(new QuestListener(), this);
     }
 
     private void register() {

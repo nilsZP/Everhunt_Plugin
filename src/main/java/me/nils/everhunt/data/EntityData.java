@@ -19,9 +19,9 @@ public class EntityData {
     private final MobType type;
     private final Ability ability;
     private final int level;
-    private final double maxHealth;
+    private final int maxHealth;
 
-    public EntityData(String displayName, int level, double maxHealth, Ability ability, MobType type) {
+    public EntityData(String displayName, int level, int maxHealth, Ability ability, MobType type) {
         this.ability = ability;
         this.displayName = displayName;
         this.type = type;
@@ -67,7 +67,7 @@ public class EntityData {
         return displayName;
     }
 
-    public double getMaxHealth() {
+    public int getMaxHealth() {
         return maxHealth;
     }
 }
