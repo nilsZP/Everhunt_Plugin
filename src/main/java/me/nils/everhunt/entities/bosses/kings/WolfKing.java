@@ -1,18 +1,28 @@
 package me.nils.everhunt.entities.bosses.kings;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.constants.Pattern;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.Hologram;
+import me.nils.everhunt.entities.abilities.EvocationFang;
+import me.nils.everhunt.entities.abilities.ThunderBolt;
+import me.nils.everhunt.utils.Chat;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
 public class WolfKing extends EntityData {
     public WolfKing(Location loc) {
-        super("Wolf King",10,40, Ability.NONE, MobType.BOSS);
+        super("Wolf King",10,40, Ability.ALPHA_ROAR, MobType.BOSS);
         Wolf wolf = (Wolf) loc.getWorld().spawnEntity(loc, EntityType.WOLF);
 
         wolf.setAngry(true);
@@ -31,5 +41,26 @@ public class WolfKing extends EntityData {
         wolf.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(10);
 
         Hologram.addHologram(wolf);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (wolf.isDead()) {
+                    cancel();
+                }
+                Location loc1;
+                    loc1 = wolf.getEyeLocation().toVector().add(wolf.getLocation().getDirection().multiply(2)).
+                            toLocation(wolf.getWorld(), wolf.getLocation().getYaw(), wolf.getLocation().getPitch());
+                    Snowball snowball = (Snowball) loc1.getWorld().spawnEntity(loc1, EntityType.SNOWBALL);
+
+                    snowball.setVelocity(wolf.getLocation().getDirection().multiply(1.5));
+
+                    snowball.setCustomName("roar");
+                    snowball.setCustomNameVisible(false);
+                    snowball.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.DOUBLE, wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue() * Ability.ALPHA_ROAR.getDamageMultiplier());
+                    snowball.getWorld().spawnParticle(Particle.SONIC_BOOM,snowball.getLocation(),1);
+                    wolf.getWorld().playSound(wolf.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM,3F,1F);
+            }
+        }.runTaskTimer(Everhunt.getInstance(),EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L,EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L);
     }
 }

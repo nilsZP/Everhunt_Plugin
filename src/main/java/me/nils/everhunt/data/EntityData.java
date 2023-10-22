@@ -71,4 +71,8 @@ public class EntityData {
     public int getMaxHealth() {
         return maxHealth;
     }
+
+    public Ability getAbility() {
+        return ability;
+    }
 }
