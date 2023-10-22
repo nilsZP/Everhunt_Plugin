@@ -25,8 +25,12 @@ public class QuestData {
         this.done = done;
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblquest (playerID, questnumber, type, done) VALUES ('" + playerID + "','" + number + "','" +
-                    completion + "','" + done + "')").executeUpdate();
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
+            check.next();
+            if (check.getInt(1) < 1) {
+                Everhunt.getDatabase().run("INSERT INTO tblquest (playerID, questnumber, type, done) VALUES ('" + playerID + "','" + number + "','" +
+                        completion + "','" + done + "')").executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -42,11 +46,7 @@ public class QuestData {
                 double completion = resultSet.getDouble("progress");
                 boolean done = resultSet.getBoolean("done");
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
-                check.next();
-                if (check.getInt(1) < 1) {
-                    new QuestData(playerID,number,completion,done);
-                }
+                new QuestData(playerID,number,completion,done);
             }
         } catch (SQLException e) {
             e.printStackTrace();

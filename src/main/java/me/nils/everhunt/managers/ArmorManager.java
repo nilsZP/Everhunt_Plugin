@@ -157,12 +157,16 @@ public class ArmorManager {
         }
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES ('" + material + "','" + color.asRGB() + "','" + trim + "','" +
-                    pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + slot + "','" + leather + "')").executeUpdate();
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
+            check.next();
+            if (check.getInt(1) < 1) {
+                Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES ('" + material + "','" + color.asRGB() + "','" + trim + "','" +
+                        pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + slot + "','" + leather + "')").executeUpdate();
+                items.put(displayName,this);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        items.put(displayName,this);
     }
 
     public static void registerItems() {
@@ -184,11 +188,7 @@ public class ArmorManager {
                 EquipmentSlot slot = EquipmentSlot.valueOf(resultSet.getString("slot"));
                 boolean leather = resultSet.getBoolean("leather");
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
-                check.next();
-                if (check.getInt(1) < 1) {
-                    new ArmorManager(material,color,trim,pattern,displayName,ability,tier,health,armor,toughness,damage,slot,leather);
-                }
+                new ArmorManager(material,color,trim,pattern,displayName,ability,tier,health,armor,toughness,damage,slot,leather);
             }
         } catch (SQLException e) {
             e.printStackTrace();

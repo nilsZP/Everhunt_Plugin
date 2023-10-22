@@ -22,13 +22,16 @@ public class PlayerData {
         this.coins = coins;
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblplayer (uuid, username, xp, coins) VALUES ('" + uuid + "','" + username + "','" +
-                    xp + "','" + coins + "')").executeUpdate();
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
+            check.next();
+            if (check.getInt(1) < 1) {
+                Everhunt.getDatabase().run("INSERT INTO tblplayer (uuid, username, xp, coins) VALUES ('" + uuid + "','" + username + "','" +
+                        xp + "','" + coins + "')").executeUpdate();
+                data.put(uuid,this);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        data.put(uuid,this);
     }
 
     public static void registerPlayerData() {
@@ -41,11 +44,7 @@ public class PlayerData {
                 int xp = resultSet.getInt("xp");
                 int coins = resultSet.getInt("coins");
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
-                check.next();
-                if (check.getInt(1) < 1) {
-                    new PlayerData(uuid,username,xp,coins);
-                }
+                new PlayerData(uuid,username,xp,coins);
             }
         } catch (SQLException e) {
             e.printStackTrace();

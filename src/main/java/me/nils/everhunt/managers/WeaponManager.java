@@ -80,14 +80,16 @@ public class WeaponManager {
         itemStack.setItemMeta(meta);
 
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
-                    tier + "','" + damage + "')").executeUpdate();
-            // TODO add rowcounter here and in other constructors
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
+            check.next();
+            if (check.getInt(1) < 1) {
+                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                        tier + "','" + damage + "')").executeUpdate();
+                items.put(displayName,this);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        items.put(displayName,this);
     }
 
     public static void registerItems() {
@@ -101,11 +103,7 @@ public class WeaponManager {
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
                 double damage = resultSet.getDouble("damage");
 
-                ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
-                check.next();
-                if (check.getInt(1) < 1) {
-                    new WeaponManager(material,displayName,ability,tier,damage);
-                }
+                new WeaponManager(material,displayName,ability,tier,damage);
             }
         } catch (SQLException e) {
             e.printStackTrace();
