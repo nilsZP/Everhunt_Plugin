@@ -28,13 +28,14 @@ public class EntityData {
         this.level = level;
         this.maxHealth = maxHealth;
 
+        data.put(displayName,this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblentity WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, level, maxhealth, ability, type) VALUES ('" + displayName + "','" + level + "','" + maxHealth + "','" + ability + "','" +
                         type + "')").executeUpdate();
-                data.put(displayName,this);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

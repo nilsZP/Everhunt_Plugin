@@ -115,11 +115,8 @@ public class QuestListener implements Listener {
         Entity killer = event.getEntity().getKiller();
 
         if (killer instanceof Player player){
-            Bukkit.broadcast(Component.text("1"));
             if (entity.getName().equals("Springer")) {
-                Bukkit.broadcast(Component.text("2"));
                 if (QuestData.getDone(PlayerData.getPlayerID(player),1)) {
-                    Bukkit.broadcast(Component.text("3"));
                     double completion = QuestData.getCompletion(PlayerData.getPlayerID(player),1) + 1;
                     QuestData.setCompletion(PlayerData.getPlayerID(player),1,completion);
                 }

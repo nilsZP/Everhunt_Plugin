@@ -46,7 +46,8 @@ public class EntityListener implements Listener {
             int maxHealth = data.getMaxHealth();
             for (Entity passenger : entityList) {
                 if (passenger instanceof ArmorStand) {
-                    passenger.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), maxHealth-Math.round(entity.getLastDamage()), maxHealth,"♥")));
+                    passenger.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), Math.round(entity.getHealth() - event.getFinalDamage()), maxHealth,"♥")));
+                    Bukkit.broadcast(Component.text(Math.round(entity.getHealth() - event.getFinalDamage())));
                 }
             }
         }

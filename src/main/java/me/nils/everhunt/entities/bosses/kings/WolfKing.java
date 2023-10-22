@@ -12,7 +12,7 @@ import java.util.List;
 
 public class WolfKing extends EntityData {
     public WolfKing(Location loc) {
-        super("Wolf King",10,25, Ability.NONE, MobType.BOSS);
+        super("Wolf King",10,40, Ability.NONE, MobType.BOSS);
         Wolf wolf = (Wolf) loc.getWorld().spawnEntity(loc, EntityType.WOLF);
 
         wolf.setAngry(true);
@@ -25,7 +25,8 @@ public class WolfKing extends EntityData {
 
         wolf.setCustomName("Wolf King");
         wolf.setCustomNameVisible(false);
-        wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(25);
+        wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(40);
+        wolf.setHealth(wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
         wolf.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(10);
 

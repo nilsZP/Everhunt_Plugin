@@ -21,13 +21,14 @@ public class PlayerData {
         this.xp = xp;
         this.coins = coins;
 
+        data.put(uuid,this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblplayer (uuid, username, xp, coins) VALUES ('" + uuid + "','" + username + "','" +
                         xp + "','" + coins + "')").executeUpdate();
-                data.put(uuid,this);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

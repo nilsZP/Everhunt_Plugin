@@ -5,6 +5,7 @@ import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -16,7 +17,7 @@ public class Hologram {
         ArmorStand hologram = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
 
         int maxHealth = EntityData.data.get(entity.getName()).getMaxHealth();
-        hologram.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), maxHealth, maxHealth,"♥")));
+        hologram.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), Math.round(entity.getHealth()), maxHealth,"♥")));
         hologram.setCustomNameVisible(true);
         hologram.setVisible(false);
         hologram.setSmall(true);

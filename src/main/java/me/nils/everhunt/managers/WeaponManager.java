@@ -79,13 +79,14 @@ public class WeaponManager {
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
 
+        items.put(displayName,this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
                         tier + "','" + damage + "')").executeUpdate();
-                items.put(displayName,this);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

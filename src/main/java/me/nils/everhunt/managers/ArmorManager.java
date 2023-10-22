@@ -156,13 +156,14 @@ public class ArmorManager {
             itemStack.setItemMeta(meta);
         }
 
+        items.put(displayName,this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES ('" + material + "','" + color.asRGB() + "','" + trim + "','" +
                         pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + slot + "','" + leather + "')").executeUpdate();
-                items.put(displayName,this);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
