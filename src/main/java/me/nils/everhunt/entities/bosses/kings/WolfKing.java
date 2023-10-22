@@ -3,7 +3,9 @@ package me.nils.everhunt.entities.bosses.kings;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.entities.Hologram;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 
 import java.util.List;
@@ -22,10 +24,11 @@ public class WolfKing extends EntityData {
         }
 
         wolf.setCustomName("Wolf King");
-        wolf.setCustomNameVisible(true);
+        wolf.setCustomNameVisible(false);
+        wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(25);
+        wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
+        wolf.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(10);
 
-
-        wolf.setMaxHealth(25);
-        wolf.setHealth(25);
+        Hologram.addHologram(wolf);
     }
 }

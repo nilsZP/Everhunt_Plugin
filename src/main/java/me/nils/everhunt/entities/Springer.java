@@ -14,7 +14,7 @@ public class Springer {
         CaveSpider springer = (CaveSpider) loc.getWorld().spawnEntity(loc, EntityType.CAVE_SPIDER);
 
         springer.setCustomName("Springer");
-        springer.setCustomNameVisible(true);
+        springer.setCustomNameVisible(false);
 
         springer.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(6);
         springer.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(2);

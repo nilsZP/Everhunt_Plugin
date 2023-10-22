@@ -13,6 +13,7 @@ public enum Ability {
     SPRING("Spring",0,2,Activation.SNEAK),
     UNITE("Unite",0,5,Activation.SNEAK),
     MECHANICAL_SHOT("Mechanical Shot", 0.8,1,Activation.SNEAK),
+    ALPHA_ROAR("Alpha roar",2,5,Activation.PASSIVE),
     NONE("NONE", 0, 0,Activation.SNEAK);
 
     private final String name;

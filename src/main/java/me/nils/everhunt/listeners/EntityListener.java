@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +39,7 @@ public class EntityListener implements Listener {
     }
 
     @EventHandler
-    public void onHit(EntityDamageByEntityEvent event) {
+    public void onDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
             List<Entity> entityList = entity.getPassengers();
             EntityData data = EntityData.data.get(entity.getName());
