@@ -6,6 +6,7 @@ import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Pattern;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.Hologram;
+import me.nils.everhunt.entities.Wolfling;
 import me.nils.everhunt.entities.abilities.EvocationFang;
 import me.nils.everhunt.entities.abilities.ThunderBolt;
 import me.nils.everhunt.utils.Chat;
@@ -19,6 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
+import java.util.Random;
 
 public class WolfKing extends EntityData {
     public WolfKing(Location loc) {
@@ -49,6 +51,12 @@ public class WolfKing extends EntityData {
                     cancel();
                 }
                 wolf.getWorld().playSound(wolf.getLocation(),Sound.ENTITY_WOLF_HOWL,3F,0.5F);
+                Random rand = new Random();
+                int randomX = rand.nextInt(0,4);
+                int randomZ = rand.nextInt(0,4);
+                for (int i = 0; i <= 3; i++) {
+                    new Wolfling(wolf.getLocation().add(randomX,0,randomZ));
+                }
                 Location loc1;
                     loc1 = wolf.getEyeLocation().toVector().add(wolf.getLocation().getDirection().multiply(2)).
                             toLocation(wolf.getWorld(), wolf.getLocation().getYaw(), wolf.getLocation().getPitch());
