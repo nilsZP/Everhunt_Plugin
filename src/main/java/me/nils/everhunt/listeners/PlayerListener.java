@@ -42,6 +42,8 @@ public class PlayerListener implements Listener {
         event.joinMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&a" + player.getName() + " &fhas joined the server!")));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,999999999,254,false,false,false));
         new PlayerData(player.getUniqueId().toString(),player.getName(),0,0);
+        int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;
+        player.setDisplayName(String.format("[%d] %s",level,player.getName()));
     }
 
     @EventHandler
