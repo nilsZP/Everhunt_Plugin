@@ -13,9 +13,9 @@ public class LootData {
     private int itemID;
     private int minAmount;
     private int maxAmount;
-    private int chance;
+    private double chance;
 
-    public LootData(int entityID,int itemID,int minAmount,int maxAmount,int chance) {
+    public LootData(int entityID,int itemID,int minAmount,int maxAmount,double chance) {
         this.entityID = entityID;
         this.chance = chance;
         this.itemID = itemID;
@@ -43,7 +43,7 @@ public class LootData {
                 int itemID = resultSet.getInt("itemID");
                 int minAmount = resultSet.getInt("minamount");
                 int maxAmount = resultSet.getInt("maxamount");
-                int chance = resultSet.getInt("chance");
+                double chance = resultSet.getDouble("chance");
 
                 new LootData(entityID,itemID,minAmount,maxAmount,chance);
             }
