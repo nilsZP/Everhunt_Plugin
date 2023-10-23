@@ -162,8 +162,14 @@ public class ArmorManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
+                int leatherInt;
+                if (leather) {
+                    leatherInt = 1;
+                } else {
+                    leatherInt = 0;
+                }
                 Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES ('" + material + "','" + color.asRGB() + "','" + trim + "','" +
-                        pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + slot + "','" + leather + "')").executeUpdate();
+                        pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + slot + "','" + leatherInt + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -194,6 +200,30 @@ public class ArmorManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getArmorID() {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
+
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getArmorID(String displayName) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
+
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public double getHealth() {

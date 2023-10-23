@@ -3,26 +3,25 @@ package me.nils.everhunt.managers;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
-import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.utils.Chat;
-import me.nils.everhunt.utils.Database;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
-public class WeaponManager {
-    public static final HashMap<String, WeaponManager> items = new HashMap<>();
+public class ItemManager {
+    public static final HashMap<String, ItemManager> items = new HashMap<>();
     public Material getMaterial() {
         return material;
     }
@@ -35,10 +34,6 @@ public class WeaponManager {
         return tier;
     }
 
-    public Ability getAbility() {
-        return ability;
-    }
-
     public ItemStack getItemStack() {
         return itemStack;
     }
@@ -46,35 +41,22 @@ public class WeaponManager {
     private final Material material;
     private final String displayName;
     private final Tier tier;
-    private final Ability ability;
-    private final double damage;
-
     private final ItemStack itemStack;
 
-    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage) {
-        this.ability = ability;
+    public ItemManager(Material material, String displayName, Tier tier) {
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
-        this.damage = damage;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.displayName(Component.text(tier.getColor() + displayName));
         meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
-
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
-        if (!(ability == Ability.NONE)) {
-            String action = ability.getActivation().getAction();
-            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
-            lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
-        }
         lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " WEAPON");
+        lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
@@ -85,8 +67,7 @@ public class WeaponManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
-                        tier + "','" + damage + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier) VALUES ('" + material + "','" + displayName + "','" + tier + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -95,25 +76,23 @@ public class WeaponManager {
 
     public static void registerItems() {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblitem").executeQuery();
 
             while (resultSet.next()) {
                 Material material = Material.valueOf(resultSet.getString("material"));
                 String displayName = resultSet.getString("displayname");
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
-                Ability ability = Ability.valueOf(resultSet.getString("ability"));
-                double damage = resultSet.getDouble("damage");
 
-                new WeaponManager(material,displayName,ability,tier,damage);
+                new ItemManager(material,displayName,tier);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public int getWeaponID() {
+    public int getItemID() {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
 
             resultSet.next();
             return resultSet.getInt(1);
@@ -123,9 +102,9 @@ public class WeaponManager {
         return 0;
     }
 
-    public static int getWeaponID(String displayName) {
+    public static int getItemID(String displayName) {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
 
             resultSet.next();
             return resultSet.getInt(1);
@@ -133,9 +112,5 @@ public class WeaponManager {
             e.printStackTrace();
         }
         return 0;
-    }
-
-    public double getDamage() {
-        return damage;
     }
 }

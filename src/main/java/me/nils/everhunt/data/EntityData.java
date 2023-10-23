@@ -75,4 +75,28 @@ public class EntityData {
     public Ability getAbility() {
         return ability;
     }
+
+    public int getEntityID() {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblentity WHERE displayname = '" + displayName + "'").executeQuery();
+
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getEntityID(String displayName) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblentity WHERE displayname = '" + displayName + "'").executeQuery();
+
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

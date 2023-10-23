@@ -52,10 +52,13 @@ public class WolfKing extends EntityData {
                 }
                 wolf.getWorld().playSound(wolf.getLocation(),Sound.ENTITY_WOLF_HOWL,3F,0.5F);
                 Random rand = new Random();
-                int randomX = rand.nextInt(0,4);
-                int randomZ = rand.nextInt(0,4);
-                for (int i = 0; i <= 3; i++) {
-                    new Wolfling(wolf.getLocation().add(randomX,0,randomZ));
+                boolean randomBoolean = rand.nextBoolean();
+                if (randomBoolean) {
+                    for (int i = 0; i <= 3; i++) {
+                        int randomX = rand.nextInt(0, 4);
+                        int randomZ = rand.nextInt(0, 4);
+                        new Wolfling(wolf.getLocation().add(randomX, 0, randomZ));
+                    }
                 }
                 Location loc1;
                     loc1 = wolf.getEyeLocation().toVector().add(wolf.getLocation().getDirection().multiply(2)).

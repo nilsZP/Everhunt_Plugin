@@ -3,6 +3,7 @@ package me.nils.everhunt;
 import me.nils.everhunt.commands.ItemCommand;
 import me.nils.everhunt.commands.SpawnCommand;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.data.LootData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
 import me.nils.everhunt.listeners.AbilityListener;
@@ -10,6 +11,7 @@ import me.nils.everhunt.listeners.EntityListener;
 import me.nils.everhunt.listeners.PlayerListener;
 import me.nils.everhunt.listeners.QuestListener;
 import me.nils.everhunt.managers.ArmorManager;
+import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Database;
@@ -59,6 +61,8 @@ public final class Everhunt extends JavaPlugin {
         EntityData.registerEntities();
         QuestData.registerQuestData();
         PlayerData.registerPlayerData();
+        LootData.registerLoot();
+        ItemManager.registerItems();
     }
 
     @Override
