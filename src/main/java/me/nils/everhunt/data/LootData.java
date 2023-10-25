@@ -6,6 +6,7 @@ import me.nils.everhunt.constants.MobType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LootData {
@@ -50,5 +51,60 @@ public class LootData {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<Integer> getItemIDs(int entityID) {
+        ArrayList<Integer> itemIDList = new ArrayList<>();
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT itemID FROM tblloot WHERE entityID = '" + entityID + "'").executeQuery();
+
+            while (resultSet.next()) {
+                itemIDList.add(resultSet.getInt(1));
+            }
+
+            return itemIDList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return itemIDList;
+    }
+
+    public static int getMinimum(int entityID, int itemID) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT minamount FROM tblloot WHERE entityID = '" + entityID + "' AND itemID = '" + itemID + "'").executeQuery();
+
+            resultSet.next();
+
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getMaximum(int entityID, int itemID) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT maxamount FROM tblloot WHERE entityID = '" + entityID + "' AND itemID = '" + itemID + "'").executeQuery();
+
+            resultSet.next();
+
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static double getChance(int entityID, int itemID) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT chance FROM tblloot WHERE entityID = '" + entityID + "' AND itemID = '" + itemID + "'").executeQuery();
+
+            resultSet.next();
+
+            return resultSet.getDouble(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

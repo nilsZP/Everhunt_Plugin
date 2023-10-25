@@ -113,4 +113,16 @@ public class ItemManager {
         }
         return 0;
     }
+
+    public static String getDisplayName(int id) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT displayname FROM tblitem WHERE itemID = '" + id + "'").executeQuery();
+
+            resultSet.next();
+            return resultSet.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }
