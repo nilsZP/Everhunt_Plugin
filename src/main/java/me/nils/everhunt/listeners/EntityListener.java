@@ -40,6 +40,9 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            return;
+        }
         if (event.getEntity() instanceof LivingEntity entity) {
             List<Entity> entityList = entity.getPassengers();
             EntityData data = EntityData.data.get(entity.getName());

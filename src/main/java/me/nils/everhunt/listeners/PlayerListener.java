@@ -40,7 +40,6 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         event.joinMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&a" + player.getName() + " &fhas joined the server!")));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,999999999,254,false,false,false));
         new PlayerData(player.getUniqueId().toString(),player.getName(),0,0);
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;
         player.setDisplayName(String.format("[%d] %s",level,player.getName()));
@@ -55,7 +54,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onHunger(FoodLevelChangeEvent event) {
         if (event.getEntity() instanceof Player player) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION,999999999,254,false,false,false));
+            event.setCancelled(true);
+            player.setFoodLevel(20);
         }
     }
 
