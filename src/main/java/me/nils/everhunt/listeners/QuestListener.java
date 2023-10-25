@@ -59,22 +59,6 @@ public class QuestListener implements Listener {
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
-                    if (!(player.getInventory().contains(WeaponManager.items.get("Lucia I").getItemStack())) &&
-                            !(player.getInventory().getItemInMainHand().equals(WeaponManager.items.get("Wooden Bat").getItemStack()))) {
-                        player.sendMessage(Component.text(Chat.color("&fMy wife divorced me after she said that I will")));
-                        player.sendMessage(Component.text(Chat.color("&4NEVER &fbe a successful weaponsmith,")));
-                        player.sendMessage(Component.text(Chat.color("&fso to prove her wrong I am gonna make the")));
-                        player.sendMessage(Component.text(Chat.color("&eBEST SWORD EVER &fI just need a handle can you give me one?")));
-                    }
-                    if (player.getInventory().contains(WeaponManager.items.get("Wooden Bat").getItemStack())) {
-                        player.sendMessage(Component.text(Chat.color("&fMay I use that Wooden Bat as a handle?")));
-                    }
-                    if (player.getInventory().getItemInMainHand().equals(WeaponManager.items.get("Wooden Bat").getItemStack())) {
-                        player.sendMessage(Component.text(Chat.color("&fThank you for the handle here take my blade.")));
-                        player.getInventory().remove(WeaponManager.items.get("Wooden Bat").getItemStack());
-                        player.getInventory().addItem(new LuciaI().getItemStack());
-                    }
-                    //
                     if (!(QuestData.getDone(playerID,2))) {
                         if (QuestData.getCompletion(playerID,2) < 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fMy wife divorced me after she said that I will")));
