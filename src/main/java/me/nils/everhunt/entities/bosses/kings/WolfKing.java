@@ -5,10 +5,12 @@ import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Pattern;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.data.LootData;
 import me.nils.everhunt.entities.Hologram;
 import me.nils.everhunt.entities.Wolfling;
 import me.nils.everhunt.entities.abilities.EvocationFang;
 import me.nils.everhunt.entities.abilities.ThunderBolt;
+import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -35,6 +37,8 @@ public class WolfKing extends EntityData {
             }
         }
 
+        new LootData(EntityData.getEntityID("Wolf King"), ItemManager.getItemID("Kings Bone"),1,1,80);
+
         wolf.setCustomName("Wolf King");
         wolf.setCustomNameVisible(false);
         wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(40);
@@ -49,6 +53,7 @@ public class WolfKing extends EntityData {
             public void run() {
                 if (wolf.isDead()) {
                     cancel();
+                    return;
                 }
                 wolf.getWorld().playSound(wolf.getLocation(),Sound.ENTITY_WOLF_HOWL,3F,0.5F);
                 Random rand = new Random();

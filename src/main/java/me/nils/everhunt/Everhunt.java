@@ -6,6 +6,10 @@ import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.data.LootData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
+import me.nils.everhunt.items.armor.*;
+import me.nils.everhunt.items.items.KingsBone;
+import me.nils.everhunt.items.items.WolflingHide;
+import me.nils.everhunt.items.weapons.*;
 import me.nils.everhunt.listeners.AbilityListener;
 import me.nils.everhunt.listeners.EntityListener;
 import me.nils.everhunt.listeners.PlayerListener;
@@ -63,6 +67,36 @@ public final class Everhunt extends JavaPlugin {
         PlayerData.registerPlayerData();
         LootData.registerLoot();
         ItemManager.registerItems();
+        // loadAll();
+    }
+
+    private void loadAll() {
+        // Armor
+        new Boots();
+        new FarmerHat();
+        new MechanicalChestplate();
+        new Pants();
+        new Shirt();
+        new SpringerBoots();
+        new UnitedHelmet();
+        // Items
+        new KingsBone();
+        new WolflingHide();
+        // Weapons
+        new AzureWrath();
+        new DaggerOfUnitedDimensions();
+        new DaggerOfShatteredDimensions();
+        new Evokus();
+        new LuciaI();
+        new LuciaII();
+        new LuciaIII();
+        new LuciaIV();
+        new LuciaV();
+        new LuciaVI();
+        new MeteorBlade();
+        new Nixeus();
+        new SnowShovel();
+        new WoodenBat();
     }
 
     @Override
