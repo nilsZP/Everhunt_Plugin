@@ -53,7 +53,7 @@ public class QuestListener implements Listener {
                         } else {
                             player.getInventory().addItem(new SnowShovel().getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
-                            player.teleport(new Location(player.getWorld(), 411, -58, 8));
+                            player.teleport(new Location(player.getWorld(), 60, -7, -197));
                             QuestData.setDone(playerID,1);
                             PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 100);
                         }
