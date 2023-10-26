@@ -28,7 +28,7 @@ public class QuestData {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblquest (playerID, questnumber, type, done) VALUES ('" + playerID + "','" + number + "','" +
+                Everhunt.getDatabase().run("INSERT INTO tblquest (playerID, questnumber, progress, done) VALUES ('" + playerID + "','" + number + "','" +
                         completion + "','" + done + "')").executeUpdate();
             }
         } catch (SQLException e) {
