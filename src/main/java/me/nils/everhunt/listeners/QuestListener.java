@@ -36,6 +36,7 @@ public class QuestListener implements Listener {
         if (data != null) {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
+                    new QuestData(playerID,1,0,false);
                     if (!(QuestData.getDone(playerID,1))) {
                         if (QuestData.getCompletion(playerID,1) < 0.5) {
                             player.getInventory().addItem(new WoodenBat().getItemStack());
@@ -59,6 +60,7 @@ public class QuestListener implements Listener {
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
+                    new QuestData(playerID,2,0,false);
                     if (!(QuestData.getDone(playerID,2))) {
                         if (QuestData.getCompletion(playerID,2) < 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fMy wife divorced me after she said that I will")));
