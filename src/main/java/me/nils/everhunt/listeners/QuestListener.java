@@ -36,7 +36,6 @@ public class QuestListener implements Listener {
         if (data != null) {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
-                    new QuestData(playerID,1,0,false);
                     if (!(QuestData.getDone(playerID,1))) {
                         if (QuestData.getCompletion(playerID,1) < 0.5) {
                             player.getInventory().addItem(new WoodenBat().getItemStack());
@@ -47,6 +46,7 @@ public class QuestListener implements Listener {
                                 new Springer(loc);
                             }
                             QuestData.setCompletion(playerID,1,0.5);
+                            return;
                         }
                         if (QuestData.getCompletion(playerID,1) < 3 && QuestData.getCompletion(playerID,1) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fWhat are you waiting for go kill them all!")));
@@ -60,7 +60,6 @@ public class QuestListener implements Listener {
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
-                    new QuestData(playerID,2,0,false);
                     if (!(QuestData.getDone(playerID,2))) {
                         if (QuestData.getCompletion(playerID,2) < 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fMy wife divorced me after she said that I will")));
@@ -69,10 +68,19 @@ public class QuestListener implements Listener {
                             player.sendMessage(Component.text(Chat.color("&eBEST SWORD EVER &fI just need a handle can you give me one?")));
 
                             QuestData.setCompletion(playerID,2,0.5);
+                            return;
                         }
-                        if (QuestData.getCompletion(playerID,2) == 0.5 && player.getInventory().getItemInMainHand().equals(WeaponManager.items.get("Wooden Bat").getItemStack())) {
+                        WeaponManager bat = WeaponManager.items.get("Wooden Bat");
+                        WeaponManager holding;
+                        if (!(WeaponManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) == null)) {
+                            holding = WeaponManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
+                        } else {
+                            holding = null;
+                        }
+                        if (QuestData.getCompletion(playerID,2) == 0.5 && bat == holding) {
                             player.sendMessage(Component.text(Chat.color("&fMay I use that Wooden Bat as a handle?")));
                             QuestData.setCompletion(playerID,2,1.5);
+                            return;
                         }
                         if (QuestData.getCompletion(playerID,2) < 2 && QuestData.getCompletion(playerID,2) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fI recommend looking outside the village for materials.")));
@@ -102,7 +110,7 @@ public class QuestListener implements Listener {
 
         if (killer instanceof Player player){
             if (entity.getName().equals("Springer")) {
-                if (QuestData.getDone(PlayerData.getPlayerID(player),1)) {
+                if (!(QuestData.getDone(PlayerData.getPlayerID(player),1))) {
                     double completion = QuestData.getCompletion(PlayerData.getPlayerID(player),1) + 1;
                     QuestData.setCompletion(PlayerData.getPlayerID(player),1,completion);
                 }
@@ -111,7 +119,7 @@ public class QuestListener implements Listener {
     }
 
     @EventHandler
-    public void onMessage(AsyncPlayerChatEvent event) {
+    public void onMessage(PlayerChatEvent event) {
         Player player = event.getPlayer();
         if (QuestData.getCompletion(PlayerData.getPlayerID(player),2) == 1.5) {
             if (event.getMessage().equals("yes")) {

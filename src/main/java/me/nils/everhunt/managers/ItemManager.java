@@ -64,7 +64,7 @@ public class ItemManager {
         items.put(displayName,this);
 
         try {
-            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier) VALUES ('" + material + "','" + displayName + "','" + tier + "')").executeUpdate();

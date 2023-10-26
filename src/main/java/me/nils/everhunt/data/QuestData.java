@@ -24,12 +24,18 @@ public class QuestData {
         this.playerID = playerID;
         this.done = done;
 
+        int tiny = 0;
+
+        if (done) {
+            tiny = 1;
+        }
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblquest (playerID, questnumber, progress, done) VALUES ('" + playerID + "','" + number + "','" +
-                        completion + "','" + done + "')").executeUpdate();
+                        completion + "','" + tiny + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -61,11 +67,11 @@ public class QuestData {
         }
     }
 
-    public static int getCompletion(int playerID, int number) {
+    public static double getCompletion(int playerID, int number) {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT completion FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT progress FROM tblquest WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeQuery();
             resultSet.next();
-            return resultSet.getInt(1);
+            return resultSet.getDouble(1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -73,7 +79,7 @@ public class QuestData {
 
     public static void setDone(int playerID, int number) {
         try {
-            Everhunt.getDatabase().run("UPDATE tblquest SET done = '" + true + "' WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeUpdate();
+            Everhunt.getDatabase().run("UPDATE tblquest SET done = '" + 1 + "' WHERE playerID = '" + playerID + "' AND questnumber = '" + number + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
