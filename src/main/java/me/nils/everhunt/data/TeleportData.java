@@ -1,6 +1,8 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,55 +55,29 @@ public class TeleportData {
     public static ArrayList<String> getLocations(int playerID) {
         ArrayList<String> locationList = new ArrayList<>();
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT itemID FROM tblloot WHERE entityID = '" + entityID + "'").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT itemID FROM tblteleport WHERE playerID = '" + playerID + "'").executeQuery();
 
             while (resultSet.next()) {
-                itemIDList.add(resultSet.getInt(1));
+                locationList.add(resultSet.getString(1));
             }
 
-            return itemIDList;
+            return locationList;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return itemIDList;
+        return locationList;
     }
 
-    public static int getMinimum(int entityID, int itemID) {
+    public static Location getCoords(int playerID, String location) {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT minamount FROM tblloot WHERE entityID = '" + entityID + "' AND itemID = '" + itemID + "'").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT x,y,z FROM tblteleport WHERE playerID = '" + playerID + "' AND location = '" + location + "'").executeQuery();
 
             resultSet.next();
 
-            return resultSet.getInt(1);
+            Location loc = new Location(Bukkit.getServer().getWorld("world"),resultSet.getInt("x"),resultSet.getInt("y"),resultSet.getInt("z"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
-    }
-
-    public static int getMaximum(int entityID, int itemID) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT maxamount FROM tblloot WHERE entityID = '" + entityID + "' AND itemID = '" + itemID + "'").executeQuery();
-
-            resultSet.next();
-
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static double getChance(int entityID, int itemID) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT chance FROM tblloot WHERE entityID = '" + entityID + "' AND itemID = '" + itemID + "'").executeQuery();
-
-            resultSet.next();
-
-            return resultSet.getDouble(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return null;
     }
 }
