@@ -16,6 +16,7 @@ import me.nils.everhunt.listeners.PlayerListener;
 import me.nils.everhunt.listeners.QuestListener;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.ItemManager;
+import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Database;
@@ -67,6 +68,7 @@ public final class Everhunt extends JavaPlugin {
         PlayerData.registerPlayerData();
         LootData.registerLoot();
         ItemManager.registerItems();
+        ToolManager.registerItems();
         // loadAll();
     }
 

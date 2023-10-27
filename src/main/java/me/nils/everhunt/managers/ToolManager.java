@@ -1,0 +1,138 @@
+package me.nils.everhunt.managers;
+
+import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.constants.Ability;
+import me.nils.everhunt.constants.Tier;
+import me.nils.everhunt.utils.Chat;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+public class ToolManager {
+    public static final HashMap<String, ToolManager> items = new HashMap<>();
+    public Material getMaterial() {
+        return material;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public Tier getTier() {
+        return tier;
+    }
+
+    public Ability getAbility() {
+        return ability;
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
+
+    private final Material material;
+    private final String displayName;
+    private final Tier tier;
+    private final Ability ability;
+    private final double speed;
+
+    private final ItemStack itemStack;
+
+    public ToolManager(Material material, String displayName, Ability ability, Tier tier, double speed) {
+        this.ability = ability;
+        this.displayName = displayName;
+        this.material = material;
+        this.tier = tier;
+        this.speed = speed;
+
+        itemStack = new ItemStack(material);
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.displayName(Component.text(tier.getColor() + displayName));
+        meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
+
+        if (speed != 0) {
+            AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "speed", speed, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.HAND);
+            meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, modifier);
+        }
+        meta.setUnbreakable(true);
+
+        List<String> lore = new ArrayList<>();
+        if (!(ability == Ability.NONE)) {
+            String action = ability.getActivation().getAction();
+            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
+            lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
+        }
+        lore.add(Chat.color("&r"));
+        lore.add(tier.getColor() + String.valueOf(tier) + " TOOL");
+
+        meta.setLore(lore);
+        itemStack.setItemMeta(meta);
+
+        items.put(displayName,this);
+
+        try {
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
+            check.next();
+            if (check.getInt(1) < 1) {
+                Everhunt.getDatabase().run("INSERT INTO tbltool (material, displayname, ability, tier, fortune) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                        tier + "','" + speed + "')").executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void registerItems() {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblloot").executeQuery();
+
+            while (resultSet.next()) {
+                Material material = Material.valueOf(resultSet.getString("material"));
+                String displayName = resultSet.getString("displayname");
+                Tier tier = Tier.valueOf(resultSet.getString("tier"));
+                Ability ability = Ability.valueOf(resultSet.getString("ability"));
+                double fortune = resultSet.getDouble("fortune");
+
+                new ToolManager(material,displayName,ability,tier,fortune);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getToolID() {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
+
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int getToolID(String displayName) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
+
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+}
