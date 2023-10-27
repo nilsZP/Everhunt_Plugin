@@ -45,6 +45,9 @@ public class AbilityListener implements Listener {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         if (pdc.has(key)) {
             WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+            if (weapon == null) {
+                return;
+            }
             Ability ability = weapon.getAbility();
             int cooldown = ability.getCooldown();
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -204,6 +207,9 @@ public class AbilityListener implements Listener {
                 return;
             }
             WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+            if (weapon == null) {
+                return;
+            }
             Ability ability = weapon.getAbility();
             if (ability.equals(Ability.THUNDER_WARP)) {
                 if (!(Cooldown.hasCooldown(item))) {
@@ -266,6 +272,9 @@ public class AbilityListener implements Listener {
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
             if (pdc.has(key)) {
                 WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                if (weapon == null) {
+                    return;
+                }
                 Ability ability = weapon.getAbility();
                 if (ability.equals(Ability.DIMENSION_SHATTER)) {
                     if (entity instanceof LivingEntity livingEntity) {

@@ -50,7 +50,10 @@ public class EntityListener implements Listener {
                 if (randomDouble <= LootData.getChance(id,drop)) {
                     int randomInteger = random.nextInt(LootData.getMinimum(id,drop),LootData.getMaximum(id,drop)+1);
                     for (int i = 0; i < randomInteger; i++) {
-                        entity.getWorld().dropItemNaturally(entity.getLocation(), ItemManager.items.get(ItemManager.getDisplayName(drop)).getItemStack());
+                        ItemStack item = ItemManager.items.get(ItemManager.getDisplayName(drop)).getItemStack();
+                        if (item != null) {
+                            entity.getWorld().dropItemNaturally(entity.getLocation(), item);
+                        }
                     }
                 }
             }

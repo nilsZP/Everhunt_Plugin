@@ -86,7 +86,7 @@ public class ToolManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tbltool (material, displayname, ability, tier, fortune) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                Everhunt.getDatabase().run("INSERT INTO tbltool (material, displayname, ability, tier, speed) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
                         tier + "','" + speed + "')").executeUpdate();
             }
         } catch (SQLException e) {
@@ -96,16 +96,16 @@ public class ToolManager {
 
     public static void registerItems() {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblloot").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbltool").executeQuery();
 
             while (resultSet.next()) {
                 Material material = Material.valueOf(resultSet.getString("material"));
                 String displayName = resultSet.getString("displayname");
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
-                double fortune = resultSet.getDouble("fortune");
+                double speed = resultSet.getDouble("speed");
 
-                new ToolManager(material,displayName,ability,tier,fortune);
+                new ToolManager(material,displayName,ability,tier,speed);
             }
         } catch (SQLException e) {
             e.printStackTrace();

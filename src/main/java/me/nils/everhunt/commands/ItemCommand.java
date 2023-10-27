@@ -3,6 +3,7 @@ package me.nils.everhunt.commands;
 import me.nils.everhunt.items.armor.MechanicalChestplate;
 import me.nils.everhunt.items.armor.SpringerBoots;
 import me.nils.everhunt.items.armor.UnitedHelmet;
+import me.nils.everhunt.items.tools.WheatHoe;
 import me.nils.everhunt.items.weapons.*;
 import me.nils.everhunt.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -58,6 +59,7 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                 case "springerboots" -> item = new SpringerBoots().getItemStack();
                 case "evokus" -> item = new Evokus().getItemStack();
                 case "mechanicalchestplate" -> item = new MechanicalChestplate().getItemStack();
+                case "wheathoe" -> item = new WheatHoe().getItemStack();
                 default -> {
                     player.sendMessage(Component.text(Chat.color("&cUse: /item get <name>")));
                     return true;
@@ -101,6 +103,7 @@ public class ItemCommand implements CommandExecutor, TabCompleter {
                     completions.add("SpringerBoots");
                     completions.add("Evokus");
                     completions.add("MechanicalChestplate");
+                    completions.add("WheatHoe");
                 }
             }
         }

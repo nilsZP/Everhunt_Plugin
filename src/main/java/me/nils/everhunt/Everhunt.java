@@ -69,7 +69,7 @@ public final class Everhunt extends JavaPlugin {
         LootData.registerLoot();
         ItemManager.registerItems();
         ToolManager.registerItems();
-        // loadAll();
+        loadAll();
     }
 
     private void loadAll() {
