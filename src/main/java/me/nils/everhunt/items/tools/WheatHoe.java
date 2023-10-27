@@ -7,6 +7,6 @@ import org.bukkit.Material;
 
 public class WheatHoe extends ToolManager {
     public WheatHoe() {
-        super(Material.GOLDEN_HOE,"Wheat Hoe", Ability.BREAD_MAKER, Tier.NATURAL,1);
+        super(Material.GOLDEN_HOE,"Wheat Hoe", Ability.BREAD_MAKER, Tier.NATURAL,0.5);
     }
 }
