@@ -84,7 +84,7 @@ public class PlayerListener implements Listener {
                 }
                 if (ability == Ability.BREAD_MAKER) {
                     event.getBlock().getDrops().clear();
-                    event.getBlock().breakNaturally();
+                    loc.getWorld().spawnParticle(Particle.BLOCK_DUST,loc,2);
                     for (int i = 0; i < 3; i++) {
                         event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), new Wheat().getItemStack());
                     }
