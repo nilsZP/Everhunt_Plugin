@@ -2,10 +2,7 @@ package me.nils.everhunt;
 
 import me.nils.everhunt.commands.ItemCommand;
 import me.nils.everhunt.commands.SpawnCommand;
-import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.data.LootData;
-import me.nils.everhunt.data.PlayerData;
-import me.nils.everhunt.data.QuestData;
+import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.armor.*;
 import me.nils.everhunt.items.items.KingsBone;
 import me.nils.everhunt.items.items.WolflingHide;
@@ -38,6 +35,7 @@ public final class Everhunt extends JavaPlugin {
         database = new Database();
 
         register();
+        FlowData.regenFlow();
     }
 
     @Override

@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
 import me.nils.everhunt.entities.SkeletonKnight;
@@ -36,6 +37,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.intellij.lang.annotations.Flow;
 
 import javax.tools.Tool;
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class PlayerListener implements Listener {
         new PlayerData(player.getUniqueId().toString(),player.getName(),0,0);
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
+        new FlowData(player);
     }
 
     @EventHandler
