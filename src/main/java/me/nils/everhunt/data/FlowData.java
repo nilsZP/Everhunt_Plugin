@@ -16,12 +16,7 @@ public class FlowData {
 
     public FlowData(Player player) {
         this.player = player;
-
-        String uuid = player.getUniqueId().toString();
-
-        int xp = PlayerData.data.get(uuid).getXp();
-        int level = xp / 100;
-        this.flowAmount = (level + 1) * 5;
+        this.flowAmount = getFlowAmount();
 
         data.put(player,this);
     }
@@ -56,6 +51,8 @@ public class FlowData {
     }
 
     public int getFlowAmount() {
-        return flowAmount;
+        int xp = PlayerData.data.get(player.getUniqueId().toString()).getXp();
+        int level = xp / 100;
+        return (level + 1) * 5;
     }
 }
