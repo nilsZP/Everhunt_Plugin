@@ -90,11 +90,11 @@ public class PlayerListener implements Listener {
             if (event.getBlock().getType() == Material.WHEAT) {
                 if (ability == Ability.BREAD_MAKER) {
                     event.getBlock().getDrops().clear();
-                    // TODO make items stackable
                     for (int i = 0; i < 3; i++) {
-                        player.getInventory().addItem(new Wheat().getItemStack());
+                        player.getWorld().dropItemNaturally(event.getBlock().getLocation(), new Wheat().getItemStack());
                     }
                     event.getBlock().setType(Material.AIR);
+                    return;
                 }
             }
         }
