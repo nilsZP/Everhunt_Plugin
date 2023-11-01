@@ -61,7 +61,6 @@ public class WeaponManager {
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.displayName(Component.text(tier.getColor() + displayName));
-        meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
 
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);

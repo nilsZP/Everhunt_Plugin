@@ -60,7 +60,6 @@ public class ToolManager {
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.displayName(Component.text(tier.getColor() + displayName));
-        meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
 
         if (speed != 0) {
             AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "speed", speed, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.HAND);

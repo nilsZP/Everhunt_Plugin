@@ -83,7 +83,6 @@ public class ArmorManager {
         if (leather) {
             LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
             meta.displayName(Component.text(tier.getColor() + displayName));
-            meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
 
             AttributeModifier modifier;
             if (health != 0) {

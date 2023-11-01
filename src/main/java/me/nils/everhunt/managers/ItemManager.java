@@ -51,7 +51,6 @@ public class ItemManager {
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.displayName(Component.text(tier.getColor() + displayName));
-        meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
         meta.setLocalizedName(displayName);
         meta.setUnbreakable(true);
 
