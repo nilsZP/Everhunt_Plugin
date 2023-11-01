@@ -6,6 +6,6 @@ import org.bukkit.Material;
 
 public class KingsBone extends ItemManager {
     public KingsBone() {
-        super(Material.BONE,"Kings Bone", Tier.NATURAL);
+        super(Material.BONE,"Kings Bone", Tier.NATURAL,80);
     }
 }

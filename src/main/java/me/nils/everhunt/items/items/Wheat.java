@@ -7,6 +7,6 @@ import org.bukkit.Material;
 
 public class Wheat extends ItemManager {
     public Wheat() {
-        super(Material.WHEAT,"Wheat", Tier.NATURAL);
+        super(Material.WHEAT,"Wheat", Tier.NATURAL,1);
     }
 }

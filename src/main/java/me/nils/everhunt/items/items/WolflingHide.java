@@ -6,6 +6,6 @@ import org.bukkit.Material;
 
 public class WolflingHide extends ItemManager {
     public WolflingHide() {
-        super(Material.RABBIT_HIDE,"Wolfling Hide", Tier.NATURAL);
+        super(Material.RABBIT_HIDE,"Wolfling Hide", Tier.NATURAL,5);
     }
 }

@@ -42,11 +42,13 @@ public class ItemManager {
     private final String displayName;
     private final Tier tier;
     private final ItemStack itemStack;
+    private final int value;
 
-    public ItemManager(Material material, String displayName, Tier tier) {
+    public ItemManager(Material material, String displayName, Tier tier, int value) {
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
+        this.value = value;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
@@ -67,7 +69,7 @@ public class ItemManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier) VALUES ('" + material + "','" + displayName + "','" + tier + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier, value) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + value + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -82,8 +84,9 @@ public class ItemManager {
                 Material material = Material.valueOf(resultSet.getString("material"));
                 String displayName = resultSet.getString("displayname");
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
+                int value = resultSet.getInt("value");
 
-                new ItemManager(material,displayName,tier);
+                new ItemManager(material,displayName,tier,value);
             }
         } catch (SQLException e) {
             e.printStackTrace();
