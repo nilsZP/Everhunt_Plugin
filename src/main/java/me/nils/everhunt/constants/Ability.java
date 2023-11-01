@@ -10,12 +10,12 @@ public enum Ability {
     SNOWBALL("Snowball",0.5,0,Activation.RIGHT_CLICK,1),
     THUNDER_CLAP("Thunder Clap",1.2,4,Activation.LEFT_CLICK,0),
     THUNDER_FLASH("Thunder Flash",1.5,4,Activation.LEFT_CLICK,0),
-    SPRING("Spring",0,2,Activation.SNEAK,3),
-    UNITE("Unite",0,5,Activation.SNEAK,20),
-    MECHANICAL_SHOT("Mechanical Shot", 0.8,1,Activation.SNEAK,2),
+    SPRING("Spring",0,2,Activation.PASSIVE,3),
+    UNITE("Unite",0,5,Activation.PASSIVE,20),
+    MECHANICAL_SHOT("Mechanical Shot", 0.8,1,Activation.PASSIVE,2),
     ALPHA_ROAR("Alpha roar",2,5,Activation.PASSIVE,0),
     BREAD_MAKER("Bread Maker",0,0,Activation.PASSIVE,0),
-    NONE("NONE", 0, 0,Activation.SNEAK,0);
+    NONE("NONE", 0, 0,Activation.PASSIVE,0);
 
     private final String name;
     private final double damageMultiplier;

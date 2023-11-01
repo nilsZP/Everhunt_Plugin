@@ -1,9 +1,11 @@
 package me.nils.everhunt.listeners;
 
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.entities.abilities.*;
+import me.nils.everhunt.items.armor.SpringerBoots;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
@@ -117,75 +119,21 @@ public class AbilityListener implements Listener {
     }
 
     @EventHandler
-    public void onSneak(PlayerToggleSneakEvent event) {
+    public void onJump(PlayerJumpEvent event) {
         Player player = event.getPlayer();
-
-        ItemStack helmet = player.getInventory().getHelmet();
-        ItemStack chestplate = player.getInventory().getChestplate();
-        ItemStack leggings = player.getInventory().getLeggings();
-        ItemStack boots = player.getInventory().getBoots();
-        ItemMeta meta;
-        ArmorManager armor;
-        Ability ability;
         FlowData flow = FlowData.data.get(player);
-
-        if (helmet != null) {
-            meta = helmet.getItemMeta();
-                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-                if (armor == null) {
-                    return;
-                }
-                ability = armor.getAbility();
-                if (ability.equals(Ability.UNITE)) { // TODO same fix as dimension unison
-                    if (!(Cooldown.hasCooldown(helmet))) {
-                        Cooldown.setCooldown(helmet, ability.getCooldown());
-                        flow.useFlow(ability.getFlowCost());
-                        List<Entity> entityList = player.getNearbyEntities(5, 5, 5);
-                    }
-                }
+        ItemStack boots = player.getInventory().getBoots();
+        ArmorManager armor = ArmorManager.items.get(ChatColor.stripColor(boots.getItemMeta().getDisplayName()));
+        if (armor == null) {
+            return;
         }
-        if (chestplate != null) {
-            meta = chestplate.getItemMeta();
-                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-                if (armor == null) {
-                    return;
-                }
-                ability = armor.getAbility();
-                if (ability.equals(Ability.MECHANICAL_SHOT)) {
-                    if (!(Cooldown.hasCooldown(chestplate))) {
-                        Cooldown.setCooldown(chestplate, ability.getCooldown());
-                        flow.useFlow(ability.getFlowCost());
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(1)).
-                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        loc = loc.add(0, -0.5, 0);
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
-                        damage = damage * ability.getDamageMultiplier();
-                        new MechanicalBullet(loc, damage, player);
-                    }
-                }
-        }
-        if (leggings != null) {
-            meta = leggings.getItemMeta();
-                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-                if (armor == null) {
-                    return;
-                }
-                ability = armor.getAbility();
-        }
-        if (boots != null) {
-            meta = boots.getItemMeta();
-                armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-                if (armor == null) {
-                    return;
-                }
-                ability = armor.getAbility();
-                if (ability.equals(Ability.SPRING)) {
-                    if (!(Cooldown.hasCooldown(boots))) {
-                        Cooldown.setCooldown(boots, ability.getCooldown());
-                        flow.useFlow(ability.getFlowCost());
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 2, false, true));
-                    }
-                }
+        Ability ability = armor.getAbility();
+        if (ability == Ability.SPRING) {
+            if (!(Cooldown.hasCooldown(boots))) {
+                Cooldown.setCooldown(boots, ability.getCooldown());
+                flow.useFlow(ability.getFlowCost());
+                player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 60, 3, false, false, false));
+            }
         }
     }
 
