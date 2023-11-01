@@ -126,6 +126,11 @@ public class PlayerListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent event) {
+        event.setCancelled(true);
+    }
+
     public static List<Block> getNearbyBlocks(Location location, int radius) {
         List<Block> blocks = new ArrayList<Block>();
         for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
