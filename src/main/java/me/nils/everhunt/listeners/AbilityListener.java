@@ -35,77 +35,72 @@ public class AbilityListener implements Listener {
     public void onRightClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        NamespacedKey key = Everhunt.getKey();
-
         ItemStack item = player.getInventory().getItemInMainHand();
         ItemMeta meta = item.getItemMeta();
         if (meta == null) {
             return;
         }
-        PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        if (pdc.has(key)) {
-            WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-            if (weapon == null) {
-                return;
+        WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+        if (weapon == null) {
+            return;
+        }
+        Ability ability = weapon.getAbility();
+        int cooldown = ability.getCooldown();
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (ability.equals(Ability.METEOR_BLAST)) {
+                if (!(Cooldown.hasCooldown(item))) {
+                    Cooldown.setCooldown(item, cooldown);
+                    player.swingMainHand();
+                    Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                            toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                    double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                    new Meteor(loc, damage);
+                }
             }
-            Ability ability = weapon.getAbility();
-            int cooldown = ability.getCooldown();
-            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (ability.equals(Ability.METEOR_BLAST)) {
+            if (ability.equals(Ability.EVOCATION)) {
+                if (!(Cooldown.hasCooldown(item))) {
+                    Cooldown.setCooldown(item, cooldown);
+                    player.swingMainHand();
+                    Location loc;
+                    double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                    for (int i = 1; i <= 4; i++) {
+                        loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
+                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                        loc.add(0, -1, 0);
+                        new EvocationFang(loc, damage);
+                    }
+                    player.damage(player.getHealth() / 4);
+                }
+            }
+            if (ability.equals(Ability.SNOWBALL)) {
+                if (!(Cooldown.hasCooldown(item))) {
+                    Cooldown.setCooldown(item, cooldown);
+                    player.swingMainHand();
+                    Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                            toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                    double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                    new SnowBall(loc, damage, player);
+                }
+            }
+            if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
+                Entity entity = player.getTargetEntity(3);
+                if (entity instanceof LivingEntity livingEntity) {
                     if (!(Cooldown.hasCooldown(item))) {
                         Cooldown.setCooldown(item, cooldown);
                         player.swingMainHand();
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
-                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        new Meteor(loc, damage);
-                    }
-                }
-                if (ability.equals(Ability.EVOCATION)) {
-                    if (!(Cooldown.hasCooldown(item))) {
-                        Cooldown.setCooldown(item, cooldown);
-                        player.swingMainHand();
-                        Location loc;
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        for (int i = 1; i <= 4; i++) {
-                            loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
-                                    toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                            loc.add(0,-1,0);
-                            new EvocationFang(loc, damage);
-                        }
-                        player.damage(player.getHealth()/4);
-                    }
-                }
-                if (ability.equals(Ability.SNOWBALL)) {
-                    if (!(Cooldown.hasCooldown(item))) {
-                        Cooldown.setCooldown(item,cooldown);
-                        player.swingMainHand();
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
-                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        new SnowBall(loc, damage, player);
-                    }
-                }
-                if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
-                    Entity entity = player.getTargetEntity(3);
-                    if (entity instanceof LivingEntity livingEntity) {
-                        if (!(Cooldown.hasCooldown(item))) {
-                            Cooldown.setCooldown(item,cooldown);
-                            player.swingMainHand();
-                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,100,254,false,true));
-                            if (ability.equals(Ability.DIMENSION_SHATTER)) {
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.POISON,100,0,false,true));
-                            }
+                        livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
+                        if (ability.equals(Ability.DIMENSION_SHATTER)) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0, false, true));
                         }
                     }
                 }
-                if (ability.equals(Ability.LETHAL_ABSORPTION)) {
-                    if (!(Cooldown.hasCooldown(item))) {
-                        Cooldown.setCooldown(item,cooldown);
-                        player.swingMainHand();
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE,200,2,false,true));
-                        player.damage(player.getHealth()/2);
-                    }
+            }
+            if (ability.equals(Ability.LETHAL_ABSORPTION)) {
+                if (!(Cooldown.hasCooldown(item))) {
+                    Cooldown.setCooldown(item, cooldown);
+                    player.swingMainHand();
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2, false, true));
+                    player.damage(player.getHealth() / 2);
                 }
             }
         }
@@ -122,50 +117,54 @@ public class AbilityListener implements Listener {
         ItemMeta meta;
         ArmorManager armor;
         Ability ability;
-        NamespacedKey key = Everhunt.getKey();
 
         if (helmet != null) {
             meta = helmet.getItemMeta();
-            if (meta.getPersistentDataContainer().has(key)) {
                 armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                if (armor == null) {
+                    return;
+                }
                 ability = armor.getAbility();
                 if (ability.equals(Ability.UNITE)) { // TODO same fix as dimension unison
                     if (!(Cooldown.hasCooldown(helmet))) {
                         Cooldown.setCooldown(helmet, ability.getCooldown());
-                        List<Entity> entityList = player.getNearbyEntities(5,5,5);
+                        List<Entity> entityList = player.getNearbyEntities(5, 5, 5);
                     }
                 }
-            }
         }
         if (chestplate != null) {
             meta = chestplate.getItemMeta();
-            if (meta.getPersistentDataContainer().has(key)) {
                 armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                if (armor == null) {
+                    return;
+                }
                 ability = armor.getAbility();
                 if (ability.equals(Ability.MECHANICAL_SHOT)) {
                     if (!(Cooldown.hasCooldown(chestplate))) {
-                        Cooldown.setCooldown(chestplate,ability.getCooldown());
+                        Cooldown.setCooldown(chestplate, ability.getCooldown());
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(1)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        loc = loc.add(0,-0.5,0);
+                        loc = loc.add(0, -0.5, 0);
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue();
                         damage = damage * ability.getDamageMultiplier();
-                        new MechanicalBullet(loc,damage,player);
+                        new MechanicalBullet(loc, damage, player);
                     }
                 }
-            }
         }
         if (leggings != null) {
             meta = leggings.getItemMeta();
-            if (meta.getPersistentDataContainer().has(key)) {
                 armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                if (armor == null) {
+                    return;
+                }
                 ability = armor.getAbility();
-            }
         }
         if (boots != null) {
             meta = boots.getItemMeta();
-            if (meta.getPersistentDataContainer().has(key)) {
                 armor = ArmorManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                if (armor == null) {
+                    return;
+                }
                 ability = armor.getAbility();
                 if (ability.equals(Ability.SPRING)) {
                     if (!(Cooldown.hasCooldown(boots))) {
@@ -173,7 +172,6 @@ public class AbilityListener implements Listener {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 2, false, true));
                     }
                 }
-            }
         }
     }
 
@@ -215,7 +213,7 @@ public class AbilityListener implements Listener {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, 2);
                     double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                    event.getEntity().getPersistentDataContainer().set(key,PersistentDataType.DOUBLE,damage);
+                    event.getEntity().getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, damage);
                 } else {
                     event.setCancelled(true);
                 }
@@ -231,16 +229,16 @@ public class AbilityListener implements Listener {
             PersistentDataContainer container = entity.getPersistentDataContainer();
             if (container.has(key)) {
                 Player player = (Player) event.getEntity().getShooter();
-                List<Entity> entityList = entity.getNearbyEntities(4,4,4);
+                List<Entity> entityList = entity.getNearbyEntities(4, 4, 4);
                 Location loc;
                 loc = entity.getLocation().toVector().add(player.getLocation().getDirection()).
                         toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                loc = loc.add(0,2,0);
+                loc = loc.add(0, 2, 0);
                 player.teleport(loc);
                 for (int i = 0; i < entityList.size(); i++) {
                     if (!(entityList.get(i) instanceof Player) && !(entityList.get(i) instanceof Item)) {
                         loc = entityList.get(i).getLocation();
-                        double damage = entity.getPersistentDataContainer().get(key,PersistentDataType.DOUBLE);
+                        double damage = entity.getPersistentDataContainer().get(key, PersistentDataType.DOUBLE);
                         new ThunderBolt(loc, damage);
                     }
                 }
@@ -258,7 +256,7 @@ public class AbilityListener implements Listener {
                 if (pdc.has(Everhunt.getKey())) {
                     if (entity instanceof LivingEntity livingEntity) {
                         event.setCancelled(true);
-                        double damage = pdc.get(Everhunt.getKey(),PersistentDataType.DOUBLE);
+                        double damage = pdc.get(Everhunt.getKey(), PersistentDataType.DOUBLE);
                         livingEntity.damage(damage);
                     }
                 }
@@ -288,8 +286,8 @@ public class AbilityListener implements Listener {
                 if (ability.equals(Ability.DIMENSION_UNISON)) { // TODO fix ability so it works with players
                     if (entity instanceof LivingEntity livingEntity) {
                         if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
-                            List<Entity> entityList = livingEntity.getNearbyEntities(5,5,5);
-                            livingEntity.damage(entityList.size()*5);
+                            List<Entity> entityList = livingEntity.getNearbyEntities(5, 5, 5);
+                            livingEntity.damage(entityList.size() * 5);
                         }
                     }
                 }
@@ -297,11 +295,11 @@ public class AbilityListener implements Listener {
                     int cooldown = ability.getCooldown();
                     if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
-                            Cooldown.setCooldown(item,cooldown);
+                            Cooldown.setCooldown(item, cooldown);
                             Location loc = entity.getLocation();
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             new ThunderBolt(loc, damage);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,30,254,false,true));
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
                             if (ability.equals(Ability.THUNDER_FLASH)) {
                                 loc = player.getLocation();
                                 Vector dir = loc.getDirection();
