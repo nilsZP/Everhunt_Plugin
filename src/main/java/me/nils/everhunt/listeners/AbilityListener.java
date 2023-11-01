@@ -2,6 +2,7 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
+import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.entities.abilities.*;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.WeaponManager;
@@ -46,10 +47,15 @@ public class AbilityListener implements Listener {
         }
         Ability ability = weapon.getAbility();
         int cooldown = ability.getCooldown();
+        FlowData flow = FlowData.data.get(player);
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (flow.getFlowAmount() - ability.getFlowCost() < 0) {
+                return;
+            }
             if (ability.equals(Ability.METEOR_BLAST)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, cooldown);
+                    flow.useFlow(ability.getFlowCost());
                     player.swingMainHand();
                     Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                             toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
@@ -60,6 +66,7 @@ public class AbilityListener implements Listener {
             if (ability.equals(Ability.EVOCATION)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, cooldown);
+                    flow.useFlow(ability.getFlowCost());
                     player.swingMainHand();
                     Location loc;
                     double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
@@ -75,6 +82,7 @@ public class AbilityListener implements Listener {
             if (ability.equals(Ability.SNOWBALL)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, cooldown);
+                    flow.useFlow(ability.getFlowCost());
                     player.swingMainHand();
                     Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                             toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
@@ -87,6 +95,7 @@ public class AbilityListener implements Listener {
                 if (entity instanceof LivingEntity livingEntity) {
                     if (!(Cooldown.hasCooldown(item))) {
                         Cooldown.setCooldown(item, cooldown);
+                        flow.useFlow(ability.getFlowCost());
                         player.swingMainHand();
                         livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
                         if (ability.equals(Ability.DIMENSION_SHATTER)) {
@@ -98,6 +107,7 @@ public class AbilityListener implements Listener {
             if (ability.equals(Ability.LETHAL_ABSORPTION)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, cooldown);
+                    flow.useFlow(ability.getFlowCost());
                     player.swingMainHand();
                     player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2, false, true));
                     player.damage(player.getHealth() / 2);
@@ -117,6 +127,7 @@ public class AbilityListener implements Listener {
         ItemMeta meta;
         ArmorManager armor;
         Ability ability;
+        FlowData flow = FlowData.data.get(player);
 
         if (helmet != null) {
             meta = helmet.getItemMeta();
@@ -128,6 +139,7 @@ public class AbilityListener implements Listener {
                 if (ability.equals(Ability.UNITE)) { // TODO same fix as dimension unison
                     if (!(Cooldown.hasCooldown(helmet))) {
                         Cooldown.setCooldown(helmet, ability.getCooldown());
+                        flow.useFlow(ability.getFlowCost());
                         List<Entity> entityList = player.getNearbyEntities(5, 5, 5);
                     }
                 }
@@ -142,6 +154,7 @@ public class AbilityListener implements Listener {
                 if (ability.equals(Ability.MECHANICAL_SHOT)) {
                     if (!(Cooldown.hasCooldown(chestplate))) {
                         Cooldown.setCooldown(chestplate, ability.getCooldown());
+                        flow.useFlow(ability.getFlowCost());
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(1)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
                         loc = loc.add(0, -0.5, 0);
@@ -169,6 +182,7 @@ public class AbilityListener implements Listener {
                 if (ability.equals(Ability.SPRING)) {
                     if (!(Cooldown.hasCooldown(boots))) {
                         Cooldown.setCooldown(boots, ability.getCooldown());
+                        flow.useFlow(ability.getFlowCost());
                         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 2, false, true));
                     }
                 }
@@ -196,6 +210,7 @@ public class AbilityListener implements Listener {
     public void onTridentThrow(ProjectileLaunchEvent event) {
         if (event.getEntity().getType() == EntityType.TRIDENT) {
             Player player = (Player) event.getEntity().getShooter();
+            FlowData flow = FlowData.data.get(player);
             NamespacedKey key = Everhunt.getKey();
 
             ItemStack item = player.getInventory().getItemInMainHand();
@@ -212,6 +227,7 @@ public class AbilityListener implements Listener {
             if (ability.equals(Ability.THUNDER_WARP)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, 2);
+                    flow.useFlow(ability.getFlowCost());
                     double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                     event.getEntity().getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, damage);
                 } else {
@@ -264,6 +280,7 @@ public class AbilityListener implements Listener {
         }
         if (damager instanceof Player player) {
             NamespacedKey key = Everhunt.getKey();
+            FlowData flow = FlowData.data.get(player);
 
             ItemStack item = player.getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
@@ -296,6 +313,7 @@ public class AbilityListener implements Listener {
                     if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
                             Cooldown.setCooldown(item, cooldown);
+                            flow.useFlow(ability.getFlowCost());
                             Location loc = entity.getLocation();
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             new ThunderBolt(loc, damage);
