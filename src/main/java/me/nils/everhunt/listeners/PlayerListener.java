@@ -34,6 +34,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -98,6 +99,31 @@ public class PlayerListener implements Listener {
             }
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPickup(EntityPickupItemEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            ItemStack drop = event.getItem().getItemStack();
+            ItemMeta dropMeta = drop.getItemMeta();
+            ItemManager item = ItemManager.items.get(ChatColor.stripColor(dropMeta.getDisplayName()));
+            if (item == null) {
+                event.setCancelled(true);
+                return;
+            }
+            for (ItemStack itemStack : player.getInventory().getContents()) {
+                ItemManager stack = ItemManager.items.get(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
+                if (stack == null) {
+                    event.setCancelled(true);
+                    return;
+                }
+                if (stack == item) {
+                    itemStack.setAmount(itemStack.getAmount()+ drop.getAmount());
+                    drop.setAmount(0);
+                    return;
+                }
+            }
+        }
     }
 
     public static List<Block> getNearbyBlocks(Location location, int radius) {
