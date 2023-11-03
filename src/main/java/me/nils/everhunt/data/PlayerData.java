@@ -2,11 +2,13 @@ package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.managers.WeaponManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class PlayerData {
     public static final HashMap<String, PlayerData> data = new HashMap<>();
@@ -93,6 +95,9 @@ public class PlayerData {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        int level = this.xp / 100;
+        Player player = Bukkit.getPlayer(UUID.fromString(uuid));
+        player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
         this.xp = xp;
     }
 }
