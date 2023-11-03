@@ -123,6 +123,9 @@ public class AbilityListener implements Listener {
         Player player = event.getPlayer();
         FlowData flow = FlowData.data.get(player);
         ItemStack boots = player.getInventory().getBoots();
+        if (boots == null) {
+            return;
+        }
         ArmorManager armor = ArmorManager.items.get(ChatColor.stripColor(boots.getItemMeta().getDisplayName()));
         if (armor == null) {
             return;

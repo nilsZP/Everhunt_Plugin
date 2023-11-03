@@ -30,19 +30,16 @@ public class ItemCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length == 0) {
-            return true;
+        int size = Weapons.getAll().length;
+        while (size%9 != 0) {
+            size++;
         }
 
-        String param = args[0].toLowerCase();
+        Inventory menu = Bukkit.createInventory(player, size, "Admin Weapons");
+        menu.setContents(Weapons.getAll());
 
-        if ("get".equals(param)) {
+        player.openInventory(menu);
 
-            Inventory menu = Bukkit.createInventory(player, Weapons.getAll().length, "Admin Weapons");
-            menu.setContents(Weapons.getAll());
-
-            player.openInventory(menu);
-        }
         return true;
     }
 }

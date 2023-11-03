@@ -25,7 +25,7 @@ public class FlowData {
         if (amount > flowAmount) {
             return;
         }
-        player.setLevel(flowAmount - amount);
+        player.setLevel(player.getLevel() - amount);
         player.setExp(0f);
     }
 
@@ -37,11 +37,14 @@ public class FlowData {
                     int flowAmount = FlowData.data.get(player).getFlowAmount();
                     if (player.getExp() < 1f) {
                         float manaRegen = player.getExp() + 0.1f + (((flowAmount / 5f) / 100f));
+                        if (manaRegen > 1f) {
+                            manaRegen = 1f;
+                        }
                         player.setExp(manaRegen);
                     }
                     if (player.getExp() >= 1f) {
-                        player.setExp(0f);
                         if (player.getLevel()+1 <= flowAmount) {
+                            player.setExp(0f);
                             player.giveExpLevels(1);
                         }
                     }
