@@ -1,6 +1,7 @@
 package me.nils.everhunt.commands;
 
-import me.nils.everhunt.items.Weapons;
+import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.items.Items;
 import me.nils.everhunt.items.armor.MechanicalChestplate;
 import me.nils.everhunt.items.armor.SpringerBoots;
 import me.nils.everhunt.items.armor.UnitedHelmet;
@@ -30,15 +31,56 @@ public class ItemCommand implements CommandExecutor {
             return true;
         }
 
-        int size = Weapons.getAll().length;
-        while (size%9 != 0) {
-            size++;
+        String param = args[0].toLowerCase();
+
+        int size;
+
+        switch (param) {
+            case "weapons" -> {
+                size = Everhunt.items.getWeapons().length;
+                while (size%9 != 0) {
+                    size++;
+                }
+
+                Inventory menu = Bukkit.createInventory(player, size, "Admin Items");
+                menu.setContents(Everhunt.items.getWeapons());
+
+                player.openInventory(menu);
+            }
+            case "items" -> {
+                size = Everhunt.items.getItems().length;
+                while (size%9 != 0) {
+                    size++;
+                }
+
+                Inventory menu = Bukkit.createInventory(player, size, "Admin Items");
+                menu.setContents(Everhunt.items.getItems());
+
+                player.openInventory(menu);
+            }
+            case "tools" -> {
+                size = Everhunt.items.getTools().length;
+                while (size%9 != 0) {
+                    size++;
+                }
+
+                Inventory menu = Bukkit.createInventory(player, size, "Admin Items");
+                menu.setContents(Everhunt.items.getTools());
+
+                player.openInventory(menu);
+            }
+            case "armor" -> {
+                size = Everhunt.items.getArmor().length;
+                while (size%9 != 0) {
+                    size++;
+                }
+
+                Inventory menu = Bukkit.createInventory(player, size, "Admin Items");
+                menu.setContents(Everhunt.items.getArmor());
+
+                player.openInventory(menu);
+            }
         }
-
-        Inventory menu = Bukkit.createInventory(player, size, "Admin Weapons");
-        menu.setContents(Weapons.getAll());
-
-        player.openInventory(menu);
 
         return true;
     }

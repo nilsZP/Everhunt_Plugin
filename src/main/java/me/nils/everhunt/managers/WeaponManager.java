@@ -85,6 +85,8 @@ public class WeaponManager {
 
         items.put(displayName,this);
 
+        Everhunt.items.add(this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();

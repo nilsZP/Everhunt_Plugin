@@ -65,6 +65,8 @@ public class ItemManager {
 
         items.put(displayName,this);
 
+        Everhunt.items.add(this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();

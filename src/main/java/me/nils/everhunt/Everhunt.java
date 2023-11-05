@@ -3,6 +3,7 @@ package me.nils.everhunt;
 import me.nils.everhunt.commands.ItemCommand;
 import me.nils.everhunt.commands.SpawnCommand;
 import me.nils.everhunt.data.*;
+import me.nils.everhunt.items.Items;
 import me.nils.everhunt.items.armor.*;
 import me.nils.everhunt.items.items.KingsBone;
 import me.nils.everhunt.items.items.WolflingHide;
@@ -26,12 +27,14 @@ public final class Everhunt extends JavaPlugin {
 
     public static Everhunt instance;
     public static NamespacedKey key;
+    public static Items items;
     private static Database database;
 
     @Override
     public void onEnable() {
         instance = this;
         key = new NamespacedKey(this, "key");
+        items = new Items();
         database = new Database();
 
         register();
@@ -67,7 +70,7 @@ public final class Everhunt extends JavaPlugin {
         LootData.registerLoot();
         ItemManager.registerItems();
         ToolManager.registerItems();
-        loadAll();
+        // loadAll();
     }
 
     private void loadAll() {

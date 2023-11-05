@@ -86,6 +86,8 @@ public class ToolManager {
 
         items.put(displayName,this);
 
+        Everhunt.items.add(this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();

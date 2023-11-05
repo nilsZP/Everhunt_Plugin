@@ -162,6 +162,8 @@ public class ArmorManager {
 
         items.put(displayName,this);
 
+        Everhunt.items.add(this);
+
         try {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
