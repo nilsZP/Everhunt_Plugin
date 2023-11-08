@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.utils.Chat;
+import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -11,8 +12,10 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,26 +46,44 @@ public class ItemManager {
     private final Tier tier;
     private final ItemStack itemStack;
     private final int value;
+    private final URL url;
 
-    public ItemManager(Material material, String displayName, Tier tier, int value) {
+    public ItemManager(Material material, String displayName, Tier tier, int value, URL url) {
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
         this.value = value;
+        this.url = url;
 
         itemStack = new ItemStack(material);
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
-        meta.displayName(Component.text(tier.getColor() + displayName));
-        meta.setLocalizedName(displayName);
-        meta.setUnbreakable(true);
+        if (material == Material.PLAYER_HEAD) {
+            SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+            meta.setPlayerProfile(Head.createTexture(url));
+            meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
+            meta.displayName(Component.text(tier.getColor() + displayName));
+            meta.setLocalizedName(displayName);
+            meta.setUnbreakable(true);
 
-        List<String> lore = new ArrayList<>();
-        lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");
+            List<String> lore = new ArrayList<>();
+            lore.add(Chat.color("&r"));
+            lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");
 
-        meta.setLore(lore);
-        itemStack.setItemMeta(meta);
+            meta.setLore(lore);
+            itemStack.setItemMeta(meta);
+        } else {
+            ItemMeta meta = itemStack.getItemMeta();
+            meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
+            meta.displayName(Component.text(tier.getColor() + displayName));
+            meta.setLocalizedName(displayName);
+            meta.setUnbreakable(true);
+
+            List<String> lore = new ArrayList<>();
+            lore.add(Chat.color("&r"));
+            lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");
+
+            meta.setLore(lore);
+            itemStack.setItemMeta(meta);
+        }
 
         items.put(displayName,this);
 
@@ -72,7 +93,7 @@ public class ItemManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier, value) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + value + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier, value, url) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + value + "," + url + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -88,8 +109,9 @@ public class ItemManager {
                 String displayName = resultSet.getString("displayname");
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 int value = resultSet.getInt("value");
+                URL url = resultSet.getURL("url");
 
-                new ItemManager(material,displayName,tier,value);
+                new ItemManager(material,displayName,tier,value,url);
             }
         } catch (SQLException e) {
             e.printStackTrace();
