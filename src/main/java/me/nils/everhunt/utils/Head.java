@@ -11,15 +11,12 @@ import java.net.URL;
 import java.util.UUID;
 
 public class Head {
-    public static ItemStack createHead(URL url){
+    public static PlayerProfile createTexture(URL url){
         UUID uuid = UUID.randomUUID();
         PlayerProfile profile = Bukkit.createProfile(uuid);
         PlayerTextures playerTexture = profile.getTextures();
         playerTexture.setSkin(url);
         profile.setTextures(playerTexture);
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) head.getItemMeta();
-        skullMeta.setPlayerProfile(profile);
-        return head;
+        return profile;
     }
 }
