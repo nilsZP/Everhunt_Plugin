@@ -23,18 +23,30 @@ public class Items {
     }
 
     public void add(WeaponManager weapon) {
+        if (weapons.contains(weapon.getItemStack())) {
+            return;
+        }
         weapons.add(weapon.getItemStack());
     }
 
     public void add(ArmorManager armor) {
+        if (armors.contains(armor.getItemStack())) {
+            return;
+        }
         armors.add(armor.getItemStack());
     }
 
     public void add(ItemManager item) {
+        if (items.contains(item.getItemStack())) {
+            return;
+        }
         items.add(item.getItemStack());
     }
 
     public void add(ToolManager tool) {
+        if (tools.contains(tool.getItemStack())) {
+            return;
+        }
         tools.add(tool.getItemStack());
     }
 
