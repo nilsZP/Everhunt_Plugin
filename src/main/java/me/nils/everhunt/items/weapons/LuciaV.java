@@ -7,6 +7,6 @@ import org.bukkit.Material;
 
 public class LuciaV extends WeaponManager {
     public LuciaV() {
-        super(Material.IRON_SWORD,"Lucia V", Ability.THUNDER_CLAP, Tier.BASIC,7);
+        super(Material.IRON_SWORD,"Lucia V", Ability.THUNDER_CLAP, Tier.MAGICAL,7);
     }
 }

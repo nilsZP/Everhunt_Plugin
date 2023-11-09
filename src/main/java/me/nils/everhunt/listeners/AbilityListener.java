@@ -176,6 +176,10 @@ public class AbilityListener implements Listener {
             }
             Ability ability = weapon.getAbility();
             if (ability.equals(Ability.THUNDER_WARP)) {
+                if (flow.getFlowAmount() - ability.getFlowCost() < 0) {
+                    event.setCancelled(true);
+                    return;
+                }
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, 2);
                     flow.useFlow(ability.getFlowCost());

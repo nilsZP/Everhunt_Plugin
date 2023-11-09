@@ -6,7 +6,9 @@ import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.items.armor.*;
 import me.nils.everhunt.items.items.KingsBone;
+import me.nils.everhunt.items.items.Wheat;
 import me.nils.everhunt.items.items.WolflingHide;
+import me.nils.everhunt.items.items.menu.Village;
 import me.nils.everhunt.items.weapons.*;
 import me.nils.everhunt.listeners.AbilityListener;
 import me.nils.everhunt.listeners.EntityListener;
@@ -22,6 +24,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.net.MalformedURLException;
 
 public final class Everhunt extends JavaPlugin {
 
@@ -73,7 +77,7 @@ public final class Everhunt extends JavaPlugin {
         // loadAll();
     }
 
-    private void loadAll() {
+    private void loadAll() throws MalformedURLException {
         // Armor
         new Boots();
         new FarmerHat();
@@ -85,6 +89,8 @@ public final class Everhunt extends JavaPlugin {
         // Items
         new KingsBone();
         new WolflingHide();
+        new Wheat();
+        new Village();
         // Weapons
         new AzureWrath();
         new DaggerOfUnitedDimensions();
