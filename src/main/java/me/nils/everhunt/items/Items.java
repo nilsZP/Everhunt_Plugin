@@ -1,10 +1,7 @@
 package me.nils.everhunt.items;
 
 import me.nils.everhunt.items.weapons.*;
-import me.nils.everhunt.managers.ArmorManager;
-import me.nils.everhunt.managers.ItemManager;
-import me.nils.everhunt.managers.ToolManager;
-import me.nils.everhunt.managers.WeaponManager;
+import me.nils.everhunt.managers.*;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -14,12 +11,14 @@ public class Items {
     private final ArrayList<ItemStack> armors;
     private final ArrayList<ItemStack> items;
     private final ArrayList<ItemStack> tools;
+    private final ArrayList<ItemStack> helmets;
 
     public Items() {
         this.weapons = new ArrayList<>();
         this.armors = new ArrayList<>();
         this.items = new ArrayList<>();
         this.tools = new ArrayList<>();
+        this.helmets = new ArrayList<>();
     }
 
     public void add(WeaponManager weapon) {
@@ -50,6 +49,13 @@ public class Items {
         tools.add(tool.getItemStack());
     }
 
+    public void add(HelmetManager helmet) {
+        if (helmets.contains(helmet.getItemStack())) {
+            return;
+        }
+        helmets.add(helmet.getItemStack());
+    }
+
     public ItemStack[] getWeapons() {
         ItemStack[] list = new ItemStack[weapons.size()];
         list = weapons.toArray(list);
@@ -71,6 +77,12 @@ public class Items {
     public ItemStack[] getTools() {
         ItemStack[] list = new ItemStack[tools.size()];
         list = tools.toArray(list);
+        return list;
+    }
+
+    public ItemStack[] getHelmets() {
+        ItemStack[] list = new ItemStack[helmets.size()];
+        list = helmets.toArray(list);
         return list;
     }
 }
