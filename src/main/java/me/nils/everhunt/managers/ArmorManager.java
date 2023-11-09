@@ -155,7 +155,15 @@ public class ArmorManager {
                 }
             }
             lore.add(Chat.color("&r"));
-            lore.add(tier.getColor() + String.valueOf(tier) + " ARMOR");
+            String type = switch (slot) {
+                case HAND -> " HAND";
+                case OFF_HAND -> " OFF HAND";
+                case FEET -> " BOOTS";
+                case LEGS -> " LEGGINGS";
+                case CHEST -> " CHESTPLATE";
+                case HEAD -> " HELMET";
+            };
+            lore.add(tier.getColor() + String.valueOf(tier) + type);
 
             meta.setLore(lore);
             itemStack.setItemMeta(meta);

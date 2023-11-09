@@ -107,7 +107,7 @@ public class HelmetManager {
             }
         }
         lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " ARMOR");
+        lore.add(tier.getColor() + String.valueOf(tier) + " HELMET");
 
         meta.setLore(lore);
         itemStack.setItemMeta(meta);

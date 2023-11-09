@@ -41,6 +41,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.intellij.lang.annotations.Flow;
 
 import javax.tools.Tool;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
+    public void onBlockBreak(BlockBreakEvent event) throws MalformedURLException {
         Player player = event.getPlayer();
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             return;
