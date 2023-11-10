@@ -7,12 +7,10 @@ import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.entities.abilities.*;
 import me.nils.everhunt.items.armor.SpringerBoots;
 import me.nils.everhunt.managers.ArmorManager;
+import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -285,6 +283,29 @@ public class AbilityListener implements Listener {
                     }
                 }
             }
+
+            ItemStack helmet = player.getInventory().getHelmet();
+            if (helmet == null) {
+                return;
+            }
+                HelmetManager helm = HelmetManager.items.get(ChatColor.stripColor(helmet.getItemMeta().getDisplayName()));
+                if (helm == null) {
+                    return;
+                }
+                Ability ability = helm.getAbility();
+                int cooldown = ability.getCooldown();
+
+                if (ability == Ability.POWER_OF_THE_SUN) {
+                    if (!(Cooldown.hasCooldown(helmet))) {
+                        Cooldown.setCooldown(item, cooldown);
+                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                        if (entity instanceof LivingEntity livingEntity) {
+                            livingEntity.damage(damage);
+                            livingEntity.getWorld().spawnParticle(Particle.FLAME,livingEntity.getLocation(),2);
+                            livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ITEM_FIRECHARGE_USE,2F,1F);
+                        }
+                    }
+                }
         }
     }
 }

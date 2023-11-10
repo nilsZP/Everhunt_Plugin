@@ -15,6 +15,7 @@ public enum Ability {
     MECHANICAL_SHOT("Mechanical Shot", 0.8,1,Activation.PASSIVE,2),
     ALPHA_ROAR("Alpha roar",2,5,Activation.PASSIVE,0),
     BREAD_MAKER("Bread Maker",0,0,Activation.PASSIVE,0),
+    POWER_OF_THE_SUN("Power Of The Sun",0.6,4,Activation.PASSIVE,0),
     NONE("NONE", 0, 0,Activation.PASSIVE,0);
 
     private final String name;
