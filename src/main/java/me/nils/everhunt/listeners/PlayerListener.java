@@ -113,14 +113,16 @@ public class PlayerListener implements Listener {
                 return;
             }
             ItemStack[] inventory = player.getInventory().getContents();
-            ItemStack itemStack;
-            for (int i = 0; i < inventory.length; i++) {
-                itemStack = inventory[i];
-                ItemManager stack = ItemManager.items.get(ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()));
+            for (ItemStack value : inventory) {
+                ItemManager stack = ItemManager.items.get(ChatColor.stripColor(value.getItemMeta().getDisplayName()));
                 if (stack != null) {
                     if (stack == item) {
-                        itemStack.add(drop.getAmount());
-                        drop.setAmount(0);
+                        if (value.getAmount() + drop.getAmount() <= 64) {
+                            value.add(drop.getAmount());
+                        } else {
+                            player.getInventory().addItem(drop);
+                        }
+                        event.getItem().remove();
                         return;
                     }
                 }
