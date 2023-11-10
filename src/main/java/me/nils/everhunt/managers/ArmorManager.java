@@ -79,6 +79,15 @@ public class ArmorManager {
         this.damage = damage;
         this.leather = leather;
 
+        String type = switch (slot) {
+            case HAND -> " HAND";
+            case OFF_HAND -> " OFF HAND";
+            case FEET -> " BOOTS";
+            case LEGS -> " LEGGINGS";
+            case CHEST -> " CHESTPLATE";
+            case HEAD -> " HELMET";
+        };
+
         itemStack = new ItemStack(material);
         if (leather) {
             LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
@@ -112,7 +121,7 @@ public class ArmorManager {
                 lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
             }
             lore.add(Chat.color("&r"));
-            lore.add(tier.getColor() + String.valueOf(tier) + " ARMOR");
+            lore.add(tier.getColor() + String.valueOf(tier) + type);
 
             meta.setLore(lore);
             itemStack.setItemMeta(meta);
@@ -155,14 +164,6 @@ public class ArmorManager {
                 }
             }
             lore.add(Chat.color("&r"));
-            String type = switch (slot) {
-                case HAND -> " HAND";
-                case OFF_HAND -> " OFF HAND";
-                case FEET -> " BOOTS";
-                case LEGS -> " LEGGINGS";
-                case CHEST -> " CHESTPLATE";
-                case HEAD -> " HELMET";
-            };
             lore.add(tier.getColor() + String.valueOf(tier) + type);
 
             meta.setLore(lore);
