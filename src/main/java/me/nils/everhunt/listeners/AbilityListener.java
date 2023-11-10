@@ -306,6 +306,16 @@ public class AbilityListener implements Listener {
                         }
                     }
                 }
+                if (ability == Ability.INFECTATION) {
+                    if (!(Cooldown.hasCooldown(helmet))) {
+                        Cooldown.setCooldown(item, cooldown);
+                        if (entity instanceof LivingEntity livingEntity) {
+                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.POISON,40,0,false,true,false));
+                            livingEntity.getWorld().spawnParticle(Particle.FALLING_SPORE_BLOSSOM,livingEntity.getLocation(),2);
+                            livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE,2F,1F);
+                        }
+                    }
+                }
         }
     }
 }
