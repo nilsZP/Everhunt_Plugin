@@ -10,6 +10,6 @@ import java.net.URL;
 
 public class KingsBone extends ItemManager {
     public KingsBone() throws MalformedURLException {
-        super(Material.BONE,"Kings Bone", Tier.NATURAL,80, new URL("https://theuselessweb.com/"));
+        super(Material.BONE,"Kings Bone", Tier.NATURAL,80, "");
     }
 }

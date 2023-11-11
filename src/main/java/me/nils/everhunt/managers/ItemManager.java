@@ -46,9 +46,9 @@ public class ItemManager {
     private final Tier tier;
     private final ItemStack itemStack;
     private final int value;
-    private final URL url;
+    private final String url;
 
-    public ItemManager(Material material, String displayName, Tier tier, int value, URL url) {
+    public ItemManager(Material material, String displayName, Tier tier, int value, String url) {
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
@@ -93,10 +93,10 @@ public class ItemManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier, value, url) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + value + "," + url + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier, value, url) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + value + "','" + url + "')").executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("INSERT INTO tblitem (material, displayname, tier, value, url) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + value + "','" + url + "')");
         }
     }
 
@@ -109,7 +109,7 @@ public class ItemManager {
                 String displayName = resultSet.getString("displayname");
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 int value = resultSet.getInt("value");
-                URL url = resultSet.getURL("url");
+                String url = resultSet.getString("url");
 
                 new ItemManager(material,displayName,tier,value,url);
             }

@@ -2,22 +2,20 @@ package me.nils.everhunt;
 
 import me.nils.everhunt.commands.ItemCommand;
 import me.nils.everhunt.commands.SpawnCommand;
+import me.nils.everhunt.commands.WarpCommand;
 import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.items.armor.*;
 import me.nils.everhunt.items.items.KingsBone;
 import me.nils.everhunt.items.items.Wheat;
 import me.nils.everhunt.items.items.WolflingHide;
-import me.nils.everhunt.items.items.menu.Village;
+import me.nils.everhunt.items.items.menu.teleports.Village;
 import me.nils.everhunt.items.weapons.*;
 import me.nils.everhunt.listeners.AbilityListener;
 import me.nils.everhunt.listeners.EntityListener;
 import me.nils.everhunt.listeners.PlayerListener;
 import me.nils.everhunt.listeners.QuestListener;
-import me.nils.everhunt.managers.ArmorManager;
-import me.nils.everhunt.managers.ItemManager;
-import me.nils.everhunt.managers.ToolManager;
-import me.nils.everhunt.managers.WeaponManager;
+import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Database;
 import net.kyori.adventure.text.Component;
@@ -41,18 +39,27 @@ public final class Everhunt extends JavaPlugin {
         items = new Items();
         database = new Database();
 
-        register();
+        try {
+            register();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
         FlowData.regenFlow();
     }
 
     @Override
     public void reloadConfig() {
-        register();
+        try {
+            register();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void loadCommands() {
         Bukkit.getPluginCommand("item").setExecutor(new ItemCommand());
         Bukkit.getPluginCommand("spawn").setExecutor(new SpawnCommand());
+        Bukkit.getPluginCommand("warp").setExecutor(new WarpCommand());
     }
 
     private void loadListeners() {
@@ -62,19 +69,20 @@ public final class Everhunt extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new QuestListener(), this);
     }
 
-    private void register() {
+    private void register() throws MalformedURLException {
         loadCommands();
         loadListeners();
         Cooldown.setupCooldown();
         WeaponManager.registerItems();
         ArmorManager.registerItems();
+        HelmetManager.registerItems();
         EntityData.registerEntities();
         QuestData.registerQuestData();
         PlayerData.registerPlayerData();
         LootData.registerLoot();
         ItemManager.registerItems();
         ToolManager.registerItems();
-        // loadAll();
+        loadAll();
     }
 
     private void loadAll() throws MalformedURLException {
@@ -86,6 +94,8 @@ public final class Everhunt extends JavaPlugin {
         new Shirt();
         new SpringerBoots();
         new UnitedHelmet();
+        new PlagueMask();
+        new SunMask();
         // Items
         new KingsBone();
         new WolflingHide();

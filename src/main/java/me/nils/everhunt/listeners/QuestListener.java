@@ -4,6 +4,7 @@ import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
+import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.items.weapons.LuciaI;
 import me.nils.everhunt.items.weapons.SnowShovel;
@@ -54,6 +55,7 @@ public class QuestListener implements Listener {
                             player.getInventory().addItem(new SnowShovel().getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
                             player.teleport(new Location(player.getWorld(), 60, -7, -197));
+                            new TeleportData(PlayerData.getPlayerID(player),"Village",60,-7,-197);
                             QuestData.setDone(playerID,1);
                             PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 100);
                         }

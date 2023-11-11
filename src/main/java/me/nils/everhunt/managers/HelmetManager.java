@@ -55,12 +55,12 @@ public class HelmetManager {
     private final double toughness;
     private final double health;
     private final double damage;
-    private final URL url;
+    private final String url;
 
 
     private final ItemStack itemStack;
 
-    public HelmetManager(String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, URL url) {
+    public HelmetManager(String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, String url) {
         this.ability = ability;
         this.displayName = displayName;
         this.tier = tier;
@@ -121,7 +121,7 @@ public class HelmetManager {
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblhelmet (displayname,ability,tier,health,armor,toughness,damage,url) VALUES ('" +
-                        displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "," + url + "')").executeUpdate();
+                        displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + url + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -140,7 +140,7 @@ public class HelmetManager {
                 double armor = resultSet.getDouble("armor");
                 double toughness = resultSet.getDouble("toughness");
                 double damage = resultSet.getDouble("damage");
-                URL url = resultSet.getURL("url");
+                String url = resultSet.getString("url");
 
                 new HelmetManager(displayName, ability, tier, health, armor, toughness, damage,url);
             }

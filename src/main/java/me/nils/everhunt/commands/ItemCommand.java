@@ -80,6 +80,17 @@ public class ItemCommand implements CommandExecutor {
 
                 player.openInventory(menu);
             }
+            case "helmets" -> {
+                size = Everhunt.items.getHelmets().length;
+                while (size%9 != 0) {
+                    size++;
+                }
+
+                Inventory menu = Bukkit.createInventory(player, size, "Admin Items");
+                menu.setContents(Everhunt.items.getHelmets());
+
+                player.openInventory(menu);
+            }
         }
 
         return true;

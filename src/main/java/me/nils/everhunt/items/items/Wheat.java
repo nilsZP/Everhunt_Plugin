@@ -10,6 +10,6 @@ import java.net.URL;
 
 public class Wheat extends ItemManager {
     public Wheat() throws MalformedURLException {
-        super(Material.WHEAT,"Wheat", Tier.NATURAL,1,new URL("https://theuselessweb.com/"));
+        super(Material.WHEAT,"Wheat", Tier.NATURAL,1,"");
     }
 }

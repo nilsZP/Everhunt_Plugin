@@ -34,7 +34,7 @@ public class TeleportData {
         }
     }
 
-    public static void registerLoot() {
+    public static void registerData() {
         try {
             ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblteleport").executeQuery();
 
@@ -55,7 +55,7 @@ public class TeleportData {
     public static ArrayList<String> getLocations(int playerID) {
         ArrayList<String> locationList = new ArrayList<>();
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT itemID FROM tblteleport WHERE playerID = '" + playerID + "'").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT location FROM tblteleport WHERE playerID = '" + playerID + "'").executeQuery();
 
             while (resultSet.next()) {
                 locationList.add(resultSet.getString(1));
