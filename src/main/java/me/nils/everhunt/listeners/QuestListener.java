@@ -9,6 +9,7 @@ import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.items.weapons.LuciaI;
 import me.nils.everhunt.items.weapons.SnowShovel;
 import me.nils.everhunt.items.weapons.WoodenBat;
+import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -83,6 +84,18 @@ public class QuestListener implements Listener {
                             player.sendMessage(Component.text(Chat.color("&fMay I use that Wooden Bat as a handle?")));
                             QuestData.setCompletion(playerID,2,1.5);
                             return;
+                        }
+                        ItemManager item = ItemManager.items.get("Kings bone");
+                        ItemManager heldItem;
+                        if (!(ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) == null)) {
+                            heldItem = ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
+                        } else {
+                            heldItem = null;
+                        }
+                        if (QuestData.getCompletion(playerID,2) == 1.8 && heldItem == item) {
+                            player.sendMessage(Component.text(Chat.color("&fI can work with this.")));
+                            QuestData.setCompletion(playerID,2,2);
+                            player.sendMessage(Component.text(Chat.color("&fTalk to me in one second.")));
                         }
                         if (QuestData.getCompletion(playerID,2) < 2 && QuestData.getCompletion(playerID,2) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fI recommend looking outside the village for materials.")));
