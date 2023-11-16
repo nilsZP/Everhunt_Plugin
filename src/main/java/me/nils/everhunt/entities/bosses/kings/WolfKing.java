@@ -3,16 +3,9 @@ package me.nils.everhunt.entities.bosses.kings;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
-import me.nils.everhunt.constants.Pattern;
 import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.data.LootData;
 import me.nils.everhunt.entities.Hologram;
 import me.nils.everhunt.entities.Wolfling;
-import me.nils.everhunt.entities.abilities.EvocationFang;
-import me.nils.everhunt.entities.abilities.ThunderBolt;
-import me.nils.everhunt.managers.ItemManager;
-import me.nils.everhunt.utils.Chat;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -36,8 +29,6 @@ public class WolfKing extends EntityData {
                 wolf.setTarget(player);
             }
         }
-
-        new LootData(EntityData.getEntityID("Wolf King"), ItemManager.getItemID("Kings Bone"),1,1,80);
 
         wolf.setCustomName("Wolf King");
         wolf.setCustomNameVisible(false);

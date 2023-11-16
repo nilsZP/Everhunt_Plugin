@@ -3,8 +3,6 @@ package me.nils.everhunt.entities;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.data.LootData;
-import me.nils.everhunt.managers.ItemManager;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -20,10 +18,6 @@ public class Wolfling {
         wolf.setCustomNameVisible(false);
 
         wolf.setBaby();
-
-        int dropID = ItemManager.getItemID("Wolfling Hide");
-
-        new LootData(data.getEntityID(), dropID,1,3,20);
 
         List<Entity> entityList = wolf.getNearbyEntities(5,5,5);
         for (Entity entity : entityList) {
