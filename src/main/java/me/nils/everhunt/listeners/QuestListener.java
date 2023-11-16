@@ -107,6 +107,12 @@ public class QuestListener implements Listener {
                         }
                     }
                 }
+                if  (data.getDisplayName().equals("Mikull")) {
+                    if (!(QuestData.getDone(playerID,2))) {
+                        player.sendMessage(Component.text(Chat.color("&fCan you pls help my brother kill a wolf?")));
+                        // player.teleport
+                    }
+                }
             }
         }
     }

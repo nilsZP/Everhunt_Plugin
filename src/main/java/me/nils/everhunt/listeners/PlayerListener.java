@@ -1,5 +1,6 @@
 package me.nils.everhunt.listeners;
 
+import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
@@ -132,6 +133,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onXpGain(PlayerPickupExperienceEvent event) {
+        event.getExperienceOrb().remove();
         event.setCancelled(true);
     }
 

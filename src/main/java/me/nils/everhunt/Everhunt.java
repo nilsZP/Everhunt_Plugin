@@ -11,10 +11,7 @@ import me.nils.everhunt.items.items.Wheat;
 import me.nils.everhunt.items.items.WolflingHide;
 import me.nils.everhunt.items.items.menu.teleports.Village;
 import me.nils.everhunt.items.weapons.*;
-import me.nils.everhunt.listeners.AbilityListener;
-import me.nils.everhunt.listeners.EntityListener;
-import me.nils.everhunt.listeners.PlayerListener;
-import me.nils.everhunt.listeners.QuestListener;
+import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Database;
@@ -67,6 +64,7 @@ public final class Everhunt extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AbilityListener(), this);
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
         getServer().getPluginManager().registerEvents(new QuestListener(), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
     }
 
     private void register() throws MalformedURLException {
