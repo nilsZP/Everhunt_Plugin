@@ -50,6 +50,8 @@ public class ToolManager {
 
     private final ItemStack itemStack;
 
+    // TODO add url
+
     public ToolManager(Material material, String displayName, Ability ability, Tier tier, double speed) {
         this.ability = ability;
         this.displayName = displayName;
