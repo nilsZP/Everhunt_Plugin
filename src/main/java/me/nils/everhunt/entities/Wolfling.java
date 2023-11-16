@@ -19,6 +19,8 @@ public class Wolfling {
 
         wolf.setBaby();
 
+        // TODO add loottable for wolfling
+
         List<Entity> entityList = wolf.getNearbyEntities(5,5,5);
         for (Entity entity : entityList) {
             if (entity instanceof Player player) {

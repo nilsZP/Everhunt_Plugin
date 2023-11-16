@@ -83,6 +83,7 @@ public final class Everhunt extends JavaPlugin {
     }
 
     private void loadAll() throws MalformedURLException {
+        // TODO remove individual items out of plugin
         // Armor
         new Boots();
         new FarmerHat();
