@@ -10,10 +10,6 @@ import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
 import me.nils.everhunt.entities.SkeletonKnight;
 import me.nils.everhunt.entities.Springer;
-import me.nils.everhunt.items.items.Wheat;
-import me.nils.everhunt.items.weapons.LuciaI;
-import me.nils.everhunt.items.weapons.SnowShovel;
-import me.nils.everhunt.items.weapons.WoodenBat;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.managers.WeaponManager;
@@ -93,7 +89,7 @@ public class PlayerListener implements Listener {
                 if (ability == Ability.BREAD_MAKER) {
                     event.getBlock().getDrops().clear();
                     for (int i = 0; i < 3; i++) {
-                        player.getWorld().dropItemNaturally(event.getBlock().getLocation(), new Wheat().getItemStack());
+                        player.getWorld().dropItemNaturally(event.getBlock().getLocation(), ItemManager.items.get("Wheat").getItemStack());
                     }
                     event.getBlock().setType(Material.AIR);
                     return;

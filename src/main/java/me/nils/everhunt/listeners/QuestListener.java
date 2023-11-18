@@ -6,9 +6,6 @@ import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
 import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.entities.Springer;
-import me.nils.everhunt.items.weapons.LuciaI;
-import me.nils.everhunt.items.weapons.SnowShovel;
-import me.nils.everhunt.items.weapons.WoodenBat;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Chat;
@@ -40,7 +37,7 @@ public class QuestListener implements Listener {
                 if (data.getDisplayName().equals("Old Man Dave")) {
                     if (!(QuestData.getDone(playerID,1))) {
                         if (QuestData.getCompletion(playerID,1) < 0.5) {
-                            player.getInventory().addItem(new WoodenBat().getItemStack());
+                            player.getInventory().addItem(WeaponManager.items.get("Wooden Bat").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fCan you please kill the springers upstairs?")));
                             Location loc = entity.getLocation();
                             loc.add(0, 5, 0);
@@ -53,7 +50,7 @@ public class QuestListener implements Listener {
                         if (QuestData.getCompletion(playerID,1) < 3 && QuestData.getCompletion(playerID,1) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fWhat are you waiting for go kill them all!")));
                         } else {
-                            player.getInventory().addItem(new SnowShovel().getItemStack());
+                            player.getInventory().addItem(WeaponManager.items.get("Snow Shovel").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
                             player.teleport(new Location(player.getWorld(), 60, -7, -197));
                             new TeleportData(PlayerData.getPlayerID(player),"Village",60,-7,-197);
@@ -100,7 +97,7 @@ public class QuestListener implements Listener {
                         if (QuestData.getCompletion(playerID,2) < 2 && QuestData.getCompletion(playerID,2) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fI recommend looking outside the village for materials.")));
                         } else {
-                            player.getInventory().addItem(new LuciaI().getItemStack());
+                            player.getInventory().addItem(WeaponManager.items.get("Lucia I").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fThanks for helping me! Here have the blade and talk to me later!")));
                             QuestData.setDone(playerID,2);
                             PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 125);

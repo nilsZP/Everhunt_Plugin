@@ -5,12 +5,6 @@ import me.nils.everhunt.commands.SpawnCommand;
 import me.nils.everhunt.commands.WarpCommand;
 import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.Items;
-import me.nils.everhunt.items.armor.*;
-import me.nils.everhunt.items.items.KingsBone;
-import me.nils.everhunt.items.items.Wheat;
-import me.nils.everhunt.items.items.WolflingHide;
-import me.nils.everhunt.items.items.menu.teleports.Village;
-import me.nils.everhunt.items.weapons.*;
 import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Cooldown;
@@ -79,41 +73,6 @@ public final class Everhunt extends JavaPlugin {
         PlayerData.registerPlayerData();
         ItemManager.registerItems();
         ToolManager.registerItems();
-        loadAll();
-    }
-
-    private void loadAll() throws MalformedURLException {
-        // TODO remove individual items out of plugin
-        // Armor
-        new Boots();
-        new FarmerHat();
-        new MechanicalChestplate();
-        new Pants();
-        new Shirt();
-        new SpringerBoots();
-        new UnitedHelmet();
-        new PlagueMask();
-        new SunMask();
-        // Items
-        new KingsBone();
-        new WolflingHide();
-        new Wheat();
-        new Village();
-        // Weapons
-        new AzureWrath();
-        new DaggerOfUnitedDimensions();
-        new DaggerOfShatteredDimensions();
-        new Evokus();
-        new LuciaI();
-        new LuciaII();
-        new LuciaIII();
-        new LuciaIV();
-        new LuciaV();
-        new LuciaVI();
-        new MeteorBlade();
-        new Nixeus();
-        new SnowShovel();
-        new WoodenBat();
     }
 
     @Override

@@ -2,7 +2,7 @@ package me.nils.everhunt.entities.bosses;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.entities.abilities.ThunderBolt;
-import me.nils.everhunt.items.weapons.AzureWrath;
+import me.nils.everhunt.managers.WeaponManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -21,7 +21,7 @@ public class ThunderBones {
 
         bones.setCustomName("Thunder Bones");
         bones.setCustomNameVisible(true);
-        ItemStack azurewrath = new AzureWrath().getItemStack();
+        ItemStack azurewrath = WeaponManager.items.get("AzureWrath").getItemStack();
         bones.getEquipment().setItemInMainHand(azurewrath);
         bones.getEquipment().setHelmet(new ItemStack(Material.DIAMOND_HELMET));
         bones.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING,"boss");
