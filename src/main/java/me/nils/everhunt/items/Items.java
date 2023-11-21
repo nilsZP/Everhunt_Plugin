@@ -1,6 +1,5 @@
 package me.nils.everhunt.items;
 
-import me.nils.everhunt.items.weapons.*;
 import me.nils.everhunt.managers.*;
 import org.bukkit.inventory.ItemStack;
 

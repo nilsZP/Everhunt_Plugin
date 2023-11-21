@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.utils.Chat;
+import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -11,6 +12,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.sql.ResultSet;
@@ -47,45 +49,75 @@ public class ToolManager {
     private final Tier tier;
     private final Ability ability;
     private final double speed;
+    private final String url;
 
     private final ItemStack itemStack;
 
-    // TODO add url
-
-    public ToolManager(Material material, String displayName, Ability ability, Tier tier, double speed) {
+    public ToolManager(Material material, String displayName, Ability ability, Tier tier, double speed, String url) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
         this.speed = speed;
+        this.url = url;
 
         itemStack = new ItemStack(material);
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
-        meta.displayName(Component.text(tier.getColor() + displayName));
+        if (material == Material.PLAYER_HEAD) {
+            SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
+            meta.setPlayerProfile(Head.createTexture(url));
+            meta.displayName(Component.text(tier.getColor() + displayName));
+            meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
 
-        if (speed != 0) {
-            AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "speed", speed, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.HAND);
-            meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, modifier);
-        }
-        meta.setUnbreakable(true);
-
-        List<String> lore = new ArrayList<>();
-        if (!(ability == Ability.NONE)) {
-            String action = ability.getActivation().getAction();
-            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
-            if (ability.getCooldown() != 0) {
-                lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
+            if (speed != 0) {
+                AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "speed", speed, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.HAND);
+                meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, modifier);
             }
-            if (ability.getFlowCost() != 0) {
-                lore.add(Chat.color("&8Cost: &3" + ability.getFlowCost()));
-            }
-        }
-        lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " TOOL");
+            meta.setUnbreakable(true);
 
-        meta.setLore(lore);
-        itemStack.setItemMeta(meta);
+            List<String> lore = new ArrayList<>();
+            if (!(ability == Ability.NONE)) {
+                String action = ability.getActivation().getAction();
+                lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
+                if (ability.getCooldown() != 0) {
+                    lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
+                }
+                if (ability.getFlowCost() != 0) {
+                    lore.add(Chat.color("&8Cost: &3" + ability.getFlowCost()));
+                }
+            }
+            lore.add(Chat.color("&r"));
+            lore.add(tier.getColor() + String.valueOf(tier) + " TOOL");
+
+            meta.setLore(lore);
+            itemStack.setItemMeta(meta);
+        } else {
+            ItemMeta meta = itemStack.getItemMeta();
+            meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
+            meta.displayName(Component.text(tier.getColor() + displayName));
+
+            if (speed != 0) {
+                AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "speed", speed, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.HAND);
+                meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, modifier);
+            }
+            meta.setUnbreakable(true);
+
+            List<String> lore = new ArrayList<>();
+            if (!(ability == Ability.NONE)) {
+                String action = ability.getActivation().getAction();
+                lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
+                if (ability.getCooldown() != 0) {
+                    lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
+                }
+                if (ability.getFlowCost() != 0) {
+                    lore.add(Chat.color("&8Cost: &3" + ability.getFlowCost()));
+                }
+            }
+            lore.add(Chat.color("&r"));
+            lore.add(tier.getColor() + String.valueOf(tier) + " TOOL");
+
+            meta.setLore(lore);
+            itemStack.setItemMeta(meta);
+        }
 
         items.put(displayName,this);
 
@@ -113,8 +145,9 @@ public class ToolManager {
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
                 double speed = resultSet.getDouble("speed");
+                String url = resultSet.getString("url");
 
-                new ToolManager(material,displayName,ability,tier,speed);
+                new ToolManager(material,displayName,ability,tier,speed,url);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -75,6 +75,7 @@ public class TeleportData {
             resultSet.next();
 
             Location loc = new Location(Bukkit.getServer().getWorld("world"),resultSet.getInt("x"),resultSet.getInt("y"),resultSet.getInt("z"));
+            return loc;
         } catch (SQLException e) {
             e.printStackTrace();
         }

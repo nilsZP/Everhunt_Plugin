@@ -299,7 +299,7 @@ public class AbilityListener implements Listener {
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         if (entity instanceof LivingEntity livingEntity) {
                             livingEntity.damage(damage);
-                            livingEntity.getWorld().spawnParticle(Particle.FLAME,livingEntity.getLocation(),2);
+                            livingEntity.getWorld().spawnParticle(Particle.FLAME,livingEntity.getLocation(),5);
                             livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ITEM_FIRECHARGE_USE,2F,1F);
                         }
                     }
