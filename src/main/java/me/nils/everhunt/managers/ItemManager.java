@@ -67,7 +67,9 @@ public class ItemManager {
 
             List<String> lore = new ArrayList<>();
 
-            lore.add(Chat.color("&fValue: &e" + value + "&f coins"));
+            if (tier != Tier.MENU) {
+                lore.add(Chat.color("&fValue: &e" + value + "&f coins"));
+            }
 
             lore.add(Chat.color("&r"));
             lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");
@@ -88,7 +90,9 @@ public class ItemManager {
 
             List<String> lore = new ArrayList<>();
 
-            lore.add(Chat.color("&fValue: &e" + value + "&f coins"));
+            if (tier != Tier.MENU) {
+                lore.add(Chat.color("&fValue: &e" + value + "&f coins"));
+            }
 
             lore.add(Chat.color("&r"));
             lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");

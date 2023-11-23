@@ -132,8 +132,14 @@ public class ArmorManager {
 
             if (!(ability == Ability.NONE)) {
                 String action = ability.getActivation().getAction();
+                lore.add(Chat.color("&r"));
                 lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
-                lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
+                if (ability.getCooldown() != 0) {
+                    lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
+                }
+                if (ability.getFlowCost() != 0) {
+                    lore.add(Chat.color("&8Cost: &3" + ability.getFlowCost()));
+                }
             }
             lore.add(Chat.color("&r"));
             lore.add(tier.getColor() + String.valueOf(tier) + type);
@@ -190,6 +196,7 @@ public class ArmorManager {
 
             if (!(ability == Ability.NONE)) {
                 String action = ability.getActivation().getAction();
+                lore.add(Chat.color("&r"));
                 lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
                 if (ability.getCooldown() != 0) {
                     lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
