@@ -12,7 +12,8 @@ import java.util.ArrayList;
 
 public class Menu {
     public static Inventory createTeleportMenu(Player player) {
-        ArrayList<String> teleportList = TeleportData.getLocations(PlayerData.getPlayerID(player));
+        String uuid = player.getUniqueId().toString();
+        ArrayList<String> teleportList = TeleportData.getLocations(uuid);
         int size = teleportList.size();
         while (size%9 != 0) {
             size++;

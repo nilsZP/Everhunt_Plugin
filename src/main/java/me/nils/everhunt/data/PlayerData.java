@@ -54,31 +54,6 @@ public class PlayerData {
         }
     }
 
-    public int getPlayerID() {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static int getPlayerID(Player player) {
-        String uuid = player.getUniqueId().toString();
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblplayer WHERE UUID = '" + uuid + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
     public int getXp() {
         try {
             ResultSet resultSet = Everhunt.getDatabase().run("SELECT xp FROM tblplayer WHERE uuid = '" + uuid + "'").executeQuery();
@@ -99,5 +74,9 @@ public class PlayerData {
         Player player = Bukkit.getPlayer(UUID.fromString(uuid));
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
         this.xp = xp;
+    }
+
+    public void addXp(int xp) {
+        setXp(getXp()+xp);
     }
 }

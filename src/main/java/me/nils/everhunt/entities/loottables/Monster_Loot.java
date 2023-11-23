@@ -53,7 +53,7 @@ public class Monster_Loot implements LootTable {
             flesh_count = 0;
         }
 
-        ItemStack flesh = ItemManager.items.get("Monster flesh").getItemStack();
+        ItemStack flesh = ItemManager.items.get("Monster Flesh").getItemStack();
         flesh.setAmount(flesh_count);
 
         items.add(flesh);

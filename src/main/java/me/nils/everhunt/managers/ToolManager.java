@@ -148,8 +148,8 @@ public class ToolManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tbltool (material, displayname, ability, tier, speed) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
-                        tier + "','" + speed + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tbltool (material, displayname, ability, tier, speed,url) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                        tier + "','" + speed + "','" + url + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -173,29 +173,5 @@ public class ToolManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getToolID() {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static int getToolID(String displayName) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbltool WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 }

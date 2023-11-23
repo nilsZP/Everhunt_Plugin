@@ -19,11 +19,12 @@ public class MenuListener implements Listener {
     @EventHandler
     public void menuInteract(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
+        String uuid = player.getUniqueId().toString();
         if (event.getView().getTitle().equals("Teleport Menu")) {
             switch (Objects.requireNonNull(event.getCurrentItem()).getItemMeta().getLocalizedName()) {
                 case "Village" -> {
                     player.closeInventory();
-                    player.teleport(Objects.requireNonNull(TeleportData.getCoords(PlayerData.getPlayerID(player), "Village")));
+                    player.teleport(Objects.requireNonNull(TeleportData.getCoords(uuid, "Village")));
                 }
             }
         }

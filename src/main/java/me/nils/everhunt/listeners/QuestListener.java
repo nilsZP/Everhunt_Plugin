@@ -29,14 +29,13 @@ public class QuestListener implements Listener {
     public void onNPCInteract(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
-        int playerID = PlayerData.data.get(uuid).getPlayerID();
         Entity entity = event.getRightClicked();
         EntityData data = EntityData.data.get(ChatColor.stripColor(entity.getName()));
         if (data != null) {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
-                    if (!(QuestData.getDone(playerID,1))) {
-                        if (QuestData.getCompletion(playerID,1) < 0.5) {
+                    if (!(QuestData.getDone(uuid,1))) {
+                        if (QuestData.getCompletion(uuid,1) < 0.5) {
                             player.getInventory().addItem(WeaponManager.items.get("Wooden Bat").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fCan you please kill the springers upstairs?")));
                             Location loc = entity.getLocation();
@@ -44,30 +43,30 @@ public class QuestListener implements Listener {
                             for (int i = 0; i < 3; i++) {
                                 new Springer(loc);
                             }
-                            QuestData.setCompletion(playerID,1,0.5);
+                            QuestData.setCompletion(uuid,1,0.5);
                             return;
                         }
-                        if (QuestData.getCompletion(playerID,1) < 3 && QuestData.getCompletion(playerID,1) >= 0.5) {
+                        if (QuestData.getCompletion(uuid,1) < 3 && QuestData.getCompletion(uuid,1) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fWhat are you waiting for go kill them all!")));
                         } else {
                             player.getInventory().addItem(WeaponManager.items.get("Snow Shovel").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fThanks for killing the springers! Have this.")));
                             player.teleport(new Location(player.getWorld(), 60, -7, -197));
-                            new TeleportData(PlayerData.getPlayerID(player),"Village",60,-7,-197);
-                            QuestData.setDone(playerID,1);
+                            new TeleportData(uuid,"Village",60,-7,-197);
+                            QuestData.setDone(uuid,1);
                             PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 100);
                         }
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
-                    if (!(QuestData.getDone(playerID,2))) {
-                        if (QuestData.getCompletion(playerID,2) < 0.5) {
+                    if (!(QuestData.getDone(uuid,2))) {
+                        if (QuestData.getCompletion(uuid,2) < 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fMy wife divorced me after she said that I will")));
                             player.sendMessage(Component.text(Chat.color("&4NEVER &fbe a successful weaponsmith,")));
                             player.sendMessage(Component.text(Chat.color("&fso to prove her wrong I am gonna make the")));
                             player.sendMessage(Component.text(Chat.color("&eBEST SWORD EVER &fI just need a handle can you give me one?")));
 
-                            QuestData.setCompletion(playerID,2,0.5);
+                            QuestData.setCompletion(uuid,2,0.5);
                             return;
                         }
                         WeaponManager bat = WeaponManager.items.get("Wooden Bat");
@@ -77,35 +76,35 @@ public class QuestListener implements Listener {
                         } else {
                             holding = null;
                         }
-                        if (QuestData.getCompletion(playerID,2) == 0.5 && bat == holding) {
+                        if (QuestData.getCompletion(uuid,2) == 0.5 && bat == holding) {
                             player.sendMessage(Component.text(Chat.color("&fMay I use that Wooden Bat as a handle?")));
-                            QuestData.setCompletion(playerID,2,1.5);
+                            QuestData.setCompletion(uuid,2,1.5);
                             return;
                         }
-                        ItemManager item = ItemManager.items.get("Kings bone");
+                        ItemManager item = ItemManager.items.get("Kings Bone");
                         ItemManager heldItem;
                         if (!(ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) == null)) {
                             heldItem = ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
                         } else {
                             heldItem = null;
                         }
-                        if (QuestData.getCompletion(playerID,2) == 1.8 && heldItem == item) {
+                        if (QuestData.getCompletion(uuid,2) == 1.8 && heldItem == item) {
                             player.sendMessage(Component.text(Chat.color("&fI can work with this.")));
-                            QuestData.setCompletion(playerID,2,2);
+                            QuestData.setCompletion(uuid,2,2);
                             player.sendMessage(Component.text(Chat.color("&fTalk to me in one second.")));
                         }
-                        if (QuestData.getCompletion(playerID,2) < 2 && QuestData.getCompletion(playerID,2) >= 0.5) {
+                        if (QuestData.getCompletion(uuid,2) < 2 && QuestData.getCompletion(uuid,2) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&fI recommend looking outside the village for materials.")));
                         } else {
                             player.getInventory().addItem(WeaponManager.items.get("Lucia I").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&fThanks for helping me! Here have the blade and talk to me later!")));
-                            QuestData.setDone(playerID,2);
+                            QuestData.setDone(uuid,2);
                             PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 125);
                         }
                     }
                 }
                 if  (data.getDisplayName().equals("Mikull")) {
-                    if (!(QuestData.getDone(playerID,2))) {
+                    if (!(QuestData.getDone(uuid,2))) {
                         player.sendMessage(Component.text(Chat.color("&fCan you pls help my brother kill a wolf?")));
                         // player.teleport
                     }
@@ -127,10 +126,11 @@ public class QuestListener implements Listener {
         Entity killer = event.getEntity().getKiller();
 
         if (killer instanceof Player player){
+            String uuid = player.getUniqueId().toString();
             if (entity.getName().equals("Springer")) {
-                if (!(QuestData.getDone(PlayerData.getPlayerID(player),1))) {
-                    double completion = QuestData.getCompletion(PlayerData.getPlayerID(player),1) + 1;
-                    QuestData.setCompletion(PlayerData.getPlayerID(player),1,completion);
+                if (!(QuestData.getDone(uuid,1))) {
+                    double completion = QuestData.getCompletion(uuid,1) + 1;
+                    QuestData.setCompletion(uuid,1,completion);
                 }
             }
         }
@@ -139,12 +139,13 @@ public class QuestListener implements Listener {
     @EventHandler
     public void onMessage(PlayerChatEvent event) {
         Player player = event.getPlayer();
-        if (QuestData.getCompletion(PlayerData.getPlayerID(player),2) == 1.5) {
+        String uuid = player.getUniqueId().toString();
+        if (QuestData.getCompletion(uuid,2) == 1.5) {
             if (event.getMessage().equals("yes")) {
                 player.sendMessage(Component.text(Chat.color("&fThank you for the handle!")));
                 player.getInventory().remove(WeaponManager.items.get("Wooden Bat").getItemStack());
                 player.sendMessage(Component.text(Chat.color("&fCan you please go fetch me something to make the blade?")));
-                QuestData.setCompletion(PlayerData.getPlayerID(player),2,1.8);
+                QuestData.setCompletion(uuid,2,1.8);
             }
         }
     }
