@@ -113,6 +113,11 @@ public class ToolManager {
             meta.setUnbreakable(true);
 
             List<String> lore = new ArrayList<>();
+
+            if (speed != 0) {
+                lore.add(Chat.color("&7Speed: &f+" + (speed*100) + "%"));
+            }
+
             if (!(ability == Ability.NONE)) {
                 String action = ability.getActivation().getAction();
                 lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
@@ -127,6 +132,11 @@ public class ToolManager {
             lore.add(tier.getColor() + String.valueOf(tier) + " TOOL");
 
             meta.setLore(lore);
+
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+
             itemStack.setItemMeta(meta);
         }
 
