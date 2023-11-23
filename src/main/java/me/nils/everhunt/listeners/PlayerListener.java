@@ -100,34 +100,6 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPickup(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            ItemStack drop = event.getItem().getItemStack();
-            ItemMeta dropMeta = drop.getItemMeta();
-            ItemManager item = ItemManager.items.get(ChatColor.stripColor(dropMeta.getDisplayName()));
-            if (item == null) {
-                event.setCancelled(true);
-                return;
-            }
-            ItemStack[] inventory = player.getInventory().getContents();
-            for (ItemStack value : inventory) {
-                ItemManager stack = ItemManager.items.get(ChatColor.stripColor(value.getItemMeta().getDisplayName()));
-                if (stack != null) {
-                    if (stack == item) {
-                        if (value.getAmount() + drop.getAmount() <= 64) {
-                            value.add(drop.getAmount());
-                        } else {
-                            player.getInventory().addItem(drop);
-                        }
-                        event.getItem().remove();
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
