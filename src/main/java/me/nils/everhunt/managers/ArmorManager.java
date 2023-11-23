@@ -14,6 +14,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -115,6 +116,20 @@ public class ArmorManager {
             meta.setColor(color);
 
             List<String> lore = new ArrayList<>();
+
+            if (health != 0) {
+                lore.add(Chat.color("&7Health: &a+" + health));
+            }
+            if (armor != 0) {
+                lore.add(Chat.color("&7Armor: &2+" + armor));
+            }
+            if (toughness != 0) {
+                lore.add(Chat.color("&7Toughness: &8+" + toughness));
+            }
+            if (damage != 0) {
+                lore.add(Chat.color("&7Damage: &4+" + damage));
+            }
+
             if (!(ability == Ability.NONE)) {
                 String action = ability.getActivation().getAction();
                 lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
@@ -124,6 +139,12 @@ public class ArmorManager {
             lore.add(tier.getColor() + String.valueOf(tier) + type);
 
             meta.setLore(lore);
+
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+            meta.addItemFlags(ItemFlag.HIDE_DYE);
+
             itemStack.setItemMeta(meta);
         } else {
             ArmorMeta meta = (ArmorMeta) itemStack.getItemMeta();
@@ -153,6 +174,20 @@ public class ArmorManager {
             }
 
             List<String> lore = new ArrayList<>();
+
+            if (health != 0) {
+                lore.add(Chat.color("&7Health: &a+" + health));
+            }
+            if (armor != 0) {
+                lore.add(Chat.color("&7Armor: &2+" + armor));
+            }
+            if (toughness != 0) {
+                lore.add(Chat.color("&7Toughness: &8+" + toughness));
+            }
+            if (damage != 0) {
+                lore.add(Chat.color("&7Damage: &4+" + damage));
+            }
+
             if (!(ability == Ability.NONE)) {
                 String action = ability.getActivation().getAction();
                 lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
@@ -167,6 +202,12 @@ public class ArmorManager {
             lore.add(tier.getColor() + String.valueOf(tier) + type);
 
             meta.setLore(lore);
+
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+            meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+
             itemStack.setItemMeta(meta);
         }
 

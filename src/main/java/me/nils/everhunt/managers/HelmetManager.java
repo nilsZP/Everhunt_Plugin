@@ -15,6 +15,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -96,6 +97,20 @@ public class HelmetManager {
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
+
+        if (health != 0) {
+            lore.add(Chat.color("&7Health: &a+" + health));
+        }
+        if (armor != 0) {
+            lore.add(Chat.color("&7Armor: &2+" + armor));
+        }
+        if (toughness != 0) {
+            lore.add(Chat.color("&7Toughness: &8+" + toughness));
+        }
+        if (damage != 0) {
+            lore.add(Chat.color("&7Damage: &4+" + damage));
+        }
+
         if (!(ability == Ability.NONE)) {
             String action = ability.getActivation().getAction();
             lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
@@ -110,6 +125,11 @@ public class HelmetManager {
         lore.add(tier.getColor() + String.valueOf(tier) + " HELMET");
 
         meta.setLore(lore);
+
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+
         itemStack.setItemMeta(meta);
 
         items.put(displayName, this);
