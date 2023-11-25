@@ -157,6 +157,7 @@ public class ArmorManager {
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
         meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+        meta.addItemFlags(ItemFlag.HIDE_DYE);
 
         itemStack.setItemMeta(meta);
 
