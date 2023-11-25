@@ -57,7 +57,7 @@ public class QuestListener implements Listener {
                             player.teleport(new Location(player.getWorld(), 60, -7, -197));
                             new TeleportData(uuid,"Village",60,-7,-197);
                             QuestData.setDone(uuid,1);
-                            PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 100);
+                            PlayerData.data.get(uuid).addXp(100);
                         }
                     }
                 }
@@ -102,7 +102,7 @@ public class QuestListener implements Listener {
                             player.getInventory().addItem(WeaponManager.items.get("Lucia I").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fThanks for helping me! Here have the blade and talk to me later!")));
                             QuestData.setDone(uuid,2);
-                            PlayerData.data.get(uuid).setXp(PlayerData.data.get(uuid).getXp() + 125);
+                            PlayerData.data.get(uuid).addXp(125);
                         }
                     }
                 }
@@ -126,6 +126,7 @@ public class QuestListener implements Listener {
                         player.sendMessage(Component.text(Chat.color("&eMi: &fSo you are the hunter my brother sent to me?")));
                         player.sendMessage(Component.text(Chat.color("&eMi: &fWell you'll just have to do then!")));
                         // new WolfKing(location);
+                        // check if wolfking doesnt already exist
                     }
                 }
             }
@@ -156,6 +157,7 @@ public class QuestListener implements Listener {
                 if (!(QuestData.getDone(uuid,2))) {
                     double completion = QuestData.getCompletion(uuid,2) + 0.1;
                     QuestData.setCompletion(uuid,2,completion);
+                    PlayerData.data.get(uuid).addXp(50);
                 }
             }
         }
@@ -168,6 +170,7 @@ public class QuestListener implements Listener {
         if (QuestData.getCompletion(uuid,2) == 1.5) {
             if (event.getMessage().equals("yes")) {
                 player.sendMessage(Component.text(Chat.color("&eMarcus: &fThank you for the handle!")));
+                PlayerData.data.get(uuid).addXp(25);
                 player.getInventory().remove(WeaponManager.items.get("Wooden Bat").getItemStack());
                 player.sendMessage(Component.text(Chat.color("&eMarcus: &fCan you please go fetch me something to make the blade?")));
                 QuestData.setCompletion(uuid,2,1.8);
