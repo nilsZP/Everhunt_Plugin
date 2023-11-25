@@ -22,7 +22,10 @@ public class FlowData {
     }
 
     public void useFlow(int amount) {
-        if (amount > flowAmount) {
+        if (amount > getFlowAmount()) {
+            return;
+        }
+        if (player.getLevel() - amount < 0) {
             return;
         }
         player.setLevel(player.getLevel() - amount);

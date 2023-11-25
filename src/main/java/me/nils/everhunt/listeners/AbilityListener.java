@@ -9,6 +9,7 @@ import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -251,6 +252,9 @@ public class AbilityListener implements Listener {
 
             ItemStack item = player.getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
+            if (meta == null) {
+                return;
+            }
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
             if (pdc.has(key)) {
                 WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
@@ -356,7 +360,7 @@ public class AbilityListener implements Listener {
         if (chestplate == null) {
             return false;
         }
-        ArmorManager chest = ArmorManager.items.get(ChatColor.stripColor(helmet.getItemMeta().getDisplayName()));
+        ArmorManager chest = ArmorManager.items.get(ChatColor.stripColor(chestplate.getItemMeta().getDisplayName()));
         if (chest == null) {
             return false;
         }
@@ -366,7 +370,7 @@ public class AbilityListener implements Listener {
         if (leggings == null) {
             return false;
         }
-        ArmorManager legs = ArmorManager.items.get(ChatColor.stripColor(helmet.getItemMeta().getDisplayName()));
+        ArmorManager legs = ArmorManager.items.get(ChatColor.stripColor(leggings.getItemMeta().getDisplayName()));
         if (legs == null) {
             return false;
         }
@@ -376,7 +380,7 @@ public class AbilityListener implements Listener {
         if (boots == null) {
             return false;
         }
-        ArmorManager boot = ArmorManager.items.get(ChatColor.stripColor(helmet.getItemMeta().getDisplayName()));
+        ArmorManager boot = ArmorManager.items.get(ChatColor.stripColor(boots.getItemMeta().getDisplayName()));
         if (boot == null) {
             return false;
         }
