@@ -225,6 +225,7 @@ public class AbilityListener implements Listener {
 
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, cooldown);
+                    player.getWorld().playSound(player,Sound.ENTITY_WITCH_CELEBRATE,2F,1F);
                     event.setDamage(event.getDamage()*ability.getDamageMultiplier());
                     if (damager instanceof LivingEntity living) {
                         living.damage(player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() / 4);
