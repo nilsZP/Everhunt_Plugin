@@ -17,6 +17,7 @@ public enum Ability {
     BREAD_MAKER("Bread Maker",0,0,Activation.PASSIVE,0),
     POWER_OF_THE_SUN("Power Of The Sun",0.6,4,Activation.PASSIVE,0),
     INFECTATION("Infectation",0,5,Activation.PASSIVE,0),
+    FOOL("Fool",0.5,5,Activation.FULL_SET,0),
     NONE("NONE", 0, 0,Activation.PASSIVE,0);
 
     private final String name;
