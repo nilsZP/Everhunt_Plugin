@@ -28,6 +28,7 @@ import java.util.*;
 
 public class ArmorManager {
     public static final HashMap<String, ArmorManager> items = new HashMap<>();
+
     public Material getMaterial() {
         return material;
     }
@@ -91,134 +92,75 @@ public class ArmorManager {
 
         itemStack = new ItemStack(material);
         if (leather) {
-            LeatherArmorMeta meta = (LeatherArmorMeta) itemStack.getItemMeta();
-            meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
-            meta.displayName(Component.text(tier.getColor() + displayName));
+            LeatherArmorMeta lMeta = (LeatherArmorMeta) itemStack.getItemMeta();
+            lMeta.setColor(color);
+            itemStack.setItemMeta(lMeta);
+        }
+        ArmorMeta meta = (ArmorMeta) itemStack.getItemMeta();
+        meta.displayName(Component.text(tier.getColor() + displayName));
+        meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
 
-            AttributeModifier modifier;
-            if (health != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(),"health",health, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH,modifier);
-            }
-            if (armor != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(),"armor",armor, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_ARMOR,modifier);
-            }
-            if (toughness != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(),"toughness",toughness, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS,modifier);
-            }
-            if (damage != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
-            }
-            meta.setUnbreakable(true);
-            meta.setColor(color);
-
-            List<String> lore = new ArrayList<>();
-
-            if (health != 0) {
-                lore.add(Chat.color("&7Health: &a+" + health));
-            }
-            if (armor != 0) {
-                lore.add(Chat.color("&7Armor: &2+" + armor));
-            }
-            if (toughness != 0) {
-                lore.add(Chat.color("&7Toughness: &8+" + toughness));
-            }
-            if (damage != 0) {
-                lore.add(Chat.color("&7Damage: &4+" + damage));
-            }
-
-            if (!(ability == Ability.NONE)) {
-                String action = ability.getActivation().getAction();
-                lore.add(Chat.color("&r"));
-                lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
-                if (ability.getCooldown() != 0) {
-                    lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
-                }
-                if (ability.getFlowCost() != 0) {
-                    lore.add(Chat.color("&8Cost: &3" + ability.getFlowCost()));
-                }
-            }
-            lore.add(Chat.color("&r"));
-            lore.add(tier.getColor() + String.valueOf(tier) + type);
-
-            meta.setLore(lore);
-
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-            meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
-            meta.addItemFlags(ItemFlag.HIDE_DYE);
-
-            itemStack.setItemMeta(meta);
-        } else {
-            ArmorMeta meta = (ArmorMeta) itemStack.getItemMeta();
-            meta.displayName(Component.text(tier.getColor() + displayName));
-            meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, displayName);
-
-            AttributeModifier modifier;
-            if (health != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(), "health", health, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, modifier);
-            }
-            if (armor != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(), "armor", armor, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
-            }
-            if (toughness != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(), "toughness", toughness, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
-            }
-            if (damage != 0) {
-                modifier = new AttributeModifier(UUID.randomUUID(), "damage", damage, AttributeModifier.Operation.ADD_NUMBER, slot);
-                meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
-            }
-            meta.setUnbreakable(true);
-            if (trim != Trim.NONE && pattern != Pattern.NONE) {
-                meta.setTrim(new ArmorTrim(trim.getMaterial(), pattern.getPattern()));
-            }
-
-            List<String> lore = new ArrayList<>();
-
-            if (health != 0) {
-                lore.add(Chat.color("&7Health: &a+" + health));
-            }
-            if (armor != 0) {
-                lore.add(Chat.color("&7Armor: &2+" + armor));
-            }
-            if (toughness != 0) {
-                lore.add(Chat.color("&7Toughness: &8+" + toughness));
-            }
-            if (damage != 0) {
-                lore.add(Chat.color("&7Damage: &4+" + damage));
-            }
-
-            if (!(ability == Ability.NONE)) {
-                String action = ability.getActivation().getAction();
-                lore.add(Chat.color("&r"));
-                lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
-                if (ability.getCooldown() != 0) {
-                    lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
-                }
-                if (ability.getFlowCost() != 0) {
-                    lore.add(Chat.color("&8Cost: &3" + ability.getFlowCost()));
-                }
-            }
-            lore.add(Chat.color("&r"));
-            lore.add(tier.getColor() + String.valueOf(tier) + type);
-
-            meta.setLore(lore);
-
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-            meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
-            meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
-
-            itemStack.setItemMeta(meta);
+        AttributeModifier modifier;
+        if (health != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "health", health, AttributeModifier.Operation.ADD_NUMBER, slot);
+            meta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, modifier);
+        }
+        if (armor != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "armor", armor, AttributeModifier.Operation.ADD_NUMBER, slot);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
+        }
+        if (toughness != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "toughness", toughness, AttributeModifier.Operation.ADD_NUMBER, slot);
+            meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
+        }
+        if (damage != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "damage", damage, AttributeModifier.Operation.ADD_NUMBER, slot);
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        }
+        meta.setUnbreakable(true);
+        if (trim != Trim.NONE && pattern != Pattern.NONE) {
+            meta.setTrim(new ArmorTrim(trim.getMaterial(), pattern.getPattern()));
         }
 
-        items.put(displayName,this);
+        List<String> lore = new ArrayList<>();
+
+        if (health != 0) {
+            lore.add(Chat.color("&7Health: &a+" + health));
+        }
+        if (armor != 0) {
+            lore.add(Chat.color("&7Armor: &2+" + armor));
+        }
+        if (toughness != 0) {
+            lore.add(Chat.color("&7Toughness: &8+" + toughness));
+        }
+        if (damage != 0) {
+            lore.add(Chat.color("&7Damage: &4+" + damage));
+        }
+
+        if (!(ability == Ability.NONE)) {
+            String action = ability.getActivation().getAction();
+            lore.add(Chat.color("&r"));
+            lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
+            if (ability.getCooldown() != 0) {
+                lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
+            }
+            if (ability.getFlowCost() != 0) {
+                lore.add(Chat.color("&8Cost: &3" + ability.getFlowCost()));
+            }
+        }
+        lore.add(Chat.color("&r"));
+        lore.add(tier.getColor() + String.valueOf(tier) + type);
+
+        meta.setLore(lore);
+
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        meta.addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS);
+        meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+
+        itemStack.setItemMeta(meta);
+
+        items.put(displayName, this);
 
         Everhunt.items.add(this);
 
@@ -259,7 +201,7 @@ public class ArmorManager {
                 EquipmentSlot slot = EquipmentSlot.valueOf(resultSet.getString("slot"));
                 boolean leather = resultSet.getBoolean("leather");
 
-                new ArmorManager(material,color,trim,pattern,displayName,ability,tier,health,armor,toughness,damage,slot,leather);
+                new ArmorManager(material, color, trim, pattern, displayName, ability, tier, health, armor, toughness, damage, slot, leather);
             }
         } catch (SQLException e) {
             e.printStackTrace();
