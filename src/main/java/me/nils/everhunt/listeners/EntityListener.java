@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityTransformEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
 
@@ -25,6 +26,10 @@ public class EntityListener implements Listener {
     // TODO make npc's invincible
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
+        if (isNPC(event.getEntity())) {
+            event.setCancelled(true);
+            return;
+        }
         event.getDrops().clear();
         if (!(event.getEntity() instanceof Player)) {
             LivingEntity entity = event.getEntity();
@@ -90,6 +95,10 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
+        if (isNPC(event.getEntity())) {
+            event.setCancelled(true);
+            return;
+        }
         if (event.getEntity() instanceof Player) {
             return;
         }
@@ -103,5 +112,23 @@ public class EntityListener implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onTransform(EntityTransformEvent event) {
+        if (isNPC(event.getEntity())) {
+            event.setCancelled(true);
+        }
+    }
+
+    public boolean isNPC(Entity entity) {
+        EntityData data = EntityData.data.get(entity.getName());
+        if (data != null) {
+            if (data.getType() == MobType.NPC) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
