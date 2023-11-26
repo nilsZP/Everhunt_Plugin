@@ -77,7 +77,7 @@ public class QuestListener implements Listener {
                         }
                         WeaponManager bat = WeaponManager.items.get("Wooden Bat");
                         WeaponManager holding;
-                        if (!(WeaponManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) == null)) {
+                        if ((WeaponManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) != null)) {
                             holding = WeaponManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
                         } else {
                             holding = null;
@@ -89,7 +89,7 @@ public class QuestListener implements Listener {
                         }
                         ItemManager item = ItemManager.items.get("Kings Bone");
                         ItemManager heldItem;
-                        if (!(ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) == null)) {
+                        if ((ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())) != null)) {
                             heldItem = ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()));
                         } else {
                             heldItem = null;
@@ -103,7 +103,8 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid,2) < 2 && QuestData.getCompletion(uuid,2) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fI recommend looking outside the village for materials.")));
-                        } else {
+                        }
+                        if (QuestData.getCompletion(uuid,2) == 2) {
                             player.getInventory().addItem(WeaponManager.items.get("Lucia I").getItemStack());
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fThanks for helping me! Here have the blade and talk to me later!")));
                             QuestData.setDone(uuid,2);

@@ -15,6 +15,7 @@ public class Mikull extends EntityData {
 
         mi.setAI(false);
         mi.setInvulnerable(true);
+        mi.setTamed(true);
 
         mi.setCustomName("Mikull");
         mi.setCustomNameVisible(true);

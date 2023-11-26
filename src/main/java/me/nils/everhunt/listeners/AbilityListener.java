@@ -81,12 +81,13 @@ public class AbilityListener implements Listener {
             if (ability.equals(Ability.SNOWBALL)) {
                 if (!(Cooldown.hasCooldown(item))) {
                     Cooldown.setCooldown(item, cooldown);
-                    flow.useFlow(ability.getFlowCost());
-                    player.swingMainHand();
-                    Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
-                            toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                    double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                    new SnowBall(loc, damage, player);
+                    if (flow.useFlow(ability.getFlowCost())) {
+                        player.swingMainHand();
+                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                        new SnowBall(loc, damage, player);
+                    }
                 }
             }
             if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {

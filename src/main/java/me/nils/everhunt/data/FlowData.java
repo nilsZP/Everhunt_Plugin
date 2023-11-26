@@ -21,15 +21,16 @@ public class FlowData {
         data.put(player,this);
     }
 
-    public void useFlow(int amount) {
+    public boolean useFlow(int amount) {
         if (amount > getFlowAmount()) {
-            return;
+            return false;
         }
         if (player.getLevel() - amount < 0) {
-            return;
+            return false;
         }
         player.setLevel(player.getLevel() - amount);
         player.setExp(0f);
+        return true;
     }
 
     public static void regenFlow() {
