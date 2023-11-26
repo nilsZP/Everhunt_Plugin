@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Random;
 
 public class EntityListener implements Listener {
-    // TODO make npc's invincible
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
         if (isNPC(event.getEntity())) {

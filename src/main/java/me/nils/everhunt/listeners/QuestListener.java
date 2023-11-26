@@ -27,6 +27,9 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuestListener implements Listener {
     @EventHandler
     public void onNPCInteract(PlayerInteractAtEntityEvent event) {
@@ -93,8 +96,10 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid,2) == 1.8 && heldItem == item) {
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fI can work with this.")));
+                            player.getInventory().remove(player.getInventory().getItemInMainHand());
                             QuestData.setCompletion(uuid,2,2);
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fTalk to me in one second.")));
+                            return;
                         }
                         if (QuestData.getCompletion(uuid,2) < 2 && QuestData.getCompletion(uuid,2) >= 0.5) {
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fI recommend looking outside the village for materials.")));
@@ -107,13 +112,14 @@ public class QuestListener implements Listener {
                     }
                 }
                 if  (data.getDisplayName().equals("Mikull")) {
-                    if (!(QuestData.getDone(uuid,2))) {
+                    if (!(QuestData.getDone(uuid,2)) && QuestData.getCompletion(uuid,2) >= 1.5) {
                         player.sendMessage(Component.text(Chat.color("&eMikull: &fCan you pls help my brother kill a wolf?")));
                         player.getInventory().addItem(ArmorManager.items.get("Straw Hat").getItemStack());
                         player.getInventory().addItem(ArmorManager.items.get("Farmers Shirt").getItemStack());
                         player.getInventory().addItem(ArmorManager.items.get("Farmers Pants").getItemStack());
                         player.getInventory().addItem(ArmorManager.items.get("Farmers Boots").getItemStack());
-                        // player.teleport to barn
+                        player.teleport(new Location(player.getWorld(), -1, -57, 199));
+                        new TeleportData(uuid,"Farm",-1,-57,199);
                     }
                 }
                 if (data.getDisplayName().equals("Mi")) {
@@ -125,8 +131,13 @@ public class QuestListener implements Listener {
                         }
                         player.sendMessage(Component.text(Chat.color("&eMi: &fSo you are the hunter my brother sent to me?")));
                         player.sendMessage(Component.text(Chat.color("&eMi: &fWell you'll just have to do then!")));
-                        // new WolfKing(location);
-                        // check if wolfking doesnt already exist
+                        List<String> entityNameList = new ArrayList<>();
+                        for (Entity entity1 : player.getNearbyEntities(8,8,8)) {
+                            entityNameList.add(entity1.getName());
+                        }
+                        if (!entityNameList.contains("Wolf King")) {
+                            new WolfKing(new Location(player.getWorld(),0,-58,216));
+                        }
                     }
                 }
             }

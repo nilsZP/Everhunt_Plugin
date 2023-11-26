@@ -15,18 +15,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class MenuListener implements Listener {
-    // TODO insert logic
     @EventHandler
     public void menuInteract(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         String uuid = player.getUniqueId().toString();
         if (event.getView().getTitle().equals("Teleport Menu")) {
-            switch (Objects.requireNonNull(event.getCurrentItem()).getItemMeta().getLocalizedName()) {
-                case "Village" -> {
-                    player.closeInventory();
-                    player.teleport(Objects.requireNonNull(TeleportData.getCoords(uuid, "Village")));
-                }
-            }
+            player.closeInventory();
+            player.teleport(Objects.requireNonNull(TeleportData.getCoords(uuid, Objects.requireNonNull(event.getCurrentItem()).getItemMeta().getLocalizedName())));
         }
     }
 }
