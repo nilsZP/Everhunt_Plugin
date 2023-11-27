@@ -8,10 +8,10 @@ public class Database {
 
     public Database() {
         try {
-            String HOST = "localhost";
-            String DATABASE = "dbeverhunt";
-            String USERNAME = "root";
-            String PASSWORD = "";
+            String HOST = "107.189.2.22";
+            String DATABASE = "nilsvandeveldesql1";
+            String USERNAME = "nilsvandeveldesql1";
+            String PASSWORD = "mRgljnsAkd";
             connection = DriverManager.getConnection(
                     "jdbc:mysql://" + HOST + ":3306/" + DATABASE + "?useSSL=false", USERNAME, PASSWORD);
         } catch (SQLException exception) {
