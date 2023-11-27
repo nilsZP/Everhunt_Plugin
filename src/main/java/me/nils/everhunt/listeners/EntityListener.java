@@ -4,6 +4,7 @@ import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.loottables.Monster_Loot;
 import me.nils.everhunt.entities.loottables.WolfKing_Loot;
+import me.nils.everhunt.entities.loottables.Wolfling_Loot;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -68,6 +69,18 @@ public class EntityListener implements Listener {
             if (data.getDisplayName().equals("Wolf King")) {
                 WolfKing_Loot wolfKing_loot = new WolfKing_Loot();
                 Collection<ItemStack> drops = wolfKing_loot.populateLoot(new Random(), lootContext);
+                ArrayList<ItemStack> items = (ArrayList<ItemStack>) drops;
+
+                for (ItemStack item : items) {
+                    if (item.getAmount() > 0) {
+                        location.getWorld().dropItemNaturally(location, item);
+                    }
+                }
+            }
+
+            if (data.getDisplayName().equals("Wolfling")) {
+                Wolfling_Loot wolfling_loot = new Wolfling_Loot();
+                Collection<ItemStack> drops = wolfling_loot.populateLoot(new Random(), lootContext);
                 ArrayList<ItemStack> items = (ArrayList<ItemStack>) drops;
 
                 for (ItemStack item : items) {
