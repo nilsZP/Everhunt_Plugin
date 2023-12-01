@@ -1,5 +1,8 @@
 package me.nils.everhunt.utils;
 
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+
 import java.sql.*;
 
 public class Database {
@@ -8,10 +11,10 @@ public class Database {
 
     public Database() {
         try {
-            String HOST = "107.189.2.22";
-            String DATABASE = "nilsvandeveldesql1";
-            String USERNAME = "nilsvandeveldesql1";
-            String PASSWORD = "mRgljnsAkd";
+            String HOST = "localhost"; //107.189.2.22
+            String DATABASE = "dbeverhunt"; //nilsvandeveldesql1
+            String USERNAME = "root";
+            String PASSWORD = ""; //mRgljnsAkd
             connection = DriverManager.getConnection(
                     "jdbc:mysql://" + HOST + ":3306/" + DATABASE + "?useSSL=false", USERNAME, PASSWORD);
         } catch (SQLException exception) {

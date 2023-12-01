@@ -78,6 +78,7 @@ public final class Everhunt extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getConsoleSender().sendMessage(Component.text("Shutting down..."));
+        database.disconnect();
     }
 
     public static Everhunt getInstance() {
