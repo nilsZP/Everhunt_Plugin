@@ -74,18 +74,4 @@ public class BackpackData {
 
         return itemList;
     }
-
-    public static boolean doesExist(String uuid) {
-        try {
-            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblbackpack WHERE uuid = '" + uuid + "'").executeQuery();
-            check.next();
-            if (check.getInt(1) >= 1) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 }
