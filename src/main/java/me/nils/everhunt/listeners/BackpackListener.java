@@ -59,10 +59,13 @@ public class BackpackListener implements Listener {
             ItemStack[] contents = menu.getContents();
             for (int i = 1; i <= 54; i++) {
                 ItemStack item = contents[i];
-                String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-                int amount = item.getAmount();
+                
+                if (item != null) {
+                    String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
+                    int amount = item.getAmount();
 
-                new BackpackData(uuid,name,amount,i);
+                    new BackpackData(uuid, name, amount, i);
+                }
             }
         }
     }
