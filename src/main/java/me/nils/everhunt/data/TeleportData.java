@@ -34,24 +34,6 @@ public class TeleportData {
         }
     }
 
-    public static void registerData() {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblteleport").executeQuery();
-
-            while (resultSet.next()) {
-                String uuid = resultSet.getString("uuid");
-                String location = resultSet.getString("location");
-                int x = resultSet.getInt("x");
-                int y = resultSet.getInt("y");
-                int z = resultSet.getInt("z");
-
-                new TeleportData(uuid,location,x,y,z);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static ArrayList<String> getLocations(String uuid) {
         ArrayList<String> locationList = new ArrayList<>();
         try {

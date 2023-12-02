@@ -59,6 +59,7 @@ public final class Everhunt extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
         getServer().getPluginManager().registerEvents(new QuestListener(), this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
+        getServer().getPluginManager().registerEvents(new BackpackListener(), this);
     }
 
     private void register() throws MalformedURLException {
