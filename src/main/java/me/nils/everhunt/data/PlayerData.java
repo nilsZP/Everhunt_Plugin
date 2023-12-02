@@ -1,6 +1,7 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.items.PlayerStats;
 import me.nils.everhunt.managers.WeaponManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,12 +16,14 @@ public class PlayerData {
     private String uuid;
     private String username;
     private int xp;
+    private int level;
     private int coins;
 
     public PlayerData(String uuid, String username, int xp, int coins) {
         this.uuid = uuid;
         this.username = username;
         this.xp = xp;
+        this.level = xp / 100;
         this.coins = coins;
 
         data.put(uuid,this);
@@ -74,6 +77,12 @@ public class PlayerData {
         Player player = Bukkit.getPlayer(UUID.fromString(uuid));
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
         this.xp = xp;
+
+        if (this.level != level) {
+            player.getInventory().setItem(9, new PlayerStats(player).getItemStack());
+        }
+
+        this.level = level;
     }
 
     public void addXp(int xp) {

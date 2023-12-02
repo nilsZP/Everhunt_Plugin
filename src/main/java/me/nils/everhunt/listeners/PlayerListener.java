@@ -10,6 +10,7 @@ import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
 import me.nils.everhunt.entities.SkeletonKnight;
 import me.nils.everhunt.entities.Springer;
+import me.nils.everhunt.items.PlayerStats;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.managers.WeaponManager;
@@ -52,6 +53,8 @@ public class PlayerListener implements Listener {
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
         new FlowData(player);
+
+        player.getInventory().setItem(9, new PlayerStats(player).getItemStack());
     }
 
     @EventHandler

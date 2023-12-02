@@ -34,11 +34,27 @@ public class PlayerStats {
 
     private final ItemStack itemStack;
 
-    public PlayerStats(Player player, double toughness, double health, double damage) {
+    public PlayerStats(Player player) {
         this.player = player;
-        this.toughness = toughness;
-        this.health = health;
-        this.damage = damage;
+
+        PlayerData pData = PlayerData.data.get(player.getUniqueId().toString());
+
+        int level = pData.getXp() / 100;
+
+        double base = level;
+
+        toughness = base / 10;
+        damage = base / 5;
+
+        while (base %5 != 0) {
+            base--;
+        }
+
+        if (base != 0) {
+            health = base / 5;
+        } else {
+            health = 0;
+        }
 
         UUID uuid = player.getUniqueId();
 
@@ -86,5 +102,9 @@ public class PlayerStats {
         itemStack.setItemMeta(meta);
 
         items.put(player, this);
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
     }
 }
