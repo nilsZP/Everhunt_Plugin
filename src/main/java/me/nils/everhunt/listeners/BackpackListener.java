@@ -60,7 +60,7 @@ public class BackpackListener implements Listener {
             for (int i = 0; i < 54; i++) {
                 ItemStack item = contents[i];
                 
-                if (item != null) {
+                if (item != null && item.hasItemMeta()) {
                     String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
                     int amount = item.getAmount();
 
