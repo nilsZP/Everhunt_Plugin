@@ -57,7 +57,7 @@ public class BackpackListener implements Listener {
             Inventory menu = event.getInventory();
 
             ItemStack[] contents = menu.getContents();
-            for (int i = 1; i <= 54; i++) {
+            for (int i = 0; i < 54; i++) {
                 ItemStack item = contents[i];
                 
                 if (item != null) {

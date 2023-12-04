@@ -37,14 +37,16 @@ public class Menu {
 
     public static Inventory createBackpackMenu(Player player) {
         String uuid = player.getUniqueId().toString();
-        ArrayList<ItemStack> itemList = BackpackData.getContents(uuid);
         int size = 54;
-
-        ItemStack[] contents = new ItemStack[itemList.size()];
-        contents = itemList.toArray(contents);
-
         Inventory menu = Bukkit.createInventory(player, size, "Backpack");
-        menu.setContents(contents);
+        if (BackpackData.getContents(uuid) != null) {
+            ArrayList<ItemStack> itemList = BackpackData.getContents(uuid);
+
+            ItemStack[] contents = new ItemStack[itemList.size()];
+            contents = itemList.toArray(contents);
+
+            menu.setContents(contents);
+        }
 
         return menu;
     }

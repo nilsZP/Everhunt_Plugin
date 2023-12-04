@@ -41,7 +41,7 @@ public class BackpackData {
         ArrayList<ItemStack> itemList = new ArrayList<>();
 
         try {
-            for (int i = 1; i <= 54; i++) {
+            for (int i = 0; i < 54; i++) {
                 ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblbackpack WHERE uuid = '" + uuid + "' AND slot = '" + i + "'").executeQuery();
 
                 resultSet.next();
@@ -72,6 +72,6 @@ public class BackpackData {
             e.printStackTrace();
         }
 
-        return itemList;
+        return null;
     }
 }
