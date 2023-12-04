@@ -59,7 +59,7 @@ public class BackpackData {
                 } else if (ToolManager.items.get(name) != null) {
                     item = ToolManager.items.get(name).getItemStack();
                 } else {
-                    item = null;
+                    item = new ItemStack(Material.AIR);
                 }
 
                 item.setAmount(resultSet.getInt("amount"));
