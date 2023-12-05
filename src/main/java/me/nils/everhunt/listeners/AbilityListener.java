@@ -48,6 +48,14 @@ public class AbilityListener implements Listener {
         int cooldown = ability.getCooldown();
         FlowData flow = FlowData.data.get(player);
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (ability.needsTarget()) {
+                Entity entity = player.getTargetEntity(3);
+                if (entity instanceof LivingEntity) {
+                    LivingEntity target = (LivingEntity) entity;
+                } else {
+                    return;
+                }
+            }
             if (!(Cooldown.hasCooldown(item))) {
                 if (flow.useFlow(ability.getFlowCost())) {
                     Cooldown.setCooldown(item, cooldown);
