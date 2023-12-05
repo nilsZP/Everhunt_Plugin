@@ -26,7 +26,7 @@ public class BackpackData {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblbackpack WHERE uuid = '" + uuid + "' AND slot = '" + slot + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblbackpack (uuid, type, name, amount, slot) VALUES ('" + uuid + "','" + name + "','" + amount + "','" +
+                Everhunt.getDatabase().run("INSERT INTO tblbackpack (uuid, name, amount, slot) VALUES ('" + uuid + "','" + name + "','" + amount + "','" +
                         slot + "')").executeUpdate();
             } else {
                 Everhunt.getDatabase().run("UPDATE tblbackpack SET name = '" + name + "', amount = '" + amount + "' WHERE uuid = '" +
@@ -44,25 +44,28 @@ public class BackpackData {
             for (int i = 0; i < 54; i++) {
                 ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblbackpack WHERE uuid = '" + uuid + "' AND slot = '" + i + "'").executeQuery();
 
-                resultSet.next();
-                String name = resultSet.getString("name");
                 ItemStack item;
+                if (resultSet.next()) {
+                    String name = resultSet.getString("name");
 
-                if (WeaponManager.items.get(name) != null) {
-                    item = WeaponManager.items.get(name).getItemStack();
-                } else if (ArmorManager.items.get(name) != null) {
-                    item = ArmorManager.items.get(name).getItemStack();
-                } else if (HelmetManager.items.get(name) != null) {
-                    item = HelmetManager.items.get(name).getItemStack();
-                } else if (ItemManager.items.get(name) != null) {
-                    item = ItemManager.items.get(name).getItemStack();
-                } else if (ToolManager.items.get(name) != null) {
-                    item = ToolManager.items.get(name).getItemStack();
+                    if (WeaponManager.items.get(name) != null) {
+                        item = WeaponManager.items.get(name).getItemStack();
+                    } else if (ArmorManager.items.get(name) != null) {
+                        item = ArmorManager.items.get(name).getItemStack();
+                    } else if (HelmetManager.items.get(name) != null) {
+                        item = HelmetManager.items.get(name).getItemStack();
+                    } else if (ItemManager.items.get(name) != null) {
+                        item = ItemManager.items.get(name).getItemStack();
+                    } else if (ToolManager.items.get(name) != null) {
+                        item = ToolManager.items.get(name).getItemStack();
+                    } else {
+                        item = new ItemStack(Material.AIR);
+                    }
+
+                    item.setAmount(resultSet.getInt("amount"));
                 } else {
                     item = new ItemStack(Material.AIR);
                 }
-
-                item.setAmount(resultSet.getInt("amount"));
 
                 itemList.add(item);
             }
@@ -73,5 +76,17 @@ public class BackpackData {
         }
 
         return null;
+    }
+
+    public static void deleteData(String uuid, int slot) {
+        try {
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblbackpack WHERE uuid = '" + uuid + "' AND slot = '" + slot + "'").executeQuery();
+            check.next();
+            if (check.getInt(1) >= 1) {
+                Everhunt.getDatabase().run("DELETE FROM tblbackpack WHERE uuid = '" + uuid + "' AND slot = '" + slot + "'").executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

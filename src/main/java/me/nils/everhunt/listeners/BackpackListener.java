@@ -5,6 +5,7 @@ import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.utils.Menu;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -60,11 +61,13 @@ public class BackpackListener implements Listener {
             for (int i = 0; i < 54; i++) {
                 ItemStack item = contents[i];
                 
-                if (item != null && item.hasItemMeta()) {
+                if (item != null && item.hasItemMeta() && item.getType() != Material.AIR) {
                     String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
                     int amount = item.getAmount();
 
                     new BackpackData(uuid, name, amount, i);
+                } else {
+                    BackpackData.deleteData(uuid,i);
                 }
             }
         }
