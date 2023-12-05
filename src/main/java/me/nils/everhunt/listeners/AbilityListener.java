@@ -260,7 +260,7 @@ public class AbilityListener implements Listener {
                         }
                     }
                 }
-                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
+                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH) || ability.equals(Ability.CLAP)) {
                     int cooldown = ability.getCooldown();
                     if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
@@ -268,8 +268,10 @@ public class AbilityListener implements Listener {
                             flow.useFlow(ability.getFlowCost());
                             Location loc = entity.getLocation();
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                            new ThunderBolt(loc, damage);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
+                            if (ability.equals(Ability.THUNDER_CLAP)) {
+                                new ThunderBolt(loc, damage);
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
+                            }
                             if (ability.equals(Ability.THUNDER_FLASH)) {
                                 loc = player.getLocation();
                                 Vector dir = loc.getDirection();
