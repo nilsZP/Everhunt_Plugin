@@ -12,7 +12,7 @@ public enum Ability {
     THUNDER_WARP("Thunder Warp", 1.1, 2,Activation.THROW,5),
     DIMENSION_UNISON("Dimension Unison", 0, 10,Activation.RIGHT_CLICK,50),
     SNOWBALL("Snowball",0.5,0,Activation.RIGHT_CLICK,1,"&7shoots a snowball dealing &c50% &7damage."),
-    CLAP("Clap",0.8,4,Activation.LEFT_CLICK,0),
+    CLAP("Clap",0.8,4,Activation.LEFT_CLICK,0,"&7Hit the enemy with extra force dealing &c+80% &7damage."),
     THUNDER_CLAP("Thunder Clap",1.2,4,Activation.LEFT_CLICK,0),
     THUNDER_FLASH("Thunder Flash",1.5,4,Activation.LEFT_CLICK,0),
     SPRING("Spring",0,2,Activation.PASSIVE,3),
@@ -22,7 +22,7 @@ public enum Ability {
     BREAD_MAKER("Bread Maker",0,0,Activation.PASSIVE,0),
     POWER_OF_THE_SUN("Power Of The Sun",0.6,4,Activation.PASSIVE,0),
     INFECTATION("Infectation",0,5,Activation.PASSIVE,0),
-    FOOL("Fool",0.5,5,Activation.FULL_SET,0),
+    FOOL("Fool",0.5,5,Activation.FULL_SET,0,"&7Fool the enemy by reducing damage taken by &c50%","&7And dealing &c25% &7to the enemy."),
     NONE("NONE", 0, 0,Activation.PASSIVE,0);
 
     private final String name;
