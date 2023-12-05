@@ -174,4 +174,8 @@ public class ItemManager {
         }
         return "";
     }
+
+    public int getValue() {
+        return value;
+    }
 }

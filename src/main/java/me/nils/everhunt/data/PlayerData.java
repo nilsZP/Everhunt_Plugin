@@ -79,4 +79,21 @@ public class PlayerData {
     public void addXp(int xp) {
         setXp(getXp()+xp);
     }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        try {
+            Everhunt.getDatabase().run("UPDATE tblplayer SET coins = " + coins + " WHERE uuid = '" + uuid + "'").executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        this.coins = coins;
+    }
+
+    public void addCoins(int coins) {
+        setCoins(getCoins()+coins);
+    }
 }

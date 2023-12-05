@@ -55,7 +55,7 @@ public class Menu {
         paneMeta.setDisplayName("");
         paneMeta.setLocalizedName("pane");
         pane.setItemMeta(paneMeta);
-        
+
         ItemStack[][] items = {
                 {pane,pane,pane,pane,pane,pane,pane,pane,pane},
                 {pane,air,air,air,air,air,air,air,pane},
