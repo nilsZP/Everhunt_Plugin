@@ -54,7 +54,7 @@ public class PlayerListener implements Listener {
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
         new FlowData(player);
 
-        player.getInventory().setItem(9, new PlayerStats(player).getItemStack());
+        player.getInventory().setItem(8, new PlayerStats(player).getItemStack());
     }
 
     @EventHandler

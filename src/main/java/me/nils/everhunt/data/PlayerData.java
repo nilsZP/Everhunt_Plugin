@@ -79,7 +79,7 @@ public class PlayerData {
         this.xp = xp;
 
         if (this.level != level) {
-            player.getInventory().setItem(9, new PlayerStats(player).getItemStack());
+            player.getInventory().setItem(8, new PlayerStats(player).getItemStack());
         }
 
         this.level = level;
