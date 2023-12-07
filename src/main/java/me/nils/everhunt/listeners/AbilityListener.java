@@ -62,54 +62,60 @@ public class AbilityListener implements Listener {
             if (!(Cooldown.hasCooldown(item))) {
                 if (flow.useFlow(ability.getFlowCost())) {
                     Cooldown.setCooldown(item, cooldown);
-                    if (ability.equals(Ability.METEOR_BLAST)) {
-                        player.swingMainHand();
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
-                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        new Meteor(loc, damage);
-                    } else if (ability.equals(Ability.EVOCATION)) {
-                        player.swingMainHand();
-                        Location loc;
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        for (int i = 1; i <= 4; i++) {
-                            loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
+                    switch (ability) {
+                        case METEOR_BLAST -> {
+                            player.swingMainHand();
+                            Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                     toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                            loc.add(0, -1, 0);
-                            new EvocationFang(loc, damage);
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            new Meteor(loc, damage);
                         }
-                        player.damage(player.getHealth() / 4);
-                    } else if (ability.equals(Ability.SNOWBALL)) {
-                        player.swingMainHand();
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
-                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        new SnowBall(loc, damage, player);
-                    } else if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
-                        player.swingMainHand();
-                        this.target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
-                        if (ability.equals(Ability.DIMENSION_SHATTER)) {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0, false, true));
-                        }
-                    } else if (ability.equals(Ability.LETHAL_ABSORPTION)) {
-                        player.swingMainHand();
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2, false, true));
-                        player.damage(player.getHealth() / 2);
-                    } else if (ability.equals(Ability.DIMENSIONAL_FREEZE)) {
-                        player.swingMainHand();
-                        player.playSound(player,Sound.BLOCK_GLASS_BREAK,1,1);
-                        Location loc = target.getLocation();
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (!Cooldown.hasCooldown(item)) {
-                                    cancel();
-                                }
-                                target.teleport(loc);
+                        case EVOCATION -> {
+                            player.swingMainHand();
+                            Location loc;
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            for (int i = 1; i <= 4; i++) {
+                                loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
+                                        toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                                loc.add(0, -1, 0);
+                                new EvocationFang(loc, damage);
                             }
-                        }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
+                            player.damage(player.getHealth() / 4);
+                        }
+                        case SNOWBALL -> {
+                            player.swingMainHand();
+                            Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                                    toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            new SnowBall(loc, damage, player);
+                        }
+                        case DIMENSION_SHATTER,DIMENSION_UNISON -> {
+                            player.swingMainHand();
+                            this.target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
+                            if (ability.equals(Ability.DIMENSION_SHATTER)) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0, false, true));
+                            }
+                        }
+                        case LETHAL_ABSORPTION -> {
+                            player.swingMainHand();
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2, false, true));
+                            player.damage(player.getHealth() / 2);
+                        }
+                        case DIMENSIONAL_FREEZE -> {
+                            player.swingMainHand();
+                            player.playSound(player,Sound.BLOCK_GLASS_BREAK,1,1);
+                            Location loc = target.getLocation();
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    if (!Cooldown.hasCooldown(item)) {
+                                        cancel();
+                                    }
+                                    target.teleport(loc);
+                                }
+                            }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
+                        }
                     }
-                    // TODO complete ability
                 }
             }
         }
