@@ -102,9 +102,12 @@ public class AbilityListener implements Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
+                                if (!Cooldown.hasCooldown(item)) {
+                                    cancel();
+                                }
                                 target.teleport(loc);
                             }
-                        }.runTaskTimer(Everhunt.getInstance(), EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L,EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L);
+                        }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
                     }
                     // TODO complete ability
                 }
