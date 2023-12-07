@@ -3,6 +3,7 @@ package me.nils.everhunt.listeners;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
+import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.entities.abilities.*;
 import me.nils.everhunt.managers.ArmorManager;
@@ -25,11 +26,13 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.List;
 
 public class AbilityListener implements Listener {
+    private LivingEntity target;
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent event) {
@@ -49,9 +52,9 @@ public class AbilityListener implements Listener {
         FlowData flow = FlowData.data.get(player);
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (ability.needsTarget()) {
-                Entity entity = player.getTargetEntity(3);
+                Entity entity = player.getTargetEntity(ability.getRange());
                 if (entity instanceof LivingEntity) {
-                    LivingEntity target = (LivingEntity) entity;
+                    this.target = (LivingEntity) entity;
                 } else {
                     return;
                 }
@@ -65,8 +68,7 @@ public class AbilityListener implements Listener {
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         new Meteor(loc, damage);
-                    }
-                    if (ability.equals(Ability.EVOCATION)) {
+                    } else if (ability.equals(Ability.EVOCATION)) {
                         player.swingMainHand();
                         Location loc;
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
@@ -77,29 +79,34 @@ public class AbilityListener implements Listener {
                             new EvocationFang(loc, damage);
                         }
                         player.damage(player.getHealth() / 4);
-                    }
-                    if (ability.equals(Ability.SNOWBALL)) {
+                    } else if (ability.equals(Ability.SNOWBALL)) {
                         player.swingMainHand();
                         Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                 toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         new SnowBall(loc, damage, player);
-                    }
-                    if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
-                        Entity entity = player.getTargetEntity(3);
-                        if (entity instanceof LivingEntity livingEntity) {
-                            player.swingMainHand();
-                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
-                            if (ability.equals(Ability.DIMENSION_SHATTER)) {
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0, false, true));
-                            }
+                    } else if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
+                        player.swingMainHand();
+                        this.target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
+                        if (ability.equals(Ability.DIMENSION_SHATTER)) {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0, false, true));
                         }
-                    }
-                    if (ability.equals(Ability.LETHAL_ABSORPTION)) {
+                    } else if (ability.equals(Ability.LETHAL_ABSORPTION)) {
                         player.swingMainHand();
                         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2, false, true));
                         player.damage(player.getHealth() / 2);
+                    } else if (ability.equals(Ability.DIMENSIONAL_FREEZE)) {
+                        player.swingMainHand();
+                        player.playSound(player,Sound.BLOCK_GLASS_BREAK,1,1);
+                        Location loc = target.getLocation();
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                target.teleport(loc);
+                            }
+                        }.runTaskTimer(Everhunt.getInstance(), EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L,EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L);
                     }
+                    // TODO complete ability
                 }
             }
         }
