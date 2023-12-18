@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -28,7 +27,7 @@ public class UndeadScarecrow extends EntityData {
         ItemStack helmet = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta helmetMeta = (SkullMeta) helmet.getItemMeta();
 
-        helmetMeta.setPlayerProfile(Head.createTexture("http://textures.minecraft.net/texture/d21aaf17d55689f55a23a5d0cb55b75901e8bb44e6d485f51edfedf07e05ccbe"));
+        helmetMeta.setPlayerProfile(Head.createTexture("https://textures.minecraft.net/texture/d21aaf17d55689f55a23a5d0cb55b75901e8bb44e6d485f51edfedf07e05ccbe"));
 
         helmet.setItemMeta(helmetMeta);
 

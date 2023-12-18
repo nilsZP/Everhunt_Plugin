@@ -5,9 +5,7 @@ import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 

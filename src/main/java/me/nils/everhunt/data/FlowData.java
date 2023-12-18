@@ -1,13 +1,11 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.managers.ToolManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public class FlowData {
     public static final HashMap<Player, FlowData> data = new HashMap<>();

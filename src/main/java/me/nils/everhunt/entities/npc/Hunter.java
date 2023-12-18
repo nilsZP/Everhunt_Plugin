@@ -6,8 +6,6 @@ import me.nils.everhunt.data.EntityData;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class Hunter extends EntityData {
     public Hunter(Location loc) {

@@ -1,7 +1,6 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.managers.WeaponManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

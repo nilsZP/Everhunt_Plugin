@@ -1,28 +1,22 @@
 package me.nils.everhunt.managers;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 public class ItemManager {
     public static final HashMap<String, ItemManager> items = new HashMap<>();

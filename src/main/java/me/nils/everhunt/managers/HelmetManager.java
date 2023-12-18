@@ -2,33 +2,25 @@ package me.nils.everhunt.managers;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.constants.Pattern;
 import me.nils.everhunt.constants.Tier;
-import me.nils.everhunt.constants.Trim;
-import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ArmorMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.io.File;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class HelmetManager {
     public static final HashMap<String, HelmetManager> items = new HashMap<>();

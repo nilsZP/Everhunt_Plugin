@@ -16,7 +16,7 @@ public class Cooldown {
     public static void setCooldown(ItemStack item, double seconds) {
         double delay = (System.currentTimeMillis() + (seconds * 1000L));
         String ability = item.getItemMeta().getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
-        cooldowns.put(ability, Double.valueOf(delay));
+        cooldowns.put(ability, delay);
     }
 
     public static boolean hasCooldown(ItemStack item) {

@@ -1,6 +1,5 @@
 package me.nils.everhunt.utils;
 
-import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.managers.ItemManager;
 import org.bukkit.Bukkit;
