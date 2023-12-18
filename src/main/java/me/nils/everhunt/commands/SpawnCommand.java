@@ -5,10 +5,7 @@ import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.MechanicalZombie;
 import me.nils.everhunt.entities.bosses.ThunderBones;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
-import me.nils.everhunt.entities.npc.Marcus;
-import me.nils.everhunt.entities.npc.Mi;
-import me.nils.everhunt.entities.npc.Mikull;
-import me.nils.everhunt.entities.npc.OldManDave;
+import me.nils.everhunt.entities.npc.*;
 import me.nils.everhunt.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
@@ -66,6 +63,10 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             }
             case "wolfking" -> {
                 new WolfKing(player.getLocation());
+                return true;
+            }
+            case "hunter" -> {
+                new Hunter(player.getLocation());
                 return true;
             }
             default -> {
