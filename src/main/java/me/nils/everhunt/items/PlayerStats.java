@@ -56,6 +56,18 @@ public class PlayerStats {
             health = 0;
         }
 
+        double luck;
+
+        while (base %2 != 0) {
+            base--;
+        }
+
+        if (base != 0) {
+            luck = base / 2;
+        } else {
+            luck = 0;
+        }
+
         UUID uuid = player.getUniqueId();
 
         FlowData data = FlowData.data.get(player);
@@ -90,6 +102,8 @@ public class PlayerStats {
 
 
         lore.add(Chat.color("&7Damage: &4+" + damage));
+
+        lore.add(Chat.color("&7Luck: &2+" + luck));
 
         lore.add(Chat.color("&7Flow: &3" + data.getFlowAmount()));
 

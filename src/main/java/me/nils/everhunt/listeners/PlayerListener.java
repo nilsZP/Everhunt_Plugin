@@ -54,6 +54,19 @@ public class PlayerListener implements Listener {
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
         new FlowData(player);
 
+        int luck;
+
+        while (level %2 != 0) {
+            level--;
+        }
+
+        if (level != 0) {
+            luck = level / 2;
+        } else {
+            luck = 0;
+        }
+
+        player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,PotionEffect.INFINITE_DURATION,luck,false,false,false));
         player.getInventory().setItem(8, new PlayerStats(player).getItemStack());
     }
 
