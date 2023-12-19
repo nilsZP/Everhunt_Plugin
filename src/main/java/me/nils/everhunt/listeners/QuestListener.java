@@ -13,6 +13,7 @@ import me.nils.everhunt.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,6 +34,7 @@ public class QuestListener implements Listener {
     public void onNPCInteract(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
+        PlayerData playerData = PlayerData.data.get(uuid);
         Entity entity = event.getRightClicked();
         EntityData data = EntityData.data.get(ChatColor.stripColor(entity.getName()));
         if (data != null) {
@@ -126,9 +128,22 @@ public class QuestListener implements Listener {
                             return;
                         }
                     }
+                    if (!(QuestData.getDone(uuid, 3)) && QuestData.getDone(uuid,2)) {
+                        if (QuestData.getCompletion(uuid,3) == 6) {
+                            player.sendMessage(Component.text(Chat.color("&eMi: &fPlease, go kill some Undead Scarecrows!")));
+                            player.sendMessage(Component.text(Chat.color("&eMi: &fI would really appreciate it.")));
+                            QuestData.setCompletion(uuid,3,7);
+                            // TODO add spawning mechanic for undead scarecrows
+                        }
+                        if (QuestData.getCompletion(uuid,3) == 8) {
+                            player.sendMessage(Component.text(Chat.color("&eMi: &fThanks.")));
+                            player.getInventory().addItem(HelmetManager.items.get("Jester Helmet").getItemStack());
+                            QuestData.setCompletion(uuid,3,9);
+                        }
+                    }
                 }
                 if (data.getDisplayName().equals("Hunter")) {
-                    if (!(QuestData.getDone(uuid, 3))) {
+                    if (!(QuestData.getDone(uuid, 3)) && QuestData.getDone(uuid,2)) {
                         if (QuestData.getCompletion(uuid, 3) <= 1) {
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fAre you the hunter who killed the Wolf King?")));
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fThat's amazing can I have your armor?")));
@@ -144,8 +159,35 @@ public class QuestListener implements Listener {
                             QuestData.setCompletion(uuid, 3, 3);
                             return;
                         } else {
-                            player.sendMessage(Component.text(Chat.color("&eHunter: &Are you gonna give me the wheat?")));
+                            player.sendMessage(Component.text(Chat.color("&eHunter: &fAre you gonna give me the wheat?")));
                             player.sendMessage(Component.text(Chat.color("&fTalk to the hunter holding 30 wheat.")));
+                        }
+                        if (QuestData.getCompletion(uuid,3) == 4) {
+                            player.sendMessage(Component.text(Chat.color("&eHunter: &fWant to buy the Jester Leggings for 100 coins?")));
+                            // TODO open sell menu with jester leggings
+                            QuestData.setCompletion(uuid,3,5);
+                        }
+                        if (QuestData.getCompletion(uuid,3) == 5 && player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() >= 5) {
+                            player.sendMessage(Component.text(Chat.color("&eHunter: &fWow, you look pretty strong!")));
+                            player.sendMessage(Component.text(Chat.color("&eHunter: &fHere, have this!")));
+                            player.getInventory().addItem(ArmorManager.items.get("Jester Leggings").getItemStack());
+                            QuestData.setCompletion(uuid,3,6);
+                        }
+                    }
+                }
+                if (data.getDisplayName().equals("Guild Master")) {
+                    if (!(QuestData.getDone(uuid,3)) && QuestData.getDone(uuid,2)) {
+                        if (QuestData.getCompletion(uuid,3) == 3) {
+                            player.sendMessage(Component.text(Chat.color("&eGuild Master: &fHello, I am the guild master!")));
+                            player.sendMessage(Component.text(Chat.color("&eGuild Master: &fI see that you are gathering the pieces for the Jester set!")));
+                            player.sendMessage(Component.text(Chat.color("&eGuild Master: &fIf you talk to me when you have the complete set, I'll officially make you a hunter!")));
+                            player.sendMessage(Component.text(Chat.color("&fLook around the guild house and see if you can get another piece.")));
+                            QuestData.setCompletion(uuid,3,4);
+                        }
+                        if (QuestData.getCompletion(uuid,3) == 9) {
+                            player.sendMessage(Component.text(Chat.color("&eGuild Master: &fYou are now officially a Monster Hunter!")));
+                            // TODO add job
+                            playerData.addXp(235);
                         }
                     }
                 }
@@ -171,6 +213,11 @@ public class QuestListener implements Listener {
                 if (!(QuestData.getDone(uuid, 1)) && QuestData.getCompletion(uuid, 1) >= 1) {
                     double completion = QuestData.getCompletion(uuid, 1) + 1;
                     QuestData.setCompletion(uuid, 1, completion);
+                }
+            }
+            if (entity.getName().equals("Undead Scarecrow")) {
+                if (!(QuestData.getDone(uuid,3)) && QuestData.getCompletion(uuid,3) == 7) {
+                    QuestData.setCompletion(uuid,3,8);
                 }
             }
             if (entity.getName().equals("Wolf King")) {

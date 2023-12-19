@@ -1,16 +1,15 @@
 package me.nils.everhunt.listeners;
 
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.data.PlayerData;
+import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,10 +19,12 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PlayerListener implements Listener {
 
@@ -91,6 +92,37 @@ public class PlayerListener implements Listener {
     public void onXpGain(PlayerPickupExperienceEvent event) {
         event.getExperienceOrb().remove();
         event.setCancelled(true);
+    }
+
+    public static void checkMonsterSpawn() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (!player.getWorld().isDayTime()) {
+                        List<Block> blocks = getNearbyBlocks(player.getLocation(),8);
+                        for (Block block : blocks) {
+                            Location loc = block.getLocation();
+                            Block block1 = loc.getWorld().getBlockAt(loc.getBlockX(),loc.getBlockY() + 1, loc.getBlockZ());
+                            Block block2 = loc.getWorld().getBlockAt(loc.getBlockX(),loc.getBlockY() + 2, loc.getBlockZ());
+
+                            if (block1.isEmpty() && block2.isEmpty()) {
+                                Random random = new Random();
+                                int randInt = random.nextInt(0,11);
+
+                                if (randInt == 1) {
+                                    if (block1.getLightLevel() <= 6) {
+                                        if (block.getType() == Material.WHEAT) {
+                                            new UndeadScarecrow(loc);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }.runTaskTimer(Everhunt.getInstance(),300L,300L);
     }
 
     public static List<Block> getNearbyBlocks(Location location, int radius) {

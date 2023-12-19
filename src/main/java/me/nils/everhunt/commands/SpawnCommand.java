@@ -29,24 +29,8 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
         String param = args[0].toLowerCase();
 
         switch (param) {
-            case "skeletonknight" -> {
-                new SkeletonKnight(player.getLocation());
-                return true;
-            }
-            case "thunderbones" -> {
-                new ThunderBones(player.getLocation());
-                return true;
-            }
-            case "springer" -> {
-                new Springer(player.getLocation());
-                return true;
-            }
             case "oldmandave" -> {
                 new OldManDave(player.getLocation());
-                return true;
-            }
-            case "mechanicalzombie" -> {
-                new MechanicalZombie(player.getLocation());
                 return true;
             }
             case "marcus" -> {
@@ -61,12 +45,12 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 new Mikull(player.getLocation());
                 return true;
             }
-            case "wolfking" -> {
-                new WolfKing(player.getLocation());
-                return true;
-            }
             case "hunter" -> {
                 new Hunter(player.getLocation());
+                return true;
+            }
+            case "guildmaster" -> {
+                new GuildMaster(player.getLocation());
                 return true;
             }
             default -> {
@@ -85,15 +69,12 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            completions.add("SkeletonKnight");
-            completions.add("ThunderBones");
-            completions.add("Springer");
             completions.add("OldManDave");
-            completions.add("MechanicalZombie");
             completions.add("Mi");
             completions.add("Mikull");
             completions.add("Marcus");
-            completions.add("WolfKing");
+            completions.add("Hunter");
+            completions.add("GuildMaster");
         }
 
         return completions;
