@@ -9,6 +9,7 @@ import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Database;
+import me.nils.everhunt.utils.Flow;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -35,7 +36,7 @@ public final class Everhunt extends JavaPlugin {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-        FlowData.regenFlow();
+        Flow.regenFlow();
     }
 
     @Override

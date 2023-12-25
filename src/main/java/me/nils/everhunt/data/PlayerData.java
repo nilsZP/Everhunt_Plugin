@@ -1,8 +1,11 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,12 +17,14 @@ public class PlayerData {
     private String uuid;
     private String username;
     private int xp;
+    private int level;
     private int coins;
 
     public PlayerData(String uuid, String username, int xp, int coins) {
         this.uuid = uuid;
         this.username = username;
         this.xp = xp;
+        this.level = xp / 100;
         this.coins = coins;
 
         data.put(uuid,this);
@@ -73,6 +78,12 @@ public class PlayerData {
         Player player = Bukkit.getPlayer(UUID.fromString(uuid));
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
         this.xp = xp;
+
+        if (this.level != level) {
+            Stats.giveStats(player);
+        }
+
+        this.level = level;
     }
 
     public void addXp(int xp) {

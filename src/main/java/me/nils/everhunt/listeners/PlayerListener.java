@@ -3,14 +3,18 @@ package me.nils.everhunt.listeners;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
+import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +24,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -35,7 +41,8 @@ public class PlayerListener implements Listener {
         new PlayerData(player.getUniqueId().toString(),player.getName(),0,0);
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
-        new FlowData(player);
+
+        Stats.giveStats(player);
     }
 
     @EventHandler
@@ -53,7 +60,28 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) throws MalformedURLException {
+    public void onHit(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player) {
+            if (event.getEntity() instanceof LivingEntity livingEntity) {
+                EntityData data = EntityData.data.get(livingEntity.getName());
+
+                if (data != null) {
+                    if (data.getType() != MobType.NPC) {
+                        double damage = event.getDamage();
+                        int luck = (int) player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).getValue();
+                        Random random = new Random();
+                        int randInt = random.nextInt(0,101);
+                        if (randInt <= luck) {
+                            event.setDamage(damage*1.5);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             return;
@@ -79,6 +107,15 @@ public class PlayerListener implements Listener {
                     return;
                 }
             }
+        }
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        if (player.getGameMode().equals(GameMode.CREATIVE)) {
+            return;
         }
         event.setCancelled(true);
     }

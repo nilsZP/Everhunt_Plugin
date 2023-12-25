@@ -12,6 +12,10 @@ public class MenuListener implements Listener {
     @EventHandler
     public void menuInteract(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
+        if (event.getCurrentItem().displayName().toString().contains(player.getName())) {
+            event.setCancelled(true);
+            return;
+        }
         String uuid = player.getUniqueId().toString();
         if (event.getView().getTitle().equals("Teleport Menu")) {
             player.closeInventory();
