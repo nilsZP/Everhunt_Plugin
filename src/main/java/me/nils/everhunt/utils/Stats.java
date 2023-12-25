@@ -1,7 +1,6 @@
 package me.nils.everhunt.utils;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.data.PlayerData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -43,9 +42,9 @@ public class Stats {
         }
 
         if (base != 0) {
-            health = base / 5;
+            health = 20 + (base / 5);
         } else {
-            health = 0;
+            health = 20;
         }
 
         base = level;
@@ -60,46 +59,28 @@ public class Stats {
             luck = 0;
         }
 
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
+        player.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(toughness);
+        player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
+        player.getAttribute(Attribute.GENERIC_LUCK).setBaseValue(luck);
+        player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).setBaseValue(flow);
+
         ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
         meta.setPlayerProfile(player.getPlayerProfile());
         meta.displayName(Component.text(player.getName()));
         meta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, player.getName());
-
-        AttributeModifier modifier;
-        if (health != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "health", health, AttributeModifier.Operation.ADD_NUMBER);
-            meta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, modifier);
-        }
-        if (toughness != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "toughness", toughness, AttributeModifier.Operation.ADD_NUMBER);
-            meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
-        }
-        if (damage != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "damage", damage, AttributeModifier.Operation.ADD_NUMBER);
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
-        }
-        if (luck != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "luck", luck, AttributeModifier.Operation.ADD_NUMBER);
-            meta.addAttributeModifier(Attribute.GENERIC_LUCK, modifier);
-        }
-        if (flow != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER);
-            meta.addAttributeModifier(Attribute.GENERIC_FOLLOW_RANGE, modifier);
-        }
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
 
-        lore.add(Chat.color("&7Health: &a+" + health));
+        lore.add(Chat.color("&7Health: &a" + health));
 
+        lore.add(Chat.color("&7Toughness: &8" + toughness));
 
-        lore.add(Chat.color("&7Toughness: &8+" + toughness));
+        lore.add(Chat.color("&7Damage: &4" + damage));
 
-
-        lore.add(Chat.color("&7Damage: &4+" + damage));
-
-        lore.add(Chat.color("&7Luck: &2+" + luck));
+        lore.add(Chat.color("&7Luck: &2" + luck));
 
         lore.add(Chat.color("&7Flow: &3" + flow));
 

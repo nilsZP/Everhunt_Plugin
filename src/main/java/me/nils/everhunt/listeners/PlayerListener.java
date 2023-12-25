@@ -2,7 +2,6 @@ package me.nils.everhunt.listeners;
 
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
@@ -31,10 +30,8 @@ public class PlayerListener implements Listener {
         new PlayerData(player.getUniqueId().toString(),player.getName(),0,0);
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;
         player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
-        new FlowData(player);
 
         Stats.giveStats(player);
-        player.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).setBaseValue(0);
     }
 
     @EventHandler

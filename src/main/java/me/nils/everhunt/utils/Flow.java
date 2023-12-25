@@ -1,29 +1,17 @@
-package me.nils.everhunt.data;
+package me.nils.everhunt.utils;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.managers.ToolManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.Objects;
 
-public class FlowData {
-    public static final HashMap<Player, FlowData> data = new HashMap<>();
-    private final Player player;
-    private final int flowAmount;
-
-    public FlowData(Player player) {
-        this.player = player;
-        this.flowAmount = getFlowAmount();
-
-        data.put(player,this);
-    }
-
-    public boolean useFlow(int amount) {
-        if (amount > getFlowAmount()) {
+public class Flow {
+    public static boolean useFlow(int amount, Player player) {
+        if (amount > getFlowAmount(player)) {
             return false;
         }
         if (player.getLevel() - amount < 0) {
@@ -39,7 +27,7 @@ public class FlowData {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    int flowAmount = FlowData.data.get(player).getFlowAmount();
+                    int flowAmount = getFlowAmount(player);
                     if (player.getExp() < 1f) {
                         float manaRegen = player.getExp() + 0.1f + (((flowAmount / 5f) / 100f));
                         if (manaRegen > 1f) {
@@ -58,7 +46,7 @@ public class FlowData {
         }.runTaskTimer(Everhunt.getInstance(),20L,20L);
     }
 
-    public int getFlowAmount() {
-        return (int) player.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).getValue();
+    public static int getFlowAmount(Player player) {
+        return (int) Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION)).getValue();
     }
 }

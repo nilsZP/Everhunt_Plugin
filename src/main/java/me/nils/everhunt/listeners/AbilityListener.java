@@ -3,12 +3,12 @@ package me.nils.everhunt.listeners;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.entities.abilities.*;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
+import me.nils.everhunt.utils.Flow;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -46,10 +46,9 @@ public class AbilityListener implements Listener {
         }
         Ability ability = weapon.getAbility();
         int cooldown = ability.getCooldown();
-        FlowData flow = FlowData.data.get(player);
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (!(Cooldown.hasCooldown(item))) {
-                if (flow.useFlow(ability.getFlowCost())) {
+                if (Flow.useFlow(ability.getFlowCost(),player)) {
                     Cooldown.setCooldown(item, cooldown);
                     if (ability.equals(Ability.METEOR_BLAST)) {
                         player.swingMainHand();
@@ -100,7 +99,6 @@ public class AbilityListener implements Listener {
     @EventHandler
     public void onJump(PlayerJumpEvent event) {
         Player player = event.getPlayer();
-        FlowData flow = FlowData.data.get(player);
         ItemStack boots = player.getInventory().getBoots();
         if (boots == null) {
             return;
@@ -113,7 +111,7 @@ public class AbilityListener implements Listener {
         if (ability == Ability.SPRING) {
             if (!(Cooldown.hasCooldown(boots))) {
                 Cooldown.setCooldown(boots, ability.getCooldown());
-                flow.useFlow(ability.getFlowCost());
+                Flow.useFlow(ability.getFlowCost(),player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 60, 3, false, false, false));
             }
         }
@@ -140,7 +138,6 @@ public class AbilityListener implements Listener {
     public void onTridentThrow(ProjectileLaunchEvent event) {
         if (event.getEntity().getType() == EntityType.TRIDENT) {
             Player player = (Player) event.getEntity().getShooter();
-            FlowData flow = FlowData.data.get(player);
             NamespacedKey key = Everhunt.getKey();
 
             ItemStack item = player.getInventory().getItemInMainHand();
@@ -156,7 +153,7 @@ public class AbilityListener implements Listener {
             Ability ability = weapon.getAbility();
             if (ability.equals(Ability.THUNDER_WARP)) {
                 if (!(Cooldown.hasCooldown(item))) {
-                    if (flow.useFlow(ability.getFlowCost())) {
+                    if (Flow.useFlow(ability.getFlowCost(),player)) {
                         Cooldown.setCooldown(item, 2);
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         event.getEntity().getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, damage);
@@ -229,7 +226,6 @@ public class AbilityListener implements Listener {
         }
         if (damager instanceof Player player) {
             NamespacedKey key = Everhunt.getKey();
-            FlowData flow = FlowData.data.get(player);
 
             ItemStack item = player.getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
@@ -265,7 +261,7 @@ public class AbilityListener implements Listener {
                     if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
                             Cooldown.setCooldown(item, cooldown);
-                            flow.useFlow(ability.getFlowCost());
+                            Flow.useFlow(ability.getFlowCost(),player);
                             Location loc = entity.getLocation();
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             new ThunderBolt(loc, damage);
