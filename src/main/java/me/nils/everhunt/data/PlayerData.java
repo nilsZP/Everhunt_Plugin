@@ -1,8 +1,7 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.items.PlayerStats;
-import me.nils.everhunt.managers.WeaponManager;
+import me.nils.everhunt.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -81,22 +80,8 @@ public class PlayerData {
         this.xp = xp;
 
         if (this.level != level) {
-            player.getInventory().setItem(8, new PlayerStats(player).getItemStack());
+            Stats.giveStats(player);
         }
-
-        int luck;
-
-        while (level %2 != 0) {
-            level--;
-        }
-
-        if (level != 0) {
-            luck = level / 2;
-        } else {
-            luck = 0;
-        }
-
-        player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,PotionEffect.INFINITE_DURATION,luck,false,false,false));
 
         this.level = level;
     }

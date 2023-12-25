@@ -1,13 +1,8 @@
-package me.nils.everhunt.items;
+package me.nils.everhunt.utils;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.FlowData;
 import me.nils.everhunt.data.PlayerData;
-import me.nils.everhunt.managers.HelmetManager;
-import me.nils.everhunt.utils.Chat;
-import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -18,30 +13,27 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class PlayerStats {
-    public static final HashMap<Player, PlayerStats> items = new HashMap<>();
+public class Stats {
+    public static void giveStats(Player player) {
+        player.getInventory().setItem(8, createStats(player));
+    }
 
-    private final Player player;
-    private final double toughness;
-    private final double health;
-    private final double damage;
-
-    private final ItemStack itemStack;
-
-    public PlayerStats(Player player) {
-        this.player = player;
-
+    private static ItemStack createStats(Player player) {
         PlayerData pData = PlayerData.data.get(player.getUniqueId().toString());
 
         int level = pData.getXp() / 100;
 
+        double toughness, damage, health,luck,flow;
         double base = level;
+
+        flow = (level + 1) * 5;
 
         toughness = base / 10;
         damage = base / 5;
@@ -56,7 +48,7 @@ public class PlayerStats {
             health = 0;
         }
 
-        double luck;
+        base = level;
 
         while (base %2 != 0) {
             base--;
@@ -68,11 +60,7 @@ public class PlayerStats {
             luck = 0;
         }
 
-        UUID uuid = player.getUniqueId();
-
-        FlowData data = FlowData.data.get(player);
-
-        itemStack = new ItemStack(Material.PLAYER_HEAD);
+        ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) itemStack.getItemMeta();
         meta.setPlayerProfile(player.getPlayerProfile());
         meta.displayName(Component.text(player.getName()));
@@ -80,16 +68,24 @@ public class PlayerStats {
 
         AttributeModifier modifier;
         if (health != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "health", health, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            modifier = new AttributeModifier(UUID.randomUUID(), "health", health, AttributeModifier.Operation.ADD_NUMBER);
             meta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, modifier);
         }
         if (toughness != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "toughness", toughness, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            modifier = new AttributeModifier(UUID.randomUUID(), "toughness", toughness, AttributeModifier.Operation.ADD_NUMBER);
             meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
         }
         if (damage != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "damage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            modifier = new AttributeModifier(UUID.randomUUID(), "damage", damage, AttributeModifier.Operation.ADD_NUMBER);
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        }
+        if (luck != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "luck", luck, AttributeModifier.Operation.ADD_NUMBER);
+            meta.addAttributeModifier(Attribute.GENERIC_LUCK, modifier);
+        }
+        if (flow != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER);
+            meta.addAttributeModifier(Attribute.GENERIC_FOLLOW_RANGE, modifier);
         }
         meta.setUnbreakable(true);
 
@@ -105,7 +101,7 @@ public class PlayerStats {
 
         lore.add(Chat.color("&7Luck: &2+" + luck));
 
-        lore.add(Chat.color("&7Flow: &3" + data.getFlowAmount()));
+        lore.add(Chat.color("&7Flow: &3" + flow));
 
         meta.setLore(lore);
 
@@ -115,10 +111,6 @@ public class PlayerStats {
 
         itemStack.setItemMeta(meta);
 
-        items.put(player, this);
-    }
-
-    public ItemStack getItemStack() {
         return itemStack;
     }
 }

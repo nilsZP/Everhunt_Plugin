@@ -3,6 +3,7 @@ package me.nils.everhunt.data;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.managers.ToolManager;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -58,8 +59,6 @@ public class FlowData {
     }
 
     public int getFlowAmount() {
-        int xp = PlayerData.data.get(player.getUniqueId().toString()).getXp();
-        int level = xp / 100;
-        return (level + 1) * 5;
+        return (int) player.getAttribute(Attribute.GENERIC_FOLLOW_RANGE).getValue();
     }
 }
