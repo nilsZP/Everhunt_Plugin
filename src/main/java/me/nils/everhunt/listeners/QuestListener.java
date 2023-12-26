@@ -8,6 +8,7 @@ import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Chat;
+import me.nils.everhunt.utils.Menu;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -162,7 +163,7 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid,3) == 4) {
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fWant to buy the Jester Leggings for 100 coins?")));
-                            // TODO open sell menu with jester leggings
+                            Menu.createSellMenu(player,ArmorManager.items.get("Jester Leggings").getItemStack());
                             QuestData.setCompletion(uuid,3,5);
                         }
                         if (QuestData.getCompletion(uuid,3) == 5 && player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() >= 5) {

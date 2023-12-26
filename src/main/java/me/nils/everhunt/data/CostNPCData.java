@@ -1,8 +1,12 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Job;
+import me.nils.everhunt.constants.*;
+import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.WeaponManager;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,6 +31,21 @@ public class CostNPCData {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void registerData() {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblcostnpc").executeQuery();
+
+            while (resultSet.next()) {
+                String name = resultSet.getString("itemname");
+                int cost = resultSet.getInt("cost");
+
+                new CostNPCData(name,cost);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

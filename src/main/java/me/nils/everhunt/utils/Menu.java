@@ -1,8 +1,10 @@
 package me.nils.everhunt.utils;
 
+import me.nils.everhunt.data.CostNPCData;
 import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.managers.ItemManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -67,8 +69,19 @@ public class Menu {
 
         for (int i = 0; i <= items.length; i++) {
             for (int i2 = 0; i2 <= items[i].length; i2++) {
-                if (items[i][i2] == null) {
-                    items[i][i2] = air;
+                ItemStack itemStack = items[i][i2];
+                if (itemStack == null) {
+                    itemStack = air;
+                }
+
+                ItemMeta meta = itemStack.getItemMeta();
+                if (meta != null) {
+                    if (CostNPCData.data.get(ChatColor.stripColor(meta.getDisplayName())) != null) {
+                        int cost = CostNPCData.data.get(ChatColor.stripColor(meta.getDisplayName())).getCost();
+
+                        List<String> lore = meta.getLore();
+                        lore.add(Chat.color("&7Cost: &e" + cost));
+                    }
                 }
             }
         }
