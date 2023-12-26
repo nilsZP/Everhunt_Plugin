@@ -186,6 +186,7 @@ public class QuestListener implements Listener {
                             player.sendMessage(Component.text(Chat.color("&eGuild Master: &fYou are now officially a Monster Hunter!")));
                             new JobData(uuid, Job.HUNTER,0);
                             playerData.addXp(235);
+                            QuestData.setDone(uuid,3);
                         }
                     }
                 }
