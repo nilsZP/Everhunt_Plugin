@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Menu {
     public static Inventory createTeleportMenu(Player player) {
@@ -37,9 +38,10 @@ public class Menu {
         return menu;
     }
 
-    public static Inventory createSellMenu(Player player) {
+    public static Inventory createSellMenu(Player player, ItemStack... selling) {
         String uuid = player.getUniqueId().toString();
         ArrayList<ItemStack> menuItems = new ArrayList<>();
+        List<ItemStack> sellingList = Arrays.stream(selling).toList();
 
         ItemStack sell = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
         ItemMeta sellMeta = sell.getItemMeta();
@@ -57,11 +59,19 @@ public class Menu {
 
         ItemStack[][] items = {
                 {pane,pane,pane,pane,pane,pane,pane,pane,pane},
-                {pane,air,air,air,air,air,air,air,pane},
-                {pane,air,air,air,air,air,air,air,pane},
-                {pane,air,air,air,air,air,air,air,pane},
+                {pane,sellingList.get(0),sellingList.get(1),sellingList.get(2),sellingList.get(3),sellingList.get(4),sellingList.get(5),sellingList.get(6),pane},
+                {pane,sellingList.get(7),sellingList.get(8),sellingList.get(9),sellingList.get(10),sellingList.get(11),sellingList.get(12),sellingList.get(13),pane},
+                {pane,sellingList.get(14),sellingList.get(15),sellingList.get(16),sellingList.get(17),sellingList.get(18),sellingList.get(19),sellingList.get(20),pane},
                 {pane,pane,pane,pane,sell,pane,pane,pane,pane}
         };
+
+        for (int i = 0; i <= items.length; i++) {
+            for (int i2 = 0; i2 <= items[i].length; i2++) {
+                if (items[i][i2] == null) {
+                    items[i][i2] = air;
+                }
+            }
+        }
 
         for (ItemStack[] itemStacks : items) {
             menuItems.addAll(Arrays.asList(itemStacks));

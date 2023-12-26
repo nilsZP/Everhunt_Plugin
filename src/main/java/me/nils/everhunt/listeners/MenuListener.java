@@ -1,5 +1,6 @@
 package me.nils.everhunt.listeners;
 
+import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.utils.Menu;
