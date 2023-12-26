@@ -3,13 +3,15 @@ package me.nils.everhunt.listeners;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.data.FlowData;
-import me.nils.everhunt.entities.abilities.*;
+import me.nils.everhunt.entities.abilities.EvocationFang;
+import me.nils.everhunt.entities.abilities.Meteor;
+import me.nils.everhunt.entities.abilities.SnowBall;
+import me.nils.everhunt.entities.abilities.ThunderBolt;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Cooldown;
-import net.kyori.adventure.text.Component;
+import me.nils.everhunt.utils.Flow;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -17,7 +19,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,11 +30,13 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.List;
 
 public class AbilityListener implements Listener {
+    private LivingEntity target;
 
     @EventHandler
     public void onRightClick(PlayerInteractEvent event) {
@@ -46,51 +53,71 @@ public class AbilityListener implements Listener {
         }
         Ability ability = weapon.getAbility();
         int cooldown = ability.getCooldown();
-        FlowData flow = FlowData.data.get(player);
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (ability.needsTarget()) {
+                Entity entity = player.getTargetEntity(ability.getRange());
+                if (entity instanceof LivingEntity) {
+                    this.target = (LivingEntity) entity;
+                } else {
+                    return;
+                }
+            }
             if (!(Cooldown.hasCooldown(item))) {
-                if (flow.useFlow(ability.getFlowCost())) {
+                if (Flow.useFlow(ability.getFlowCost(),player)) {
                     Cooldown.setCooldown(item, cooldown);
-                    if (ability.equals(Ability.METEOR_BLAST)) {
-                        player.swingMainHand();
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
-                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        new Meteor(loc, damage);
-                    }
-                    if (ability.equals(Ability.EVOCATION)) {
-                        player.swingMainHand();
-                        Location loc;
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        for (int i = 1; i <= 4; i++) {
-                            loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
-                                    toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                            loc.add(0, -1, 0);
-                            new EvocationFang(loc, damage);
-                        }
-                        player.damage(player.getHealth() / 4);
-                    }
-                    if (ability.equals(Ability.SNOWBALL)) {
-                        player.swingMainHand();
-                        Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
-                                toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        new SnowBall(loc, damage, player);
-                    }
-                    if (ability.equals(Ability.DIMENSION_SHATTER) || ability.equals(Ability.DIMENSION_UNISON)) {
-                        Entity entity = player.getTargetEntity(3);
-                        if (entity instanceof LivingEntity livingEntity) {
+                    switch (ability) {
+                        case METEOR_BLAST -> {
                             player.swingMainHand();
-                            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
+                            Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                                    toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            new Meteor(loc, damage);
+                        }
+                        case EVOCATION -> {
+                            player.swingMainHand();
+                            Location loc;
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            for (int i = 1; i <= 4; i++) {
+                                loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
+                                        toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                                loc.add(0, -1, 0);
+                                new EvocationFang(loc, damage);
+                            }
+                            player.damage(player.getHealth() / 4);
+                        }
+                        case SNOWBALL -> {
+                            player.swingMainHand();
+                            Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                                    toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            new SnowBall(loc, damage, player);
+                        }
+                        case DIMENSION_SHATTER,DIMENSION_UNISON -> {
+                            player.swingMainHand();
+                            this.target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
                             if (ability.equals(Ability.DIMENSION_SHATTER)) {
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 100, 0, false, true));
                             }
                         }
-                    }
-                    if (ability.equals(Ability.LETHAL_ABSORPTION)) {
-                        player.swingMainHand();
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2, false, true));
-                        player.damage(player.getHealth() / 2);
+                        case LETHAL_ABSORPTION -> {
+                            player.swingMainHand();
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 200, 2, false, true));
+                            player.damage(player.getHealth() / 2);
+                        }
+                        case DIMENSIONAL_FREEZE -> {
+                            player.swingMainHand();
+                            player.playSound(player,Sound.BLOCK_GLASS_BREAK,1,1);
+                            Location loc = target.getLocation();
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    if (!Cooldown.hasCooldown(item)) {
+                                        cancel();
+                                    }
+                                    target.teleport(loc);
+                                }
+                            }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
+                        }
                     }
                 }
             }
@@ -100,7 +127,6 @@ public class AbilityListener implements Listener {
     @EventHandler
     public void onJump(PlayerJumpEvent event) {
         Player player = event.getPlayer();
-        FlowData flow = FlowData.data.get(player);
         ItemStack boots = player.getInventory().getBoots();
         if (boots == null) {
             return;
@@ -113,7 +139,7 @@ public class AbilityListener implements Listener {
         if (ability == Ability.SPRING) {
             if (!(Cooldown.hasCooldown(boots))) {
                 Cooldown.setCooldown(boots, ability.getCooldown());
-                flow.useFlow(ability.getFlowCost());
+                Flow.useFlow(ability.getFlowCost(),player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 60, 3, false, false, false));
             }
         }
@@ -140,7 +166,6 @@ public class AbilityListener implements Listener {
     public void onTridentThrow(ProjectileLaunchEvent event) {
         if (event.getEntity().getType() == EntityType.TRIDENT) {
             Player player = (Player) event.getEntity().getShooter();
-            FlowData flow = FlowData.data.get(player);
             NamespacedKey key = Everhunt.getKey();
 
             ItemStack item = player.getInventory().getItemInMainHand();
@@ -156,7 +181,7 @@ public class AbilityListener implements Listener {
             Ability ability = weapon.getAbility();
             if (ability.equals(Ability.THUNDER_WARP)) {
                 if (!(Cooldown.hasCooldown(item))) {
-                    if (flow.useFlow(ability.getFlowCost())) {
+                    if (Flow.useFlow(ability.getFlowCost(),player)) {
                         Cooldown.setCooldown(item, 2);
                         double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                         event.getEntity().getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, damage);
@@ -229,7 +254,6 @@ public class AbilityListener implements Listener {
         }
         if (damager instanceof Player player) {
             NamespacedKey key = Everhunt.getKey();
-            FlowData flow = FlowData.data.get(player);
 
             ItemStack item = player.getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
@@ -265,7 +289,7 @@ public class AbilityListener implements Listener {
                     if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
                             Cooldown.setCooldown(item, cooldown);
-                            flow.useFlow(ability.getFlowCost());
+                            Flow.useFlow(ability.getFlowCost(),player);
                             Location loc = entity.getLocation();
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             if (ability.equals(Ability.THUNDER_CLAP)) {

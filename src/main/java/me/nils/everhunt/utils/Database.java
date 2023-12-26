@@ -1,9 +1,9 @@
 package me.nils.everhunt.utils;
 
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Database {
 

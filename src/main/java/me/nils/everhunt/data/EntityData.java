@@ -3,15 +3,10 @@ package me.nils.everhunt.data;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
-import me.nils.everhunt.constants.Tier;
-import me.nils.everhunt.managers.WeaponManager;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
 
 public class EntityData {
     public static final HashMap<String, EntityData> data = new HashMap<>();

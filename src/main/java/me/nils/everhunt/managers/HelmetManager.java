@@ -2,33 +2,25 @@ package me.nils.everhunt.managers;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.constants.Pattern;
 import me.nils.everhunt.constants.Tier;
-import me.nils.everhunt.constants.Trim;
-import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ArmorMeta;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.io.File;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class HelmetManager {
     public static final HashMap<String, HelmetManager> items = new HashMap<>();
@@ -56,12 +48,13 @@ public class HelmetManager {
     private final double toughness;
     private final double health;
     private final double damage;
+    private final double flow;
     private final String url;
 
 
     private final ItemStack itemStack;
 
-    public HelmetManager(String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, String url) {
+    public HelmetManager(String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage,double flow, String url) {
         this.ability = ability;
         this.displayName = displayName;
         this.tier = tier;
@@ -69,6 +62,7 @@ public class HelmetManager {
         this.toughness = toughness;
         this.health = health;
         this.damage = damage;
+        this.flow = flow;
         this.url = url;
 
         itemStack = new ItemStack(Material.PLAYER_HEAD);
@@ -94,6 +88,10 @@ public class HelmetManager {
             modifier = new AttributeModifier(UUID.randomUUID(), "damage", damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
         }
+        if (flow != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            meta.addAttributeModifier(Attribute.GENERIC_MAX_ABSORPTION, modifier);
+        }
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
@@ -110,11 +108,17 @@ public class HelmetManager {
         if (damage != 0) {
             lore.add(Chat.color("&7Damage: &4+" + damage));
         }
+        if (flow != 0) {
+            lore.add(Chat.color("&7Flow: &3+" + flow));
+        }
 
         if (!(ability == Ability.NONE)) {
             String action = ability.getActivation().getAction();
             lore.add(Chat.color("&r"));
             lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
+            for (String text : ability.getDescription()) {
+                lore.add(Chat.color(text));
+            }
             if (ability.getCooldown() != 0) {
                 lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
             }
@@ -141,8 +145,8 @@ public class HelmetManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblhelmet WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblhelmet (displayname,ability,tier,health,armor,toughness,damage,url) VALUES ('" +
-                        displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + url + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblhelmet (displayname,ability,tier,health,armor,toughness,damage,flow,url) VALUES ('" +
+                        displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + flow + "','" + url + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -161,37 +165,14 @@ public class HelmetManager {
                 double armor = resultSet.getDouble("armor");
                 double toughness = resultSet.getDouble("toughness");
                 double damage = resultSet.getDouble("damage");
+                double flow = resultSet.getDouble("flow");
                 String url = resultSet.getString("url");
 
-                new HelmetManager(displayName, ability, tier, health, armor, toughness, damage,url);
+                new HelmetManager(displayName, ability, tier, health, armor, toughness, damage,flow,url);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getArmorID() {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblhelmet WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static int getArmorID(String displayName) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblhelmet WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     public double getHealth() {

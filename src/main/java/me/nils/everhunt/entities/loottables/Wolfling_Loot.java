@@ -2,13 +2,11 @@ package me.nils.everhunt.entities.loottables;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.managers.ItemManager;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
 import org.bukkit.loot.LootTable;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Collection;

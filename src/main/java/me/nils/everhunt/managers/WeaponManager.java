@@ -3,24 +3,23 @@ package me.nils.everhunt.managers;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
-import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.utils.Chat;
-import me.nils.everhunt.utils.Database;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 public class WeaponManager {
     public static final HashMap<String, WeaponManager> items = new HashMap<>();
@@ -49,23 +48,32 @@ public class WeaponManager {
     private final Tier tier;
     private final Ability ability;
     private final double damage;
+    private final double flow;
 
     private final ItemStack itemStack;
 
-    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage) {
+    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage,double flow) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
         this.damage = damage;
+        this.flow = flow;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
         meta.displayName(Component.text(tier.getColor() + displayName));
 
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
+        AttributeModifier modifier;
+        if (damage != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
+        }
+        if (flow != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            meta.addAttributeModifier(Attribute.GENERIC_MAX_ABSORPTION, modifier);
+        }
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
@@ -73,11 +81,17 @@ public class WeaponManager {
         if (damage != 0) {
             lore.add(Chat.color("&7Damage: &4+" + damage));
         }
+        if (flow != 0) {
+            lore.add(Chat.color("&7Flow: &3+" + flow));
+        }
 
         if (!(ability == Ability.NONE)) {
             String action = ability.getActivation().getAction();
             lore.add(Chat.color("&r"));
             lore.add(Chat.color("&6Ability: " + ability.getName() + " &e&l" + action));
+            for (String text : ability.getDescription()) {
+                lore.add(Chat.color(text));
+            }
             if (ability.getCooldown() != 0) {
                 lore.add(Chat.color("&8Cooldown: &3" + ability.getCooldown()));
             }
@@ -104,8 +118,8 @@ public class WeaponManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
-                        tier + "','" + damage + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage,flow) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                        tier + "','" + damage + "','" + flow + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -122,36 +136,13 @@ public class WeaponManager {
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
                 double damage = resultSet.getDouble("damage");
+                double flow = resultSet.getDouble("flow");
 
-                new WeaponManager(material,displayName,ability,tier,damage);
+                new WeaponManager(material,displayName,ability,tier,damage,flow);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getWeaponID() {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static int getWeaponID(String displayName) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     public double getDamage() {
