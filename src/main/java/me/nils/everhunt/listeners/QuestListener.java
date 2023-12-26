@@ -1,11 +1,9 @@
 package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.constants.ItemType;
+import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.constants.MobType;
-import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.data.PlayerData;
-import me.nils.everhunt.data.QuestData;
-import me.nils.everhunt.data.TeleportData;
+import me.nils.everhunt.data.*;
 import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.managers.*;
@@ -186,7 +184,7 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid,3) == 9) {
                             player.sendMessage(Component.text(Chat.color("&eGuild Master: &fYou are now officially a Monster Hunter!")));
-                            // TODO add job
+                            new JobData(uuid, Job.HUNTER,0);
                             playerData.addXp(235);
                         }
                     }

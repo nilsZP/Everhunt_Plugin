@@ -21,7 +21,7 @@ public class JobData {
                     job + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tbljob (uuid, job, xp, coins) VALUES ('" + uuid + "','" + job + "','" +
+                Everhunt.getDatabase().run("INSERT INTO tbljob (uuid, job, xp) VALUES ('" + uuid + "','" + job + "','" +
                         xp + "')").executeUpdate();
             }
         } catch (SQLException e) {
@@ -29,7 +29,7 @@ public class JobData {
         }
     }
 
-    public int getXp(String uuid, Job job) {
+    public static int getXp(String uuid, Job job) {
         try {
             ResultSet resultSet = Everhunt.getDatabase().run("SELECT xp FROM tbljob WHERE uuid = '" + uuid + "' AND job = '" +
                     job + "'").executeQuery();
@@ -42,7 +42,7 @@ public class JobData {
         return xp;
     }
 
-    public void setXp(String uuid, Job job, int xp) {
+    public static void setXp(String uuid, Job job, int xp) {
         try {
             Everhunt.getDatabase().run("UPDATE tbljob SET xp = " + xp + " WHERE uuid = '" + uuid + "' AND job = '" +
                     job + "'").executeUpdate();
@@ -51,7 +51,22 @@ public class JobData {
         }
     }
 
-    public void addXp(String uuid, Job job, int xp) {
+    public static void addXp(String uuid, Job job, int xp) {
         setXp(uuid,job,getXp(uuid,job)+xp);
+    }
+
+    public static boolean hasJob(String uuid, Job job) {
+        try {
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tbljob WHERE UUID = '" + uuid + "' AND job = '" +
+                    job + "'").executeQuery();
+            check.next();
+            if (check.getInt(1) >= 1) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }
