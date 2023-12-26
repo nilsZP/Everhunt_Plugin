@@ -1,5 +1,6 @@
 package me.nils.everhunt.listeners;
 
+import me.nils.everhunt.data.CostNPCData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.managers.ItemManager;
@@ -26,6 +27,14 @@ public class MenuListener implements Listener {
         if (event.getView().getTitle().equals("Teleport Menu")) {
             player.closeInventory();
             player.teleport(Objects.requireNonNull(TeleportData.getCoords(uuid, Objects.requireNonNull(event.getCurrentItem()).getItemMeta().getLocalizedName())));
+        }
+
+        if (event.getView().getTitle().equals("Sell Menu")) {
+            CostNPCData data = CostNPCData.data.get(event.getCurrentItem().displayName().toString());
+
+            PlayerData pData = PlayerData.data.get(uuid);
+
+            pData.pay(data.getCost());
         }
     }
 

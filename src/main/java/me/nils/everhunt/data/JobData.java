@@ -39,7 +39,7 @@ public class JobData {
             e.printStackTrace();
         }
 
-        return xp;
+        return 0;
     }
 
     public static void setXp(String uuid, Job job, int xp) {

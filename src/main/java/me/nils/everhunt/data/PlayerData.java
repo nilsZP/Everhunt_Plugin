@@ -94,16 +94,25 @@ public class PlayerData {
         return coins;
     }
 
-    public void setCoins(int coins) {
+    public boolean setCoins(int coins) {
+        if (coins < 0) {
+            return false;
+        }
+
         try {
             Everhunt.getDatabase().run("UPDATE tblplayer SET coins = " + coins + " WHERE uuid = '" + uuid + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         this.coins = coins;
+        return true;
     }
 
-    public void addCoins(int coins) {
-        setCoins(getCoins()+coins);
+    public boolean addCoins(int coins) {
+        return setCoins(getCoins()+coins);
+    }
+
+    public boolean pay(int coins) {
+        return setCoins(getCoins()-coins);
     }
 }
