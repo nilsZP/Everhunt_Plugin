@@ -60,13 +60,14 @@ public class ArmorManager {
     private final double toughness;
     private final double health;
     private final double damage;
+    private final double flow;
     private final EquipmentSlot slot;
     private final boolean leather;
 
 
     private final ItemStack itemStack;
 
-    public ArmorManager(Material material, Color color, Trim trim, Pattern pattern, String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, EquipmentSlot slot, boolean leather) {
+    public ArmorManager(Material material, Color color, Trim trim, Pattern pattern, String displayName, Ability ability, Tier tier, double health, double armor, double toughness, double damage, double flow, EquipmentSlot slot, boolean leather) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
@@ -79,6 +80,7 @@ public class ArmorManager {
         this.health = health;
         this.slot = slot;
         this.damage = damage;
+        this.flow = flow;
         this.leather = leather;
 
         String type = switch (slot) {
@@ -117,6 +119,10 @@ public class ArmorManager {
             modifier = new AttributeModifier(UUID.randomUUID(), "damage", damage, AttributeModifier.Operation.ADD_NUMBER, slot);
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
         }
+        if (flow != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER, slot);
+            meta.addAttributeModifier(Attribute.GENERIC_MAX_ABSORPTION, modifier);
+        }
         meta.setUnbreakable(true);
         if (trim != Trim.NONE && pattern != Pattern.NONE) {
             meta.setTrim(new ArmorTrim(trim.getMaterial(), pattern.getPattern()));
@@ -135,6 +141,9 @@ public class ArmorManager {
         }
         if (damage != 0) {
             lore.add(Chat.color("&7Damage: &4+" + damage));
+        }
+        if (flow != 0) {
+            lore.add(Chat.color("&7Flow: &3+" + flow));
         }
 
         if (!(ability == Ability.NONE)) {
@@ -178,8 +187,8 @@ public class ArmorManager {
                 } else {
                     leatherInt = 0;
                 }
-                Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,slot,leather) VALUES ('" + material + "','" + color.asRGB() + "','" + trim + "','" +
-                        pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + slot + "','" + leatherInt + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblarmor (material,color,trim,pattern,displayname,ability,tier,health,armor,toughness,damage,flow,slot,leather) VALUES ('" + material + "','" + color.asRGB() + "','" + trim + "','" +
+                        pattern + "','" + displayName + "','" + ability + "','" + tier + "','" + health + "','" + armor + "','" + toughness + "','" + damage + "','" + flow + "','" + slot + "','" + leatherInt + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -202,38 +211,15 @@ public class ArmorManager {
                 double armor = resultSet.getDouble("armor");
                 double toughness = resultSet.getDouble("toughness");
                 double damage = resultSet.getDouble("damage");
+                double flow = resultSet.getDouble("flow");
                 EquipmentSlot slot = EquipmentSlot.valueOf(resultSet.getString("slot"));
                 boolean leather = resultSet.getBoolean("leather");
 
-                new ArmorManager(material, color, trim, pattern, displayName, ability, tier, health, armor, toughness, damage, slot, leather);
+                new ArmorManager(material, color, trim, pattern, displayName, ability, tier, health, armor, toughness, damage,flow, slot, leather);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getArmorID() {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static int getArmorID(String displayName) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblarmor WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     public double getHealth() {

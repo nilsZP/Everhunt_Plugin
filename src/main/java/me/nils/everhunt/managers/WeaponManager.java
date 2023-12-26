@@ -48,29 +48,41 @@ public class WeaponManager {
     private final Tier tier;
     private final Ability ability;
     private final double damage;
+    private final double flow;
 
     private final ItemStack itemStack;
 
-    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage) {
+    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage,double flow) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
         this.damage = damage;
+        this.flow = flow;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
         meta.displayName(Component.text(tier.getColor() + displayName));
 
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
+        AttributeModifier modifier;
+        if (damage != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
+        }
+        if (flow != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            meta.addAttributeModifier(Attribute.GENERIC_MAX_ABSORPTION, modifier);
+        }
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
 
         if (damage != 0) {
             lore.add(Chat.color("&7Damage: &4+" + damage));
+        }
+        if (flow != 0) {
+            lore.add(Chat.color("&7Flow: &3+" + flow));
         }
 
         if (!(ability == Ability.NONE)) {
@@ -106,8 +118,8 @@ public class WeaponManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
-                        tier + "','" + damage + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage,flow) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                        tier + "','" + damage + "','" + flow + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -124,36 +136,13 @@ public class WeaponManager {
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
                 double damage = resultSet.getDouble("damage");
+                double flow = resultSet.getDouble("flow");
 
-                new WeaponManager(material,displayName,ability,tier,damage);
+                new WeaponManager(material,displayName,ability,tier,damage,flow);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getWeaponID() {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public static int getWeaponID(String displayName) {
-        try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
-
-            resultSet.next();
-            return resultSet.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     public double getDamage() {
