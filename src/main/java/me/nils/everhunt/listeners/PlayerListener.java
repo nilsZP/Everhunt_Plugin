@@ -105,8 +105,10 @@ public class PlayerListener implements Listener {
                 if (ageable.getAge() == ageable.getMaximumAge()) {
                     String drop = switch (ageable.getMaterial()) {
                         case WHEAT -> "Wheat";
-                        case CARROT -> "Carrot";
-                        default -> null;
+                        case POTATOES -> "Potato";
+                        case BEETROOT, BEETROOTS -> "Beetroot";
+                        case CARROTS -> "Carrot";
+                        default -> "null";
                     };
 
                     Drop.getCropDrops(drop,ability,player, event.getBlock(), ageable);

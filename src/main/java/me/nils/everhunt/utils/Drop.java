@@ -23,7 +23,7 @@ public class Drop {
 
         drops += switch (crop) {
             case "Wheat" -> random.nextInt(1,4);
-            case "Potato" -> random.nextInt(2,5);
+            case "Potato","Carrot" -> random.nextInt(2,5);
             case "Beetroot" -> random.nextInt(0,3);
             default -> 0;
         };
