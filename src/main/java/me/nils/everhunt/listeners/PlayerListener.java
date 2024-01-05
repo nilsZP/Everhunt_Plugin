@@ -9,11 +9,13 @@ import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.utils.Drop;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -83,6 +85,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        event.getBlock().getDrops().clear();
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             return;
         }
@@ -97,14 +100,16 @@ public class PlayerListener implements Listener {
 
         if (tool != null) {
             Ability ability = tool.getAbility();
-            if (event.getBlock().getType() == Material.WHEAT) {
-                if (ability == Ability.BREAD_MAKER) {
-                    event.getBlock().getDrops().clear();
-                    for (int i = 0; i < 3; i++) {
-                        player.getWorld().dropItemNaturally(event.getBlock().getLocation(), ItemManager.items.get("Wheat").getItemStack());
-                    }
-                    event.getBlock().setType(Material.AIR);
-                    return;
+
+            if (event.getBlock().getBlockData() instanceof Ageable ageable) {
+                if (ageable.getAge() == ageable.getMaximumAge()) {
+                    String drop = switch (ageable.getMaterial()) {
+                        case WHEAT -> "Wheat";
+                        case CARROT -> "Carrot";
+                        default -> null;
+                    };
+
+                    Drop.getCropDrops(drop,ability,player, event.getBlock(), ageable);
                 }
             }
         }

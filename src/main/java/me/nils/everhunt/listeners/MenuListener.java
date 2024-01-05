@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
@@ -19,7 +20,10 @@ public class MenuListener implements Listener {
     @EventHandler
     public void menuInteract(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (event.getCurrentItem().displayName().toString().contains(player.getName())) {
+        if (event.getInventory().getType() == InventoryType.PLAYER) {
+            return;
+        }
+        if (Objects.requireNonNull(event.getCurrentItem()).displayName().toString().contains(player.getName())) {
             event.setCancelled(true);
             return;
         }

@@ -42,6 +42,10 @@ public class JobData {
         return 0;
     }
 
+    public static int getLevel(String uuid, Job job) {
+        return getXp(uuid,job)/100;
+    }
+
     public static void setXp(String uuid, Job job, int xp) {
         try {
             Everhunt.getDatabase().run("UPDATE tbljob SET xp = " + xp + " WHERE uuid = '" + uuid + "' AND job = '" +

@@ -39,7 +39,7 @@ public class CostNPCData {
             ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblcostnpc").executeQuery();
 
             while (resultSet.next()) {
-                String name = resultSet.getString("itemname");
+                String name = resultSet.getString("name");
                 int cost = resultSet.getInt("cost");
 
                 new CostNPCData(name,cost);
