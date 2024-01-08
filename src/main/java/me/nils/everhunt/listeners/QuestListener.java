@@ -8,6 +8,7 @@ import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Chat;
+import me.nils.everhunt.utils.Check;
 import me.nils.everhunt.utils.Menu;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -75,12 +76,12 @@ public class QuestListener implements Listener {
                             QuestData.setCompletion(uuid, 2, 1);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid, 2) >= 1 && isHolding(player, "Wooden Bat", ItemType.WEAPON) && QuestData.getCompletion(uuid, 2) < 5) {
+                        if (QuestData.getCompletion(uuid, 2) >= 1 && Check.isHolding(player, "Wooden Bat", ItemType.WEAPON) && QuestData.getCompletion(uuid, 2) < 5) {
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fMay I use that Wooden Bat as a handle?")));
                             QuestData.setCompletion(uuid, 2, 2);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid, 2) >= 3 && isHolding(player, "Kings Bone", ItemType.ITEM) && QuestData.getCompletion(uuid, 2) < 5) {
+                        if (QuestData.getCompletion(uuid, 2) >= 3 && Check.isHolding(player, "Kings Bone", ItemType.ITEM) && QuestData.getCompletion(uuid, 2) < 5) {
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fI can work with this.")));
                             player.getInventory().remove(player.getInventory().getItemInMainHand());
                             QuestData.setCompletion(uuid, 2, 5);
@@ -150,7 +151,7 @@ public class QuestListener implements Listener {
                             QuestData.setCompletion(uuid, 3, 1);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid, 3) == 2 && isHolding(player, "Wheat", ItemType.ITEM, 30)) {
+                        if (QuestData.getCompletion(uuid, 3) == 2 && Check.isHolding(player, "Wheat", ItemType.ITEM, 30)) {
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fThanks!")));
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fHere have these Jester boots!")));
                             player.getInventory().addItem(ArmorManager.items.get("Jester Boots").getItemStack());
@@ -260,68 +261,5 @@ public class QuestListener implements Listener {
                 return;
             }
         }
-    }
-
-    public boolean isHolding(Player player, String name, ItemType type) {
-        ItemStack itemStack = player.getInventory().getItemInMainHand();
-
-        if (itemStack.getItemMeta() == null) {
-            return false;
-        }
-
-        ItemMeta meta = itemStack.getItemMeta();
-
-        String holding = ChatColor.stripColor(meta.getDisplayName());
-
-        switch (type) {
-            case ITEM -> {
-                if (ItemManager.items.get(holding) == null) {
-                    return false;
-                }
-
-                return holding.equals(name);
-            }
-            case TOOL -> {
-                if (ToolManager.items.get(holding) == null) {
-                    return false;
-                }
-
-                return holding.equals(name);
-            }
-            case ARMOR -> {
-                if (ArmorManager.items.get(holding) == null) {
-                    return false;
-                }
-
-                return holding.equals(name);
-            }
-            case HELMET -> {
-                if (HelmetManager.items.get(holding) == null) {
-                    return false;
-                }
-
-                return holding.equals(name);
-            }
-            case WEAPON -> {
-                if (WeaponManager.items.get(holding) == null) {
-                    return false;
-                }
-
-                return holding.equals(name);
-            }
-            default -> {
-                return false;
-            }
-        }
-    }
-
-    public boolean isHolding(Player player, String name, ItemType type, int amount) {
-        if (isHolding(player, name, type)) {
-            int itemAmount = player.getInventory().getItemInMainHand().getAmount();
-
-            return amount == itemAmount;
-        }
-
-        return false;
     }
 }

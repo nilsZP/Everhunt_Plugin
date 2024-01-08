@@ -10,6 +10,7 @@ import me.nils.everhunt.entities.abilities.ThunderBolt;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.WeaponManager;
+import me.nils.everhunt.utils.Check;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Flow;
 import org.bukkit.*;
@@ -225,7 +226,7 @@ public class AbilityListener implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         if (entity instanceof Player player) {
-            if (getFullSet(Ability.FOOL, player)) {
+            if (Check.getFullSet(Ability.FOOL, player)) {
                 Ability ability = Ability.FOOL;
                 double cooldown = ability.getCooldown();
                 ItemStack item = player.getInventory().getHelmet();
@@ -342,63 +343,5 @@ public class AbilityListener implements Listener {
                 }
             }
         }
-    }
-
-    public boolean getFullSet(Ability ability, Player player) {
-        ItemStack helmet = player.getInventory().getHelmet();
-        Ability ability1;
-
-        if (helmet == null) {
-            return false;
-        }
-        HelmetManager helm = HelmetManager.items.get(ChatColor.stripColor(helmet.getItemMeta().getDisplayName()));
-        if (helm == null) {
-            ArmorManager helm2 = ArmorManager.items.get(ChatColor.stripColor(helmet.getItemMeta().getDisplayName()));
-            if (helm2 == null) {
-                return false;
-            } else {
-                ability1 = helm2.getAbility();
-            }
-        } else {
-            ability1 = helm.getAbility();
-        }
-
-        ItemStack chestplate = player.getInventory().getChestplate();
-        if (chestplate == null) {
-            return false;
-        }
-        ArmorManager chest = ArmorManager.items.get(ChatColor.stripColor(chestplate.getItemMeta().getDisplayName()));
-        if (chest == null) {
-            return false;
-        }
-        Ability ability2 = chest.getAbility();
-
-        ItemStack leggings = player.getInventory().getLeggings();
-        if (leggings == null) {
-            return false;
-        }
-        ArmorManager legs = ArmorManager.items.get(ChatColor.stripColor(leggings.getItemMeta().getDisplayName()));
-        if (legs == null) {
-            return false;
-        }
-        Ability ability3 = legs.getAbility();
-
-        ItemStack boots = player.getInventory().getBoots();
-        if (boots == null) {
-            return false;
-        }
-        ArmorManager boot = ArmorManager.items.get(ChatColor.stripColor(boots.getItemMeta().getDisplayName()));
-        if (boot == null) {
-            return false;
-        }
-        Ability ability4 = boot.getAbility();
-
-        if (ability1 == ability2 && ability3 == ability4 && ability1 == ability3) {
-            if (ability1 == ability) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
