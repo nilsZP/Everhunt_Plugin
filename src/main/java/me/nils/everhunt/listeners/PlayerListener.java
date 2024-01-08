@@ -3,12 +3,16 @@ package me.nils.everhunt.listeners;
 import com.destroystokyo.paper.event.player.PlayerPickupExperienceEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
+import me.nils.everhunt.constants.ItemType;
+import me.nils.everhunt.constants.Job;
+import me.nils.everhunt.data.JobData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.utils.Check;
 import me.nils.everhunt.utils.Drop;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
@@ -40,9 +44,9 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         event.joinMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&a" + player.getName() + " &fhas joined the server!")));
-        new PlayerData(player.getUniqueId().toString(),player.getName(),0,0);
+        new PlayerData(player.getUniqueId().toString(), player.getName(), 0, 0);
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;
-        player.setPlayerListName(String.format("[%d] %s",level,player.getName()));
+        player.setPlayerListName(String.format("[%d] %s", level, player.getName()));
 
         Stats.giveStats(player);
     }
@@ -72,9 +76,9 @@ public class PlayerListener implements Listener {
                         double damage = event.getDamage();
                         int luck = (int) player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).getValue();
                         Random random = new Random();
-                        int randInt = random.nextInt(0,101);
+                        int randInt = random.nextInt(0, 101);
                         if (randInt <= luck) {
-                            event.setDamage(damage*1.5);
+                            event.setDamage(damage * 1.5);
                         }
                     }
                 }
@@ -85,37 +89,81 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        event.getBlock().getDrops().clear();
+        String uuid = player.getUniqueId().toString();
+        Block block = event.getBlock();
+        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().displayName().toString());
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             return;
         }
-        String toolName;
-        try {
-            toolName = player.getInventory().getItemInMainHand().getItemMeta().getDisplayName();
-        } catch (NullPointerException e) {
+        if (!Check.isHolding(player, name, ItemType.TOOL)) {
             event.setCancelled(true);
             return;
         }
-        ToolManager tool = ToolManager.items.get(ChatColor.stripColor(toolName));
 
-        if (tool != null) {
-            Ability ability = tool.getAbility();
+        ToolManager tool = ToolManager.items.get(name);
+        Ability ability = tool.getAbility();
 
-            if (event.getBlock().getBlockData() instanceof Ageable ageable) {
-                if (ageable.getAge() == ageable.getMaximumAge()) {
-                    String drop = switch (ageable.getMaterial()) {
-                        case WHEAT -> "Wheat";
-                        case POTATOES -> "Potato";
-                        case BEETROOT, BEETROOTS -> "Beetroot";
-                        case CARROTS -> "Carrot";
-                        default -> "null";
-                    };
+        if (block.getBlockData() instanceof Ageable ageable) {
+            if (ageable.getAge() == ageable.getMaximumAge()) {
+                String drop = switch (ageable.getMaterial()) {
+                    case WHEAT -> "Wheat";
+                    case POTATOES -> "Potato";
+                    case BEETROOT, BEETROOTS -> "Beetroot";
+                    case CARROTS -> "Carrot";
+                    default -> "null";
+                };
 
-                    Drop.getCropDrops(drop,ability,player, event.getBlock(), ageable);
-                }
+                Drop.getCropDrops(drop, ability, player, block, ageable);
+                block.getDrops().clear();
+                return;
             }
         }
+
+        Material type = block.getType();
+
+        if (block.getType() == Material.STONE) {
+            double customBreakingSpeed = (JobData.hasJob(uuid, Job.MINER)) ? JobData.getLevel(uuid, Job.MINER) * 0.10 + 1 : 1;
+
+            event.setCancelled(true);
+
+            double hardness = getBlockHardness(block.getType());
+            int originalTime = (int) (hardness * 1.5 * 20);
+            int modifiedTime = (int) (originalTime / customBreakingSpeed);
+
+            new BukkitRunnable() {
+                int progress = 0;
+
+                @Override
+                public void run() {
+                    if (progress >= 10) {
+                        cancel();
+                        block.getDrops().clear();
+                        block.setType(Material.BEDROCK);
+                        player.sendBlockChange(block.getLocation(), Material.BEDROCK.createBlockData());
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                block.setType(type);
+                                player.sendBlockChange(block.getLocation(), block.getBlockData());
+                            }
+                        }.runTaskLater(Everhunt.getInstance(), 100);
+                    }
+
+                    player.playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
+                    player.sendBlockDamage(block.getLocation(), (float) progress / 10);
+
+                    progress++;
+                }
+            }.runTaskTimer(Everhunt.getInstance(), 0, modifiedTime / 10);
+        }
         event.setCancelled(true);
+    }
+
+    private double getBlockHardness(Material material) {
+        if (material == Material.STONE) {
+            return 1.5;
+        }
+        return 1.0;
     }
 
     @EventHandler
@@ -144,15 +192,15 @@ public class PlayerListener implements Listener {
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     if (!player.getWorld().isDayTime()) {
-                        List<Block> blocks = getNearbyBlocks(player.getLocation(),8);
+                        List<Block> blocks = getNearbyBlocks(player.getLocation(), 8);
                         for (Block block : blocks) {
                             Location loc = block.getLocation();
-                            Block block1 = loc.getWorld().getBlockAt(loc.getBlockX(),loc.getBlockY() + 1, loc.getBlockZ());
-                            Block block2 = loc.getWorld().getBlockAt(loc.getBlockX(),loc.getBlockY() + 2, loc.getBlockZ());
+                            Block block1 = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
+                            Block block2 = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 2, loc.getBlockZ());
 
                             if (block1.isEmpty() && block2.isEmpty()) {
                                 Random random = new Random();
-                                int randInt = random.nextInt(0,11);
+                                int randInt = random.nextInt(0, 11);
 
                                 if (randInt == 1) {
                                     if (block1.getLightLevel() <= 6) {
@@ -166,14 +214,14 @@ public class PlayerListener implements Listener {
                     }
                 }
             }
-        }.runTaskTimer(Everhunt.getInstance(),300L,300L);
+        }.runTaskTimer(Everhunt.getInstance(), 300L, 300L);
     }
 
     public static List<Block> getNearbyBlocks(Location location, int radius) {
         List<Block> blocks = new ArrayList<Block>();
-        for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
-            for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
-                for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+        for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+            for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+                for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
                     blocks.add(location.getWorld().getBlockAt(x, y, z));
                 }
             }
