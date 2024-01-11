@@ -25,10 +25,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -89,13 +92,13 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        String uuid = player.getUniqueId().toString();
         Block block = event.getBlock();
-        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().displayName().toString());
+        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             return;
         }
         if (!Check.isHolding(player, name, ItemType.TOOL)) {
+            player.sendMessage(Component.text("Not a tool"));
             event.setCancelled(true);
             return;
         }
@@ -115,11 +118,24 @@ public class PlayerListener implements Listener {
 
                 Drop.getCropDrops(drop, ability, player, block, ageable);
                 block.getDrops().clear();
-                return;
             }
         }
+        event.setCancelled(true);
+    }
 
+    @EventHandler
+    public void onBlockDamage(BlockDamageEvent event) {
+        Player player = event.getPlayer();
+        String uuid = player.getUniqueId().toString();
+        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
+        Block block = event.getBlock();
         Material type = block.getType();
+
+        if (!Check.isHolding(player, name, ItemType.TOOL)) {
+            player.sendMessage(Component.text("Not a tool"));
+            event.setCancelled(true);
+            return;
+        }
 
         if (block.getType() == Material.STONE) {
             double customBreakingSpeed = (JobData.hasJob(uuid, Job.MINER)) ? JobData.getLevel(uuid, Job.MINER) * 0.10 + 1 : 1;
@@ -137,6 +153,7 @@ public class PlayerListener implements Listener {
                 public void run() {
                     if (progress >= 10) {
                         cancel();
+                        player.sendBlockDamage(block.getLocation(),0);
                         block.getDrops().clear();
                         block.setType(Material.BEDROCK);
                         player.sendBlockChange(block.getLocation(), Material.BEDROCK.createBlockData());
@@ -149,6 +166,7 @@ public class PlayerListener implements Listener {
                         }.runTaskLater(Everhunt.getInstance(), 100);
                     }
 
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,modifiedTime,254,false,false));
                     player.playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
                     player.sendBlockDamage(block.getLocation(), (float) progress / 10);
 
