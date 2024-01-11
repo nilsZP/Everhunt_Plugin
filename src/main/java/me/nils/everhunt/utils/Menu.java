@@ -46,8 +46,9 @@ public class Menu {
             inventory.setContents(backpackContents);
 
             return inventory;
+        } else {
+            Inventory inventory = Bukkit.createInventory(null, 54, "Backpack");
+            return inventory;
         }
-
-        return null;
     }
 }

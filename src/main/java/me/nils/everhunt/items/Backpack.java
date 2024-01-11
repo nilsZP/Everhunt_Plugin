@@ -28,7 +28,7 @@ public class Backpack {
         String serializedContents = serializeContents(contents);
 
         try (PreparedStatement statement = Everhunt.getDatabase().run(
-                "INSERT OR REPLACE INTO backpacks (player_uuid, backpack_size, backpack_contents) VALUES (?, ?, ?)")) {
+                "INSERT OR REPLACE INTO tblbackpack (player_uuid, backpack_size, backpack_contents) VALUES (?, ?, ?)")) {
             statement.setString(1, uuid);
             statement.setInt(2, 54);
             statement.setString(3, serializedContents);
@@ -40,7 +40,7 @@ public class Backpack {
 
     public static ItemStack[] loadBackpackData(String uuid) {
         try (PreparedStatement statement = Everhunt.getDatabase().run(
-                "SELECT backpack_size, backpack_contents FROM backpacks WHERE player_uuid = ?")) {
+                "SELECT backpack_size, backpack_contents FROM tblbackpack WHERE player_uuid = ?")) {
             statement.setString(1, uuid);
 
             ResultSet resultSet = statement.executeQuery();
