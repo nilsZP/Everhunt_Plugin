@@ -10,7 +10,7 @@ import me.nils.everhunt.entities.abilities.ThunderBolt;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.WeaponManager;
-import me.nils.everhunt.utils.Check;
+import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Flow;
 import org.bukkit.*;
@@ -226,7 +226,7 @@ public class AbilityListener implements Listener {
         Entity damager = event.getDamager();
         Entity entity = event.getEntity();
         if (entity instanceof Player player) {
-            if (Check.getFullSet(Ability.FOOL, player)) {
+            if (Condition.getFullSet(Ability.FOOL, player)) {
                 Ability ability = Ability.FOOL;
                 double cooldown = ability.getCooldown();
                 ItemStack item = player.getInventory().getHelmet();

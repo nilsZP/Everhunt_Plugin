@@ -40,4 +40,37 @@ public class Drop {
         ageable.setAge(0);
         block.setBlockData(ageable);
     }
+
+    public static void getBlockDrops(Ability ability, Player player, Block block) {
+        String uuid = player.getUniqueId().toString();
+        Material material = block.getType();
+        int drops = 0;
+        Random random = new Random();
+        int random_modifier = random.nextInt(0,2);
+        int luck = (int) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
+
+        drops += switch (material) {
+            case STONE -> random.nextInt(1,4);
+            case COAL_ORE -> random.nextInt(2,5);
+            case IRON_ORE -> random.nextInt(0,3);
+            default -> 0;
+        };
+
+        String drop = switch (material) {
+            case STONE -> "Stone";
+            case COAL_ORE -> "Coal";
+            case IRON_ORE -> "Iron Ingot";
+            case GOLD_ORE -> "3k Gold Ingot";
+            case DEEPSLATE_GOLD_ORE -> "6k Gold Ingot";
+            case GOLD_BLOCK -> "12k Gold Ingot";
+            case NETHER_GOLD_ORE -> "24k Gold Nugget";
+            default -> "null";
+        };
+
+        drops += random_modifier + (luck/4);
+
+        for (int i = 0; i < drops; i++) {
+            player.getWorld().dropItemNaturally(block.getLocation(), ItemManager.items.get(drop).getItemStack());
+        }
+    }
 }

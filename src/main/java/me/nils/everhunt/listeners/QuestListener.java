@@ -8,7 +8,7 @@ import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Chat;
-import me.nils.everhunt.utils.Check;
+import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Menu;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
@@ -76,12 +76,12 @@ public class QuestListener implements Listener {
                             QuestData.setCompletion(uuid, 2, 1);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid, 2) >= 1 && Check.isHolding(player, "Wooden Bat", ItemType.WEAPON) && QuestData.getCompletion(uuid, 2) < 5) {
+                        if (QuestData.getCompletion(uuid, 2) >= 1 && Condition.isHolding(player, "Wooden Bat", ItemType.WEAPON) && QuestData.getCompletion(uuid, 2) < 5) {
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fMay I use that Wooden Bat as a handle?")));
                             QuestData.setCompletion(uuid, 2, 2);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid, 2) >= 3 && Check.isHolding(player, "Kings Bone", ItemType.ITEM) && QuestData.getCompletion(uuid, 2) < 5) {
+                        if (QuestData.getCompletion(uuid, 2) >= 3 && Condition.isHolding(player, "Kings Bone", ItemType.ITEM) && QuestData.getCompletion(uuid, 2) < 5) {
                             player.sendMessage(Component.text(Chat.color("&eMarcus: &fI can work with this.")));
                             player.getInventory().remove(player.getInventory().getItemInMainHand());
                             QuestData.setCompletion(uuid, 2, 5);
@@ -151,7 +151,7 @@ public class QuestListener implements Listener {
                             QuestData.setCompletion(uuid, 3, 1);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid, 3) == 2 && Check.isHolding(player, "Wheat", ItemType.ITEM, 30)) {
+                        if (QuestData.getCompletion(uuid, 3) == 2 && Condition.isHolding(player, "Wheat", ItemType.ITEM, 30)) {
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fThanks!")));
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fHere have these Jester boots!")));
                             player.getInventory().addItem(ArmorManager.items.get("Jester Boots").getItemStack());

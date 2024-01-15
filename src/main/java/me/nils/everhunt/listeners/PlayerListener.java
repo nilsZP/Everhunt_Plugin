@@ -12,7 +12,7 @@ import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.utils.Check;
+import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Drop;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
@@ -97,8 +97,14 @@ public class PlayerListener implements Listener {
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             return;
         }
-        if (!Check.isHolding(player, name, ItemType.TOOL)) {
+        if (!Condition.isHolding(player, name, ItemType.TOOL)) {
             player.sendMessage(Component.text("Not a tool"));
+            event.setCancelled(true);
+            return;
+        }
+
+        if (!Condition.itemNameContains(player,"Hoe")) {
+            player.sendMessage(Component.text("Wrong tool"));
             event.setCancelled(true);
             return;
         }
@@ -131,16 +137,23 @@ public class PlayerListener implements Listener {
         Block block = event.getBlock();
         Material type = block.getType();
 
-        if (!Check.isHolding(player, name, ItemType.TOOL)) {
+        if (!Condition.isHolding(player, name, ItemType.TOOL)) {
             player.sendMessage(Component.text("Not a tool"));
             event.setCancelled(true);
             return;
         }
 
-        if (block.getType() == Material.STONE) {
+        if (!Condition.itemNameContains(player,"Drill")) {
+            player.sendMessage(Component.text("Wrong tool"));
+            event.setCancelled(true);
+            return;
+        }
+
+        if (block.getType() == Material.STONE || block.getType() == Material.COAL_ORE || block.getType() == Material.IRON_ORE) {
             double customBreakingSpeed = (JobData.hasJob(uuid, Job.MINER)) ? JobData.getLevel(uuid, Job.MINER) * 0.10 + 1 : 1;
 
             event.setCancelled(true);
+            Ability ability = ToolManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().displayName().toString())).getAbility();
 
             double hardness = getBlockHardness(block.getType());
             int originalTime = (int) (hardness * 1.5 * 20);
@@ -153,6 +166,7 @@ public class PlayerListener implements Listener {
                 public void run() {
                     if (progress >= 10) {
                         cancel();
+                        Drop.getBlockDrops(ability,player,block);
                         player.sendBlockDamage(block.getLocation(),0);
                         block.getDrops().clear();
                         block.setType(Material.BEDROCK);
@@ -178,10 +192,14 @@ public class PlayerListener implements Listener {
     }
 
     private double getBlockHardness(Material material) {
-        if (material == Material.STONE) {
-            return 1.5;
-        }
-        return 1.0;
+        double hardness = switch (material) {
+            case STONE -> 1.5;
+            case COAL_ORE -> 2;
+            case IRON_ORE -> 3;
+            default -> 1.0;
+        };
+
+        return hardness;
     }
 
     @EventHandler

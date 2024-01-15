@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class Check {
+public class Condition {
     public static boolean isHolding(Player player, String name, ItemType type) {
         ItemStack itemStack = player.getInventory().getItemInMainHand();
 
@@ -67,6 +67,19 @@ public class Check {
             int itemAmount = player.getInventory().getItemInMainHand().getAmount();
 
             return amount == itemAmount;
+        }
+
+        return false;
+    }
+
+    public static boolean itemNameContains(Player player, String text) {
+        ItemStack item = player.getInventory().getItemInMainHand();
+        String name = ChatColor.stripColor(item.displayName().toString());
+
+        if (name != null) {
+            if (name.contains(text)) {
+                return true;
+            }
         }
 
         return false;
