@@ -48,11 +48,12 @@ public class Drop {
         Random random = new Random();
         int random_modifier = random.nextInt(0,2);
         int luck = (int) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
+        int minerLevel = (JobData.hasJob(uuid,Job.MINER)) ? JobData.getLevel(uuid,Job.MINER) : 0;
 
         drops += switch (material) {
-            case STONE -> random.nextInt(1,4);
+            case STONE -> random.nextInt(3,11);
             case COAL_ORE -> random.nextInt(2,5);
-            case IRON_ORE -> random.nextInt(0,3);
+            case IRON_ORE -> random.nextInt(1,3);
             default -> 0;
         };
 
@@ -67,7 +68,7 @@ public class Drop {
             default -> "null";
         };
 
-        drops += random_modifier + (luck/4);
+        drops += random_modifier + (luck/4) + (minerLevel/3);
 
         for (int i = 0; i < drops; i++) {
             player.getWorld().dropItemNaturally(block.getLocation(), ItemManager.items.get(drop).getItemStack());

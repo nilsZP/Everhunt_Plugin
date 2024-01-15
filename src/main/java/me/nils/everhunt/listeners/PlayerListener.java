@@ -112,7 +112,7 @@ public class PlayerListener implements Listener {
         ToolManager tool = ToolManager.items.get(name);
         Ability ability = tool.getAbility();
 
-        if (block.getBlockData() instanceof Ageable ageable) {
+        if (block.getBlockData() instanceof Ageable ageable && Condition.isFarmeable(block)) {
             if (ageable.getAge() == ageable.getMaximumAge()) {
                 String drop = switch (ageable.getMaterial()) {
                     case WHEAT -> "Wheat";
@@ -149,7 +149,7 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if (block.getType() == Material.STONE || block.getType() == Material.COAL_ORE || block.getType() == Material.IRON_ORE) {
+        if (Condition.isMineable(block)) {
             double customBreakingSpeed = (JobData.hasJob(uuid, Job.MINER)) ? JobData.getLevel(uuid, Job.MINER) * 0.10 + 1 : 1;
 
             event.setCancelled(true);
@@ -192,14 +192,16 @@ public class PlayerListener implements Listener {
     }
 
     private double getBlockHardness(Material material) {
-        double hardness = switch (material) {
+        return switch (material) {
             case STONE -> 1.5;
             case COAL_ORE -> 2;
             case IRON_ORE -> 3;
+            case GOLD_ORE -> 5;
+            case DEEPSLATE_GOLD_ORE -> 7;
+            case GOLD_BLOCK -> 8;
+            case NETHER_GOLD_ORE -> 6;
             default -> 1.0;
         };
-
-        return hardness;
     }
 
     @EventHandler

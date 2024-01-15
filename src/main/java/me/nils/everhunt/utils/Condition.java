@@ -4,6 +4,8 @@ import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.managers.*;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -70,6 +72,15 @@ public class Condition {
         }
 
         return false;
+    }
+
+    public static boolean isMineable(Block block) {
+        return block.getType() == Material.STONE || block.getType() == Material.COAL_ORE || block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_BLOCK
+                || block.getType() == Material.GOLD_ORE || block.getType() == Material.NETHER_GOLD_ORE || block.getType() == Material.DEEPSLATE_GOLD_ORE;
+    }
+
+    public static boolean isFarmeable(Block block) {
+        return block.getType() == Material.WHEAT || block.getType() == Material.CARROTS || block.getType() == Material.POTATOES || block.getType() == Material.BEETROOTS;
     }
 
     public static boolean itemNameContains(Player player, String text) {
