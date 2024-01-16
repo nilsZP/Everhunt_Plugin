@@ -1,6 +1,6 @@
 package me.nils.everhunt.utils;
 
-import me.nils.everhunt.items.Backpack;
+import me.nils.everhunt.data.BackpackData;
 import me.nils.everhunt.data.TeleportData;
 import me.nils.everhunt.managers.ItemManager;
 import org.bukkit.Bukkit;
@@ -35,20 +35,20 @@ public class Menu {
     }
 
     public static Inventory createBackpackMenu(Player player) {
-        String playerUUID = player.getUniqueId().toString();
-        ItemStack[] backpackContents = Backpack.loadBackpackData(playerUUID);
+        String uuid = player.getUniqueId().toString();
+        int size = 54;
+        Inventory menu = Bukkit.createInventory(player, size, "Backpack");
+        if (BackpackData.getContents(uuid) != null) {
+            ArrayList<ItemStack> itemList = BackpackData.getContents(uuid);
 
-        if (backpackContents != null) {
-            Backpack backpack = new Backpack();
-            backpack.setContents(backpackContents);
 
-            Inventory inventory = Bukkit.createInventory(null, 54, "Backpack");
-            inventory.setContents(backpackContents);
+            ItemStack[] contents = new ItemStack[itemList.size()];
+            contents = itemList.toArray(contents);
 
-            return inventory;
-        } else {
-            Inventory inventory = Bukkit.createInventory(null, 54, "Backpack");
-            return inventory;
+
+            menu.setContents(contents);
         }
+
+        return menu;
     }
 }

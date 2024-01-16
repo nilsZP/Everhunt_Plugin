@@ -1,6 +1,6 @@
 package me.nils.everhunt.listeners;
 
-import me.nils.everhunt.items.Backpack;
+import me.nils.everhunt.data.BackpackData;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.utils.Menu;
 import org.bukkit.ChatColor;
@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
