@@ -47,8 +47,19 @@ public class BackpackListener implements Listener {
         Player player = (Player) event.getPlayer();
         String uuid = player.getUniqueId().toString();
         if (event.getView().getTitle().equals("Backpack")) {
-            player.closeInventory();
-            Backpack.saveBackpackData(uuid, event.getInventory().getContents());
+            Inventory menu = event.getInventory();
+
+            ItemStack[] contents = menu.getContents();
+            for (int i = 0; i < 54; i++) {
+                ItemStack item = contents[i];
+                
+                if (item != null && item.hasItemMeta()) {
+                    String name = ChatColor.stripColor(item.getItemMeta().getDisplayName());
+                    int amount = item.getAmount();
+
+                    new BackpackData(uuid, name, amount, i);
+                }
+            }
         }
     }
 }
