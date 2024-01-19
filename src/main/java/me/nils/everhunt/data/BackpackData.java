@@ -12,36 +12,18 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 
 public class BackpackData {
-    private final String uuid;
-    private final String name;
-    private final int amount;
-    private final int slot;
 
     public BackpackData(String uuid, String name, int amount, int slot) {
-        this.uuid = uuid;
-        this.name = name;
-        this.amount = amount;
-        this.slot = slot;
-
-        /*try {
-            Everhunt.getDatabase().run("REPLACE INTO tblbackpack (uuid, name, amount, slot) VALUES ('" + uuid + "','" + name + "','" + amount + "','" +
-                        slot + "')").executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-
         try {
-            Everhunt.getDatabase().run("INSERT INTO tblbackpack (uuid, name, amount, slot) VALUES ('" + uuid + "','" + name + "','" + amount + "','" +
-                    slot + "')").executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
+            Everhunt.getDatabase().run("UPDATE tblbackpack SET name = '" + name + "', amount = '" + amount + "' WHERE uuid = '" +
+                    uuid + "' AND slot = '" + slot + "'").executeUpdate();
+        } catch (SQLException e) {
             try {
-                Everhunt.getDatabase().run("UPDATE tblbackpack SET name = '" + name + "', amount = '" + amount + "' WHERE uuid = '" +
-                        uuid + "' AND slot = '" + slot + "'").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblbackpack (uuid, name, amount, slot) VALUES ('" + uuid + "','" + name + "','" + amount + "','" +
+                        slot + "')").executeUpdate();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -54,7 +36,7 @@ public class BackpackData {
                 ItemStack item;
 
                 if (resultSet.next()) {
-                    String name = resultSet.getString("name");  // what if name doesn't exist???
+                    String name = resultSet.getString("name");
 
                     if (WeaponManager.items.get(name) != null) {
                         item = WeaponManager.items.get(name).getItemStack();
