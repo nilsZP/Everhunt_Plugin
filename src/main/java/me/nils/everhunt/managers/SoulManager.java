@@ -2,7 +2,7 @@ package me.nils.everhunt.managers;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.constants.Tier;
+import me.nils.everhunt.constants.SoulType;
 import me.nils.everhunt.utils.Chat;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -31,8 +31,8 @@ public class SoulManager {
         return displayName;
     }
 
-    public Tier getTier() {
-        return tier;
+    public SoulType getType() {
+        return type;
     }
 
     public Ability getAbility() {
@@ -45,25 +45,25 @@ public class SoulManager {
 
     private final Material material;
     private final String displayName;
-    private final Tier tier;
+    private final SoulType type;
     private final Ability ability;
     private final double damage;
     private final double flow;
 
     private final ItemStack itemStack;
 
-    public SoulManager(Material material, String displayName, Ability ability, Tier tier, double damage,double flow) {
+    public SoulManager(Material material, String displayName, Ability ability, SoulType type, double damage, double flow) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
-        this.tier = tier;
+        this.type = type;
         this.damage = damage;
         this.flow = flow;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
         meta.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,displayName);
-        meta.displayName(Component.text(tier.getColor() + displayName));
+        meta.displayName(Component.text(type.getColor() + displayName));
 
         AttributeModifier modifier;
         if (damage != 0) {
@@ -100,7 +100,7 @@ public class SoulManager {
             }
         }
         lore.add(Chat.color("&r"));
-        lore.add(tier.getColor() + String.valueOf(tier) + " WEAPON");
+        lore.add(type.getColor() + String.valueOf(type) + " WEAPON");
 
         meta.setLore(lore);
 
@@ -118,8 +118,8 @@ public class SoulManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblsoul WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblsoul (material, displayname, ability, tier, damage,flow) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
-                        tier + "','" + damage + "','" + flow + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblsoul (material, displayname, ability, type, damage,flow) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                        type + "','" + damage + "','" + flow + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -133,12 +133,12 @@ public class SoulManager {
             while (resultSet.next()) {
                 Material material = Material.valueOf(resultSet.getString("material"));
                 String displayName = resultSet.getString("displayname");
-                Tier tier = Tier.valueOf(resultSet.getString("tier"));
+                SoulType type = SoulType.valueOf(resultSet.getString("type"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
                 double damage = resultSet.getDouble("damage");
                 double flow = resultSet.getDouble("flow");
 
-                new SoulManager(material,displayName,ability,tier,damage,flow);
+                new SoulManager(material,displayName,ability,type,damage,flow);
             }
         } catch (SQLException e) {
             e.printStackTrace();
