@@ -24,13 +24,12 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -128,6 +127,18 @@ public class PlayerListener implements Listener {
             }
         }
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (e.getHand() != EquipmentSlot.HAND) return;
+        if (e.getClickedBlock() == null) return;
+        if (e.getClickedBlock().getType() != Material.SUSPICIOUS_GRAVEL &&
+                e.getClickedBlock().getType() != Material.SUSPICIOUS_SAND) return;
+        if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.BRUSH) return;
+
+        // archeology system
     }
 
     @EventHandler
