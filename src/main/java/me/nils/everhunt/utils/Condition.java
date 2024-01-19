@@ -75,12 +75,17 @@ public class Condition {
     }
 
     public static boolean isMineable(Block block) {
-        return block.getType() == Material.STONE || block.getType() == Material.COAL_ORE || block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_BLOCK
-                || block.getType() == Material.GOLD_ORE || block.getType() == Material.NETHER_GOLD_ORE || block.getType() == Material.DEEPSLATE_GOLD_ORE;
+        return switch (block.getType()) {
+            case STONE,COAL_ORE,IRON_BLOCK,GOLD_BLOCK,GOLD_ORE,DEEPSLATE_GOLD_ORE,NETHER_GOLD_ORE -> true;
+            default -> false;
+        };
     }
 
     public static boolean isFarmeable(Block block) {
-        return block.getType() == Material.WHEAT || block.getType() == Material.CARROTS || block.getType() == Material.POTATOES || block.getType() == Material.BEETROOTS;
+        return switch (block.getType()) {
+            case WHEAT,CARROTS,POTATOES,BEETROOTS -> true;
+            default -> false;
+        };
     }
 
     public static boolean itemNameContains(Player player, String text) {

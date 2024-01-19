@@ -32,6 +32,7 @@ public class BreakListeners implements Listener {
     public void onBlockBreak(BlockDamageEvent event){
         Player player = event.getPlayer();
         String uuid = player.getUniqueId().toString();
+        if (player.getInventory().getItemInMainHand().getItemMeta() == null) return;
         String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
         Block block = event.getBlock();
         Material type = block.getType();
@@ -48,7 +49,10 @@ public class BreakListeners implements Listener {
             return;
         }
 
+        if (Condition.itemNameContains(player,"Hoe")) return;
+
         if (Condition.isMineable(block)) {
+            player.sendMessage(Component.text("correct"));
             Everhunt.brokenBlocksService.createBrokenBlock(event.getBlock(), 30);
         }
     }

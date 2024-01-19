@@ -21,7 +21,7 @@ public class BrokenBlocksService {
         brokenBlocks.put(block.getLocation(), brokenBlock);
     }
 
-    public void removeBrokenBLock(Location location){
+    public static void removeBrokenBLock(Location location){
         brokenBlocks.remove(location);
     }
 

@@ -93,10 +93,15 @@ public class PlayerListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
         if (player.getGameMode().equals(GameMode.CREATIVE)) {
             return;
         }
+
+        event.setCancelled(true);
+
+        if (player.getInventory().getItemInMainHand().getItemMeta() == null) return;
+        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
+
         if (!Condition.isHolding(player, name, ItemType.TOOL)) {
             player.sendMessage(Component.text("Not a tool"));
             event.setCancelled(true);
@@ -126,7 +131,6 @@ public class PlayerListener implements Listener {
                 block.getDrops().clear();
             }
         }
-        event.setCancelled(true);
     }
 
     @EventHandler
