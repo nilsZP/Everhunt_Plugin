@@ -77,6 +77,17 @@ public class ItemCommand implements CommandExecutor {
 
                 player.openInventory(menu);
             }
+            case "souls" -> {
+                size = Everhunt.items.getSouls().length;
+                while (size%9 != 0) {
+                    size++;
+                }
+
+                Inventory menu = Bukkit.createInventory(player, size, "Admin Items");
+                menu.setContents(Everhunt.items.getSouls());
+
+                player.openInventory(menu);
+            }
         }
 
         return true;
