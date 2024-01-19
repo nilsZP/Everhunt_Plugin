@@ -27,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -127,81 +128,6 @@ public class PlayerListener implements Listener {
             }
         }
         event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onBlockDamage(BlockDamageEvent event) {
-        Player player = event.getPlayer();
-        String uuid = player.getUniqueId().toString();
-        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
-        Block block = event.getBlock();
-        Material type = block.getType();
-
-        if (!Condition.isHolding(player, name, ItemType.TOOL)) {
-            player.sendMessage(Component.text("Not a tool"));
-            event.setCancelled(true);
-            return;
-        }
-
-        if (!Condition.itemNameContains(player,"Drill")) {
-            player.sendMessage(Component.text("Wrong tool"));
-            event.setCancelled(true);
-            return;
-        }
-
-        if (Condition.isMineable(block)) {
-            double customBreakingSpeed = (JobData.hasJob(uuid, Job.MINER)) ? JobData.getLevel(uuid, Job.MINER) * 0.10 + 1 : 1;
-
-            event.setCancelled(true);
-            Ability ability = ToolManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().displayName().toString())).getAbility();
-
-            double hardness = getBlockHardness(block.getType());
-            int originalTime = (int) (hardness * 1.5 * 20);
-            int modifiedTime = (int) (originalTime / customBreakingSpeed);
-
-            new BukkitRunnable() {
-                int progress = 0;
-
-                @Override
-                public void run() {
-                    if (progress >= 10) {
-                        cancel();
-                        Drop.getBlockDrops(ability,player,block);
-                        player.sendBlockDamage(block.getLocation(),0);
-                        block.getDrops().clear();
-                        block.setType(Material.BEDROCK);
-                        player.sendBlockChange(block.getLocation(), Material.BEDROCK.createBlockData());
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                block.setType(type);
-                                player.sendBlockChange(block.getLocation(), block.getBlockData());
-                            }
-                        }.runTaskLater(Everhunt.getInstance(), 100);
-                    }
-
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,modifiedTime,254,false,false));
-                    player.playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
-                    player.sendBlockDamage(block.getLocation(), (float) progress / 10);
-
-                    progress++;
-                }
-            }.runTaskTimer(Everhunt.getInstance(), 0, modifiedTime / 10);
-        }
-        event.setCancelled(true);
-    }
-
-    private double getBlockHardness(Material material) {
-        return switch (material) {
-            case STONE -> 1.5;
-            case COAL_ORE -> 2;
-            case IRON_ORE -> 3;
-            case GOLD_ORE -> 5;
-            case DEEPSLATE_GOLD_ORE -> 7;
-            case GOLD_BLOCK -> 8;
-            case NETHER_GOLD_ORE -> 6;
-            default -> 1.0;
-        };
     }
 
     @EventHandler

@@ -7,6 +7,7 @@ import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;
+import me.nils.everhunt.utils.BrokenBlocksService;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Database;
 import me.nils.everhunt.utils.Flow;
@@ -23,6 +24,7 @@ public final class Everhunt extends JavaPlugin {
     public static NamespacedKey key;
     public static Items items;
     private static Database database;
+    public static BrokenBlocksService brokenBlocksService = new BrokenBlocksService();
 
     @Override
     public void onEnable() {
@@ -56,6 +58,7 @@ public final class Everhunt extends JavaPlugin {
 
     private void loadListeners() {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new BreakListeners(), this);
         getServer().getPluginManager().registerEvents(new AbilityListener(), this);
         getServer().getPluginManager().registerEvents(new EntityListener(), this);
         getServer().getPluginManager().registerEvents(new QuestListener(), this);
