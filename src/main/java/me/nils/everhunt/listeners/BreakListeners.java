@@ -54,13 +54,14 @@ public class BreakListeners implements Listener {
         if (Condition.isMineable(block)) {
             player.sendMessage(Component.text("correct"));
             event.setCancelled(true);
-            Everhunt.brokenBlocksService.createBrokenBlock(event.getBlock(), 30);
+            Everhunt.brokenBlocksService.createBrokenBlock(event.getBlock(), Stats.getBreakTime(block));
         }
     }
 
     @EventHandler
     public void onBreakingBlock(PlayerAnimationEvent event){
         Player player = event.getPlayer();
+        String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
 
         Block block = player.getTargetBlock(transparentBlocks, 5);
         Location blockPosition = block.getLocation();
@@ -78,6 +79,6 @@ public class BreakListeners implements Listener {
 
         if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
         Stats.addSlowDig(event.getPlayer(), 200);
-        Everhunt.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, 1);
+        Everhunt.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, Stats.getBreakModifier(name));
     }
 }

@@ -96,7 +96,7 @@ public class Stats {
         return itemStack;
     }
 
-    public static int getBreakTime(Block block, String item) {
+    public static int getBreakTime(Block block) {
         int breakTime = 0;
         breakTime += switch (block.getType()) {
             case STONE -> 30;
@@ -104,6 +104,16 @@ public class Stats {
         };
 
         return breakTime;
+    }
+
+    public static int getBreakModifier(String item) {
+        int modifier = 0;
+        modifier += switch (item) {
+            case "Drill" -> 2;
+            default -> 1;
+        };
+
+        return modifier;
     }
 
     public static void addSlowDig(Player player, int duration){
