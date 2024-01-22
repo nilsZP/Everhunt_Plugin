@@ -51,7 +51,7 @@ public class BreakListeners implements Listener {
             return;
         }
 
-        if (Condition.isMineable(block)) {
+        if (Condition.canMine(name,block)) {
             player.sendMessage(Component.text("correct"));
             event.setCancelled(true);
             Everhunt.brokenBlocksService.createBrokenBlock(event.getBlock(), Stats.getBreakTime(block));

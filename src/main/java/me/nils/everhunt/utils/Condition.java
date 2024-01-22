@@ -88,6 +88,46 @@ public class Condition {
         };
     }
 
+    public static boolean canMine(String item, Block block) {
+        if (isMineable(block)) {
+            if (isCustom(ItemType.TOOL,item)) {
+                switch (block.getType()) {
+                    case STONE, COAL_ORE, IRON_ORE, GOLD_ORE -> {
+                        return true;
+                    }
+                    case GOLD_BLOCK,DEEPSLATE_GOLD_ORE,NETHER_GOLD_ORE -> {
+                        return item.contains("G");
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isCustom(ItemType type, String item) {
+        switch (type) {
+            case ITEM -> {
+                return ItemManager.items.get(item) != null;
+            }
+            case TOOL -> {
+                return ToolManager.items.get(item) != null;
+            }
+            case ARMOR -> {
+                return ArmorManager.items.get(item) != null;
+            }
+            case HELMET -> {
+                return HelmetManager.items.get(item) != null;
+            }
+            case WEAPON -> {
+                return WeaponManager.items.get(item) != null;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
     public static boolean itemNameContains(Player player, String text) {
         ItemStack item = player.getInventory().getItemInMainHand();
         String name = ChatColor.stripColor(item.displayName().toString());
