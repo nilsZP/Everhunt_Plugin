@@ -43,13 +43,13 @@ public class BreakListeners implements Listener {
             return;
         }
 
+        if (Condition.itemNameContains(player,"Hoe")) return;
+
         if (!Condition.itemNameContains(player,"Drill")) {
             player.sendMessage(Component.text("Wrong tool"));
             event.setCancelled(true);
             return;
         }
-
-        if (Condition.itemNameContains(player,"Hoe")) return;
 
         if (Condition.isMineable(block)) {
             player.sendMessage(Component.text("correct"));
