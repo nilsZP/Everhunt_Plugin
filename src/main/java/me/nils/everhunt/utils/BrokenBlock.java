@@ -15,12 +15,10 @@ public class BrokenBlock {
     private int oldAnimation;
     private double damage = 0;
     private Block block;
-    private Date lastDamage;
 
     public BrokenBlock(Block block, int time){
         this.block = block;
         this.time = time;
-        lastDamage = new Date();
     }
 
     public void incrementDamage(Player from, double multiplier){
@@ -32,7 +30,6 @@ public class BrokenBlock {
         if(animation != oldAnimation){
             if(animation < 10){
                 sendBreakPacket(from,animation);
-                lastDamage = new Date();
             } else {
                 breakBlock(from);
                 return;
@@ -66,7 +63,7 @@ public class BrokenBlock {
     }
 
     public int getAnimation(){
-        return (int) (damage / time*11);
+        return (int) (damage / time);
     }
 
     public void sendBreakPacket(Player player, int animation){

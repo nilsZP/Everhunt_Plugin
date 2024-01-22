@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
@@ -93,6 +94,16 @@ public class Stats {
         itemStack.setItemMeta(meta);
 
         return itemStack;
+    }
+
+    public static int getBreakTime(Block block, String item) {
+        int breakTime = 0;
+        breakTime += switch (block.getType()) {
+            case STONE -> 30;
+            default -> 20;
+        };
+
+        return breakTime;
     }
 
     public static void addSlowDig(Player player, int duration){
