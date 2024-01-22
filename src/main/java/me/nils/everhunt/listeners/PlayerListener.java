@@ -108,6 +108,8 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        if (Condition.itemNameContains(player,"Drill")) return;
+
         if (!Condition.itemNameContains(player,"Hoe")) {
             player.sendMessage(Component.text("Wrong tool"));
             event.setCancelled(true);
