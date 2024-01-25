@@ -67,7 +67,7 @@ public class SoulManager {
 
         AttributeModifier modifier;
         if (damage != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.OFF_HAND);
+            modifier = new AttributeModifier(UUID.randomUUID(),"damage",damage, AttributeModifier.Operation.ADD_SCALAR, EquipmentSlot.OFF_HAND);
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
         }
         if (flow != 0) {
@@ -100,7 +100,7 @@ public class SoulManager {
             }
         }
         lore.add(Chat.color("&r"));
-        lore.add(type.getColor() + String.valueOf(type) + " WEAPON");
+        lore.add(type.getColor() + String.valueOf(type) + " SOUL");
 
         meta.setLore(lore);
 
