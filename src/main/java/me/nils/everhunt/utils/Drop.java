@@ -54,6 +54,7 @@ public class Drop {
             case STONE -> random.nextInt(3,11);
             case COAL_ORE -> random.nextInt(2,5);
             case IRON_ORE -> random.nextInt(1,3);
+            case GOLD_ORE,DEEPSLATE_GOLD_ORE,GOLD_BLOCK,NETHER_GOLD_ORE -> random.nextInt(1,6);
             default -> 0;
         };
 

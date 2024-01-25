@@ -100,6 +100,11 @@ public class Stats {
         int breakTime = 0;
         breakTime += switch (block.getType()) {
             case STONE -> 30;
+            case COAL_ORE -> 35;
+            case IRON_ORE -> 40;
+            case GOLD_ORE,NETHER_GOLD_ORE -> 50;
+            case DEEPSLATE_GOLD_ORE -> 60;
+            case GOLD_BLOCK -> 80;
             default -> 20;
         };
 
@@ -109,7 +114,10 @@ public class Stats {
     public static int getBreakModifier(String item) {
         int modifier = 0;
         modifier += switch (item) {
-            case "Drill" -> 2;
+            case "Drill" -> 3;
+            case "Drill G13" -> 6;
+            case "Drill G26" -> 15;
+            case "Drill G42" -> 45;
             default -> 1;
         };
 
