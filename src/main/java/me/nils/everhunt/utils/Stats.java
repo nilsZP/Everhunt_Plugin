@@ -81,7 +81,7 @@ public class Stats {
 
         lore.add(Chat.color("&7Damage: &4" + damage));
 
-        lore.add(Chat.color("&7Luck: &2" + luck));
+        lore.add(Chat.color("&7Crit Chance: &2" + luck));
 
         lore.add(Chat.color("&7Flow: &3" + flow));
 
