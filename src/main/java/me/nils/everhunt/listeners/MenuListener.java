@@ -20,7 +20,9 @@ public class MenuListener implements Listener {
     @EventHandler
     public void menuInteract(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        if (Objects.requireNonNull(event.getCurrentItem()).displayName().toString().contains(player.getName())) {
+        if (event.getCurrentItem() == null) return;
+
+        if (event.getCurrentItem().displayName().toString().contains(player.getName())) {
             event.setCancelled(true);
             return;
         }
