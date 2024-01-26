@@ -8,6 +8,7 @@ import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.data.JobData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.entities.UndeadScarecrow;
+import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.constants.MobType;
@@ -129,8 +130,10 @@ public class PlayerListener implements Listener {
                     default -> "null";
                 };
 
-                Drop.getCropDrops(drop, ability, player, block, ageable);
+                block.getLocation().getWorld().dropItemNaturally(block.getLocation(),Loot.getlootTable(block,ability).getRandom());
                 block.getDrops().clear();
+                ageable.setAge(0);
+                block.setBlockData(ageable);
             }
         }
     }

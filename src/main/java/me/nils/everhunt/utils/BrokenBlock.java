@@ -1,6 +1,7 @@
 package me.nils.everhunt.utils;
 
 import me.nils.everhunt.constants.Ability;
+import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.managers.ToolManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -55,7 +56,7 @@ public class BrokenBlock {
         if(breaker == null) return;
         breaker.breakBlock(block);
         BrokenBlocksService.removeBrokenBLock(block.getLocation());
-        Drop.getBlockDrops(ability,breaker,block);
+        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), Loot.getlootTable(block,ability).getRandom());
     }
 
     public void destroyBlockObject(Player player){
