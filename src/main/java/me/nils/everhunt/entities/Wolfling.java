@@ -2,6 +2,7 @@ package me.nils.everhunt.entities;
 
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class Wolfling {
     public Wolfling(Location loc) {
-        EntityData data = new EntityData("Wolfling", 1, 8, Ability.NONE, MobType.ENEMY);
+        EntityData data = new EntityData("Wolfling", 1, Tier.BASIC, Ability.NONE, MobType.ENEMY);
         Wolf wolf = (Wolf) loc.getWorld().spawnEntity(loc, EntityType.WOLF);
 
         wolf.setCustomName("Wolfling");

@@ -2,6 +2,7 @@ package me.nils.everhunt.entities;
 
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.utils.Head;
@@ -15,7 +16,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class UndeadScarecrow extends EntityData {
     public UndeadScarecrow(Location loc) {
-        super("Undead Scarecrow",5,15, Ability.NONE, MobType.ENEMY);
+        super("Undead Scarecrow",5, Tier.BASIC, Ability.NONE, MobType.ENEMY);
         Zombie scare = (Zombie) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
 
         scare.setCustomName("Skeleton Knight");

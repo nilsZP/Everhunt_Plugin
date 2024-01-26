@@ -3,6 +3,7 @@ package me.nils.everhunt.entities.bosses.kings;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.Hologram;
 import me.nils.everhunt.entities.Wolfling;
@@ -19,7 +20,7 @@ import java.util.Random;
 
 public class WolfKing extends EntityData {
     public WolfKing(Location loc) {
-        super("Wolf King",10,40, Ability.ALPHA_ROAR, MobType.BOSS);
+        super("Wolf King",10, Tier.BASIC, Ability.ALPHA_ROAR, MobType.BOSS);
         Wolf wolf = (Wolf) loc.getWorld().spawnEntity(loc, EntityType.WOLF);
 
         wolf.setAngry(true);
