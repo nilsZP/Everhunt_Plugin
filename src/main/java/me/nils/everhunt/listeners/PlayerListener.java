@@ -16,6 +16,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.block.BrushableBlock;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -140,6 +141,9 @@ public class PlayerListener implements Listener {
         if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.BRUSH) return;
 
         // archeology system
+        if (e.getClickedBlock().getBlockData() instanceof BrushableBlock block) {
+            block.setItem(Loot.getlootTable(e.getClickedBlock(),Ability.NONE).getRandom());
+        }
     }
 
     @EventHandler

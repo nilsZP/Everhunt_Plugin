@@ -51,7 +51,7 @@ public class Loot {
             case WHEAT -> random.nextInt(1,4);
             case POTATOES,CARROTS,COAL_ORE -> random.nextInt(2,5);
             case BEETROOTS -> random.nextInt(0,3);
-            default -> 0;
+            default -> 1;
         };
 
         String item = switch (material) {
