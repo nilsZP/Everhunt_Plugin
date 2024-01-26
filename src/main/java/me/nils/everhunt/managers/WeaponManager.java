@@ -49,16 +49,18 @@ public class WeaponManager {
     private final Ability ability;
     private final double damage;
     private final double flow;
+    private final double crit;
 
     private final ItemStack itemStack;
 
-    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage,double flow) {
+    public WeaponManager(Material material, String displayName, Ability ability, Tier tier, double damage,double flow, double crit) {
         this.ability = ability;
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
         this.damage = damage;
         this.flow = flow;
+        this.crit = crit;
 
         itemStack = new ItemStack(material);
         ItemMeta meta = itemStack.getItemMeta();
@@ -74,6 +76,10 @@ public class WeaponManager {
             modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
             meta.addAttributeModifier(Attribute.GENERIC_MAX_ABSORPTION, modifier);
         }
+        if (crit != 0) {
+            modifier = new AttributeModifier(UUID.randomUUID(), "crit", crit, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            meta.addAttributeModifier(Attribute.GENERIC_LUCK, modifier);
+        }
         meta.setUnbreakable(true);
 
         List<String> lore = new ArrayList<>();
@@ -81,6 +87,7 @@ public class WeaponManager {
         if (damage != 0) {
             lore.add(Chat.color("&7Damage: &4+" + damage));
         }
+        if (crit != 0) lore.add(Chat.color("&7Crit Chance: &2" + crit));
         if (flow != 0) {
             lore.add(Chat.color("&7Flow: &3+" + flow));
         }
@@ -118,8 +125,8 @@ public class WeaponManager {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblweapon WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage,flow) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
-                        tier + "','" + damage + "','" + flow + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblweapon (material, displayname, ability, tier, damage,flow,crit) VALUES ('" + material + "','" + displayName + "','" + ability + "','" +
+                        tier + "','" + damage + "','" + flow + "','" + crit + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -137,8 +144,9 @@ public class WeaponManager {
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
                 double damage = resultSet.getDouble("damage");
                 double flow = resultSet.getDouble("flow");
+                double crit = resultSet.getDouble("crit");
 
-                new WeaponManager(material,displayName,ability,tier,damage,flow);
+                new WeaponManager(material,displayName,ability,tier,damage,flow,crit);
             }
         } catch (SQLException e) {
             e.printStackTrace();

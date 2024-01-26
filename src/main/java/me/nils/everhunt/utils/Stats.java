@@ -30,7 +30,7 @@ public class Stats {
 
         int level = pData.getXp() / 100;
 
-        double toughness, damage, health,luck,flow;
+        double toughness, damage, health,crit,flow;
         double base = level;
 
         flow = (level + 1) * 5;
@@ -55,15 +55,15 @@ public class Stats {
         }
 
         if (base != 0) {
-            luck = base / 2;
+            crit = base / 2;
         } else {
-            luck = 0;
+            crit = 0;
         }
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
         player.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(toughness);
         player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
-        player.getAttribute(Attribute.GENERIC_LUCK).setBaseValue(luck);
+        player.getAttribute(Attribute.GENERIC_LUCK).setBaseValue(crit);
         player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).setBaseValue(flow);
 
         ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
@@ -81,7 +81,7 @@ public class Stats {
 
         lore.add(Chat.color("&7Damage: &4" + damage));
 
-        lore.add(Chat.color("&7Crit Chance: &2" + luck));
+        lore.add(Chat.color("&7Crit Chance: &2" + crit));
 
         lore.add(Chat.color("&7Flow: &3" + flow));
 
