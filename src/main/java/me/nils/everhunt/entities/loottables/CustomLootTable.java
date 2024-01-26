@@ -4,10 +4,10 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-public class LootTable {
+public class CustomLootTable {
     private ArrayList<Entry> entries;
 
-    public LootTable(ArrayList<Entry> entries) {
+    public CustomLootTable(ArrayList<Entry> entries) {
         this.entries = entries;
     }
 
@@ -19,11 +19,11 @@ public class LootTable {
 
         return entries.get(entries.size() -1).getItem();
     }
-    public static class LootTableBuilder {
+    public static class CustomLootTableBuilder {
         private int totalWeight = 0;
         private ArrayList<Entry> entries = new ArrayList<>();
 
-        public LootTableBuilder add(ItemStack item, int weight) {
+        public CustomLootTableBuilder add(ItemStack item, int weight) {
             totalWeight += weight;
             entries.add(new Entry(item, weight));
             return this;
@@ -33,7 +33,7 @@ public class LootTable {
             return !entries.isEmpty() && totalWeight > 0;
         }
 
-        public LootTable build() {
+        public CustomLootTable build() {
             if (!isBuilt()) return null;
 
             double base = 0;
@@ -43,7 +43,7 @@ public class LootTable {
                 base += entry.getWeight();
             }
 
-            return new LootTable(entries);
+            return new CustomLootTable(entries);
         }
 
         private double getChance(double weight) {

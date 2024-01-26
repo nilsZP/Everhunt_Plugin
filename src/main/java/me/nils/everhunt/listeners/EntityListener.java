@@ -2,9 +2,7 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.entities.loottables.Monster_Loot;
-import me.nils.everhunt.entities.loottables.WolfKing_Loot;
-import me.nils.everhunt.entities.loottables.Wolfling_Loot;
+import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -44,64 +42,9 @@ public class EntityListener implements Listener {
                 return;
             }
 
-            int looting_mod;
-            double luck_mod;
-
-            Player player = entity.getKiller();
-
-            if (entity.getKiller() == null) {
-                looting_mod = 0;
-                luck_mod = 0;
-            } else {
-                looting_mod = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
-                luck_mod = player.getAttribute(Attribute.GENERIC_LUCK).getValue();
-            }
-
             Location location = entity.getLocation();
 
-            LootContext.Builder builder = new LootContext.Builder(location);
-            builder.lootedEntity(event.getEntity());
-            builder.lootingModifier(looting_mod);
-            builder.luck((float) luck_mod);
-            builder.killer(player);
-            LootContext lootContext = builder.build();
-
-            if (data.getDisplayName().equals("Wolf King")) {
-                WolfKing_Loot wolfKing_loot = new WolfKing_Loot();
-                Collection<ItemStack> drops = wolfKing_loot.populateLoot(new Random(), lootContext);
-                ArrayList<ItemStack> items = (ArrayList<ItemStack>) drops;
-
-                for (ItemStack item : items) {
-                    if (item.getAmount() > 0) {
-                        location.getWorld().dropItemNaturally(location, item);
-                    }
-                }
-            }
-
-            if (data.getDisplayName().equals("Wolfling")) {
-                Wolfling_Loot wolfling_loot = new Wolfling_Loot();
-                Collection<ItemStack> drops = wolfling_loot.populateLoot(new Random(), lootContext);
-                ArrayList<ItemStack> items = (ArrayList<ItemStack>) drops;
-
-                for (ItemStack item : items) {
-                    if (item.getAmount() > 0) {
-                        location.getWorld().dropItemNaturally(location, item);
-                    }
-                }
-            }
-
-            if (data.getType().equals(MobType.ENEMY) || data.getType().equals(MobType.BOSS)) {
-                Monster_Loot monster_loot = new Monster_Loot();
-                Collection<ItemStack> drops = monster_loot.populateLoot(new Random(), lootContext);
-                ArrayList<ItemStack> items = (ArrayList<ItemStack>) drops;
-
-                for (ItemStack item : items) {
-                    if (item.getAmount() > 0) {
-                        location.getWorld().dropItemNaturally(location, item);
-                    }
-                }
-            }
-
+            location.getWorld().dropItemNaturally(location, Loot.getLootTable(entity.getName()).getRandom());
         }
     }
 
