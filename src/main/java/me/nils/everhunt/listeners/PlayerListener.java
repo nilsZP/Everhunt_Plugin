@@ -70,7 +70,7 @@ public class PlayerListener implements Listener {
                 if (data != null) {
                     if (data.getType() != MobType.NPC) {
                         double damage = event.getDamage();
-                        int luck = (int) player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).getValue();
+                        int luck = (int) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
                         Random random = new Random();
                         int randInt = random.nextInt(0, 101);
                         if (randInt <= luck) {
