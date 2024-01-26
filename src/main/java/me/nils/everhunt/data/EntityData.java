@@ -3,6 +3,7 @@ package me.nils.everhunt.data;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.constants.Tier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,14 +15,14 @@ public class EntityData {
     private final MobType type;
     private final Ability ability;
     private final int level;
-    private final int maxHealth;
+    private final Tier tier;
 
-    public EntityData(String displayName, int level, int maxHealth, Ability ability, MobType type) {
+    public EntityData(String displayName, int level, Tier tier, Ability ability, MobType type) {
         this.ability = ability;
         this.displayName = displayName;
         this.type = type;
         this.level = level;
-        this.maxHealth = maxHealth;
+        this.tier = tier;
 
         data.put(displayName,this);
 
@@ -29,7 +30,7 @@ public class EntityData {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblentity WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, level, maxhealth, ability, type) VALUES ('" + displayName + "','" + level + "','" + maxHealth + "','" + ability + "','" +
+                Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, level, tier, ability, type) VALUES ('" + displayName + "','" + level + "','" + tier + "','" + ability + "','" +
                         type + "')").executeUpdate();
             }
         } catch (SQLException e) {
@@ -44,11 +45,11 @@ public class EntityData {
             while (resultSet.next()) {
                 String displayName = resultSet.getString("displayname");
                 int level = resultSet.getInt("level");
-                int maxHealth = resultSet.getInt("maxhealth");
+                Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 MobType type = MobType.valueOf(resultSet.getString("type"));
                 Ability ability = Ability.valueOf(resultSet.getString("ability"));
 
-                new EntityData(displayName,level,maxHealth,ability,type);
+                new EntityData(displayName,level,tier,ability,type);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,10 +62,6 @@ public class EntityData {
 
     public String getDisplayName() {
         return displayName;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
     }
 
     public Ability getAbility() {
