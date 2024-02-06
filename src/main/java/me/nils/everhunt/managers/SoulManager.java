@@ -85,7 +85,7 @@ public class SoulManager {
         List<String> lore = new ArrayList<>();
 
         if (damage != 0) {
-            lore.add(Chat.color("&7Damage: &4+" + damage));
+            lore.add(Chat.color("&7Damage: &4+" + damage*100 + "%"));
         }
         if (crit != 0) lore.add(Chat.color("&7Crit Chance: &2+" + crit + "%"));
         if (flow != 0) {

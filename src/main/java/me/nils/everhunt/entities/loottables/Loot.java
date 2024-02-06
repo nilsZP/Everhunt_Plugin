@@ -47,7 +47,7 @@ public class Loot {
         int drops = switch (material) {
             case STONE -> random.nextInt(3,11);
             case IRON_ORE -> random.nextInt(1,3);
-            case GOLD_ORE,DEEPSLATE_GOLD_ORE,GOLD_BLOCK,NETHER_GOLD_ORE -> random.nextInt(1,6);
+            case GOLD_ORE,DEEPSLATE_GOLD_ORE,RAW_GOLD_BLOCK,NETHER_GOLD_ORE -> random.nextInt(1,6);
             case WHEAT -> random.nextInt(1,4);
             case POTATOES,CARROTS,COAL_ORE -> random.nextInt(2,5);
             case BEETROOTS -> random.nextInt(0,3);
@@ -60,7 +60,7 @@ public class Loot {
             case IRON_ORE -> "Iron Ingot";
             case GOLD_ORE -> "3k Gold Ingot";
             case DEEPSLATE_GOLD_ORE -> "6k Gold Ingot";
-            case GOLD_BLOCK -> "12k Gold Ingot";
+            case RAW_GOLD_BLOCK -> "12k Gold Ingot";
             case NETHER_GOLD_ORE -> "24k Gold Nugget";
             case WHEAT -> "Wheat";
             case POTATOES -> "Potato";

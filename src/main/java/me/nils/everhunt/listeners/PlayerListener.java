@@ -76,6 +76,7 @@ public class PlayerListener implements Listener {
                         int randInt = random.nextInt(0, 101);
                         if (randInt <= luck) {
                             event.setDamage(damage * 1.5);
+                            player.getWorld().playEffect(livingEntity.getLocation(),Effect.ELECTRIC_SPARK,livingEntity.getEyeLocation().getPitch());
                         }
                     }
                 }

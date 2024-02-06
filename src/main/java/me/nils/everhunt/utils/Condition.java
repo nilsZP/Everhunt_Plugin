@@ -76,7 +76,7 @@ public class Condition {
 
     public static boolean isMineable(Block block) {
         return switch (block.getType()) {
-            case STONE,COAL_ORE,IRON_BLOCK,GOLD_BLOCK,GOLD_ORE,DEEPSLATE_GOLD_ORE,NETHER_GOLD_ORE -> true;
+            case STONE,COAL_ORE,IRON_ORE,RAW_GOLD_BLOCK,GOLD_ORE,DEEPSLATE_GOLD_ORE,NETHER_GOLD_ORE -> true;
             default -> false;
         };
     }
@@ -95,7 +95,7 @@ public class Condition {
                     case STONE, COAL_ORE, IRON_ORE, GOLD_ORE -> {
                         return true;
                     }
-                    case GOLD_BLOCK,DEEPSLATE_GOLD_ORE,NETHER_GOLD_ORE -> {
+                    case RAW_GOLD_BLOCK,DEEPSLATE_GOLD_ORE,NETHER_GOLD_ORE -> {
                         return item.contains("G");
                     }
                 }
