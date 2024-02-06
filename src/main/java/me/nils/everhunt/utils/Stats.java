@@ -115,8 +115,8 @@ public class Stats {
         int modifier = 0;
         modifier += switch (item) {
             case "Drill" -> 3;
-            case "Drill G13" -> 6;
-            case "Drill G26" -> 15;
+            case "Drill G16" -> 6;
+            case "Drill G29" -> 15;
             case "Drill G42" -> 45;
             default -> 1;
         };

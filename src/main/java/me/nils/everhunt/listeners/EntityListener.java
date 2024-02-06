@@ -59,8 +59,7 @@ public class EntityListener implements Listener {
         }
         if (event.getEntity() instanceof LivingEntity entity) {
             List<Entity> entityList = entity.getPassengers();
-            EntityData data = EntityData.data.get(entity.getName());
-            int maxHealth = data.getMaxHealth();
+            int maxHealth = (int) entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
             for (Entity passenger : entityList) {
                 if (passenger instanceof ArmorStand) {
                     passenger.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), Math.round(entity.getHealth() - event.getFinalDamage()), maxHealth,"♥")));

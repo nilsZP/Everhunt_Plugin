@@ -61,6 +61,7 @@ public class BreakListeners implements Listener {
     @EventHandler
     public void onBreakingBlock(PlayerAnimationEvent event){
         Player player = event.getPlayer();
+        if (player.getInventory().getItemInMainHand().getItemMeta() == null) return;
         String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
 
         Block block = player.getTargetBlock(transparentBlocks, 5);

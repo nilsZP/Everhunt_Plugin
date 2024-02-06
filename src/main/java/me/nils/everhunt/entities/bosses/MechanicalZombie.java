@@ -2,6 +2,7 @@ package me.nils.everhunt.entities.bosses;
 
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -17,7 +18,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 
 public class MechanicalZombie extends EntityData {
     public MechanicalZombie(Location loc) {
-        super("Mechanical Zombie",50,300, Ability.NONE, MobType.BOSS);
+        super("Mechanical Zombie",50, Tier.MECHANICAL, Ability.NONE, MobType.BOSS);
         Zombie zombie = (Zombie) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
 
         ItemStack helmet = new ItemStack(Material.CHAINMAIL_HELMET);
