@@ -59,6 +59,8 @@ public class BackpackListener implements Listener {
                     int amount = item.getAmount();
 
                     new BackpackData(uuid, name, amount, i);
+                } else {
+                    BackpackData.removeData(uuid,i);
                 }
             }
         }

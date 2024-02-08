@@ -15,15 +15,26 @@ public class BackpackData {
 
     public BackpackData(String uuid, String name, int amount, int slot) {
         try {
-            Everhunt.getDatabase().run("UPDATE tblbackpack SET name = '" + name + "', amount = '" + amount + "' WHERE uuid = '" +
+            if (Everhunt.getDatabase().run("UPDATE tblbackpack SET name = '" + name + "', amount = '" + amount + "' WHERE uuid = '" +
+                    uuid + "' AND slot = '" + slot + "'").executeUpdate() == 0) {
+                try {
+                    Everhunt.getDatabase().run("INSERT INTO tblbackpack (uuid, name, amount, slot) VALUES ('" + uuid + "','" + name + "','" + amount + "','" +
+                            slot + "')").executeUpdate();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void removeData(String uuid, int slot) {
+        try {
+            Everhunt.getDatabase().run("DELETE FROM tblbackpack WHERE uuid = '" +
                     uuid + "' AND slot = '" + slot + "'").executeUpdate();
         } catch (SQLException e) {
-            try {
-                Everhunt.getDatabase().run("INSERT INTO tblbackpack (uuid, name, amount, slot) VALUES ('" + uuid + "','" + name + "','" + amount + "','" +
-                        slot + "')").executeUpdate();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+            throw new RuntimeException(e);
         }
     }
 
