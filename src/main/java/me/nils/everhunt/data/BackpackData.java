@@ -63,7 +63,7 @@ public class BackpackData {
                         item = new ItemStack(Material.AIR);
                     }
 
-                    item.setAmount(resultSet.getInt("amount"));
+                    item.setAmount(resultSet.getInt("amount")); // TODO fix this
                 } else {
                     item = new ItemStack(Material.AIR);
                 }
