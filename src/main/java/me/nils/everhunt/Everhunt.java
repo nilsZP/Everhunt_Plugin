@@ -77,6 +77,7 @@ public final class Everhunt extends JavaPlugin {
         ToolManager.registerItems();
         CostNPCData.registerData();
         SoulManager.registerItems();
+        DishManager.registerItems();
     }
 
     @Override
