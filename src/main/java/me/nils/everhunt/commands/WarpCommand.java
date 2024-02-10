@@ -15,7 +15,7 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
 
-        player.openInventory(Menu.createTeleportMenu(player));
+        player.openInventory(new Menu().teleport(player));
 
         return true;
     }

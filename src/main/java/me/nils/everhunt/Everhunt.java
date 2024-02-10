@@ -7,10 +7,7 @@ import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;
-import me.nils.everhunt.utils.BrokenBlocksService;
-import me.nils.everhunt.utils.Cooldown;
-import me.nils.everhunt.utils.Database;
-import me.nils.everhunt.utils.Flow;
+import me.nils.everhunt.utils.*;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -39,6 +36,7 @@ public final class Everhunt extends JavaPlugin {
             throw new RuntimeException(e);
         }
         Flow.regenFlow();
+        new Menu();
     }
 
     @Override

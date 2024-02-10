@@ -17,7 +17,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Menu {
-    public static Inventory createTeleportMenu(Player player) {
+    private final ItemStack sell = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+    private final ItemMeta sellMeta = sell.getItemMeta();
+    private final ItemStack air = new ItemStack(Material.AIR);
+
+    private final ItemStack pane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+    private final ItemMeta paneMeta = pane.getItemMeta();
+
+    public Menu() {
+        sellMeta.setDisplayName("Sell");
+        sellMeta.setLocalizedName("sell");
+        sell.setItemMeta(sellMeta);
+    }
+    public Inventory teleport(Player player) {
         String uuid = player.getUniqueId().toString();
         ArrayList<String> teleportList = TeleportData.getLocations(uuid);
         int size = teleportList.size();
@@ -40,24 +52,14 @@ public class Menu {
         return menu;
     }
 
-    public static Inventory createSellMenu(Player player, ItemStack... selling) {
+    /*public Inventory createCookingMenu(Player player) {
+
+    }*/
+
+    public Inventory sell(Player player, ItemStack... selling) {
         String uuid = player.getUniqueId().toString();
         ArrayList<ItemStack> menuItems = new ArrayList<>();
         List<ItemStack> sellingList = Arrays.stream(selling).toList();
-
-        ItemStack sell = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
-        ItemMeta sellMeta = sell.getItemMeta();
-        sellMeta.setDisplayName("Sell");
-        sellMeta.setLocalizedName("sell");
-        sell.setItemMeta(sellMeta);
-
-        ItemStack air = new ItemStack(Material.AIR);
-
-        ItemStack pane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-        ItemMeta paneMeta = pane.getItemMeta();
-        paneMeta.setDisplayName("");
-        paneMeta.setLocalizedName("pane");
-        pane.setItemMeta(paneMeta);
 
         ItemStack[][] items = {
                 {pane,pane,pane,pane,pane,pane,pane,pane,pane},
