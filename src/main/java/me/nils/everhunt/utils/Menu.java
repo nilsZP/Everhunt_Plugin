@@ -24,6 +24,11 @@ public class Menu {
     private final ItemStack pane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
     private final ItemMeta paneMeta = pane.getItemMeta();
 
+    private final ItemStack cook = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+    private final ItemMeta cookMeta = cook.getItemMeta();
+    private final ItemStack result = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+    private final ItemMeta resultMeta = result.getItemMeta();
+
     public Menu() {
         sellMeta.setDisplayName("Sell");
         sellMeta.setLocalizedName("sell");
@@ -31,6 +36,12 @@ public class Menu {
         paneMeta.setDisplayName("");
         paneMeta.setLocalizedName("pane");
         pane.setItemMeta(paneMeta);
+        cookMeta.setDisplayName("Cook");
+        cookMeta.setLocalizedName("cook");
+        cook.setItemMeta(cookMeta);
+        resultMeta.setDisplayName("Result");
+        resultMeta.setLocalizedName("result");
+        result.setItemMeta(resultMeta);
     }
     public Inventory teleport(Player player) {
         String uuid = player.getUniqueId().toString();
@@ -55,9 +66,28 @@ public class Menu {
         return menu;
     }
 
-    /*public Inventory createCookingMenu(Player player) {
+    public Inventory createCookingMenu(Player player) {
+        ItemStack[][] items = {
+                {pane,pane,pane,pane,pane,pane,pane,pane,pane},
+                {pane,pane,pane,pane,air,pane,pane,pane,pane},
+                {pane,pane,pane,air,result,air,pane,pane,pane},
+                {pane,pane,pane,pane,pane,pane,pane,pane,pane},
+                {pane,pane,pane,pane,cook,pane,pane,pane,pane}
+        };
 
-    }*/
+        ArrayList<ItemStack> menuItems = new ArrayList<>();
+        for (ItemStack[] itemStacks : items) {
+            menuItems.addAll(Arrays.asList(itemStacks));
+        }
+
+        ItemStack[] contents = new ItemStack[menuItems.size()];
+        contents = menuItems.toArray(contents);
+
+        Inventory menu = Bukkit.createInventory(player, 45, "Cook Menu");
+        menu.setContents(contents);
+
+        return menu;
+    }
 
     public Inventory sell(Player player, ItemStack... selling) {
         String uuid = player.getUniqueId().toString();
