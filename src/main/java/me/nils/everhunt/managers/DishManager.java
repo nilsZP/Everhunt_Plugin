@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffectType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,8 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ItemManager {
-    public static final HashMap<String, ItemManager> items = new HashMap<>();
+public class DishManager {
+    public static final HashMap<String, DishManager> items = new HashMap<>();
     public Material getMaterial() {
         return material;
     }
@@ -40,15 +41,13 @@ public class ItemManager {
     private final String displayName;
     private final Tier tier;
     private final ItemStack itemStack;
-    private final int value;
     private final int nutrition;
     private final String url;
 
-    public ItemManager(Material material, String displayName, Tier tier, int value, int nutrition, String url) {
+    public DishManager(Material material, String displayName, Tier tier, int nutrition, String url) {
         this.displayName = displayName;
         this.material = material;
         this.tier = tier;
-        this.value = value;
         this.nutrition = nutrition;
         this.url = url;
 
@@ -63,9 +62,6 @@ public class ItemManager {
 
             List<String> lore = new ArrayList<>();
 
-            if (tier != Tier.MENU && value != 0) {
-                lore.add(Chat.color("&fValue: &e" + value + "&f coins"));
-            }
             if (tier != Tier.MENU && nutrition != 0) {
                 lore.add(Chat.color("&fNutrition: &4" + nutrition));
             }
@@ -89,15 +85,12 @@ public class ItemManager {
 
             List<String> lore = new ArrayList<>();
 
-            if (tier != Tier.MENU && value != 0) {
-                lore.add(Chat.color("&fValue: &e" + value + "&f coins"));
-            }
             if (tier != Tier.MENU && nutrition != 0) {
                 lore.add(Chat.color("&fNutrition: &4" + nutrition));
             }
 
             lore.add(Chat.color("&r"));
-            lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");
+            lore.add(tier.getColor() + String.valueOf(tier) + " DISH");
 
             meta.setLore(lore);
 
@@ -113,11 +106,10 @@ public class ItemManager {
         Everhunt.items.add(this);
 
         try {
-            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblitem WHERE displayname = '" + displayName + "'").executeQuery();
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tbldish WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblitem (material, displayname, tier, value, nutrition, url) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + value + "','"
-                        + nutrition +"','" + url + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tbldish (material, displayname, tier, nutrition, url) VALUES ('" + material + "','" + displayName + "','" + tier + "','" + nutrition + "','" + url + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException();
@@ -126,24 +118,19 @@ public class ItemManager {
 
     public static void registerItems() {
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblitem").executeQuery();
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbldish").executeQuery();
 
             while (resultSet.next()) {
                 Material material = Material.valueOf(resultSet.getString("material"));
                 String displayName = resultSet.getString("displayname");
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
-                int value = resultSet.getInt("value");
                 int nutrition = resultSet.getInt("nutrition");
                 String url = resultSet.getString("url");
 
-                new ItemManager(material,displayName,tier,value,nutrition,url);
+                new DishManager(material,displayName,tier,nutrition,url);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getValue() {
-        return value;
     }
 }

@@ -12,6 +12,7 @@ public class Items {
     private final ArrayList<ItemStack> tools;
     private final ArrayList<ItemStack> helmets;
     private final ArrayList<ItemStack> souls;
+    private final ArrayList<ItemStack> dishes;
 
     public Items() {
         this.weapons = new ArrayList<>();
@@ -20,6 +21,7 @@ public class Items {
         this.tools = new ArrayList<>();
         this.helmets = new ArrayList<>();
         this.souls = new ArrayList<>();
+        this.dishes = new ArrayList<>();
     }
 
     public void add(WeaponManager weapon) {
@@ -64,6 +66,13 @@ public class Items {
         souls.add(soul.getItemStack());
     }
 
+    public void add(DishManager dish) {
+        if (dishes.contains(dish.getItemStack())) {
+            return;
+        }
+        souls.add(dish.getItemStack());
+    }
+
     public ItemStack[] getWeapons() {
         ItemStack[] list = new ItemStack[weapons.size()];
         list = weapons.toArray(list);
@@ -97,6 +106,12 @@ public class Items {
     public ItemStack[] getSouls() {
         ItemStack[] list = new ItemStack[souls.size()];
         list = souls.toArray(list);
+        return list;
+    }
+
+    public ItemStack[] getDishes() {
+        ItemStack[] list = new ItemStack[dishes.size()];
+        list = dishes.toArray(list);
         return list;
     }
 }
