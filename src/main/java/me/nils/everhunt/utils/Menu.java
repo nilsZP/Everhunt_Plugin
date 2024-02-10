@@ -28,6 +28,9 @@ public class Menu {
         sellMeta.setDisplayName("Sell");
         sellMeta.setLocalizedName("sell");
         sell.setItemMeta(sellMeta);
+        paneMeta.setDisplayName("");
+        paneMeta.setLocalizedName("pane");
+        pane.setItemMeta(paneMeta);
     }
     public Inventory teleport(Player player) {
         String uuid = player.getUniqueId().toString();
