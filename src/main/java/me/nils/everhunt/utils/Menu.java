@@ -66,7 +66,7 @@ public class Menu {
         return menu;
     }
 
-    public Inventory createCookingMenu(Player player) {
+    public Inventory cook(Player player) {
         ItemStack[][] items = {
                 {pane,pane,pane,pane,pane,pane,pane,pane,pane},
                 {pane,pane,pane,pane,air,pane,pane,pane,pane},

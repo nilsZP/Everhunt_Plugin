@@ -146,4 +146,8 @@ public class ItemManager {
     public int getValue() {
         return value;
     }
+
+    public int getNutrition() {
+        return nutrition;
+    }
 }
