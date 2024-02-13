@@ -3,6 +3,8 @@ package me.nils.everhunt.menu;
 import me.nils.everhunt.Everhunt;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -55,6 +57,26 @@ public abstract class PaginatedMenu extends Menu {
                 if(index >= list.size()) break;
                 if (list.get(index) != null){
                     inventory.addItem(list.get(index));
+                }
+            }
+        }
+    }
+
+    public void handlePages(Player player, ArrayList<ItemStack> list, InventoryClickEvent e) {
+        if (e.getCurrentItem().getType().equals(Material.SPECTRAL_ARROW)) {
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Left")) {
+                if (page == 0) {
+                    player.sendMessage(ChatColor.GRAY + "You are already on the first page.");
+                } else {
+                    page = page - 1;
+                    super.open();
+                }
+            } else if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Right")) {
+                if (!((index + 1) >= list.size())) {
+                    page = page + 1;
+                    super.open();
+                } else {
+                    player.sendMessage(ChatColor.GRAY + "You are on the last page.");
                 }
             }
         }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Menu {
+    // TODO update every menu
     private final ItemStack sell = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
     private final ItemMeta sellMeta = sell.getItemMeta();
     private final ItemStack air = new ItemStack(Material.AIR);
