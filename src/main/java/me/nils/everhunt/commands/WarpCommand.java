@@ -1,5 +1,7 @@
 package me.nils.everhunt.commands;
 
+import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.menu.standard.WarpMenu;
 import me.nils.everhunt.utils.Menu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +17,7 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
 
-        player.openInventory(new Menu().teleport(player));
+        new WarpMenu(Everhunt.getPlayerMenuUtility(player)).open();
 
         return true;
     }

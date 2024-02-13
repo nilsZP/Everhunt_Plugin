@@ -67,7 +67,7 @@ public class PlayerListener implements Listener {
     public void onHit(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player player) {
             if (event.getEntity() instanceof LivingEntity livingEntity) {
-                EntityData data = EntityData.data.get(livingEntity.getName());
+                EntityData data = EntityData.data.get(livingEntity.getName()); // TODO learn to read your own code idiot
 
                 if (data != null) {
                     if (data.getType() != MobType.NPC) {
@@ -77,7 +77,7 @@ public class PlayerListener implements Listener {
                         int randInt = random.nextInt(0, 101);
                         if (randInt <= luck) {
                             event.setDamage(damage * 1.5);
-                            player.getWorld().playEffect(livingEntity.getLocation(),Effect.ELECTRIC_SPARK,livingEntity.getEyeLocation().getPitch());
+                            player.getWorld().playEffect(livingEntity.getLocation(),Effect.ELECTRIC_SPARK,2);
                         }
                     }
                 }

@@ -37,7 +37,7 @@ public class ItemMenu extends PaginatedMenu {
 
         handlePages(player,Everhunt.items.getAll(), e);
 
-        if (Condition.isCustom(ItemType.ITEM,ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()))) {
+        if (Condition.isCustom(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()))) {
             player.getInventory().addItem(e.getCurrentItem());
         }
     }

@@ -73,11 +73,11 @@ public class WeaponManager {
             meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE,modifier);
         }
         if (flow != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            modifier = new AttributeModifier(UUID.randomUUID(), "flow", flow, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
             meta.addAttributeModifier(Attribute.GENERIC_MAX_ABSORPTION, modifier);
         }
         if (crit != 0) {
-            modifier = new AttributeModifier(UUID.randomUUID(), "crit", crit, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD);
+            modifier = new AttributeModifier(UUID.randomUUID(), "crit", crit, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
             meta.addAttributeModifier(Attribute.GENERIC_LUCK, modifier);
         }
         meta.setUnbreakable(true);
