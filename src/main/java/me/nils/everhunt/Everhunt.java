@@ -7,13 +7,16 @@ import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;
+import me.nils.everhunt.menu.PlayerMenuUtility;
 import me.nils.everhunt.utils.*;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.MalformedURLException;
+import java.util.HashMap;
 
 public final class Everhunt extends JavaPlugin {
 
@@ -22,6 +25,7 @@ public final class Everhunt extends JavaPlugin {
     public static Items items;
     private static Database database;
     public static BrokenBlocksService brokenBlocksService = new BrokenBlocksService();
+    private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -96,5 +100,18 @@ public final class Everhunt extends JavaPlugin {
 
     public static Database getDatabase() {
         return database;
+    }
+
+    public static PlayerMenuUtility getPlayerMenuUtility(Player player) {
+        PlayerMenuUtility playerMenuUtility;
+
+        if (playerMenuUtilityMap.containsKey(player)) {
+            return playerMenuUtilityMap.get(player);
+        } else {
+            playerMenuUtility = new PlayerMenuUtility(player);
+            playerMenuUtilityMap.put(player,playerMenuUtility);
+
+            return playerMenuUtility;
+        }
     }
 }

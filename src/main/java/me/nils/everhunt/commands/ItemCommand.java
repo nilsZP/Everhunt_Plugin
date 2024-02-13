@@ -1,6 +1,7 @@
 package me.nils.everhunt.commands;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.menu.admin.ItemMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,15 +35,7 @@ public class ItemCommand implements CommandExecutor {
                 player.openInventory(menu);
             }
             case "items" -> {
-                size = Everhunt.items.getItems().length;
-                while (size%9 != 0) {
-                    size++;
-                }
-
-                Inventory menu = Bukkit.createInventory(player, size, "Admin Items");
-                menu.setContents(Everhunt.items.getItems());
-
-                player.openInventory(menu);
+                new ItemMenu(Everhunt.getPlayerMenuUtility(player)).open();
             }
             case "tools" -> {
                 size = Everhunt.items.getTools().length;

@@ -16,11 +16,27 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
 public class MenuListener implements Listener {
+    @EventHandler
+    public void onMenuClick(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+
+        InventoryHolder holder = event.getClickedInventory().getHolder();
+
+        if (holder instanceof me.nils.everhunt.menu.Menu menu) {
+            event.setCancelled(true);
+
+            if (event.getCurrentItem() == null) return;
+
+            menu.handleMenu(event);
+        }
+    }
+
     @EventHandler
     public void menuInteract(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
