@@ -26,6 +26,8 @@ public class MenuListener implements Listener {
     public void onMenuClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
+        if (event.getClickedInventory() == null) return;
+
         InventoryHolder holder = event.getClickedInventory().getHolder();
 
         if (holder instanceof me.nils.everhunt.menu.Menu menu) {
@@ -35,9 +37,13 @@ public class MenuListener implements Listener {
 
             menu.handleMenu(event);
         }
+
+        if (event.getCurrentItem().displayName().toString().contains(player.getName())) {
+            event.setCancelled(true);
+        }
     }
 
-    @EventHandler
+   /* @EventHandler
     public void menuInteract(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         if (event.getCurrentItem() == null) return;
@@ -109,5 +115,5 @@ public class MenuListener implements Listener {
                 PlayerData.data.get(uuid).addCoins(item.getValue());
             }
         }
-    }
+    }*/
 }

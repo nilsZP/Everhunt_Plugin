@@ -1,10 +1,12 @@
 package me.nils.everhunt.menu.admin;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PaginatedMenu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
+import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -32,13 +34,17 @@ public class ItemMenu extends PaginatedMenu {
     @Override
     public void handleMenu(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
-        ArrayList<ItemStack> list = new ArrayList<>(List.of(Everhunt.items.getItems()));
 
-        handlePages(player,list,e);
+        handlePages(player,Everhunt.items.getAll(), e);
+
+        if (Condition.isCustom(ItemType.ITEM,ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()))) {
+            player.getInventory().addItem(e.getCurrentItem());
+        }
     }
 
     @Override
     public void setMenuItems() {
-        insertContents(new ArrayList<>(List.of(Everhunt.items.getItems())));
+        addMenuBorder();
+        insertContents(Everhunt.items.getAll());
     }
 }

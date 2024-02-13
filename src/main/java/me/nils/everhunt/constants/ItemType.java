@@ -5,5 +5,7 @@ public enum ItemType {
     ITEM,
     TOOL,
     ARMOR,
+    SOUL,
+    DISH,
     HELMET;
 }

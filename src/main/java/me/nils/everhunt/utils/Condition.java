@@ -122,10 +122,21 @@ public class Condition {
             case WEAPON -> {
                 return WeaponManager.items.get(item) != null;
             }
+            case SOUL -> {
+                return SoulManager.souls.get(item) != null;
+            }
+            case DISH -> {
+                return DishManager.items.get(item) != null;
+            }
             default -> {
                 return false;
             }
         }
+    }
+
+    public static boolean isCustom(String item) {
+        return (isCustom(ItemType.ITEM,item) || isCustom(ItemType.TOOL,item) || isCustom(ItemType.HELMET,item) || isCustom(ItemType.WEAPON,item) || isCustom(ItemType.ARMOR,item)
+        || isCustom(ItemType.SOUL,item) || isCustom(ItemType.DISH,item));
     }
 
     public static boolean itemNameContains(Player player, String text) {

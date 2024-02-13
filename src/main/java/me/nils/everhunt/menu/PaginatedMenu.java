@@ -79,6 +79,8 @@ public abstract class PaginatedMenu extends Menu {
                     player.sendMessage(ChatColor.GRAY + "You are on the last page.");
                 }
             }
+        } else if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) player.closeInventory();
         }
     }
 }

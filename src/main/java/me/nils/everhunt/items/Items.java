@@ -114,4 +114,18 @@ public class Items {
         list = dishes.toArray(list);
         return list;
     }
+
+    public ArrayList<ItemStack> getAll() {
+        ArrayList<ItemStack> list = new ArrayList<>();
+
+        list.addAll(weapons);
+        list.addAll(items);
+        list.addAll(armors);
+        list.addAll(souls);
+        list.addAll(helmets);
+        list.addAll(dishes);
+        list.addAll(tools);
+
+        return list;
+    }
 }
