@@ -11,6 +11,7 @@ import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.utils.Condition;
+import me.nils.everhunt.utils.Menu;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -137,6 +138,11 @@ public class PlayerListener implements Listener {
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getHand() != EquipmentSlot.HAND) return;
         if (e.getClickedBlock() == null) return;
+
+        if (e.getClickedBlock().getType() == Material.SOUL_CAMPFIRE) {
+            e.getPlayer().openInventory(new Menu().cook(e.getPlayer()));
+        }
+
         if (e.getClickedBlock().getType() != Material.SUSPICIOUS_GRAVEL &&
                 e.getClickedBlock().getType() != Material.SUSPICIOUS_SAND) return;
         if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.BRUSH) return;
