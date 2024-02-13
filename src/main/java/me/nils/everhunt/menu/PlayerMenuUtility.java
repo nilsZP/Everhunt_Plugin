@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 
 public class PlayerMenuUtility {
     private Player owner;
+    // you can add more attributes so that you can save variables between menus
 
     public PlayerMenuUtility(Player owner) {
         this.owner = owner;
