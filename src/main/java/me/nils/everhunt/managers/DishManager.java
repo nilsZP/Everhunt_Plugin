@@ -133,4 +133,24 @@ public class DishManager {
             e.printStackTrace();
         }
     }
+
+    public static ItemStack getViaNutrition(int nutrition) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbldish WHERE  nutrition = " + nutrition).executeQuery();
+
+            if (resultSet.next()) {
+                Material material = Material.valueOf(resultSet.getString("material"));
+                String displayName = resultSet.getString("displayname");
+                Tier tier = Tier.valueOf(resultSet.getString("tier"));
+                String url = resultSet.getString("url");
+
+                return new DishManager(material,displayName,tier,nutrition,url).getItemStack();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ItemStack(Material.AIR);
+        }
+
+        return new ItemStack(Material.AIR);
+    }
 }

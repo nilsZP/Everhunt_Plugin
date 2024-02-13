@@ -4,6 +4,7 @@ import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.data.CostNPCData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.TeleportData;
+import me.nils.everhunt.managers.DishManager;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Menu;
@@ -58,6 +59,11 @@ public class MenuListener implements Listener {
                             totalNutrition += item.getNutrition();
                         }
                     }
+
+                    totalNutrition /= 10;
+
+                    player.closeInventory();
+                    player.openInventory(new Menu().cook(player, DishManager.getViaNutrition(totalNutrition)));
                 }
             }
         }

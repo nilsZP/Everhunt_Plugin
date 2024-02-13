@@ -89,6 +89,29 @@ public class Menu {
         return menu;
     }
 
+    public Inventory cook(Player player, ItemStack result) {
+        ItemStack[][] items = {
+                {pane,pane,pane,pane,pane,pane,pane,pane,pane},
+                {pane,pane,pane,pane,air,pane,pane,pane,pane},
+                {pane,pane,pane,air,result,air,pane,pane,pane},
+                {pane,pane,pane,pane,pane,pane,pane,pane,pane},
+                {pane,pane,pane,pane,cook,pane,pane,pane,pane}
+        };
+
+        ArrayList<ItemStack> menuItems = new ArrayList<>();
+        for (ItemStack[] itemStacks : items) {
+            menuItems.addAll(Arrays.asList(itemStacks));
+        }
+
+        ItemStack[] contents = new ItemStack[menuItems.size()];
+        contents = menuItems.toArray(contents);
+
+        Inventory menu = Bukkit.createInventory(player, 45, "Cook Menu");
+        menu.setContents(contents);
+
+        return menu;
+    }
+
     public Inventory sell(Player player, ItemStack... selling) {
         String uuid = player.getUniqueId().toString();
         ArrayList<ItemStack> menuItems = new ArrayList<>();
