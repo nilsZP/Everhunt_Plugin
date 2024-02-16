@@ -10,8 +10,8 @@ import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.menu.standard.CookMenu;
 import me.nils.everhunt.utils.Condition;
-import me.nils.everhunt.utils.Menu;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
@@ -67,12 +67,12 @@ public class PlayerListener implements Listener {
     public void onHit(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player player) {
             if (event.getEntity() instanceof LivingEntity livingEntity) {
-                EntityData data = EntityData.data.get(livingEntity.getName()); // TODO learn to read your own code idiot
+                EntityData data = EntityData.data.get(livingEntity.getName());
 
                 if (data != null) {
                     if (data.getType() != MobType.NPC) {
                         double damage = event.getDamage();
-                        int luck = (int) player.getAttribute(Attribute.GENERIC_LUCK).getValue(); // TODO fix this
+                        int luck = (int) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
                         Random random = new Random();
                         int randInt = random.nextInt(0, 101);
                         if (randInt <= luck) {
@@ -140,7 +140,7 @@ public class PlayerListener implements Listener {
         if (e.getClickedBlock() == null) return;
 
         if (e.getClickedBlock().getType() == Material.SOUL_CAMPFIRE) {
-            e.getPlayer().openInventory(new Menu().cook(e.getPlayer()));
+            new CookMenu(Everhunt.getPlayerMenuUtility(e.getPlayer())).open();
         }
 
         if (e.getClickedBlock().getType() != Material.SUSPICIOUS_GRAVEL &&

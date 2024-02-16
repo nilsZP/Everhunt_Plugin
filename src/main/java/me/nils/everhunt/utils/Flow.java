@@ -50,6 +50,6 @@ public class Flow {
     }
 
     public static int getFlowAmount(Player player) {
-        return (int) player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).getValue(); // TODO fix not counting modifiers
+        return (int) player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION).getValue();
     }
 }

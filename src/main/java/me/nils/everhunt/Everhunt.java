@@ -40,7 +40,6 @@ public final class Everhunt extends JavaPlugin {
             throw new RuntimeException(e);
         }
         Flow.regenFlow();
-        new Menu();
     }
 
     @Override

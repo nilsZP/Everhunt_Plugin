@@ -15,6 +15,8 @@ public abstract class Menu implements InventoryHolder {
     protected Inventory inventory;
     protected PlayerMenuUtility playerMenuUtility;
     protected ItemStack FILLER_GLASS = makeItem(Material.GRAY_STAINED_GLASS_PANE, " ");
+    protected ItemStack COOK_BUTTON = makeItem(Material.RED_STAINED_GLASS_PANE,"Cook");
+    protected ItemStack RESULT_GLASS = makeItem(Material.GREEN_STAINED_GLASS_PANE,"Result");
 
     public Menu(PlayerMenuUtility playerMenuUtility) {
         this.playerMenuUtility = playerMenuUtility;
