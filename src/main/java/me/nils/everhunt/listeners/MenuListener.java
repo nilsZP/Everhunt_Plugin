@@ -13,6 +13,11 @@ public class MenuListener implements Listener {
 
         if (event.getClickedInventory() == null) return;
 
+        if (event.getCurrentItem().displayName().toString().contains(player.getName())) {
+            event.setCancelled(true);
+            return;
+        }
+
         InventoryHolder holder = event.getClickedInventory().getHolder();
 
         if (holder instanceof me.nils.everhunt.menu.Menu menu) {
@@ -21,10 +26,6 @@ public class MenuListener implements Listener {
             if (event.getCurrentItem() == null) return;
 
             menu.handleMenu(event);
-        }
-
-        if (event.getCurrentItem().displayName().toString().contains(player.getName())) {
-            event.setCancelled(true);
         }
     }
 }
