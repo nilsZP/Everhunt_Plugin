@@ -22,7 +22,7 @@ public abstract class PaginatedMenu extends Menu {
     public void addMenuBorder(){
         inventory.setItem(48, makeItem(Material.SPECTRAL_ARROW, ChatColor.YELLOW + "Left"));
 
-        inventory.setItem(49, makeItem(Material.BARRIER, ChatColor.DARK_RED + "Close"));
+        inventory.setItem(49, CLOSE_BUTTON);
 
         inventory.setItem(50, makeItem(Material.SPECTRAL_ARROW, ChatColor.YELLOW + "Right"));
 

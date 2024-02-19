@@ -1,6 +1,7 @@
 package me.nils.everhunt.menu;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -14,9 +15,12 @@ import java.util.Arrays;
 public abstract class Menu implements InventoryHolder {
     protected Inventory inventory;
     protected PlayerMenuUtility playerMenuUtility;
-    protected ItemStack FILLER_GLASS = makeItem(Material.GRAY_STAINED_GLASS_PANE, " ");
-    protected ItemStack COOK_BUTTON = makeItem(Material.RED_STAINED_GLASS_PANE,"Cook");
-    protected ItemStack RESULT_GLASS = makeItem(Material.GREEN_STAINED_GLASS_PANE,"Result");
+    protected ItemStack FILLER_GLASS = makeItem(Material.GRAY_STAINED_GLASS_PANE," ");
+    protected ItemStack COOK_BUTTON = makeItem(Material.RED_STAINED_GLASS_PANE,ChatColor.RED+"Cook");
+    protected ItemStack RESULT_GLASS = makeItem(Material.GREEN_STAINED_GLASS_PANE,ChatColor.GREEN+"Result");
+    protected ItemStack BUY_BUTTON = makeItem(Material.GOLD_BLOCK,ChatColor.GOLD+"Buy");
+    protected ItemStack SOLD_ICON = makeItem(Material.REDSTONE_BLOCK,ChatColor.RED+"Sold");
+    protected ItemStack CLOSE_BUTTON = makeItem(Material.BARRIER,ChatColor.DARK_RED + "Close");
 
     public Menu(PlayerMenuUtility playerMenuUtility) {
         this.playerMenuUtility = playerMenuUtility;
