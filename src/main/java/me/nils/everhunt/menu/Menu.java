@@ -21,6 +21,7 @@ public abstract class Menu implements InventoryHolder {
     protected ItemStack BUY_BUTTON = makeItem(Material.GOLD_BLOCK,ChatColor.GOLD+"Buy");
     protected ItemStack SOLD_ICON = makeItem(Material.REDSTONE_BLOCK,ChatColor.RED+"Sold");
     protected ItemStack CLOSE_BUTTON = makeItem(Material.BARRIER,ChatColor.DARK_RED + "Close");
+    protected ItemStack ADD_BUTTON = makeItem(Material.OAK_BUTTON, ChatColor.YELLOW + "Add product");
 
     public Menu(PlayerMenuUtility playerMenuUtility) {
         this.playerMenuUtility = playerMenuUtility;

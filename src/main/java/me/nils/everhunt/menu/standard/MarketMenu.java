@@ -34,6 +34,10 @@ public class MarketMenu extends PaginatedMenu {
 
         handlePages(player, list, e);
 
+        if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Your products")) {
+            new SellMenu(Everhunt.getPlayerMenuUtility(player));
+        }
+
         if (Condition.isCustom(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()))) {
             new ProductMenu(Everhunt.getPlayerMenuUtility(player),e.getCurrentItem());
         }
@@ -42,6 +46,7 @@ public class MarketMenu extends PaginatedMenu {
     @Override
     public void setMenuItems() {
         addMenuBorder();
+        inventory.setItem(45,MarketData.getOwnProductsHead(playerMenuUtility.getOwner()));
         insertContents(MarketData.getAllProducts());
     }
 }
