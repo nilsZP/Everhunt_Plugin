@@ -7,6 +7,7 @@ import me.nils.everhunt.data.*;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;
+import me.nils.everhunt.menu.MenuListener;
 import me.nils.everhunt.menu.PlayerMenuUtility;
 import me.nils.everhunt.utils.*;
 import net.kyori.adventure.text.Component;
