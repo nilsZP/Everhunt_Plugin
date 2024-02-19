@@ -139,6 +139,18 @@ public class Condition {
         || isCustom(ItemType.SOUL,item) || isCustom(ItemType.DISH,item));
     }
 
+    public static ItemType getType(String item) {
+        if (ItemManager.items.get(item) != null) return ItemType.ITEM;
+        if (WeaponManager.items.get(item) != null) return ItemType.WEAPON;
+        if (SoulManager.souls.get(item) != null) return ItemType.SOUL;
+        if (DishManager.items.get(item) != null) return ItemType.DISH;
+        if (ArmorManager.items.get(item) != null) return ItemType.ARMOR;
+        if (HelmetManager.items.get(item) != null) return ItemType.HELMET;
+        if (ToolManager.items.get(item) != null) return ItemType.TOOL;
+
+        return null;
+    }
+
     public static boolean itemNameContains(Player player, String text) {
         ItemStack item = player.getInventory().getItemInMainHand();
         String name = ChatColor.stripColor(item.displayName().toString());
