@@ -1,7 +1,11 @@
 package me.nils.everhunt.menu.standard;
 
+import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.data.MarketData;
 import me.nils.everhunt.menu.PaginatedMenu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
+import me.nils.everhunt.utils.Condition;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -26,14 +30,18 @@ public class MarketMenu extends PaginatedMenu {
     @Override
     public void handleMenu(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
-        ArrayList<ItemStack> list = new ArrayList<>();
+        ArrayList<ItemStack> list = MarketData.getAllProducts();
 
         handlePages(player, list, e);
+
+        if (Condition.isCustom(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()))) {
+            new ProductMenu(Everhunt.getPlayerMenuUtility(player),e.getCurrentItem());
+        }
     }
 
     @Override
     public void setMenuItems() {
         addMenuBorder();
-        insertContents(new ArrayList<>());
+        insertContents(MarketData.getAllProducts());
     }
 }

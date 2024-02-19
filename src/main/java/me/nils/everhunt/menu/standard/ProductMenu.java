@@ -1,12 +1,22 @@
 package me.nils.everhunt.menu.standard;
 
+import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.data.MarketData;
+import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 public class ProductMenu extends Menu {
-    public ProductMenu(PlayerMenuUtility playerMenuUtility) {
+    private final ItemStack itemStack;
+    public ProductMenu(PlayerMenuUtility playerMenuUtility, ItemStack itemStack) {
         super(playerMenuUtility);
+        this.itemStack = itemStack;
     }
 
     @Override
@@ -21,12 +31,45 @@ public class ProductMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        // add logic
+        Player player = (Player) e.getWhoClicked();
+        String seller = itemStack.getItemMeta().getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
+        String item = itemStack.getItemMeta().getDisplayName();
+
+        if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) player.closeInventory();
+        }
+
+        if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) {
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Buy")) {
+                PlayerData data = PlayerData.data.get(player.getUniqueId().toString());
+                if (MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isSold() || MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isCollected()) {
+                    new ProductMenu(Everhunt.getPlayerMenuUtility(player),itemStack);
+                } else {
+                    data.pay(itemStack.getItemMeta().getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.INTEGER));
+                    player.getInventory().addItem(itemStack);
+                    MarketData.data.get(ChatColor.stripColor(seller + " " + item)).setSold(true);
+                    player.closeInventory();
+                }
+            }
+        }
+
+
     }
 
     @Override
     public void setMenuItems() {
-        // make menu
+        inventory.setItem(22,itemStack);
+
+        String seller = itemStack.getItemMeta().getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
+        String item = itemStack.getItemMeta().getDisplayName();
+
+        if (MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isSold() || MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isCollected()) {
+            inventory.setItem(31,SOLD_ICON);
+        } else {
+            inventory.setItem(31,BUY_BUTTON);
+        }
+
+        inventory.setItem(49,CLOSE_BUTTON);
         setFillerGlass();
     }
 }
