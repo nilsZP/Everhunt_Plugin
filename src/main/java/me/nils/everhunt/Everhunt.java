@@ -81,6 +81,7 @@ public final class Everhunt extends JavaPlugin {
         CostNPCData.registerData();
         SoulManager.registerItems();
         DishManager.registerItems();
+        MarketData.register();
     }
 
     @Override
