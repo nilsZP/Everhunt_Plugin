@@ -137,7 +137,7 @@ public class MarketData {
                 boolean sold = resultSet.getBoolean("sold");
                 boolean collected = resultSet.getBoolean("collected");
 
-                if (sold || collected) {
+                if (!collected) {
                     if (Condition.isCustom(item)) {
                         ItemStack itemStack = switch (Condition.getType(item)) {
                             case ITEM -> ItemManager.items.get(item).getItemStack();
@@ -156,6 +156,7 @@ public class MarketData {
                         List<String> lore = itemMeta.getLore();
                         lore.add(Chat.color("&fPrice: &6" + price));
                         lore.add(Chat.color("&fSeller: &9" + user));
+                        if (sold) lore.add(Chat.color("&aSOLD"));
                         itemMeta.setLore(lore);
 
                         itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, user);

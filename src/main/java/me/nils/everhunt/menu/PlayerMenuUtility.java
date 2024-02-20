@@ -1,9 +1,12 @@
 package me.nils.everhunt.menu;
 
+import me.nils.everhunt.items.Items;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerMenuUtility {
     private Player owner;
+    private ItemStack item;
     // you can add more attributes so that you can save variables between menus
 
     public PlayerMenuUtility(Player owner) {
@@ -16,5 +19,13 @@ public class PlayerMenuUtility {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public void setItem(ItemStack item) {
+        this.item = item;
     }
 }
