@@ -1,6 +1,7 @@
 package me.nils.everhunt;
 
 import me.nils.everhunt.commands.ItemCommand;
+import me.nils.everhunt.commands.MarketCommand;
 import me.nils.everhunt.commands.SpawnCommand;
 import me.nils.everhunt.commands.WarpCommand;
 import me.nils.everhunt.data.*;
@@ -56,6 +57,7 @@ public final class Everhunt extends JavaPlugin {
         Bukkit.getPluginCommand("item").setExecutor(new ItemCommand());
         Bukkit.getPluginCommand("spawn").setExecutor(new SpawnCommand());
         Bukkit.getPluginCommand("warp").setExecutor(new WarpCommand());
+        Bukkit.getPluginCommand("warp").setExecutor(new MarketCommand());
     }
 
     private void loadListeners() {
