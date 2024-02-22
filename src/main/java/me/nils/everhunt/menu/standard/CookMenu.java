@@ -29,27 +29,39 @@ public class CookMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        Inventory menu = e.getClickedInventory();
-        assert menu != null;
-        ItemStack[] menuContents = menu.getContents();
-        int totalNutrition = 0;
+        if (e.getCurrentItem().getType().equals(Material.RED_STAINED_GLASS_PANE)) {
+            int totalNutrition = 0;
 
-        ItemStack[] ingredients = {menuContents[13],menuContents[21],menuContents[23]};
-        for (ItemStack ingredient : ingredients) {
-            String name = ChatColor.stripColor(ingredient.displayName().toString());
-            if (Condition.isCustom(ItemType.ITEM,name)) {
-                ItemManager item = ItemManager.items.get(name);
+            ItemStack[] ingredients = {inventory.getItem(13),inventory.getItem(21),inventory.getItem(32)};
+            for (ItemStack ingredient : ingredients) {
+                String name = ChatColor.stripColor(ingredient.displayName().toString());
+                if (Condition.isCustom(ItemType.ITEM,name)) {
+                    ItemManager item = ItemManager.items.get(name);
 
-                totalNutrition += item.getNutrition();
+                    totalNutrition += item.getNutrition();
+                }
+            }
+
+            totalNutrition /= 10;
+
+            inventory.setItem(13,new ItemStack(Material.AIR));
+            inventory.setItem(21,new ItemStack(Material.AIR));
+            inventory.setItem(23,new ItemStack(Material.AIR));
+            inventory.setItem(32,DishManager.getViaNutrition(totalNutrition));
+        } else if (!inventory.contains(e.getCurrentItem())) {
+            if (inventory.getItem(13).isEmpty()) {
+                inventory.setItem(13,e.getCurrentItem());
+            } else if (inventory.getItem(21).isEmpty()) {
+                inventory.setItem(21,e.getCurrentItem());
+            } else if (inventory.getItem(32).isEmpty()) {
+                inventory.setItem(32,e.getCurrentItem());
             }
         }
 
-        totalNutrition /= 10;
-
-        inventory.setItem(13,new ItemStack(Material.AIR));
-        inventory.setItem(21,new ItemStack(Material.AIR));
-        inventory.setItem(23,new ItemStack(Material.AIR));
-        inventory.setItem(32,DishManager.getViaNutrition(totalNutrition));
+        if (Condition.isCustom(ChatColor.stripColor(e.getCurrentItem().displayName().toString())) && inventory.contains(e.getCurrentItem())) {
+            playerMenuUtility.getOwner().getInventory().addItem(e.getCurrentItem());
+            inventory.remove(e.getCurrentItem());
+        }
     }
 
     @Override
