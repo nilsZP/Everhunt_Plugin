@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 public class PlayerMenuUtility {
     private Player owner;
     private ItemStack item;
+    private String search;
     // you can add more attributes so that you can save variables between menus
 
     public PlayerMenuUtility(Player owner) {
@@ -27,5 +28,13 @@ public class PlayerMenuUtility {
 
     public void setItem(ItemStack item) {
         this.item = item;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
     }
 }

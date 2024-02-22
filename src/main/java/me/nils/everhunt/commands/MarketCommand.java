@@ -17,7 +17,7 @@ public class MarketCommand implements CommandExecutor {
             return true;
         }
 
-        new MarketMenu(Everhunt.getPlayerMenuUtility(player)).open();
+        new MarketMenu(Everhunt.getPlayerMenuUtility(player),false).open();
 
         return true;
     }

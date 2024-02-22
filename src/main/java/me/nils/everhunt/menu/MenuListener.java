@@ -2,6 +2,7 @@ package me.nils.everhunt.menu;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.standard.AddProductMenu;
+import me.nils.everhunt.menu.standard.MarketMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -48,6 +49,16 @@ public class MenuListener implements Listener {
     @EventHandler
     public void onTextEnter(PrepareAnvilEvent event) {
         Player player = (Player) event.getInventory().getViewers().get(0);
+        if (event.getView().getTitle().equals("Search")) {
+            if(event.getResult() != null && event.getResult().hasItemMeta() && !event.getInventory().getRenameText().isEmpty()){
+                String name = event.getResult().displayName().toString();
+                Everhunt.getPlayerMenuUtility(player).setSearch(name);
+
+                new MarketMenu(Everhunt.getPlayerMenuUtility(player),true);
+            }
+
+            return;
+        }
         if(event.getResult() != null && event.getResult().hasItemMeta() && !event.getInventory().getRenameText().isEmpty()){
             String name = event.getResult().displayName().toString();
 

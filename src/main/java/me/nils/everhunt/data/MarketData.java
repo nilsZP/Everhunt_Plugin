@@ -175,6 +175,57 @@ public class MarketData {
         }
     }
 
+    public static ArrayList<ItemStack> getSearchResults(String prompt) {
+        ArrayList<ItemStack> list = new ArrayList<>();
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblmarket WHERE item LIKE '%" + prompt + "%'").executeQuery();
+
+            while (resultSet.next()) {
+                String user = resultSet.getString("user");
+                String item = resultSet.getString("item");
+                int amount = resultSet.getInt("amount");
+                int price = resultSet.getInt("price");
+                boolean sold = resultSet.getBoolean("sold");
+                boolean collected = resultSet.getBoolean("collected");
+
+                if (!collected) {
+                    if (Condition.isCustom(item)) {
+                        ItemStack itemStack = switch (Condition.getType(item)) {
+                            case ITEM -> ItemManager.items.get(item).getItemStack();
+                            case DISH -> DishManager.items.get(item).getItemStack();
+                            case SOUL -> SoulManager.souls.get(item).getItemStack();
+                            case TOOL -> ToolManager.items.get(item).getItemStack();
+                            case ARMOR -> ArmorManager.items.get(item).getItemStack();
+                            case HELMET -> HelmetManager.items.get(item).getItemStack();
+                            case WEAPON -> WeaponManager.items.get(item).getItemStack();
+                            default -> null;
+                        };
+
+                        itemStack.setAmount(amount);
+                        ItemMeta itemMeta = itemStack.getItemMeta();
+
+                        List<String> lore = itemMeta.getLore();
+                        lore.add(Chat.color("&fPrice: &6" + price));
+                        lore.add(Chat.color("&fSeller: &9" + user));
+                        if (sold) lore.add(Chat.color("&aSOLD"));
+                        itemMeta.setLore(lore);
+
+                        itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, user);
+                        itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.INTEGER, price);
+
+                        itemStack.setItemMeta(itemMeta);
+
+                        list.add(itemStack);
+                    }
+                }
+            }
+
+            return list;
+        } catch (SQLException e) {
+            return list;
+        }
+    }
+
     public boolean isSold() {
         return sold;
     }

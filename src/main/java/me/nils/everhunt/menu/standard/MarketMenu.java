@@ -5,16 +5,21 @@ import me.nils.everhunt.data.MarketData;
 import me.nils.everhunt.menu.PaginatedMenu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
 import me.nils.everhunt.utils.Condition;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
 public class MarketMenu extends PaginatedMenu {
-    public MarketMenu(PlayerMenuUtility playerMenuUtility) {
+    private boolean result;
+    public MarketMenu(PlayerMenuUtility playerMenuUtility, boolean result) {
         super(playerMenuUtility);
+        this.result = result;
     }
 
     @Override
@@ -38,6 +43,12 @@ public class MarketMenu extends PaginatedMenu {
             new SellMenu(Everhunt.getPlayerMenuUtility(player));
         }
 
+        if (e.getCurrentItem().getType().equals(Material.OAK_SIGN)) {
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Search")) {
+                player.openInventory(Bukkit.createInventory(player, InventoryType.ANVIL, "Search"));
+            }
+        }
+
         if (Condition.isCustom(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()))) {
             new ProductMenu(Everhunt.getPlayerMenuUtility(player),e.getCurrentItem());
         }
@@ -47,6 +58,11 @@ public class MarketMenu extends PaginatedMenu {
     public void setMenuItems() {
         addMenuBorder();
         inventory.setItem(45,MarketData.getOwnProductsHead(playerMenuUtility.getOwner()));
-        insertContents(MarketData.getAllProducts());
+        inventory.setItem(9,SEARCH_ICON);
+        if (result) {
+            insertContents(MarketData.getSearchResults(playerMenuUtility.getSearch()));
+        } else {
+            insertContents(MarketData.getAllProducts());
+        }
     }
 }
