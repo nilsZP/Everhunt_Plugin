@@ -17,6 +17,7 @@ public class Mi extends EntityData {
         mi.setAI(false);
         mi.setInvulnerable(true);
         mi.setTamed(true);
+        mi.setRemoveWhenFarAway(false);
 
         mi.setCustomName("Mi");
         mi.setCustomNameVisible(true);

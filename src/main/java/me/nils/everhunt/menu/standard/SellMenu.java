@@ -39,7 +39,7 @@ public class SellMenu extends PaginatedMenu {
 
         if (e.getCurrentItem().getType().equals(Material.OAK_BUTTON)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Add product")) {
-                new AddProductMenu(Everhunt.getPlayerMenuUtility(player),1);
+                new AddProductMenu(Everhunt.getPlayerMenuUtility(player),1).open();
             }
         }
 

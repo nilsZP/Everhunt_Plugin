@@ -43,7 +43,7 @@ public class ProductMenu extends Menu {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Buy")) {
                 PlayerData data = PlayerData.data.get(player.getUniqueId().toString());
                 if (MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isSold() || MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isCollected()) {
-                    new ProductMenu(Everhunt.getPlayerMenuUtility(player),itemStack);
+                    new ProductMenu(Everhunt.getPlayerMenuUtility(player),itemStack).open();
                 } else {
                     data.pay(itemStack.getItemMeta().getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.INTEGER));
                     player.getInventory().addItem(itemStack);

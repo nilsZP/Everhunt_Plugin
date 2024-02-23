@@ -47,8 +47,20 @@ public class MarketData {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblmarket WHERE user = '" + user + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
+                int soldInt;
+                if (sold) {
+                    soldInt = 1;
+                } else {
+                    soldInt = 0;
+                }
+                int collectedInt;
+                if (collected) {
+                    collectedInt = 1;
+                } else {
+                    collectedInt = 0;
+                }
                 Everhunt.getDatabase().run("INSERT INTO tblmarket (user, item, amount, price, sold, collected) VALUES ('" + user + "','" + item + "','" +
-                        amount + "','" + price + "','" + sold + "','" + collected + "')").executeUpdate();
+                        amount + "','" + price + "','" + soldInt + "','" + collectedInt + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

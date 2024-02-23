@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class AddProductMenu extends Menu {
@@ -47,7 +48,10 @@ public class AddProductMenu extends Menu {
 
         if (e.getCurrentItem().getType().equals(Material.OAK_SIGN)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Set Price")) {
-                player.openInventory(Bukkit.createInventory(player, InventoryType.ANVIL, "Set Price"));
+                Inventory search = Bukkit.createInventory(player, InventoryType.ANVIL, "Set Price");
+                search.setItem(0,makeItem(Material.PAPER,"Set Price"));
+                player.openInventory(search);
+                playerMenuUtility.setAnvilGUI("Set Price");
             }
         }
 

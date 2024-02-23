@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -40,17 +41,20 @@ public class MarketMenu extends PaginatedMenu {
         handlePages(player, list, e);
 
         if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Your products")) {
-            new SellMenu(Everhunt.getPlayerMenuUtility(player));
+            new SellMenu(Everhunt.getPlayerMenuUtility(player)).open();
         }
 
         if (e.getCurrentItem().getType().equals(Material.OAK_SIGN)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Search")) {
-                player.openInventory(Bukkit.createInventory(player, InventoryType.ANVIL, "Search"));
+                Inventory search = Bukkit.createInventory(player, InventoryType.ANVIL, "Search");
+                search.setItem(0,makeItem(Material.PAPER,"Search"));
+                player.openInventory(search);
+                playerMenuUtility.setAnvilGUI("Search");
             }
         }
 
         if (Condition.isCustom(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()))) {
-            new ProductMenu(Everhunt.getPlayerMenuUtility(player),e.getCurrentItem());
+            new ProductMenu(Everhunt.getPlayerMenuUtility(player),e.getCurrentItem()).open();
         }
     }
 
