@@ -46,10 +46,10 @@ public class MarketMenu extends PaginatedMenu {
 
         if (e.getCurrentItem().getType().equals(Material.OAK_SIGN)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Search")) {
-                Inventory search = Bukkit.createInventory(player, InventoryType.ANVIL, "Search");
-                search.setItem(0,makeItem(Material.PAPER,"Search"));
-                player.openInventory(search);
-                playerMenuUtility.setAnvilGUI("Search");
+                playerMenuUtility.setInput(true);
+                playerMenuUtility.setInputType("Search");
+                player.closeInventory();
+                player.sendMessage("!!Type your search prompt in chat!!");
             }
         }
 
@@ -63,7 +63,7 @@ public class MarketMenu extends PaginatedMenu {
         addMenuBorder();
         inventory.setItem(45,MarketData.getOwnProductsHead(playerMenuUtility.getOwner()));
         inventory.setItem(9,SEARCH_ICON);
-        if (result) {
+        if (result) { // TODO fix it not showing all products
             insertContents(MarketData.getSearchResults(playerMenuUtility.getSearch()));
         } else {
             insertContents(MarketData.getAllProducts());

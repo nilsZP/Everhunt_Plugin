@@ -3,8 +3,10 @@ package me.nils.everhunt.menu.standard;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.data.MarketData;
 import me.nils.everhunt.data.PlayerData;
+import me.nils.everhunt.managers.*;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
+import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,7 +35,8 @@ public class ProductMenu extends Menu {
     public void handleMenu(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
         String seller = itemStack.getItemMeta().getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
-        String item = itemStack.getItemMeta().getDisplayName();
+        String item = ChatColor.stripColor(itemStack.getItemMeta().getDisplayName());
+        MarketData marketData = MarketData.data.get(ChatColor.stripColor(seller + " " + item));
 
         if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) player.closeInventory();
@@ -42,12 +45,22 @@ public class ProductMenu extends Menu {
         if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Buy")) {
                 PlayerData data = PlayerData.data.get(player.getUniqueId().toString());
-                if (MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isSold() || MarketData.data.get(ChatColor.stripColor(seller + " " + item)).isCollected()) {
+                if (marketData.isSold() || marketData.isCollected()) {
                     new ProductMenu(Everhunt.getPlayerMenuUtility(player),itemStack).open();
                 } else {
-                    data.pay(itemStack.getItemMeta().getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.INTEGER));
+                    if (!data.pay(marketData.getPrice())) return;
+                    ItemStack itemStack = switch (Condition.getType(item)) {
+                        case ITEM -> ItemManager.items.get(item).getItemStack();
+                        case DISH -> DishManager.items.get(item).getItemStack();
+                        case SOUL -> SoulManager.souls.get(item).getItemStack();
+                        case TOOL -> ToolManager.items.get(item).getItemStack();
+                        case ARMOR -> ArmorManager.items.get(item).getItemStack();
+                        case HELMET -> HelmetManager.items.get(item).getItemStack();
+                        case WEAPON -> WeaponManager.items.get(item).getItemStack();
+                        default -> null;
+                    };
                     player.getInventory().addItem(itemStack);
-                    MarketData.data.get(ChatColor.stripColor(seller + " " + item)).setSold(true);
+                    marketData.setSold(true);
                     player.closeInventory();
                 }
             }

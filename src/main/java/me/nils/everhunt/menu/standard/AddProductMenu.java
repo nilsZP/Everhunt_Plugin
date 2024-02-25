@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class AddProductMenu extends Menu {
     private int price;
+    private ItemStack itemStack;
     public AddProductMenu(PlayerMenuUtility playerMenuUtility, int price) {
         super(playerMenuUtility);
         this.price = price;
@@ -38,20 +39,18 @@ public class AddProductMenu extends Menu {
 
         if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) player.closeInventory();
-            playerMenuUtility.setItem(null);
-        }
 
-        if (!inventory.contains(e.getCursor())) {
-            inventory.setItem(22,e.getCursor());
-            playerMenuUtility.setItem(e.getCursor());
+            return;
         }
 
         if (e.getCurrentItem().getType().equals(Material.OAK_SIGN)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Set Price")) {
-                Inventory search = Bukkit.createInventory(player, InventoryType.ANVIL, "Set Price");
-                search.setItem(0,makeItem(Material.PAPER,"Set Price"));
-                player.openInventory(search);
-                playerMenuUtility.setAnvilGUI("Set Price");
+                playerMenuUtility.setInput(true);
+                playerMenuUtility.setInputType("Set Price");
+                player.closeInventory();
+                player.sendMessage("!!Type your price in chat!!");
+
+                return;
             }
         }
 
@@ -62,9 +61,15 @@ public class AddProductMenu extends Menu {
                 int amount = inventory.getItem(22).getAmount();
                 new MarketData(player.getName(),item,amount,price,false,false);
                 new SellMenu(Everhunt.getPlayerMenuUtility(player)).open();
-                playerMenuUtility.setItem(null);
-                player.getInventory().remove(playerMenuUtility.getItem());
+                player.getInventory().removeItem(inventory.getItem(22));
+
+                return;
             }
+        }
+
+        if (!inventory.contains(e.getCursor())) {
+            itemStack = e.getCursor();
+            inventory.setItem(22,e.getCursor());
         }
     }
 
@@ -74,10 +79,10 @@ public class AddProductMenu extends Menu {
         inventory.setItem(49,CLOSE_BUTTON);
         inventory.setItem(30,ADD_BUTTON);
         setFillerGlass();
-        if (playerMenuUtility.getItem() == null) {
+        if (itemStack == null) {
             inventory.setItem(22,new ItemStack(Material.AIR));
         } else {
-            inventory.setItem(22,playerMenuUtility.getItem());
+            inventory.setItem(22,itemStack);
         }
     }
 }

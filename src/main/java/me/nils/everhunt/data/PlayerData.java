@@ -91,7 +91,14 @@ public class PlayerData {
     }
 
     public int getCoins() {
-        return coins;
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT coins FROM tblplayer WHERE uuid = '" + uuid + "'").executeQuery();
+            resultSet.next();
+
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            return coins;
+        }
     }
 
     public boolean setCoins(int coins) {

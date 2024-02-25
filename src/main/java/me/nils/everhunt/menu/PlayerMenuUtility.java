@@ -6,13 +6,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerMenuUtility {
     private Player owner;
-    private ItemStack item;
     private String search;
-    private String anvilGUI;
+    private String inputType;
+    private boolean input;
     // you can add more attributes so that you can save variables between menus
 
     public PlayerMenuUtility(Player owner) {
         this.owner = owner;
+        this.input = false;
     }
 
     public Player getOwner() {
@@ -23,14 +24,6 @@ public class PlayerMenuUtility {
         this.owner = owner;
     }
 
-    public ItemStack getItem() {
-        return item;
-    }
-
-    public void setItem(ItemStack item) {
-        this.item = item;
-    }
-
     public String getSearch() {
         return search;
     }
@@ -39,11 +32,19 @@ public class PlayerMenuUtility {
         this.search = search;
     }
 
-    public String getAnvilGUI() {
-        return anvilGUI;
+    public String getInputType() {
+        return inputType;
     }
 
-    public void setAnvilGUI(String anvilGUI) {
-        this.anvilGUI = anvilGUI;
+    public void setInputType(String inputType) {
+        this.inputType = inputType;
+    }
+
+    public boolean isInput() {
+        return input;
+    }
+
+    public void setInput(boolean input) {
+        this.input = input;
     }
 }

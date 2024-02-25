@@ -1,5 +1,6 @@
 package me.nils.everhunt.menu;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.standard.AddProductMenu;
 import me.nils.everhunt.menu.standard.MarketMenu;
@@ -14,6 +15,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -25,34 +27,12 @@ public class MenuListener implements Listener {
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        
+
         if (event.getClickedInventory() == null) return;
-        
+
         if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().displayName().toString().contains(player.getName())) {
             event.setCancelled(true);
             return;
-        }
-        
-        if (event.getClickedInventory().getType() == InventoryType.ANVIL) {
-            if (event.getInventory().getItem(0) == null) return;
-            
-            if (Everhunt.getPlayerMenuUtility(player).getAnvilGUI().equalsIgnoreCase("Search")) {
-                String name = PlainTextComponentSerializer.plainText().serialize(event.getCurrentItem().displayName());// TODO fix not working
-                Everhunt.getPlayerMenuUtility(player).setSearch(name);
-                player.sendMessage(Component.text(name));
-
-                new MarketMenu(Everhunt.getPlayerMenuUtility(player), true).open();
-
-                return;
-            }
-            if (Everhunt.getPlayerMenuUtility(player).getAnvilGUI().equalsIgnoreCase("Set Price")) {
-                String name = PlainTextComponentSerializer.plainText().serialize(event.getCurrentItem().displayName());
-                player.sendMessage(Component.text(name));
-
-                new AddProductMenu(Everhunt.getPlayerMenuUtility(player), Integer.parseInt(name)).open();
-
-                return;
-            }
         }
 
         InventoryHolder holder = event.getClickedInventory().getHolder();
@@ -60,7 +40,43 @@ public class MenuListener implements Listener {
         if (holder instanceof Menu menu) {
             event.setCancelled(true);
 
+            if (event.getCurrentItem() == null) return;
+
             menu.handleMenu(event);
+        }
+    }
+
+    @EventHandler
+    public void onTextEnter(PlayerChatEvent e) {
+        Player player = e.getPlayer();
+
+        PlayerMenuUtility playerMenuUtility = Everhunt.getPlayerMenuUtility(player);
+        if (playerMenuUtility.isInput()) {
+            if (playerMenuUtility.getInputType().equalsIgnoreCase("Search")) {
+                String search = e.getMessage();
+                playerMenuUtility.setSearch(search);
+
+                new MarketMenu(Everhunt.getPlayerMenuUtility(player), true).open();
+
+                playerMenuUtility.setInput(false);
+
+                e.getRecipients().clear();
+                e.getRecipients().add(player);
+
+                return;
+            }
+
+            if (playerMenuUtility.getInputType().equalsIgnoreCase("Set Price")) {
+                int price = Integer.parseInt(e.getMessage());
+
+                new AddProductMenu(playerMenuUtility, price).open();
+
+                playerMenuUtility.setInput(false);
+
+                e.getRecipients().clear();
+
+                return;
+            }
         }
     }
 }

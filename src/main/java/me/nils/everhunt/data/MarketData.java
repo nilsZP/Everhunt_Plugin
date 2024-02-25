@@ -44,7 +44,7 @@ public class MarketData {
         data.put(user+" "+item,this);
 
         try {
-            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblmarket WHERE user = '" + user + "'").executeQuery();
+            ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblmarket WHERE user = '" + user + "' AND item = '" + item + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
                 int soldInt;
@@ -99,9 +99,9 @@ public class MarketData {
                 boolean sold = resultSet.getBoolean("sold");
                 boolean collected = resultSet.getBoolean("collected");
 
-                if (sold || collected) {
+                if (!sold) {
                     if (Condition.isCustom(item)) {
-                        ItemStack itemStack = switch (Condition.getType(item)) {
+                        ItemStack base = switch (Condition.getType(item)) {
                             case ITEM -> ItemManager.items.get(item).getItemStack();
                             case DISH -> DishManager.items.get(item).getItemStack();
                             case SOUL -> SoulManager.souls.get(item).getItemStack();
@@ -112,16 +112,22 @@ public class MarketData {
                             default -> null;
                         };
 
+                        ItemStack itemStack = new ItemStack(base);
+
                         itemStack.setAmount(amount);
                         ItemMeta itemMeta = itemStack.getItemMeta();
 
                         List<String> lore = itemMeta.getLore();
-                        lore.add(Chat.color("&fPrice: &6" + price));
-                        lore.add(Chat.color("&fSeller: &9" + user));
+                        if (!lore.contains(Chat.color("&fPrice: &6" + price))) {
+                            lore.add(Chat.color("&fPrice: &6" + price));
+                            lore.add(Chat.color("&fSeller: &9" + user));
+                        }
+                        if (!lore.contains(Chat.color("&aSOLD"))) {
+                            if (sold) lore.add(Chat.color("&aSOLD"));
+                        }
                         itemMeta.setLore(lore);
 
                         itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, user);
-                        itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.INTEGER, price);
 
                         itemStack.setItemMeta(itemMeta);
 
@@ -151,7 +157,7 @@ public class MarketData {
 
                 if (!collected) {
                     if (Condition.isCustom(item)) {
-                        ItemStack itemStack = switch (Condition.getType(item)) {
+                        ItemStack base = switch (Condition.getType(item)) {
                             case ITEM -> ItemManager.items.get(item).getItemStack();
                             case DISH -> DishManager.items.get(item).getItemStack();
                             case SOUL -> SoulManager.souls.get(item).getItemStack();
@@ -162,17 +168,22 @@ public class MarketData {
                             default -> null;
                         };
 
+                        ItemStack itemStack = new ItemStack(base);
+
                         itemStack.setAmount(amount);
                         ItemMeta itemMeta = itemStack.getItemMeta();
 
                         List<String> lore = itemMeta.getLore();
-                        lore.add(Chat.color("&fPrice: &6" + price));
-                        lore.add(Chat.color("&fSeller: &9" + user));
-                        if (sold) lore.add(Chat.color("&aSOLD"));
+                        if (!lore.contains(Chat.color("&fPrice: &6" + price))) {
+                            lore.add(Chat.color("&fPrice: &6" + price));
+                            lore.add(Chat.color("&fSeller: &9" + user));
+                        }
+                        if (!lore.contains(Chat.color("&aSOLD"))) {
+                            if (sold) lore.add(Chat.color("&aSOLD"));
+                        }
                         itemMeta.setLore(lore);
 
                         itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, user);
-                        itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.INTEGER, price);
 
                         itemStack.setItemMeta(itemMeta);
 
@@ -200,9 +211,9 @@ public class MarketData {
                 boolean sold = resultSet.getBoolean("sold");
                 boolean collected = resultSet.getBoolean("collected");
 
-                if (!collected) {
+                if (!sold) {
                     if (Condition.isCustom(item)) {
-                        ItemStack itemStack = switch (Condition.getType(item)) {
+                        ItemStack base = switch (Condition.getType(item)) {
                             case ITEM -> ItemManager.items.get(item).getItemStack();
                             case DISH -> DishManager.items.get(item).getItemStack();
                             case SOUL -> SoulManager.souls.get(item).getItemStack();
@@ -213,17 +224,22 @@ public class MarketData {
                             default -> null;
                         };
 
+                        ItemStack itemStack = new ItemStack(base);
+
                         itemStack.setAmount(amount);
                         ItemMeta itemMeta = itemStack.getItemMeta();
 
                         List<String> lore = itemMeta.getLore();
-                        lore.add(Chat.color("&fPrice: &6" + price));
-                        lore.add(Chat.color("&fSeller: &9" + user));
-                        if (sold) lore.add(Chat.color("&aSOLD"));
+                        if (!lore.contains(Chat.color("&fPrice: &6" + price))) {
+                            lore.add(Chat.color("&fPrice: &6" + price));
+                            lore.add(Chat.color("&fSeller: &9" + user));
+                        }
+                        if (!lore.contains(Chat.color("&aSOLD"))) {
+                            if (sold) lore.add(Chat.color("&aSOLD"));
+                        }
                         itemMeta.setLore(lore);
 
                         itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, user);
-                        itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.INTEGER, price);
 
                         itemStack.setItemMeta(itemMeta);
 
@@ -249,7 +265,13 @@ public class MarketData {
     public void setSold(boolean sold) {
         this.sold = sold;
         try {
-            Everhunt.getDatabase().run("UPDATE tblmarket SET sold ='" + sold + "' WHERE user = '" + user + "' AND item = '" + item + "'").executeUpdate();
+            int soldInt;
+            if (sold) {
+                soldInt = 1;
+            } else {
+                soldInt = 0;
+            }
+            Everhunt.getDatabase().run("UPDATE tblmarket SET sold ='" + soldInt + "' WHERE user = '" + user + "' AND item = '" + item + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -258,7 +280,11 @@ public class MarketData {
     public void setCollected(boolean collected) {
         this.collected = collected;
         try {
-            Everhunt.getDatabase().run("UPDATE tblmarket SET collected ='" + collected + "' WHERE user = '" + user + "' AND item = '" + item + "'").executeUpdate();
+            if (collected) {
+                Everhunt.getDatabase().run("DELETE FROM tblmarket WHERE user = '" + user + "' AND item = '" + item + "'").executeUpdate();
+            }
+
+            MarketData.data.remove(user+" "+item);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -285,5 +311,9 @@ public class MarketData {
         itemStack.setItemMeta(meta);
 
         return itemStack;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

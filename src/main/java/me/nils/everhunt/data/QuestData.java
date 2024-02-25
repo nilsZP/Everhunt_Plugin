@@ -66,7 +66,7 @@ public class QuestData {
             resultSet.next();
             return resultSet.getDouble(1);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return -1;
         }
     }
 
