@@ -44,7 +44,7 @@ public class BackpackData {
         try {
             for (int i = 0; i < 54; i++) {
                 ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblbackpack WHERE uuid = '" + uuid + "' AND slot = '" + i + "'").executeQuery();
-                ItemStack item;
+                ItemStack item, itemStack;
 
                 if (resultSet.next()) {
                     String name = resultSet.getString("name");
@@ -63,12 +63,14 @@ public class BackpackData {
                         item = new ItemStack(Material.AIR);
                     }
 
-                    item.setAmount(resultSet.getInt("amount")); // TODO fix this
+                    itemStack = new ItemStack(item);
+
+                    itemStack.setAmount(resultSet.getInt("amount")); // TODO fix this
                 } else {
-                    item = new ItemStack(Material.AIR);
+                    itemStack = new ItemStack(Material.AIR);
                 }
 
-                itemList.add(item);
+                itemList.add(itemStack);
             }
 
             return itemList;
