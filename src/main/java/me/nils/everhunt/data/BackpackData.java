@@ -2,6 +2,8 @@ package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.managers.*;
+import me.nils.everhunt.utils.Condition;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -44,28 +46,25 @@ public class BackpackData {
         try {
             for (int i = 0; i < 54; i++) {
                 ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblbackpack WHERE uuid = '" + uuid + "' AND slot = '" + i + "'").executeQuery();
-                ItemStack item, itemStack;
+                ItemStack itemStack;
 
                 if (resultSet.next()) {
-                    String name = resultSet.getString("name");
+                    String item = resultSet.getString("name");
 
-                    if (WeaponManager.items.get(name) != null) {
-                        item = WeaponManager.items.get(name).getItemStack();
-                    } else if (ArmorManager.items.get(name) != null) {
-                        item = ArmorManager.items.get(name).getItemStack();
-                    } else if (HelmetManager.items.get(name) != null) {
-                        item = HelmetManager.items.get(name).getItemStack();
-                    } else if (ItemManager.items.get(name) != null) {
-                        item = ItemManager.items.get(name).getItemStack();
-                    } else if (ToolManager.items.get(name) != null) {
-                        item = ToolManager.items.get(name).getItemStack();
-                    } else {
-                        item = new ItemStack(Material.AIR);
-                    }
+                    ItemStack base = switch (Condition.getType(item)) {
+                        case ITEM -> ItemManager.items.get(item).getItemStack();
+                        case DISH -> DishManager.items.get(item).getItemStack();
+                        case SOUL -> SoulManager.souls.get(item).getItemStack();
+                        case TOOL -> ToolManager.items.get(item).getItemStack();
+                        case ARMOR -> ArmorManager.items.get(item).getItemStack();
+                        case HELMET -> HelmetManager.items.get(item).getItemStack();
+                        case WEAPON -> WeaponManager.items.get(item).getItemStack();
+                        default -> null;
+                    };
 
-                    itemStack = new ItemStack(item);
+                    itemStack = new ItemStack(base);
 
-                    itemStack.setAmount(resultSet.getInt("amount")); // TODO fix this
+                    itemStack.setAmount(resultSet.getInt("amount"));
                 } else {
                     itemStack = new ItemStack(Material.AIR);
                 }

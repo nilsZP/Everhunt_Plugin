@@ -2,7 +2,7 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.data.BackpackData;
 import me.nils.everhunt.managers.ItemManager;
-import me.nils.everhunt.utils.Menu;
+import me.nils.everhunt.utils.Backpack;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,7 +39,7 @@ public class BackpackListener implements Listener {
                 return;
             }
 
-            player.openInventory(Menu.createBackpackMenu(player));
+            player.openInventory(Backpack.Menu(player));
         }
     }
 
