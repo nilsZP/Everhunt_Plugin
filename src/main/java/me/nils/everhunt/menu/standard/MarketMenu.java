@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.data.MarketData;
 import me.nils.everhunt.menu.PaginatedMenu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
+import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,7 +50,7 @@ public class MarketMenu extends PaginatedMenu {
                 playerMenuUtility.setInput(true);
                 playerMenuUtility.setInputType("Search");
                 player.closeInventory();
-                player.sendMessage("!!Type your search prompt in chat!!");
+                Chat.guide(player,"Type your search prompt in chat");
             }
         }
 
@@ -63,7 +64,7 @@ public class MarketMenu extends PaginatedMenu {
         addMenuBorder();
         inventory.setItem(45,MarketData.getOwnProductsHead(playerMenuUtility.getOwner()));
         inventory.setItem(9,SEARCH_ICON);
-        if (result) { // TODO fix it not showing all products
+        if (result) {
             insertContents(MarketData.getSearchResults(playerMenuUtility.getSearch()));
         } else {
             insertContents(MarketData.getAllProducts());

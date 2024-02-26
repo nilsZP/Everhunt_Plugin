@@ -6,6 +6,7 @@ import me.nils.everhunt.data.MarketData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
+import me.nils.everhunt.utils.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -48,7 +49,7 @@ public class AddProductMenu extends Menu {
                 playerMenuUtility.setInput(true);
                 playerMenuUtility.setInputType("Set Price");
                 player.closeInventory();
-                player.sendMessage("!!Type your price in chat!!");
+                Chat.guide(player,"Type your price in chat");
 
                 return;
             }
