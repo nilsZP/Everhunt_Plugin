@@ -1,12 +1,17 @@
 package me.nils.everhunt.entities.abilities;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.constants.Ability;
+import me.nils.everhunt.constants.MobType;
+import me.nils.everhunt.constants.Tier;
+import me.nils.everhunt.data.EntityData;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 
-public class MechanicalBullet {
+public class MechanicalBullet extends EntityData {
     public MechanicalBullet(Location loc, double damage, Entity entity) {
+        super("Mechanical Bullet",0, Tier.BASIC, Ability.NONE, MobType.ABILITY);
         SmallFireball bullet = (SmallFireball) loc.getWorld().spawnEntity(loc, EntityType.SMALL_FIREBALL);
 
         bullet.setCustomName("Mechanical Bullet");
