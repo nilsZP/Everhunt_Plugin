@@ -37,7 +37,7 @@ public class NPCSellMenu extends PaginatedMenu {
                     }
                 }
         }
-        this.sellList = sellList;
+        this.sellList = new ArrayList<>(List.of(sellList));
     }
 
     @Override
