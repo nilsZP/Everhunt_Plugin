@@ -20,7 +20,7 @@ import java.util.List;
 
 public class NPCSellMenu extends PaginatedMenu {
     private final ArrayList<ItemStack> sellList;
-    public NPCSellMenu(PlayerMenuUtility playerMenuUtility, ArrayList<ItemStack> sellList) {
+    public NPCSellMenu(PlayerMenuUtility playerMenuUtility, ItemStack... sellList) {
         super(playerMenuUtility);
         for (ItemStack itemStack : sellList) {
                 if (itemStack == null) {

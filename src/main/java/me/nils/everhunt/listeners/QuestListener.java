@@ -1,12 +1,15 @@
 package me.nils.everhunt.listeners;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.*;
 import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
+import me.nils.everhunt.items.Items;
 import me.nils.everhunt.managers.*;
+import me.nils.everhunt.menu.standard.NPCSellMenu;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
 import net.kyori.adventure.text.Component;
@@ -22,6 +25,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,7 +166,7 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid,3) == 4) {
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fWant to buy the Jester Leggings for 100 coins?")));
-                            // TODO add sell menu
+                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Jester Leggings")));
                             QuestData.setCompletion(uuid,3,5);
                         }
                         if (QuestData.getCompletion(uuid,3) == 5 && player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() >= 5) {
