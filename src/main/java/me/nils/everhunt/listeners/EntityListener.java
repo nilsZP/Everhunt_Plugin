@@ -65,7 +65,7 @@ public class EntityListener implements Listener {
             int maxHealth = (int) entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
             for (Entity passenger : entityList) {
                 if (passenger instanceof ArmorStand) {
-                    passenger.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), Math.round(entity.getHealth() - event.getFinalDamage()), maxHealth,"♥")));
+                    passenger.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), Math.round(entity.getHealth() - event.getFinalDamage()), maxHealth, "♥")));
                 }
             }
         }
@@ -91,12 +91,10 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent e) {
-        EntityData data = EntityData.data.get(e.getEntity().getName());
-        if (data == null) {
-            e.setCancelled(true);
-            if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
-                new UndeadScarecrow(e.getLocation());
-            }
+        if (e.getEntity() instanceof Player) return;
+        e.setCancelled(true);
+        if (e.getEntity() instanceof Zombie) {
+            new UndeadScarecrow(e.getLocation());
         }
     }
 }
