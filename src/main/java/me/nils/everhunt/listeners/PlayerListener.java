@@ -31,6 +31,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class PlayerListener implements Listener {
         player.setPlayerListName(String.format("[%d] %s", level, player.getName()));
 
         Stats.giveStats(player);
+        Stats.setScoreBoard(player);
     }
 
     @EventHandler

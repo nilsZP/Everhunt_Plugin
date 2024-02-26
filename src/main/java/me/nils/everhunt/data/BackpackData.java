@@ -1,6 +1,7 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.items.Items;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;
@@ -51,16 +52,7 @@ public class BackpackData {
                 if (resultSet.next()) {
                     String item = resultSet.getString("name");
 
-                    ItemStack base = switch (Condition.getType(item)) {
-                        case ITEM -> ItemManager.items.get(item).getItemStack();
-                        case DISH -> DishManager.items.get(item).getItemStack();
-                        case SOUL -> SoulManager.souls.get(item).getItemStack();
-                        case TOOL -> ToolManager.items.get(item).getItemStack();
-                        case ARMOR -> ArmorManager.items.get(item).getItemStack();
-                        case HELMET -> HelmetManager.items.get(item).getItemStack();
-                        case WEAPON -> WeaponManager.items.get(item).getItemStack();
-                        default -> null;
-                    };
+                    ItemStack base = Items.getBase(item);
 
                     itemStack = new ItemStack(base);
 

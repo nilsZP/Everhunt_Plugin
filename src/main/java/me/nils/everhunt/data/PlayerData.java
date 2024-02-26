@@ -112,6 +112,7 @@ public class PlayerData {
             throw new RuntimeException(e);
         }
         this.coins = coins;
+        Stats.setScoreBoard(Bukkit.getPlayer(UUID.fromString(uuid)));
         return true;
     }
 

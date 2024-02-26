@@ -3,6 +3,8 @@ package me.nils.everhunt.utils;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.data.PlayerData;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -15,6 +17,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +97,21 @@ public class Stats {
         itemStack.setItemMeta(meta);
 
         return itemStack;
+    }
+
+    public static void setScoreBoard(Player player) {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard scoreboard = manager.getNewScoreboard();
+
+        Objective objective = scoreboard.registerNewObjective("Title", "dummy");
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(ChatColor.BLUE + "Everhunt");
+
+        Score score = objective.getScore(ChatColor.GOLD + "Coins: $" + ChatColor.GREEN + PlayerData.data.get(player.getUniqueId().toString()).getCoins());
+
+        score.setScore(1);
+
+        player.setScoreboard(scoreboard);
     }
 
     public static int getBreakTime(Block block) {
