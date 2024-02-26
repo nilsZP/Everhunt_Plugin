@@ -2,9 +2,12 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.entities.EverEntity;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.utils.Chat;
+import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Biome;
@@ -79,7 +82,7 @@ public class EntityListener implements Listener {
     }
 
     public boolean isNPC(Entity entity) {
-        EntityData data = EntityData.data.get(entity.getName());
+        EntityData data = EntityData.data.get(entity.getCustomName());
         if (data != null) {
             if (data.getType() == MobType.NPC) {
                 return true;
@@ -91,11 +94,13 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onSpawn(EntitySpawnEvent e) {
-        EntityData data = EntityData.data.get(e.getEntity().getName());
-        if (data == null) {
+        if (e.getEntity() instanceof Player) {
+            return;
+        }
+        if (EntityData.data.get(e.getEntity().getCustomName()) == null) { // TODO check if this works
             e.setCancelled(true);
             if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
-                new UndeadScarecrow(e.getLocation());
+                new UndeadScarecrow(e.getLocation()).spawn();
             }
         }
     }

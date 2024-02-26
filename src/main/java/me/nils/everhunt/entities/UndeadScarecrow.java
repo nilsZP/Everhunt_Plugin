@@ -14,16 +14,71 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-public class UndeadScarecrow extends EntityData {
-    public UndeadScarecrow(Location loc) {
-        super("Undead Scarecrow",5, Tier.BASIC, Ability.NONE, MobType.ENEMY);
-        Zombie scare = (Zombie) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
+public class UndeadScarecrow extends EverEntity {
+    public UndeadScarecrow(Location location) {
+        super(location);
+    }
 
-        scare.setCustomName("Skeleton Knight");
-        scare.setCustomNameVisible(true);
-        scare.getEquipment().setBoots(ArmorManager.items.get("Farmers Boots").getItemStack());
-        scare.getEquipment().setChestplate(ArmorManager.items.get("Farmers Shirt").getItemStack());
-        scare.getEquipment().setLeggings(ArmorManager.items.get("Farmers Pants").getItemStack());
+    @Override
+    public String getDisplayName() {
+        return getEntityName();
+    }
+
+    @Override
+    public String getEntityName() {
+        return "Undead Scarecrow";
+    }
+
+    @Override
+    public boolean hasHologram() {
+        return true;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.ZOMBIE;
+    }
+
+    @Override
+    public Tier getTier() {
+        return Tier.BASIC;
+    }
+
+    @Override
+    public double getHealth() {
+        return 15;
+    }
+
+    @Override
+    public double getDamage() {
+        return 4;
+    }
+
+    @Override
+    public double getArmor() {
+        return 4;
+    }
+
+    @Override
+    public MobType getMobType() {
+        return MobType.ENEMY;
+    }
+
+    @Override
+    public int getLevel() {
+        return 5;
+    }
+
+    @Override
+    public Ability getAbility() {
+        return Ability.NONE;
+    }
+
+    @Override
+    public void setUniqueAttributes() {
+        entity.getEquipment().setBoots(ArmorManager.items.get("Farmers Boots").getItemStack());
+        entity.getEquipment().setChestplate(ArmorManager.items.get("Farmers Shirt").getItemStack());
+        entity.getEquipment().setLeggings(ArmorManager.items.get("Farmers Pants").getItemStack());
 
         ItemStack helmet = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta helmetMeta = (SkullMeta) helmet.getItemMeta();
@@ -32,13 +87,7 @@ public class UndeadScarecrow extends EntityData {
 
         helmet.setItemMeta(helmetMeta);
 
-        scare.getEquipment().setHelmet(helmet);
-        scare.getEquipment().setItemInMainHand(new ItemStack(Material.STICK));
-
-        scare.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(15);
-        scare.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
-        scare.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(4);
-
-        Hologram.addHologram(scare);
+        entity.getEquipment().setHelmet(helmet);
+        entity.getEquipment().setItemInMainHand(new ItemStack(Material.STICK));
     }
 }
