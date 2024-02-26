@@ -2,16 +2,19 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Biome;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
@@ -84,5 +87,16 @@ public class EntityListener implements Listener {
         }
 
         return false;
+    }
+
+    @EventHandler
+    public void onSpawn(EntitySpawnEvent e) {
+        EntityData data = EntityData.data.get(e.getEntity().getName());
+        if (data == null) {
+            e.setCancelled(true);
+            if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
+                new UndeadScarecrow(e.getLocation());
+            }
+        }
     }
 }
