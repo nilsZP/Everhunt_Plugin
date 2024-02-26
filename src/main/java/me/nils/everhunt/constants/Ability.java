@@ -11,7 +11,7 @@ public enum Ability {
     THUNDER_WARP("Thunder Warp", 1.1, 2,Activation.THROW,5,false,0),
     DIMENSION_UNISON("Dimension Unison", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     SNOWBALL("Snowball",0.5,0,Activation.RIGHT_CLICK,1,false,0,"&7shoots a snowball dealing &c50% &7damage."),
-    CLAP("Clap",0.8,4,Activation.LEFT_CLICK,0,false,0,"&7Hit the enemy with extra force dealing &c+80% &7damage."),
+    CLAP("Clap",0.8,4,Activation.LEFT_CLICK,0,false,0,"&7Hit the enemy with extra force dealing &c80% &7damage."),
     THUNDER_CLAP("Thunder Clap",1.2,4,Activation.LEFT_CLICK,0,false,0),
     THUNDER_FLASH("Thunder Flash",1.5,4,Activation.LEFT_CLICK,0,false,0),
     SPRING("Spring",0,2,Activation.PASSIVE,3,false,0),
