@@ -104,7 +104,6 @@ public class PlayerListener implements Listener {
         String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
 
         if (!Condition.isHolding(player, name, ItemType.TOOL)) {
-            player.sendMessage(Component.text("Not a tool"));
             event.setCancelled(true);
             return;
         }
@@ -112,7 +111,6 @@ public class PlayerListener implements Listener {
         if (Condition.itemNameContains(player,"Drill")) return;
 
         if (!Condition.itemNameContains(player,"Hoe")) {
-            player.sendMessage(Component.text("Wrong tool"));
             event.setCancelled(true);
             return;
         }
@@ -122,14 +120,6 @@ public class PlayerListener implements Listener {
 
         if (block.getBlockData() instanceof Ageable ageable && Condition.isFarmeable(block)) {
             if (ageable.getAge() == ageable.getMaximumAge()) {
-                String drop = switch (ageable.getMaterial()) {
-                    case WHEAT -> "Wheat";
-                    case POTATOES -> "Potato";
-                    case BEETROOT, BEETROOTS -> "Beetroot";
-                    case CARROTS -> "Carrot";
-                    default -> "null";
-                };
-
                 block.getLocation().getWorld().dropItemNaturally(block.getLocation(),Loot.getlootTable(block,ability).getRandom());
                 block.getDrops().clear();
                 ageable.setAge(0);
@@ -176,48 +166,5 @@ public class PlayerListener implements Listener {
     public void onXpGain(PlayerPickupExperienceEvent event) {
         event.getExperienceOrb().remove();
         event.setCancelled(true);
-    }
-
-    public static void checkMonsterSpawn() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (!player.getWorld().isDayTime()) {
-                        List<Block> blocks = getNearbyBlocks(player.getLocation(), 8);
-                        for (Block block : blocks) {
-                            Location loc = block.getLocation();
-                            Block block1 = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ());
-                            Block block2 = loc.getWorld().getBlockAt(loc.getBlockX(), loc.getBlockY() + 2, loc.getBlockZ());
-
-                            if (block1.isEmpty() && block2.isEmpty()) {
-                                Random random = new Random();
-                                int randInt = random.nextInt(0, 11);
-
-                                if (randInt == 1) {
-                                    if (block1.getLightLevel() <= 6) {
-                                        if (block.getType() == Material.WHEAT) {
-                                            new UndeadScarecrow(loc);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }.runTaskTimer(Everhunt.getInstance(), 300L, 300L);
-    }
-
-    public static List<Block> getNearbyBlocks(Location location, int radius) {
-        List<Block> blocks = new ArrayList<Block>();
-        for (int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
-            for (int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
-                for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
-                    blocks.add(location.getWorld().getBlockAt(x, y, z));
-                }
-            }
-        }
-        return blocks;
     }
 }

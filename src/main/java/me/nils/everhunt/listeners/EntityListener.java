@@ -89,7 +89,13 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onSpawn(CreatureSpawnEvent e) {
         if (e.getEntity() instanceof Player) return;
-        if (e.getLocation().getChunk().getEntities().length >= 5) {
+        int count = 0;
+        for (Entity entity : e.getLocation().getChunk().getEntities()) {
+            if (!(entity instanceof ArmorStand) && !(isNPC(entity)) && !(entity instanceof Player)) {
+                count++;
+            }
+        }
+        if (count >= 5) {
             e.setCancelled(true);
             return;
         }

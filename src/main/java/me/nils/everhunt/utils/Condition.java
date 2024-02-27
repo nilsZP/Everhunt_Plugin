@@ -68,7 +68,7 @@ public class Condition {
         if (isHolding(player, name, type)) {
             int itemAmount = player.getInventory().getItemInMainHand().getAmount();
 
-            return amount == itemAmount;
+            return amount <= itemAmount;
         }
 
         return false;

@@ -38,7 +38,6 @@ public class BreakListeners implements Listener {
         Material type = block.getType();
 
         if (!Condition.isHolding(player, name, ItemType.TOOL)) {
-            player.sendMessage(Component.text("Not a tool"));
             event.setCancelled(true);
             return;
         }
@@ -46,13 +45,11 @@ public class BreakListeners implements Listener {
         if (Condition.itemNameContains(player,"Hoe")) return;
 
         if (!Condition.itemNameContains(player,"Drill")) {
-            player.sendMessage(Component.text("Wrong tool"));
             event.setCancelled(true);
             return;
         }
 
         if (Condition.canMine(name,block)) {
-            player.sendMessage(Component.text("correct"));
             event.setCancelled(true);
             Everhunt.brokenBlocksService.createBrokenBlock(event.getBlock(), Stats.getBreakTime(block));
         }

@@ -27,13 +27,16 @@ public class NPCSellMenu extends PaginatedMenu {
                     itemStack = new ItemStack(Material.AIR);
                 }
 
-                ItemMeta meta = itemStack.getItemMeta();
+                ItemStack itemStack1 = new ItemStack(itemStack);
+
+                ItemMeta meta = itemStack1.getItemMeta();
                 if (meta != null) {
                     if (CostNPCData.data.get(ChatColor.stripColor(meta.getDisplayName())) != null) {
                         int cost = CostNPCData.data.get(ChatColor.stripColor(meta.getDisplayName())).getCost();
 
                         List<String> lore = meta.getLore();
                         lore.add(Chat.color("&7Cost: &e" + cost));
+                        itemStack1.setItemMeta(meta);
                     }
                 }
         }

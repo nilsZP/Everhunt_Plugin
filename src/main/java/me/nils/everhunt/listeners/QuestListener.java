@@ -79,6 +79,7 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid, 2) >= 1 && Condition.isHolding(player, "Wooden Bat", ItemType.WEAPON) && QuestData.getCompletion(uuid, 2) < 5) {
                             Chat.npc(player,"Marcus","May I use that Wooden Bat as a handle?");
+                            Chat.guide(player,"Type yes in chat");
                             QuestData.setCompletion(uuid, 2, 2);
                             return;
                         }
@@ -135,7 +136,6 @@ public class QuestListener implements Listener {
                             Chat.npc(player,"Mi","Please, go kill some Undead Scarecrows!");
                             Chat.npc(player,"Mi","I would really appreciate it.");
                             QuestData.setCompletion(uuid,3,7);
-                            // TODO add spawning mechanic for undead scarecrows
                         }
                         if (QuestData.getCompletion(uuid,3) == 8) {
                             Chat.npc(player,"Mi","Thanks.");
@@ -149,31 +149,34 @@ public class QuestListener implements Listener {
                         if (QuestData.getCompletion(uuid, 3) <= 1) {
                             Chat.npc(player,"Hunter","Are you the hunter who killed the Wolf King?");
                             Chat.npc(player,"Hunter","That's amazing can I have your armor?");
-                            Chat.guide(player,"Type yes to give him your farmers armor.");
+                            Chat.guide(player,"Take the armor off and type yes.");
                             QuestData.setCompletion(uuid, 3, 1);
                             return;
                         }
                         if (QuestData.getCompletion(uuid, 3) == 2 && Condition.isHolding(player, "Wheat", ItemType.ITEM, 30)) {
                             Chat.npc(player,"Hunter","Thanks!");
                             Chat.npc(player,"Hunter","Here have these Jester boots!");
+                            ItemStack wheat = new ItemStack(ItemManager.items.get("Wheat").getItemStack());
+                            wheat.setAmount(30);
+                            player.getInventory().removeItem(wheat);
                             player.getInventory().addItem(ArmorManager.items.get("Jester Boots").getItemStack());
-                            // TODO add warp to hunters guild
+                            new TeleportData(uuid, "Hunters Guild", 186, -58, -56);
                             QuestData.setCompletion(uuid, 3, 3);
+                            Chat.guide(player,"Open your warp menu by typing /warp");
                             return;
-                        } else {
+                        } else if (QuestData.getCompletion(uuid, 3) == 2) {
                             Chat.npc(player,"Hunter","Are you gonna give me the wheat?");
-                            Chat.guide(player,"Talk to the hunter holding 30 wheat.");
+                            Chat.guide(player,"Talk to the hunter while holding 30 wheat.");
                         }
-                        if (QuestData.getCompletion(uuid,3) == 4) {
-                            player.sendMessage(Component.text(Chat.color("&eHunter: &fWant to buy the Jester Leggings for 100 coins?")));
-                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Jester Leggings")));
-                            QuestData.setCompletion(uuid,3,5);
-                        }
-                        if (QuestData.getCompletion(uuid,3) == 5 && player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() >= 5) {
+                        if (QuestData.getCompletion(uuid,3) == 5 && player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() >= 4) {
                             Chat.npc(player,"Hunter","Wow, you look pretty strong!");
                             Chat.npc(player,"Hunter","Here, have this!");
-                            player.getInventory().addItem(ArmorManager.items.get("Jester Leggings").getItemStack());
+                            player.getInventory().addItem(ArmorManager.items.get("Jester Chestplate").getItemStack());
                             QuestData.setCompletion(uuid,3,6);
+                        } else if (QuestData.getCompletion(uuid,3) == 4 || player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() < 5) {
+                            player.sendMessage(Component.text(Chat.color("&eHunter: &fWant to buy the Jester Leggings for 100 coins?")));
+                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Jester Leggings"))).open();
+                            QuestData.setCompletion(uuid,3,5);
                         }
                     }
                 }
