@@ -19,7 +19,7 @@ public class UndeadScarecrow extends EntityData {
         super("Undead Scarecrow",5, Tier.BASIC, Ability.NONE, MobType.ENEMY);
         Zombie scare = (Zombie) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
 
-        scare.setCustomName("Skeleton Knight");
+        scare.setCustomName("Undead Scarecrow");
         scare.setCustomNameVisible(true);
         scare.getEquipment().setBoots(ArmorManager.items.get("Farmers Boots").getItemStack());
         scare.getEquipment().setChestplate(ArmorManager.items.get("Farmers Shirt").getItemStack());

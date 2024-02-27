@@ -21,6 +21,7 @@ import org.bukkit.block.BrushableBlock;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.SpawnCategory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -42,6 +43,8 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        /*player.getWorld().setSpawnLimit(SpawnCategory.MONSTER,30);  uncomment if needed
+        player.getWorld().setSpawnLimit(SpawnCategory.ANIMAL,15);*/
         event.joinMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&a" + player.getName() + " &fhas joined the server!")));
         new PlayerData(player.getUniqueId().toString(), player.getName(), 0, 0);
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;

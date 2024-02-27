@@ -12,10 +12,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.entity.EntityTransformEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.loot.LootContext;
 
@@ -90,11 +87,19 @@ public class EntityListener implements Listener {
     }
 
     @EventHandler
-    public void onSpawn(EntitySpawnEvent e) {
+    public void onSpawn(CreatureSpawnEvent e) {
         if (e.getEntity() instanceof Player) return;
-        e.setCancelled(true);
-        if (e.getEntity() instanceof Zombie) {
-            new UndeadScarecrow(e.getLocation());
+        if (e.getLocation().getChunk().getEntities().length >= 5) {
+            e.setCancelled(true);
+            return;
+        }
+        if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
+            e.setCancelled(true);
+            if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
+                if (e.getEntity() instanceof Zombie) {
+                    new UndeadScarecrow(e.getLocation());
+                }
+            }
         }
     }
 }
