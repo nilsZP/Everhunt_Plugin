@@ -7,6 +7,8 @@ import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.loottables.Loot;
+import me.nils.everhunt.managers.ArmorManager;
+import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
@@ -117,10 +119,24 @@ public class PlayerListener implements Listener {
 
         ToolManager tool = ToolManager.items.get(name);
         Ability ability = tool.getAbility();
+        Ability ability2 = null;
+
+        if (player.getInventory().getHelmet() != null) {
+            if (Condition.isCustom(ChatColor.stripColor(player.getInventory().getHelmet().getItemMeta().getDisplayName()))) {
+                String item = ChatColor.stripColor(player.getInventory().getHelmet().getItemMeta().getDisplayName());
+                if (Condition.isCustom(ItemType.HELMET,item)) {
+                    ability2 = HelmetManager.items.get(item).getAbility();
+                }
+                if (Condition.isCustom(ItemType.ARMOR,item)) {
+                    ability2 = ArmorManager.items.get(item).getAbility();
+                }
+            }
+        }
 
         if (block.getBlockData() instanceof Ageable ageable && Condition.isFarmeable(block)) {
             if (ageable.getAge() == ageable.getMaximumAge()) {
-                block.getLocation().getWorld().dropItemNaturally(block.getLocation(),Loot.getlootTable(block,ability).getRandom());
+                if (ability2 != null) block.getLocation().getWorld().dropItemNaturally(block.getLocation(),Loot.getlootTable(block,ability,ability2).getRandom());
+                else block.getLocation().getWorld().dropItemNaturally(block.getLocation(),Loot.getlootTable(block,ability).getRandom());
                 block.getDrops().clear();
                 ageable.setAge(0);
                 block.setBlockData(ageable);
