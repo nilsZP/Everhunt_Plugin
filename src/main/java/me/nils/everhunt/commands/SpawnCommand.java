@@ -53,6 +53,10 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 new GuildMaster(player.getLocation());
                 return true;
             }
+            case "farmer" -> {
+                new Farmer(player.getLocation());
+                return true;
+            }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
                 return true;

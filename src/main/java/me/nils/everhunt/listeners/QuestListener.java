@@ -258,7 +258,7 @@ public class QuestListener implements Listener {
                 Chat.npc(player,"Hunter","Thank you for the armor!");
                 Chat.npc(player,"Hunter","I'll do you a favor and give you the opportunity-");
                 Chat.npc(player,"Hunter","to get some special boots.");
-                player.getInventory().addItem(ToolManager.items.get("Wheat Hoe").getItemStack());
+                player.getInventory().addItem(ToolManager.items.get("Gardening Hoe").getItemStack());
                 Chat.npc(player,"Hunter","Have this!");
                 Chat.npc(player,"Hunter","Come back with 30 wheat");
                 Chat.npc(player,"Hunter","and I'll give you the special boots.");
