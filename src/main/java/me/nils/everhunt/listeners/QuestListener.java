@@ -184,7 +184,7 @@ public class QuestListener implements Listener {
                             return;
                         } else if (QuestData.getCompletion(uuid,3) == 4 || player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() < 5) {
                             player.sendMessage(Component.text(Chat.color("&eHunter: &fWant to buy the Jester Leggings for 100 coins?")));
-                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Jester Leggings"))).open();
+                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Jester Leggings")),new ItemStack(Items.getBase("Wooden Bat"))).open();
                             QuestData.setCompletion(uuid,3,5);
                             return;
                         }
@@ -218,12 +218,12 @@ public class QuestListener implements Listener {
                             QuestData.setCompletion(uuid,4,1);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid,4) == 1 && player.getInventory().containsAtLeast(Items.getBase("Wheat"),320)) {
+                        if (QuestData.getCompletion(uuid,4) == 321) {
                             Chat.npc(player,"Farmer","Give me your straw hat and i'll upgrade it.");
-                            QuestData.setCompletion(uuid,4,2);
+                            QuestData.setCompletion(uuid,4,322);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid,4) == 2 && player.getInventory().getItemInMainHand() == Items.getBase("Straw Hat")) {
+                        if (QuestData.getCompletion(uuid,4) == 322 && player.getInventory().getItemInMainHand() == Items.getBase("Straw Hat")) {
                             player.getInventory().remove(Items.getBase("Straw Hat"));
                             player.getInventory().addItem(Items.getBase("Lucky Straw Hat"));
                             QuestData.setDone(uuid,4);

@@ -96,6 +96,11 @@ public class EntityListener implements Listener {
             }
         }
         if (count >= 5) {
+            if (!e.getEntity().getPassengers().isEmpty()) {
+                for (Entity entity : e.getEntity().getPassengers()) {
+                    e.getEntity().removePassenger(entity);
+                }
+            }
             e.setCancelled(true);
             return;
         }

@@ -3,6 +3,7 @@ package me.nils.everhunt.entities.loottables;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.items.Items;
 import me.nils.everhunt.managers.ItemManager;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,15 +22,15 @@ public class Loot {
             CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
 
             if (data.getType().equals(MobType.ENEMY) || data.getType().equals(MobType.BOSS)) {
-                ItemStack flesh = ItemManager.items.get("Monster Flesh").getItemStack();
+                ItemStack flesh = new ItemStack(Items.getBase("Monster Flesh"));
                 flesh.setAmount(new Random().nextInt(1,5));
                 builder.add(flesh,80);
             }
 
             switch (mob) {
-                case "Wolf King" -> builder.add(ItemManager.items.get("Kings Bone").getItemStack(),20);
+                case "Wolf King" -> builder.add(new ItemStack(Items.getBase("Kings Bone")),20);
                 case "Wolfling" -> {
-                    ItemStack itemStack = ItemManager.items.get("Wolfling Hide").getItemStack();
+                    ItemStack itemStack = new ItemStack(Items.getBase("Wolfling Hide"));
                     itemStack.setAmount(new Random().nextInt(1,4));
                     builder.add(itemStack,50);
                 }
@@ -78,7 +79,7 @@ public class Loot {
             }
         }
 
-        ItemStack itemStack = ItemManager.items.get(item).getItemStack();
+        ItemStack itemStack = new ItemStack(Items.getBase(item));
         itemStack.setAmount(drops);
 
         return new CustomLootTable.CustomLootTableBuilder().add(itemStack,1).build();
@@ -121,7 +122,7 @@ public class Loot {
             }
         }
 
-        ItemStack itemStack = ItemManager.items.get(item).getItemStack();
+        ItemStack itemStack = new ItemStack(Items.getBase(item));
         itemStack.setAmount(drops);
 
         return new CustomLootTable.CustomLootTableBuilder().add(itemStack,1).build();
