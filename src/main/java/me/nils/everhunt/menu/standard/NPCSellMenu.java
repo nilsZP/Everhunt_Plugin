@@ -60,7 +60,9 @@ public class NPCSellMenu extends PaginatedMenu {
 
         handlePages(player,sellList,e);
 
+        player.sendMessage("1");
         if (inventory.contains(e.getCursor())) {
+            player.sendMessage("2");
             CostNPCData data = CostNPCData.data.get(e.getCurrentItem().displayName().toString());
 
             PlayerData pData = PlayerData.data.get(uuid);
@@ -69,7 +71,9 @@ public class NPCSellMenu extends PaginatedMenu {
 
             player.getInventory().addItem(e.getCursor());
         } else {
+            player.sendMessage("3");
             if (Condition.isCustom(ItemType.ITEM,ChatColor.stripColor(e.getCursor().getItemMeta().getDisplayName()))) {
+                player.sendMessage("4");
                 ItemManager item = ItemManager.items.get(ChatColor.stripColor(e.getCursor().getItemMeta().getDisplayName()));
                 player.getInventory().remove(e.getCursor());
                 PlayerData.data.get(uuid).addCoins(item.getValue());
