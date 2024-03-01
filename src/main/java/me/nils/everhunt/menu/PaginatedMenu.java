@@ -1,6 +1,5 @@
 package me.nils.everhunt.menu;
 
-import me.nils.everhunt.Everhunt;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -8,7 +7,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class PaginatedMenu extends Menu {
     protected int page = 0;

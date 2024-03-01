@@ -1,8 +1,6 @@
 package me.nils.everhunt.menu;
 
-import me.nils.everhunt.items.Items;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class PlayerMenuUtility {
     private Player owner;

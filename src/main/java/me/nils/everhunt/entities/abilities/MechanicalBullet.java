@@ -6,7 +6,9 @@ import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import org.bukkit.Location;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.SmallFireball;
 import org.bukkit.persistence.PersistentDataType;
 
 public class MechanicalBullet extends EntityData {

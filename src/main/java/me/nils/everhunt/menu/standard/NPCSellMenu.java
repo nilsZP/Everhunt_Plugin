@@ -22,6 +22,7 @@ public class NPCSellMenu extends PaginatedMenu {
     private ArrayList<ItemStack> sellList;
     public NPCSellMenu(PlayerMenuUtility playerMenuUtility, ItemStack... sellList) {
         super(playerMenuUtility);
+        this.sellList = new ArrayList<>();
         for (ItemStack itemStack : sellList) {
                 if (itemStack == null) {
                     itemStack = new ItemStack(Material.AIR);
@@ -39,8 +40,9 @@ public class NPCSellMenu extends PaginatedMenu {
                         itemStack1.setItemMeta(meta);
                     }
                 }
+                this.sellList.add(itemStack1);
         }
-        this.sellList = new ArrayList<>(List.of(sellList));
+
     }
 
     @Override

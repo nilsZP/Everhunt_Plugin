@@ -9,7 +9,6 @@ import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class CookMenu extends Menu {

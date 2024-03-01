@@ -1,10 +1,5 @@
 package me.nils.everhunt.commands;
 
-import me.nils.everhunt.entities.SkeletonKnight;
-import me.nils.everhunt.entities.Springer;
-import me.nils.everhunt.entities.bosses.MechanicalZombie;
-import me.nils.everhunt.entities.bosses.ThunderBones;
-import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.entities.npc.*;
 import me.nils.everhunt.utils.Chat;
 import net.kyori.adventure.text.Component;

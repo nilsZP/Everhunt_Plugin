@@ -6,7 +6,10 @@ import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Wolf;
 
 import java.util.List;
 

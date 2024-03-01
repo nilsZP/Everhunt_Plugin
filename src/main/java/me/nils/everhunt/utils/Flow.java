@@ -1,15 +1,10 @@
 package me.nils.everhunt.utils;
 
 import me.nils.everhunt.Everhunt;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-
-
-import java.util.Objects;
 
 
 public class Flow {

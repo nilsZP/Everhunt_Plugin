@@ -4,7 +4,6 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Stats;
-import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

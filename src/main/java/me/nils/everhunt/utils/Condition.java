@@ -4,7 +4,6 @@ import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.managers.*;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -4,13 +4,9 @@ import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.items.Items;
-import me.nils.everhunt.managers.ItemManager;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.loot.LootContext;
 
 import java.util.Random;
 

@@ -1,19 +1,14 @@
 package me.nils.everhunt.menu.standard;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.data.CostNPCData;
 import me.nils.everhunt.data.MarketData;
-import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
 import me.nils.everhunt.utils.Chat;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class AddProductMenu extends Menu {

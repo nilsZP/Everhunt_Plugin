@@ -1,12 +1,6 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.*;
-import me.nils.everhunt.managers.ArmorManager;
-import me.nils.everhunt.managers.WeaponManager;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.EquipmentSlot;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

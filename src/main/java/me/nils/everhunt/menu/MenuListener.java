@@ -1,27 +1,14 @@
 package me.nils.everhunt.menu;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.standard.AddProductMenu;
 import me.nils.everhunt.menu.standard.MarketMenu;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Objects;
 
 public class MenuListener implements Listener {
     @EventHandler

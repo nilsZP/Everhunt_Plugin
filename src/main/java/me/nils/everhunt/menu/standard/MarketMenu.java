@@ -6,13 +6,10 @@ import me.nils.everhunt.menu.PaginatedMenu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

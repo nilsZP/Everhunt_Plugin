@@ -4,8 +4,6 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

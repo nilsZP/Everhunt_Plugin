@@ -1,7 +1,6 @@
 package me.nils.everhunt.commands;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.menu.admin.ItemMenu;
 import me.nils.everhunt.menu.standard.MarketMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
