@@ -103,6 +103,22 @@ public class QuestListener implements Listener {
                             return;
                         }
                     }
+                    if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2)) {
+                        if (QuestData.getCompletion(uuid,5) == 0) {
+                            Chat.npc(player,"Marcus","I need new materials for Lucia II.");
+                            Chat.npc(player,"Marcus","Give me 2 compressed stone pls?");
+                            Chat.guide(player,"find a way to collect compressed stone");
+                            QuestData.setCompletion(uuid,5,1);
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,5) == 3 && Condition.isHolding(player,"Compressed Stone",ItemType.ITEM,2)) {
+                            Chat.npc(player,"Marcus","Thanks for helping me again!");
+                            player.getInventory().remove(Items.getBase("Lucia I"));
+                            player.getInventory().addItem(Items.getBase("Lucia II"));
+                            QuestData.setDone(uuid,5);
+                            return;
+                        }
+                    }
                 }
                 if (data.getDisplayName().equals("Mikull")) {
                     if (!(QuestData.getDone(uuid, 2)) && QuestData.getCompletion(uuid, 2) >= 1) {
@@ -230,6 +246,26 @@ public class QuestListener implements Listener {
                             return;
                         }
                     }
+                }
+                if (data.getDisplayName().equals("Tim")) {
+                    if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2)) {
+                        if (QuestData.getCompletion(uuid,5) == 1) {
+                            Chat.npc(player,"Tim","Buy my drill!");
+                            Chat.npc(player,"Tim","If you want to save my mining business.");
+                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Drill"))).open();
+                            QuestData.setCompletion(uuid,5,2);
+                            Chat.guide(player,"talk to tim while holding the drill to proceed");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,5) == 2 && Condition.isHolding(player,"Drill",ItemType.TOOL)) {
+                            // TODO add warp to coal mine
+                            QuestData.setCompletion(uuid,5,3);
+                            return;
+                        }
+                    }
+                }
+                if (data.getDisplayName().equals("Compresser")) {
+                    // TODO add compress menu
                 }
             }
         }

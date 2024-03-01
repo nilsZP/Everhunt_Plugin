@@ -57,6 +57,10 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 new Farmer(player.getLocation());
                 return true;
             }
+            case "tim" -> {
+                new Tim(player.getLocation());
+                return true;
+            }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
                 return true;
@@ -79,6 +83,8 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             completions.add("Marcus");
             completions.add("Hunter");
             completions.add("GuildMaster");
+            completions.add("Farmer");
+            completions.add("Tim");
         }
 
         return completions;
