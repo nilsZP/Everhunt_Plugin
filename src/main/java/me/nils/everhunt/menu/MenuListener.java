@@ -3,6 +3,7 @@ package me.nils.everhunt.menu;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.standard.AddProductMenu;
 import me.nils.everhunt.menu.standard.MarketMenu;
+import me.nils.everhunt.utils.Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,20 +16,25 @@ public class MenuListener implements Listener {
     public void onMenuClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
+        Chat.debug(player,"is inventory");
         if (event.getClickedInventory() == null) return;
 
+        Chat.debug(player,"isplayerhead");
         if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().displayName().toString().contains(player.getName())) {
             event.setCancelled(true);
             return;
         }
 
         InventoryHolder holder = event.getClickedInventory().getHolder();
+        assert holder != null;
+        Chat.debug(player,String.valueOf(holder.getClass()));
 
+        Chat.debug(player,"is Menu?");
         if (holder instanceof Menu menu) {
             event.setCancelled(true);
 
             if (event.getCurrentItem() == null) return;
-
+            Chat.debug(player, "yes");
             menu.handleMenu(event);
         }
     }
