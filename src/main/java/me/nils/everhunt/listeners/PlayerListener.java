@@ -13,6 +13,7 @@ import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.menu.standard.CookMenu;
+import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
@@ -24,6 +25,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BrushableBlock;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.Brushable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,11 +35,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
@@ -85,7 +85,7 @@ public class PlayerListener implements Listener {
                         int randInt = random.nextInt(0, 101);
                         if (randInt <= luck) {
                             event.setDamage(damage * 1.5);
-                            player.getWorld().playEffect(livingEntity.getLocation(),Effect.ELECTRIC_SPARK,2);
+                            player.getWorld().playEffect(livingEntity.getLocation(), Effect.ELECTRIC_SPARK, 2);
                         }
                     }
                 }
@@ -111,9 +111,9 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if (Condition.itemNameContains(player,"Drill")) return;
+        if (Condition.itemNameContains(player, "Drill")) return;
 
-        if (!Condition.itemNameContains(player,"Hoe")) {
+        if (!Condition.itemNameContains(player, "Hoe")) {
             event.setCancelled(true);
             return;
         }
@@ -125,10 +125,10 @@ public class PlayerListener implements Listener {
         if (player.getInventory().getHelmet() != null) {
             if (Condition.isCustom(ChatColor.stripColor(player.getInventory().getHelmet().getItemMeta().getDisplayName()))) {
                 String item = ChatColor.stripColor(player.getInventory().getHelmet().getItemMeta().getDisplayName());
-                if (Condition.isCustom(ItemType.HELMET,item)) {
+                if (Condition.isCustom(ItemType.HELMET, item)) {
                     ability2 = HelmetManager.items.get(item).getAbility();
                 }
-                if (Condition.isCustom(ItemType.ARMOR,item)) {
+                if (Condition.isCustom(ItemType.ARMOR, item)) {
                     ability2 = ArmorManager.items.get(item).getAbility();
                 }
             }
@@ -136,12 +136,14 @@ public class PlayerListener implements Listener {
 
         if (block.getBlockData() instanceof Ageable ageable && Condition.isFarmeable(block)) {
             if (ageable.getAge() == ageable.getMaximumAge()) {
-                if (block.getType().equals(Material.WHEAT) && !QuestData.getDone(player.getUniqueId().toString(),4) &&
-                QuestData.getCompletion(player.getUniqueId().toString(),4) < 321) {
-                    QuestData.setCompletion(player.getUniqueId().toString(),4,QuestData.getCompletion(player.getUniqueId().toString(),4) +1);
+                if (block.getType().equals(Material.WHEAT) && !QuestData.getDone(player.getUniqueId().toString(), 4) &&
+                        QuestData.getCompletion(player.getUniqueId().toString(), 4) < 321) {
+                    QuestData.setCompletion(player.getUniqueId().toString(), 4, QuestData.getCompletion(player.getUniqueId().toString(), 4) + 1);
                 }
-                if (ability2 != null) block.getLocation().getWorld().dropItemNaturally(block.getLocation(),Loot.getlootTable(block,ability,ability2).getRandom());
-                else block.getLocation().getWorld().dropItemNaturally(block.getLocation(),Loot.getlootTable(block,ability).getRandom());
+                if (ability2 != null)
+                    block.getLocation().getWorld().dropItemNaturally(block.getLocation(), Loot.getlootTable(block, ability, ability2).getRandom());
+                else
+                    block.getLocation().getWorld().dropItemNaturally(block.getLocation(), Loot.getlootTable(block, ability).getRandom());
                 block.getDrops().clear();
                 ageable.setAge(0);
                 block.setBlockData(ageable);
@@ -151,21 +153,36 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
+        Block block = e.getClickedBlock();
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-        if (e.getHand() != EquipmentSlot.HAND) return;
         if (e.getClickedBlock() == null) return;
 
         if (e.getClickedBlock().getType() == Material.SOUL_CAMPFIRE) {
             new CookMenu(Everhunt.getPlayerMenuUtility(e.getPlayer())).open();
         }
 
-        if (e.getClickedBlock().getType() != Material.SUSPICIOUS_GRAVEL &&
-                e.getClickedBlock().getType() != Material.SUSPICIOUS_SAND) return;
+        if (block.getType() != Material.SUSPICIOUS_GRAVEL &&
+                block.getType() != Material.SUSPICIOUS_SAND) return;
         if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.BRUSH) return;
 
         // archeology system
-        if (e.getClickedBlock().getBlockData() instanceof BrushableBlock block) {
-            block.setItem(Loot.getlootTable(e.getClickedBlock(),Ability.NONE).getRandom());
+        if (block.getBlockData() instanceof Brushable) {
+            block.getLocation().getWorld().dropItemNaturally(block.getLocation(), Loot.getLootTable().getRandom());
+            if (block.getType() == Material.SUSPICIOUS_GRAVEL) {
+                block.setType(Material.GRAVEL);
+            } else {
+                block.setType(Material.SAND);
+            }
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (block.getType().equals(Material.GRAVEL)) {
+                        block.setType(Material.SUSPICIOUS_GRAVEL);
+                    } else {
+                        block.setType(Material.SUSPICIOUS_SAND);
+                    }
+                }
+            }.runTaskLater(Everhunt.getInstance(), 200);
         }
     }
 

@@ -56,6 +56,10 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
                 new Tim(player.getLocation());
                 return true;
             }
+            case "compresser" -> {
+                new Compresser(player.getLocation());
+                return true;
+            }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
                 return true;

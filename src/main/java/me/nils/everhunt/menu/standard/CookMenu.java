@@ -33,11 +33,13 @@ public class CookMenu extends Menu {
 
             ItemStack[] ingredients = {inventory.getItem(13),inventory.getItem(21),inventory.getItem(32)};
             for (ItemStack ingredient : ingredients) {
-                String name = ChatColor.stripColor(ingredient.displayName().toString());
-                if (Condition.isCustom(ItemType.ITEM,name)) {
-                    ItemManager item = ItemManager.items.get(name);
+                if (ingredient != null) {
+                    String name = ChatColor.stripColor(ingredient.displayName().toString());
+                    if (Condition.isCustom(ItemType.ITEM, name)) {
+                        ItemManager item = ItemManager.items.get(name);
 
-                    totalNutrition += item.getNutrition();
+                        totalNutrition += item.getNutrition();
+                    }
                 }
             }
 
@@ -46,14 +48,12 @@ public class CookMenu extends Menu {
             inventory.setItem(13,new ItemStack(Material.AIR));
             inventory.setItem(21,new ItemStack(Material.AIR));
             inventory.setItem(23,new ItemStack(Material.AIR));
-            inventory.setItem(32,DishManager.getViaNutrition(totalNutrition));
+            inventory.setItem(31,DishManager.getViaNutrition(totalNutrition));
         } else if (!inventory.contains(e.getCurrentItem())) {
             if (inventory.getItem(13).isEmpty()) {
                 inventory.setItem(13,e.getCurrentItem());
             } else if (inventory.getItem(21).isEmpty()) {
                 inventory.setItem(21,e.getCurrentItem());
-            } else if (inventory.getItem(32).isEmpty()) {
-                inventory.setItem(32,e.getCurrentItem());
             }
         }
 
@@ -65,11 +65,11 @@ public class CookMenu extends Menu {
 
     @Override
     public void setMenuItems() {
+        inventory.setItem(49,COOK_BUTTON);
+        inventory.setItem(31,RESULT_GLASS);
+        setFillerGlass();
         inventory.setItem(13,new ItemStack(Material.AIR));
         inventory.setItem(21,new ItemStack(Material.AIR));
         inventory.setItem(23,new ItemStack(Material.AIR));
-        inventory.setItem(50,COOK_BUTTON);
-        inventory.setItem(32,RESULT_GLASS);
-        setFillerGlass();
     }
 }

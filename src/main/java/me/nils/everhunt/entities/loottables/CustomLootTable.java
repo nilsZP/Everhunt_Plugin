@@ -36,11 +36,11 @@ public class CustomLootTable {
         public CustomLootTable build() {
             if (!isBuilt()) return null;
 
-            double base = 0;
+            double base;
             for (Entry entry : entries) {
+                base = entry.getWeight();
                 double chance = getChance(base);
                 entry.setChance(chance);
-                base += entry.getWeight();
             }
 
             return new CustomLootTable(entries);

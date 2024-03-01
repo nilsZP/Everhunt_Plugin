@@ -15,6 +15,7 @@ import me.nils.everhunt.utils.Condition;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -113,7 +114,7 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid,5) == 3 && Condition.isHolding(player,"Compressed Stone",ItemType.ITEM,2)) {
                             Chat.npc(player,"Marcus","Thanks for helping me again!");
-                            player.getInventory().remove(Items.getBase("Lucia I"));
+                            player.getInventory().removeItem(Items.getBase("Lucia I"));
                             player.getInventory().addItem(Items.getBase("Lucia II"));
                             QuestData.setDone(uuid,5);
                             return;
@@ -228,7 +229,7 @@ public class QuestListener implements Listener {
                 if (data.getDisplayName().equals("Farmer")) {
                     if (!QuestData.getDone(uuid,4) && QuestData.getDone(uuid,3)) {
                         if (player.getInventory().contains(Items.getBase("Gardening Hoe")) && QuestData.getCompletion(uuid,4) < 1) {
-                            Chat.npc(player,"Farmer","Have this backpack now go fetch me 320 wheat!");
+                            Chat.npc(player,"Farmer","Have this backpack now go farm 320 wheat!");
                             Chat.guide(player,"You can open the backpack by holding it and pressing right click on your mouse");
                             player.getInventory().addItem(Items.getBase("Backpack"));
                             QuestData.setCompletion(uuid,4,1);
@@ -258,14 +259,30 @@ public class QuestListener implements Listener {
                             return;
                         }
                         if (QuestData.getCompletion(uuid,5) == 2 && Condition.isHolding(player,"Drill",ItemType.TOOL)) {
-                            // TODO add warp to coal mine
+                            new TeleportData(uuid,"Mine",211,-16,187);
+                            Chat.guide(player,"use /warp");
                             QuestData.setCompletion(uuid,5,3);
                             return;
                         }
                     }
                 }
                 if (data.getDisplayName().equals("Compresser")) {
-                    // TODO add compress menu
+                    if (player.getInventory().getItemInMainHand().getAmount() != 64) {
+                        Chat.guide(player,"Talk to the compresser while holding a stack of items to compress them");
+                        Chat.guide(player,"Keep in mind that not everything can be compressed");
+                        return;
+                    }
+                    if (player.getInventory().getItemInMainHand().getType() == Material.STONE || player.getInventory().getItemInMainHand().getType() == Material.COAL
+                    || player.getInventory().getItemInMainHand().getType() == Material.IRON_INGOT) {
+                        player.getInventory().addItem(switch (player.getInventory().getItemInMainHand().getType()) {
+                            case STONE -> Items.getBase("Compressed Stone");
+                            case COAL -> Items.getBase("Compressed Coal");
+                            case IRON_INGOT -> Items.getBase("Compressed Iron");
+                            default -> new ItemStack(Material.AIR);
+                        });
+                        player.getInventory().getItemInMainHand().setType(Material.AIR);
+                    }
+                    return;
                 }
             }
         }

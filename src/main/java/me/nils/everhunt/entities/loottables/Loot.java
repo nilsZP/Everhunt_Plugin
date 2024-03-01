@@ -6,6 +6,7 @@ import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.items.Items;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BrushableBlock;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
@@ -122,5 +123,10 @@ public class Loot {
         itemStack.setAmount(drops);
 
         return new CustomLootTable.CustomLootTableBuilder().add(itemStack,1).build();
+    }
+
+    public static CustomLootTable getLootTable() {
+        return new CustomLootTable.CustomLootTableBuilder().add(Items.getBase("6k Gold Ingot"),10).add(Items.getBase("Monster Flesh"),40)
+                .add(Items.getBase("Ancient Shard"),1).build();
     }
 }

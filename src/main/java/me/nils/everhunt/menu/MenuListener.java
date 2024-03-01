@@ -16,25 +16,21 @@ public class MenuListener implements Listener {
     public void onMenuClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        Chat.debug(player,"is inventory");
+        // NPCSellMenu doesn't reach this point how???
         if (event.getClickedInventory() == null) return;
 
-        Chat.debug(player,"isplayerhead");
         if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().displayName().toString().contains(player.getName())) {
             event.setCancelled(true);
             return;
         }
 
         InventoryHolder holder = event.getClickedInventory().getHolder();
-        assert holder != null;
-        Chat.debug(player,String.valueOf(holder.getClass()));
 
-        Chat.debug(player,"is Menu?");
         if (holder instanceof Menu menu) {
             event.setCancelled(true);
 
             if (event.getCurrentItem() == null) return;
-            Chat.debug(player, "yes");
+
             menu.handleMenu(event);
         }
     }

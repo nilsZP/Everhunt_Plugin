@@ -2,18 +2,21 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.ItemType;
+import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Stats;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Brushable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 
@@ -55,8 +58,8 @@ public class BreakListeners implements Listener {
     }
 
     @EventHandler
-    public void onBreakingBlock(PlayerAnimationEvent event){
-        Player player = event.getPlayer();
+    public void onBreakingBlock(PlayerAnimationEvent e){
+        Player player = e.getPlayer();
         if (player.getInventory().getItemInMainHand().getItemMeta() == null) return;
         String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
 
@@ -65,9 +68,6 @@ public class BreakListeners implements Listener {
 
         if(!Everhunt.brokenBlocksService.isBrokenBlock(blockPosition)) return;
 
-        /*
-        Use player#getItemInHand for backwards compatibility
-         */
         ItemStack itemStack = player.getItemInHand();
 
         double distanceX = blockPosition.getX() - player.getLocation().getX();
@@ -75,7 +75,7 @@ public class BreakListeners implements Listener {
         double distanceZ = blockPosition.getZ() - player.getLocation().getZ();
 
         if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
-        Stats.addSlowDig(event.getPlayer(), 200);
+        Stats.addSlowDig(e.getPlayer(), 200);
         Everhunt.brokenBlocksService.getBrokenBlock(blockPosition).incrementDamage(player, Stats.getBreakModifier(name));
     }
 }

@@ -293,7 +293,11 @@ public class AbilityListener implements Listener {
                             Flow.useFlow(ability.getFlowCost(),player);
                             Location loc = entity.getLocation();
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                            if (ability.equals(Ability.THUNDER_CLAP)) {
+                            if (ability.equals(Ability.CLAP)) {
+                                event.setDamage(event.getDamage()+damage);
+                                player.playEffect(entity.getLocation(),Effect.ENDER_DRAGON_DESTROY_BLOCK,Material.STONE);
+                            }
+                            if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
                                 new ThunderBolt(loc, damage);
                                 player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
                             }
