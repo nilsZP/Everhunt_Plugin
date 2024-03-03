@@ -30,7 +30,7 @@ public class NPCSellMenu extends PaginatedMenu {
 
                 ItemStack itemStack1 = new ItemStack(itemStack);
 
-                ItemMeta meta = itemStack1.getItemMeta();
+                ItemMeta meta = itemStack.getItemMeta();
                 if (meta != null) {
                     if (CostNPCData.data.get(ChatColor.stripColor(meta.getDisplayName())) != null) {
                         int cost = CostNPCData.data.get(ChatColor.stripColor(meta.getDisplayName())).getCost();
