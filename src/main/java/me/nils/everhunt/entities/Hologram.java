@@ -1,5 +1,6 @@
 package me.nils.everhunt.entities;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
@@ -10,6 +11,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.persistence.PersistentDataType;
 
 public class Hologram {
     public static ArmorStand Hologram(Location loc, LivingEntity entity) {
@@ -23,6 +25,7 @@ public class Hologram {
         hologram.setSmall(true);
         hologram.setCollidable(false);
         hologram.setMarker(true);
+        hologram.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.BOOLEAN,true);
 
         hologram.setMaxHealth(1);
         hologram.setHealth(1);

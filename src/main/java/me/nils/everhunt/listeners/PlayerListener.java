@@ -136,10 +136,6 @@ public class PlayerListener implements Listener {
 
         if (block.getBlockData() instanceof Ageable ageable && Condition.isFarmeable(block)) {
             if (ageable.getAge() == ageable.getMaximumAge()) {
-                if (block.getType().equals(Material.WHEAT) && !QuestData.getDone(player.getUniqueId().toString(), 4) &&
-                        QuestData.getCompletion(player.getUniqueId().toString(), 4) < 321) {
-                    QuestData.setCompletion(player.getUniqueId().toString(), 4, QuestData.getCompletion(player.getUniqueId().toString(), 4) + 1);
-                }
                 if (ability2 != null)
                     block.getLocation().getWorld().dropItemNaturally(block.getLocation(), Loot.getlootTable(block, ability, ability2).getRandom());
                 else

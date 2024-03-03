@@ -1,5 +1,6 @@
 package me.nils.everhunt.listeners;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.UndeadScarecrow;
@@ -15,7 +16,9 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
+import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityListener implements Listener {
@@ -86,13 +89,9 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onSpawn(CreatureSpawnEvent e) {
         if (e.getEntity() instanceof Player) return;
-        int count = 0;
-        for (Entity entity : e.getLocation().getChunk().getEntities()) {
-            if (!(entity instanceof ArmorStand) && !(isNPC(entity)) && !(entity instanceof Player)) {
-                count++;
-            }
-        }
-        if (count >= 5) {
+        ArrayList<Entity> list = new ArrayList<>(List.of(e.getLocation().getChunk().getEntities()));
+        list.removeIf(entity -> entity instanceof ArmorStand && isNPC(entity) && entity instanceof Player);
+        if (list.size() >= 5) {
             if (!e.getEntity().getPassengers().isEmpty()) {
                 for (Entity entity : e.getEntity().getPassengers()) {
                     e.getEntity().removePassenger(entity);
@@ -100,6 +99,13 @@ public class EntityListener implements Listener {
             }
             e.setCancelled(true);
             return;
+        }
+        if (e.getEntity() instanceof ArmorStand armorStand) {
+            if (armorStand.getPersistentDataContainer().has(Everhunt.getKey())) {
+                if (armorStand.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.BOOLEAN)) {
+                    e.setCancelled(true);
+                }
+            }
         }
         if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
             e.setCancelled(true);

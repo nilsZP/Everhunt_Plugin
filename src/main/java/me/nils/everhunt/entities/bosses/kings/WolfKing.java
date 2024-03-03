@@ -41,6 +41,7 @@ public class WolfKing extends EntityData {
         Hologram.addHologram(wolf);
 
         new BukkitRunnable() {
+            private boolean spawn = false;
             @Override
             public void run() {
                 if (wolf.isDead()) {
@@ -50,11 +51,12 @@ public class WolfKing extends EntityData {
                 wolf.getWorld().playSound(wolf.getLocation(),Sound.ENTITY_WOLF_HOWL,3F,0.5F);
                 Random rand = new Random();
                 boolean randomBoolean = rand.nextBoolean();
-                if (randomBoolean) {
+                if (randomBoolean && !spawn) {
                     for (int i = 0; i <= 3; i++) {
                         int randomX = rand.nextInt(0, 4);
                         int randomZ = rand.nextInt(0, 4);
                         new Wolfling(wolf.getLocation().add(randomX, 0, randomZ));
+                        this.spawn = true;
                     }
                 }
                 Location loc1;

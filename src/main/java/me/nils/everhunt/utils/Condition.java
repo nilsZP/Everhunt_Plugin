@@ -6,6 +6,7 @@ import me.nils.everhunt.managers.*;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -71,6 +72,26 @@ public class Condition {
         }
 
         return false;
+    }
+
+    public static boolean has(Player player, String name, ItemType type, int amount) {
+        Inventory inventory = player.getInventory();
+        int count = 0;
+
+        for (ItemStack itemStack : inventory) {
+            if (itemStack != null) {
+                if (itemStack.getItemMeta() != null) {
+                    String itemName = ChatColor.stripColor(itemStack.getItemMeta().getDisplayName());
+                    if (isCustom(type, itemName)) {
+                        if (itemName.equals(name)) {
+                            count += itemStack.getAmount();
+                        }
+                    }
+                }
+            }
+        }
+
+        return count >= amount;
     }
 
     public static boolean isMineable(Block block) {

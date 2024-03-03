@@ -87,7 +87,7 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid, 2) >= 3 && Condition.isHolding(player, "Kings Bone", ItemType.ITEM) && QuestData.getCompletion(uuid, 2) < 5) {
                             Chat.npc(player,"Marcus","I can work with this.");
-                            player.getInventory().getItemInMainHand().setType(Material.AIR);
+                            player.getInventory().remove(player.getInventory().getItemInMainHand());
                             QuestData.setCompletion(uuid, 2, 5);
                             Chat.npc(player,"Marcus","Talk to me in one second.");
                             return;
@@ -96,7 +96,8 @@ public class QuestListener implements Listener {
                             Chat.npc(player,"Marcus","I recommend looking outside the village for materials.");
                             Chat.guide(player,"Look for the cat");
                             return;
-                        } else {
+                        }
+                        if (QuestData.getCompletion(uuid,2) == 5) {
                             player.getInventory().addItem(WeaponManager.items.get("Lucia I").getItemStack());
                             Chat.npc(player,"Marcus","Thanks for helping me! Here have the blade and talk to me later!");
                             QuestData.setDone(uuid, 2);
@@ -115,12 +116,12 @@ public class QuestListener implements Listener {
                         if (QuestData.getCompletion(uuid,5) == 3 && Condition.isHolding(player,"Compressed Stone",ItemType.ITEM,2)) {
                             Chat.npc(player,"Marcus","Thanks for helping me again!");
                             Chat.guide(player,"click him again while holding Lucia I");
-                            player.getInventory().getItemInMainHand().setType(Material.AIR);
-                            QuestData.setDone(uuid,4);
+                            player.getInventory().remove(player.getInventory().getItemInMainHand());
+                            QuestData.setCompletion(uuid,5,4);
                             return;
                         }
                         if (QuestData.getCompletion(uuid,5) == 4 && Condition.isHolding(player,"Lucia I",ItemType.WEAPON)) {
-                            player.getInventory().getItemInMainHand().setType(Material.AIR);
+                            player.getInventory().remove(player.getInventory().getItemInMainHand());
                             player.getInventory().addItem(Items.getBase("Lucia II"));
                             QuestData.setDone(uuid,5);
                             return;
@@ -128,7 +129,7 @@ public class QuestListener implements Listener {
                     }
                 }
                 if (data.getDisplayName().equals("Mikull")) {
-                    if (!(QuestData.getDone(uuid, 2)) && QuestData.getCompletion(uuid, 2) >= 1) {
+                    if (!(QuestData.getDone(uuid, 2)) && QuestData.getCompletion(uuid, 2) >= 1 && QuestData.getCompletion(uuid,2) <= 3) {
                         Chat.npc(player,"Mikull","Can you pls help my brother kill a wolf?");
                         player.getInventory().addItem(ArmorManager.items.get("Straw Hat").getItemStack());
                         player.getInventory().addItem(ArmorManager.items.get("Farmers Shirt").getItemStack());
@@ -161,7 +162,7 @@ public class QuestListener implements Listener {
                     }
                     if (!(QuestData.getDone(uuid, 3)) && QuestData.getDone(uuid,2)) {
                         if (QuestData.getCompletion(uuid,3) == 6) {
-                            Chat.npc(player,"Mi","Please, go kill some Undead Scarecrows!");
+                            Chat.npc(player,"Mi","Please, go kill a Undead Scarecrow!");
                             Chat.npc(player,"Mi","I would really appreciate it.");
                             QuestData.setCompletion(uuid,3,7);
                             return;
@@ -190,7 +191,7 @@ public class QuestListener implements Listener {
                             amount -= 30;
                             player.getInventory().getItemInMainHand().setAmount(amount);
                             player.getInventory().addItem(ArmorManager.items.get("Jester Boots").getItemStack());
-                            new TeleportData(uuid, "Hunters Guild", 186, -58, -56);
+                            new TeleportData(uuid, "Guild House", 186, -58, -56);
                             QuestData.setCompletion(uuid, 3, 3);
                             Chat.guide(player,"Open your warp menu by typing /warp");
                             return;
@@ -205,10 +206,11 @@ public class QuestListener implements Listener {
                             player.getInventory().addItem(ArmorManager.items.get("Jester Chestplate").getItemStack());
                             QuestData.setCompletion(uuid,3,6);
                             return;
-                        } else if (QuestData.getCompletion(uuid,3) == 4 || player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() < 5) {
+                        } else if (QuestData.getCompletion(uuid,3) == 4 || player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() < 4) {
                             Chat.npc(player,"Hunter","Want to buy the Jester Leggings for 100 coins?");
                             new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Jester Leggings")),new ItemStack(Items.getBase("Wooden Bat"))).open();
                             QuestData.setCompletion(uuid,3,5);
+                            Chat.guide(player,"Talk to him again while holding your strongest weapon");
                             return;
                         }
                     }
@@ -234,20 +236,22 @@ public class QuestListener implements Listener {
                 }
                 if (data.getDisplayName().equals("Farmer")) {
                     if (!QuestData.getDone(uuid,4) && QuestData.getDone(uuid,3)) {
-                        if (player.getInventory().contains(Items.getBase("Gardening Hoe")) && QuestData.getCompletion(uuid,4) < 1) {
-                            Chat.npc(player,"Farmer","Have this backpack now go farm 320 wheat!");
+                        if (Condition.isHolding(player,"Gardening Hoe",ItemType.TOOL) && QuestData.getCompletion(uuid,4) < 1) {
+                            Chat.npc(player,"Farmer","Have this backpack now go farm until you have 128 wheat!");
                             Chat.guide(player,"You can open the backpack by holding it and pressing right click on your mouse");
                             player.getInventory().addItem(Items.getBase("Backpack"));
                             QuestData.setCompletion(uuid,4,1);
                             return;
+                        } else if (QuestData.getCompletion(uuid,4) < 1) {
+                            Chat.guide(player,"Talk to him while holding the gardening hoe");
                         }
-                        if (QuestData.getCompletion(uuid,4) == 321) {
+                        if (QuestData.getCompletion(uuid,4) == 1 && Condition.has(player,"Wheat",ItemType.ITEM,128)) {
                             Chat.npc(player,"Farmer","Give me your straw hat and i'll upgrade it.");
-                            QuestData.setCompletion(uuid,4,322);
+                            QuestData.setCompletion(uuid,4,2);
                             return;
                         }
-                        if (QuestData.getCompletion(uuid,4) == 322 && Condition.isHolding(player,"Straw Hat",ItemType.ARMOR)) {
-                            player.getInventory().getItemInMainHand().setType(Material.AIR);
+                        if (QuestData.getCompletion(uuid,4) == 2 && Condition.isHolding(player,"Straw Hat",ItemType.ARMOR)) {
+                            player.getInventory().remove(player.getInventory().getItemInMainHand());
                             player.getInventory().addItem(Items.getBase("Lucky Straw Hat"));
                             QuestData.setDone(uuid,4);
                             return;
@@ -337,7 +341,7 @@ public class QuestListener implements Listener {
             if (event.getMessage().equals("yes") && Condition.isHolding(player,"Wooden Bat",ItemType.WEAPON)) {
                 Chat.npc(player,"Marcus","Thank you for the handle!");
                 PlayerData.data.get(uuid).addXp(25);
-                player.getInventory().remove(WeaponManager.items.get("Wooden Bat").getItemStack());
+                player.getInventory().remove(player.getInventory().getItemInMainHand());
                 Chat.npc(player,"Marcus","Can you please go fetch me something to make the blade?");
                 QuestData.setCompletion(uuid, 2, 3);
                 return;
@@ -345,9 +349,9 @@ public class QuestListener implements Listener {
         }
         if (QuestData.getCompletion(uuid, 3) == 1) {
             if (event.getMessage().equals("yes")) {
-                player.getInventory().getBoots().setType(Material.AIR);
-                player.getInventory().getChestplate().setType(Material.AIR);
-                player.getInventory().getLeggings().setType(Material.AIR);
+                player.getInventory().setBoots(new ItemStack(Material.AIR));
+                player.getInventory().setLeggings(new ItemStack(Material.AIR));
+                player.getInventory().setChestplate(new ItemStack(Material.AIR));
                 Chat.npc(player,"Hunter","Thank you for the armor!");
                 Chat.npc(player,"Hunter","I'll do you a favor and give you the opportunity-");
                 Chat.npc(player,"Hunter","to get some special boots.");
