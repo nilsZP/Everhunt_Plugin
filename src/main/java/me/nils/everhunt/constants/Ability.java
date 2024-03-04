@@ -17,7 +17,7 @@ public enum Ability {
     SPRING("Spring",0,2,Activation.PASSIVE,3,false,0),
     UNITE("Unite",0,5,Activation.PASSIVE,20,false,0),
     MECHANICAL_SHOT("Mechanical Shot", 0.8,1,Activation.PASSIVE,2,false,0),
-    ALPHA_ROAR("Alpha roar",2,5,Activation.PASSIVE,0,false,0),
+    ALPHA_ROAR("Alpha roar",1.5,5,Activation.PASSIVE,0,false,0),
     BREAD_MAKER("Bread Maker",0,0,Activation.PASSIVE,0,false,0),
     POWER_OF_THE_SUN("Power Of The Sun",0.6,4,Activation.PASSIVE,0,false,0),
     INFECTATION("Infectation",0,5,Activation.PASSIVE,0,false,0),

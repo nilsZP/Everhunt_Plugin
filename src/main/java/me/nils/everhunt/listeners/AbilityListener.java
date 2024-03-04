@@ -295,7 +295,7 @@ public class AbilityListener implements Listener {
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             if (ability.equals(Ability.CLAP)) {
                                 event.setDamage(event.getDamage()+damage);
-                                player.playEffect(entity.getLocation(),Effect.ENDER_DRAGON_DESTROY_BLOCK,Material.STONE);
+                                player.spawnParticle(Particle.CRIT_MAGIC,entity.getLocation(),16);
                             }
                             if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
                                 new ThunderBolt(loc, damage);

@@ -33,7 +33,7 @@ public class WolfKing extends EntityData {
 
         wolf.setCustomName("Wolf King");
         wolf.setCustomNameVisible(false);
-        wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(40);
+        wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
         wolf.setHealth(wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
         wolf.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(10);
