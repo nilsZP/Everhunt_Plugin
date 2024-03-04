@@ -35,7 +35,7 @@ public class UndeadScarecrow extends EntityData {
         scare.getEquipment().setHelmet(helmet);
         scare.getEquipment().setItemInMainHand(new ItemStack(Material.STICK));
 
-        scare.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(15);
+        scare.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
         scare.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
         scare.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(4);
 

@@ -326,7 +326,7 @@ public class QuestListener implements Listener {
             if (entity.getName().equals("Wolf King")) {
                 if (!(QuestData.getDone(uuid, 2)) && QuestData.getCompletion(uuid, 2) >= 1) {
                     double completion = QuestData.getCompletion(uuid, 2) + 2;
-                    QuestData.setCompletion(uuid, 2, completion);
+                    if (completion > 4) QuestData.setCompletion(uuid, 2, 4);
                     PlayerData.data.get(uuid).addXp(50);
                 }
             }
