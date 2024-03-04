@@ -16,6 +16,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
+import org.bukkit.event.world.EntitiesUnloadEvent;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
@@ -91,11 +92,9 @@ public class EntityListener implements Listener {
         if (e.getEntity() instanceof Player) return;
         ArrayList<Entity> list = new ArrayList<>(List.of(e.getLocation().getChunk().getEntities()));
         list.removeIf(entity -> entity instanceof ArmorStand && isNPC(entity) && entity instanceof Player);
-        if (list.size() >= 5) {
+        if (list.size() >= 3) {
             if (!e.getEntity().getPassengers().isEmpty()) {
-                for (Entity entity : e.getEntity().getPassengers()) {
-                    e.getEntity().removePassenger(entity);
-                }
+                e.getEntity().getPassengers().clear();
             }
             e.setCancelled(true);
             return;
@@ -113,6 +112,18 @@ public class EntityListener implements Listener {
                 if (e.getEntity() instanceof Zombie) {
                     new UndeadScarecrow(e.getLocation());
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDespawn(EntitiesUnloadEvent e) {
+        for (Entity entity : e.getEntities()) {
+            if (!isNPC(entity)) {
+                if (!entity.getPassengers().isEmpty()) {
+                    entity.getPassengers().clear();
+                }
+                entity.remove();
             }
         }
     }
