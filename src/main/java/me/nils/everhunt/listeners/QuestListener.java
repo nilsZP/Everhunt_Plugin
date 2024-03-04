@@ -9,11 +9,9 @@ import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.managers.*;
-import me.nils.everhunt.menu.standard.NPCSellMenu;
 import me.nils.everhunt.menu.standard.ProductMenu;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
-import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -211,6 +209,8 @@ public class QuestListener implements Listener {
                             Chat.npc(player,"Hunter","Want to buy the Jester Leggings for 100 coins?");
                             new MarketData("Hunter","Jester Leggings",1,100,false,false);
                             new ProductMenu(Everhunt.getPlayerMenuUtility(player),MarketData.getProduct("Hunter","Jester Leggings")).open();
+                            Chat.guide(player,"If the menu doesn't work do /market");
+                            Chat.guide(player,"To sell items you can use /market to sell to players or you can sell your items with /sell if they have an item value");
                             QuestData.setCompletion(uuid,3,5);
                             Chat.guide(player,"Talk to him again while holding your strongest weapon");
                             return;
@@ -267,6 +267,7 @@ public class QuestListener implements Listener {
                             Chat.npc(player,"Tim","If you want to save my mining business.");
                             new MarketData("Tim","Drill",1,500,false,false);
                             new ProductMenu(Everhunt.getPlayerMenuUtility(player),MarketData.getProduct("Tim","Drill")).open();
+                            Chat.guide(player,"If the menu doesn't work do /market");
                             QuestData.setCompletion(uuid,5,2);
                             Chat.guide(player,"talk to tim while holding the drill to proceed");
                             return;
