@@ -100,7 +100,11 @@ public class EntityListener implements Listener {
             return;
         }
         if (e.getEntity() instanceof ArmorStand armorStand) {
-            if (!armorStand.isInsideVehicle()) e.setCancelled(true);
+            if (armorStand.getPersistentDataContainer().has(Everhunt.getKey())) {
+                if (armorStand.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.BOOLEAN)) {
+                    e.setCancelled(true);
+                }
+            }
         }
         if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
             e.setCancelled(true);
