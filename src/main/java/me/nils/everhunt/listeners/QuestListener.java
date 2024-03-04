@@ -207,12 +207,11 @@ public class QuestListener implements Listener {
                             return;
                         } else if (QuestData.getCompletion(uuid,3) == 4 || player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() < 4) {
                             Chat.npc(player,"Hunter","Want to buy the Jester Leggings for 100 coins?");
-                            new MarketData("Hunter","Jester Leggings",1,100,false,false);
-                            new ProductMenu(Everhunt.getPlayerMenuUtility(player),MarketData.getProduct("Hunter","Jester Leggings")).open();
-                            Chat.guide(player,"If the menu doesn't work do /market");
-                            Chat.guide(player,"To sell items you can use /market to sell to players or you can sell your items with /sell if they have an item value");
-                            QuestData.setCompletion(uuid,3,5);
-                            Chat.guide(player,"Talk to him again while holding your strongest weapon");
+                            if (PlayerData.data.get(uuid).pay(100)) {
+                                QuestData.setCompletion(uuid, 3, 5);
+                                player.getInventory().addItem(Items.getBase("Jester Leggings"));
+                                Chat.guide(player, "Talk to him again while holding your strongest weapon");
+                            } else Chat.guide(player, "To sell items you can use /market to sell to players or you can sell your items with /sell if they have an item value");
                             return;
                         }
                     }
@@ -263,13 +262,13 @@ public class QuestListener implements Listener {
                 if (data.getDisplayName().equals("Tim")) {
                     if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2)) {
                         if (QuestData.getCompletion(uuid,5) == 1) {
-                            Chat.npc(player,"Tim","Buy my drill!");
+                            Chat.npc(player,"Tim","Buy my drill for 500 coins!");
                             Chat.npc(player,"Tim","If you want to save my mining business.");
-                            new MarketData("Tim","Drill",1,500,false,false);
-                            new ProductMenu(Everhunt.getPlayerMenuUtility(player),MarketData.getProduct("Tim","Drill")).open();
-                            Chat.guide(player,"If the menu doesn't work do /market");
-                            QuestData.setCompletion(uuid,5,2);
-                            Chat.guide(player,"talk to tim while holding the drill to proceed");
+                            if (PlayerData.data.get(uuid).pay(500)) {
+                                QuestData.setCompletion(uuid, 5, 2);
+                                player.getInventory().addItem(Items.getBase("Drill"));
+                                Chat.guide(player,"talk to tim while holding the drill to proceed");
+                            } else Chat.guide(player, "To sell items you can use /market to sell to players or you can sell your items with /sell if they have an item value");
                             return;
                         }
                         if (QuestData.getCompletion(uuid,5) == 2 && Condition.isHolding(player,"Drill",ItemType.TOOL)) {
