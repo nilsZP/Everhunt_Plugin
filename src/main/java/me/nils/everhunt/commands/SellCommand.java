@@ -22,10 +22,10 @@ public class SellCommand implements CommandExecutor {
 
         if (player.getInventory().getItemInMainHand().getItemMeta() != null) {
             if (Condition.isCustom(ItemType.ITEM, ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName()))) {
-                int value = ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())).getValue();
+                int value = ItemManager.items.get(ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName())).getValue() * player.getInventory().getItemInMainHand().getAmount();
                 if (value > 0) {
                     player.getInventory().remove(player.getInventory().getItemInMainHand());
-                    PlayerData.data.get(player.getUniqueId().toString()).pay(value);
+                    PlayerData.data.get(player.getUniqueId().toString()).addCoins(value);
                 }
             }
         }
