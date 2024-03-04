@@ -119,7 +119,7 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onDespawn(EntitiesUnloadEvent e) {
         for (Entity entity : e.getEntities()) {
-            if (!isNPC(entity)) {
+            if (!isNPC(entity) && !(entity instanceof Player)) {
                 if (!entity.getPassengers().isEmpty()) {
                     entity.getPassengers().clear();
                 }
