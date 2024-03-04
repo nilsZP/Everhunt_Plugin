@@ -90,23 +90,23 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onSpawn(CreatureSpawnEvent e) {
         if (e.getEntity() instanceof Player) return;
-        ArrayList<Entity> list = new ArrayList<>(List.of(e.getLocation().getChunk().getEntities()));
-        list.removeIf(entity -> entity instanceof ArmorStand && isNPC(entity) && entity instanceof Player);
-        if (list.size() >= 3) {
-            if (!e.getEntity().getPassengers().isEmpty()) {
-                e.getEntity().getPassengers().clear();
+        if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
+            ArrayList<Entity> list = new ArrayList<>(List.of(e.getLocation().getChunk().getEntities()));
+            list.removeIf(entity -> entity instanceof ArmorStand && isNPC(entity) && entity instanceof Player);
+            if (list.size() >= 3) {
+                if (!e.getEntity().getPassengers().isEmpty()) {
+                    e.getEntity().getPassengers().clear();
+                }
+                e.setCancelled(true);
+                return;
             }
-            e.setCancelled(true);
-            return;
-        }
-        if (e.getEntity() instanceof ArmorStand armorStand) {
-            if (armorStand.getPersistentDataContainer().has(Everhunt.getKey())) {
-                if (armorStand.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.BOOLEAN)) {
-                    e.setCancelled(true);
+            if (e.getEntity() instanceof ArmorStand armorStand) {
+                if (armorStand.getPersistentDataContainer().has(Everhunt.getKey())) {
+                    if (armorStand.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.BOOLEAN)) {
+                        e.setCancelled(true);
+                    }
                 }
             }
-        }
-        if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
             e.setCancelled(true);
             if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
                 if (e.getEntity() instanceof Zombie) {
