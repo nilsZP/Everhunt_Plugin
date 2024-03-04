@@ -205,7 +205,7 @@ public class QuestListener implements Listener {
                             player.getInventory().addItem(ArmorManager.items.get("Jester Chestplate").getItemStack());
                             QuestData.setCompletion(uuid,3,6);
                             return;
-                        } else if (QuestData.getCompletion(uuid,3) == 4 || player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() < 4) {
+                        } else if (QuestData.getCompletion(uuid,3) == 4) {
                             Chat.npc(player,"Hunter","Want to buy the Jester Leggings for 100 coins?");
                             if (PlayerData.data.get(uuid).pay(100)) {
                                 QuestData.setCompletion(uuid, 3, 5);
