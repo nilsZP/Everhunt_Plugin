@@ -175,6 +175,50 @@ public class MarketData {
         }
     }
 
+    public static ItemStack getProduct(String user, String item) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblmarket WHERE item = '" + item + "' AND user = '" + user + "'").executeQuery();
+
+            while (resultSet.next()) {
+                int amount = resultSet.getInt("amount");
+                int price = resultSet.getInt("price");
+                boolean sold = resultSet.getBoolean("sold");
+                boolean collected = resultSet.getBoolean("collected");
+
+                if (!sold) {
+                    if (Condition.isCustom(item)) {
+                        ItemStack base = Items.getBase(item);
+
+                        ItemStack itemStack = new ItemStack(base);
+
+                        itemStack.setAmount(amount);
+                        ItemMeta itemMeta = itemStack.getItemMeta();
+
+                        List<String> lore = itemMeta.getLore();
+                        if (!lore.contains(Chat.color("&fPrice: &6" + price))) {
+                            lore.add(Chat.color("&fPrice: &6" + price));
+                            lore.add(Chat.color("&fSeller: &9" + user));
+                        }
+                        if (!lore.contains(Chat.color("&aSOLD"))) {
+                            if (sold) lore.add(Chat.color("&aSOLD"));
+                        }
+                        itemMeta.setLore(lore);
+
+                        itemMeta.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING, user);
+
+                        itemStack.setItemMeta(itemMeta);
+
+                        return itemStack;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            return new ItemStack(Material.AIR);
+        }
+
+        return new ItemStack(Material.AIR);
+    }
+
     public static ArrayList<ItemStack> getSearchResults(String prompt) {
         ArrayList<ItemStack> list = new ArrayList<>();
         try {

@@ -10,6 +10,7 @@ import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.menu.standard.NPCSellMenu;
+import me.nils.everhunt.menu.standard.ProductMenu;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
 import net.kyori.adventure.text.Component;
@@ -208,7 +209,8 @@ public class QuestListener implements Listener {
                             return;
                         } else if (QuestData.getCompletion(uuid,3) == 4 || player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() < 4) {
                             Chat.npc(player,"Hunter","Want to buy the Jester Leggings for 100 coins?");
-                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Jester Leggings")),new ItemStack(Items.getBase("Wooden Bat"))).open();
+                            new MarketData("Hunter","Jester Leggings",1,100,false,false);
+                            new ProductMenu(Everhunt.getPlayerMenuUtility(player),MarketData.getProduct("Hunter","Jester Leggings")).open();
                             QuestData.setCompletion(uuid,3,5);
                             Chat.guide(player,"Talk to him again while holding your strongest weapon");
                             return;
@@ -263,7 +265,8 @@ public class QuestListener implements Listener {
                         if (QuestData.getCompletion(uuid,5) == 1) {
                             Chat.npc(player,"Tim","Buy my drill!");
                             Chat.npc(player,"Tim","If you want to save my mining business.");
-                            new NPCSellMenu(Everhunt.getPlayerMenuUtility(player),new ItemStack(Items.getBase("Drill"))).open();
+                            new MarketData("Tim","Drill",1,500,false,false);
+                            new ProductMenu(Everhunt.getPlayerMenuUtility(player),MarketData.getProduct("Tim","Drill")).open();
                             QuestData.setCompletion(uuid,5,2);
                             Chat.guide(player,"talk to tim while holding the drill to proceed");
                             return;
