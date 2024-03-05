@@ -4,6 +4,8 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ public class EntityData {
     private final Ability ability;
     private final int level;
     private final Tier tier;
+    private Mob entity;
 
     public EntityData(String displayName, int level, Tier tier, Ability ability, MobType type) {
         this.ability = ability;
@@ -66,5 +69,13 @@ public class EntityData {
 
     public Ability getAbility() {
         return ability;
+    }
+
+    public Mob getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Mob entity) {
+        this.entity = entity;
     }
 }

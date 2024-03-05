@@ -16,7 +16,9 @@ public class Flow {
             return false;
         }
         player.setLevel(player.getLevel() - amount);
-        player.setExp(0f);
+        if (amount > 0) {
+            player.setExp(0f);
+        }
         return true;
     }
 

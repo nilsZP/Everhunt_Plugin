@@ -3,12 +3,16 @@ package me.nils.everhunt.listeners;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
+import me.nils.everhunt.constants.ItemType;
+import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.abilities.EvocationFang;
 import me.nils.everhunt.entities.abilities.Meteor;
 import me.nils.everhunt.entities.abilities.SnowBall;
 import me.nils.everhunt.entities.abilities.ThunderBolt;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
+import me.nils.everhunt.managers.SoulManager;
 import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Cooldown;
@@ -20,10 +24,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -118,6 +120,47 @@ public class AbilityListener implements Listener {
                                     target.teleport(loc);
                                 }
                             }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDrop(PlayerDropItemEvent e) {
+        e.setCancelled(true);
+
+        Player player  = e.getPlayer();
+        ItemStack itemStack = player.getInventory().getItemInOffHand();
+        ItemMeta meta = itemStack.getItemMeta();
+
+        if (meta == null) return;
+
+        String item = ChatColor.stripColor(meta.getDisplayName());
+
+        if (Condition.isCustom(ItemType.SOUL,item)) {
+            SoulManager soul = SoulManager.souls.get(item);
+
+            Ability ability = soul.getAbility();
+            int cooldown = ability.getCooldown();
+
+            if (ability.needsTarget()) {
+                Entity entity = player.getTargetEntity(ability.getRange());
+                if (entity instanceof LivingEntity) {
+                    this.target = (LivingEntity) entity;
+                } else {
+                    return;
+                }
+            }
+            if (!(Cooldown.hasCooldown(itemStack))) {
+                if (Flow.useFlow(ability.getFlowCost(), player)) {
+                    Cooldown.setCooldown(itemStack, cooldown);
+                    switch (ability) {
+                        case SUMMON -> {
+                            switch (item) {
+                                case "Undead Scarecrow" -> new UndeadScarecrow(player.getLocation()).getEntity().setTarget(target);
+                            }
                         }
                     }
                 }

@@ -40,5 +40,6 @@ public class UndeadScarecrow extends EntityData {
         scare.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(4);
 
         Hologram.addHologram(scare);
+        super.setEntity(scare);
     }
 }
