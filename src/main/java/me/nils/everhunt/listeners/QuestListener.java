@@ -41,7 +41,7 @@ public class QuestListener implements Listener { // TODO add task text
         if (data != null) {
             if (data.getType().equals(MobType.NPC)) {
                 if (data.getDisplayName().equals("Old Man Dave")) {
-                    if (!(QuestData.getDone(uuid, 1)) && !QuestData.hasOngoing(uuid)) {
+                    if (!(QuestData.getDone(uuid, 1)) ) {
                         if (QuestData.getCompletion(uuid, 1) == 0) {
                             player.getInventory().addItem(WeaponManager.items.get("Wooden Bat").getItemStack());
                             Chat.npc(player,"Old Man Dave","Can you please kill the springers upstairs?");
@@ -61,14 +61,14 @@ public class QuestListener implements Listener { // TODO add task text
                             Chat.npc(player,"Old Man Dave","Thanks for killing the springers! Have this.");
                             player.teleport(new Location(player.getWorld(), 60, -7, -197));
                             new TeleportData(uuid, "Village", 60, -7, -197);
-                            QuestData.setDone(uuid, 1);
+                            QuestData.setDone(player, 1);
                             PlayerData.data.get(uuid).addXp(100);
                             return;
                         }
                     }
                 }
                 if (data.getDisplayName().equals("Marcus")) {
-                    if (!(QuestData.getDone(uuid, 2)) && !QuestData.hasOngoing(uuid)) {
+                    if (!(QuestData.getDone(uuid, 2)) ) {
                         if (QuestData.getCompletion(uuid, 2) == 0) {
                             Chat.npc(player,"Marcus","My wife divorced me after she said that I will");
                             Chat.npc(player,"Marcus","NEVER be a successful weapon smith,");
@@ -98,12 +98,12 @@ public class QuestListener implements Listener { // TODO add task text
                         if (QuestData.getCompletion(uuid,2) == 5) {
                             player.getInventory().addItem(WeaponManager.items.get("Lucia I").getItemStack());
                             Chat.npc(player,"Marcus","Thanks for helping me! Here have the blade and talk to me later!");
-                            QuestData.setDone(uuid, 2);
+                            QuestData.setDone(player, 2);
                             PlayerData.data.get(uuid).addXp(125);
                             return;
                         }
                     }
-                    if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2) && !QuestData.hasOngoing(uuid)) {
+                    if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2) ) {
                         if (QuestData.getCompletion(uuid,5) == 0) {
                             Chat.npc(player,"Marcus","I need new materials for Lucia II.");
                             Chat.npc(player,"Marcus","Give me 2 compressed stone pls?");
@@ -119,7 +119,7 @@ public class QuestListener implements Listener { // TODO add task text
                         if (QuestData.getCompletion(uuid,5) == 4 && Condition.isHolding(player,"Lucia I",ItemType.WEAPON)) {
                             player.getInventory().remove(player.getInventory().getItemInMainHand());
                             player.getInventory().addItem(Items.getBase("Lucia II"));
-                            QuestData.setDone(uuid,5);
+                            QuestData.setDone(player,5);
                             return;
                         }
                     }
@@ -138,7 +138,7 @@ public class QuestListener implements Listener { // TODO add task text
                 }
                 if (data.getDisplayName().equals("Mi")) {
                     if (!(QuestData.getDone(uuid, 2))) {
-                        if (QuestData.getCompletion(uuid, 2) >= 1 && QuestData.getCompletion(uuid, 2) < 5) {
+                        if (QuestData.getCompletion(uuid, 2) >= 1 && QuestData.getCompletion(uuid, 2) < 4) {
                             Chat.npc(player,"Mi","So you are the hunter my brother sent to me?");
                             Chat.npc(player,"Mi","Well you'll just have to do then!");
                             List<String> entityNameList = new ArrayList<>();
@@ -148,13 +148,12 @@ public class QuestListener implements Listener { // TODO add task text
                             if (!entityNameList.contains("Wolf King")) {
                                 new WolfKing(new Location(player.getWorld(), 0, -58, 216));
                             }
-                            return;
                         } else {
                             Chat.npc(player,"Mi","Well done Hunter!");
                             Chat.npc(player,"Mi","Maybe you're not as weak as you look.");
                             Chat.guide(player,"Use the /warp command if you wish to return to the village in the sky.");
-                            return;
                         }
+                        return;
                     }
                     if (!(QuestData.getDone(uuid, 3)) && QuestData.getDone(uuid,2)) {
                         if (QuestData.getCompletion(uuid,3) == 6) {
@@ -172,7 +171,7 @@ public class QuestListener implements Listener { // TODO add task text
                     }
                 }
                 if (data.getDisplayName().equals("Hunter")) {
-                    if (!(QuestData.getDone(uuid, 3)) && QuestData.getDone(uuid,2) && !QuestData.hasOngoing(uuid)) {
+                    if (!(QuestData.getDone(uuid, 3)) && QuestData.getDone(uuid,2)) {
                         if (QuestData.getCompletion(uuid, 3) <= 1) {
                             Chat.npc(player,"Hunter","Are you the hunter who killed the Wolf King?");
                             Chat.npc(player,"Hunter","That's amazing can I have your armor?");
@@ -224,13 +223,13 @@ public class QuestListener implements Listener { // TODO add task text
                             Chat.npc(player,"Guild Master","You are now officially a Monster Hunter!");
                             new JobData(uuid, Job.HUNTER,0);
                             playerData.addXp(235);
-                            QuestData.setDone(uuid,3);
+                            QuestData.setDone(player,3);
                             return;
                         }
                     }
                 }
                 if (data.getDisplayName().equals("Farmer")) {
-                    if (!QuestData.getDone(uuid,4) && QuestData.getDone(uuid,3) && !QuestData.hasOngoing(uuid)) {
+                    if (!QuestData.getDone(uuid,4) && QuestData.getDone(uuid,3) ) {
                         if (Condition.isHolding(player,"Gardening Hoe",ItemType.TOOL) && QuestData.getCompletion(uuid,4) < 1) {
                             Chat.npc(player,"Farmer","Have this backpack now go farm until you have 128 wheat!");
                             Chat.guide(player,"You can open the backpack by holding it and pressing right click on your mouse");
@@ -248,7 +247,7 @@ public class QuestListener implements Listener { // TODO add task text
                         if (QuestData.getCompletion(uuid,4) == 2 && Condition.isHolding(player,"Straw Hat",ItemType.ARMOR)) {
                             player.getInventory().remove(player.getInventory().getItemInMainHand());
                             player.getInventory().addItem(Items.getBase("Lucky Straw Hat"));
-                            QuestData.setDone(uuid,4);
+                            QuestData.setDone(player,4);
                             return;
                         }
                     }

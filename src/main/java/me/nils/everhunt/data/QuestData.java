@@ -1,6 +1,7 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.utils.Stats;
 import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
@@ -29,10 +30,12 @@ public class QuestData {
     public static void setCompletion(Player player, int number, double value, String task) {
         String uuid = player.getUniqueId().toString();
         try {
-            Everhunt.getDatabase().run("UPDATE tblquest SET progress = '" + value + "' AND task = '" + task + "' WHERE uuid = '" + uuid + "' AND questnumber = '" + number + "'").executeUpdate();
+            Everhunt.getDatabase().run("UPDATE tblquest SET progress = '" + value + "', task = '" + task + "' WHERE uuid = '" + uuid + "' AND questnumber = '" + number + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        Stats.setScoreBoard(player);
     }
 
     public static double getCompletion(String uuid, int number) {
@@ -45,12 +48,14 @@ public class QuestData {
         }
     }
 
-    public static void setDone(String uuid, int number) {
+    public static void setDone(Player player, int number) {
         try {
-            Everhunt.getDatabase().run("UPDATE tblquest SET done = '" + 1 + "' WHERE uuid = '" + uuid + "' AND questnumber = '" + number + "'").executeUpdate();
+            Everhunt.getDatabase().run("UPDATE tblquest SET done = '" + 1 + "' WHERE uuid = '" + player.getUniqueId().toString() + "' AND questnumber = '" + number + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        Stats.setScoreBoard(player);
     }
 
     public static boolean getDone(String uuid, int number) {
@@ -66,7 +71,9 @@ public class QuestData {
                     throw new RuntimeException(e);
                 }
             } else {
-                new QuestData(uuid, number,0,"",false);
+                if (!QuestData.hasOngoing(uuid)) {
+                    new QuestData(uuid, number, 0, "", false);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -18,7 +18,7 @@ public class Loot {
             EntityData data = EntityData.data.get(mob);
             CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
 
-            if (data.getType().equals(MobType.ENEMY) || data.getType().equals(MobType.BOSS)) {
+            if (data.getType().equals(MobType.ENEMY)) {
                 ItemStack flesh = new ItemStack(Items.getBase("Monster Flesh"));
                 flesh.setAmount(new Random().nextInt(1,5));
                 builder.add(flesh,80);

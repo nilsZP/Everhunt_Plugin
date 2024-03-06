@@ -13,7 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
 
-public class Hologram {
+public class Hologram { // TODO find a way to remove Hologram
     public static ArmorStand Hologram(Location loc, LivingEntity entity) {
         new EntityData("hologram",0, Tier.BASIC, Ability.NONE, MobType.UTIL);
         ArmorStand hologram = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
