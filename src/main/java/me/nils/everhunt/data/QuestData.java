@@ -1,22 +1,13 @@
 package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
+import org.bukkit.entity.Player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class QuestData {
-    private final String uuid;
-    private int number;
-    private double completion;
-    private boolean done;
-
-    public QuestData(String uuid, int number, double completion, boolean done) {
-        this.completion = completion;
-        this.number = number;
-        this.uuid = uuid;
-        this.done = done;
-
+    public QuestData(String uuid, int number, double completion, String task, boolean done) {
         int tiny = 0;
 
         if (done) {
@@ -27,34 +18,18 @@ public class QuestData {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblquest WHERE uuid = '" + uuid + "' AND questnumber = '" + number + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblquest (uuid, questnumber, progress, done) VALUES ('" + uuid + "','" + number + "','" +
-                        completion + "','" + tiny + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblquest (uuid, questnumber, progress,task, done) VALUES ('" + uuid + "','" + number + "','" +
+                        completion + "','" + task + "','" + tiny + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void registerQuestData() {
+    public static void setCompletion(Player player, int number, double value, String task) {
+        String uuid = player.getUniqueId().toString();
         try {
-            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblquest").executeQuery();
-
-            while (resultSet.next()) {
-                String uuid = resultSet.getString("uuid");
-                int number = resultSet.getInt("questnumber");
-                double completion = resultSet.getDouble("progress");
-                boolean done = resultSet.getBoolean("done");
-
-                new QuestData(uuid,number,completion,done);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void setCompletion(String uuid, int number, double value) {
-        try {
-            Everhunt.getDatabase().run("UPDATE tblquest SET progress = '" + value + "' WHERE uuid = '" + uuid + "' AND questnumber = '" + number + "'").executeUpdate();
+            Everhunt.getDatabase().run("UPDATE tblquest SET progress = '" + value + "' AND task = '" + task + "' WHERE uuid = '" + uuid + "' AND questnumber = '" + number + "'").executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -91,11 +66,50 @@ public class QuestData {
                     throw new RuntimeException(e);
                 }
             } else {
-                new QuestData(uuid, number,0,false);
+                new QuestData(uuid, number,0,"",false);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return false;
+    }
+
+    public static boolean hasOngoing(String uuid) {
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblquest WHERE uuid = '" + uuid + "'").executeQuery();
+
+            while (resultSet.next()) {
+                boolean done = resultSet.getBoolean("done");
+
+                if (!done) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static String getCurrentTask(String uuid) {
+        if (hasOngoing(uuid)) {
+            try {
+                ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tblquest WHERE uuid = '" + uuid + "'").executeQuery();
+
+                while (resultSet.next()) {
+                    String task = resultSet.getString("task");
+                    boolean done = resultSet.getBoolean("done");
+
+                    if (!done) {
+                        return task;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "No ongoing quest";
     }
 }

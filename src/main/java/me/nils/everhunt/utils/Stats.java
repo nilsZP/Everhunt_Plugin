@@ -2,6 +2,7 @@ package me.nils.everhunt.utils;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.data.PlayerData;
+import me.nils.everhunt.data.QuestData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -105,8 +106,12 @@ public class Stats {
         objective.setDisplayName(ChatColor.BLUE + "Everhunt");
 
         Score score = objective.getScore(ChatColor.GOLD + "Coins: $" + ChatColor.GREEN + PlayerData.data.get(player.getUniqueId().toString()).getCoins());
+        Score score1 = objective.getScore(ChatColor.AQUA + "Current Objective: ");
+        Score score2 = objective.getScore(ChatColor.WHITE + QuestData.getCurrentTask(player.getUniqueId().toString()));
 
-        score.setScore(1);
+        score.setScore(3);
+        score1.setScore(2);
+        score2.setScore(1);
 
         player.setScoreboard(scoreboard);
     }

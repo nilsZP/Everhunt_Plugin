@@ -79,7 +79,6 @@ public final class Everhunt extends JavaPlugin {
         ArmorManager.registerItems();
         HelmetManager.registerItems();
         EntityData.registerEntities();
-        QuestData.registerQuestData();
         PlayerData.registerPlayerData();
         ItemManager.registerItems();
         ToolManager.registerItems();
