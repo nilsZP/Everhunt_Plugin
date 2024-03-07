@@ -21,4 +21,8 @@ public class Chat {
     public static void npc(Player player, String name, String message) {
         player.sendMessage(color("&e" + name + ": &f" + message));
     }
+
+    public static void guild(Player receiver, String sender, String message) {
+        receiver.sendMessage(color("&2" + sender + ": &f" + message));
+    }
 }
