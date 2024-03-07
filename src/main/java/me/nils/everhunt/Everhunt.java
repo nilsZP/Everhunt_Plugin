@@ -59,6 +59,7 @@ public final class Everhunt extends JavaPlugin {
         Bukkit.getPluginCommand("warp").setExecutor(new WarpCommand());
         Bukkit.getPluginCommand("market").setExecutor(new MarketCommand());
         Bukkit.getPluginCommand("sell").setExecutor(new SellCommand());
+        Bukkit.getPluginCommand("achievement").setExecutor(new AchievementCommand());
     }
 
     private void loadListeners() {
