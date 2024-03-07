@@ -10,7 +10,8 @@ public enum Tier {
     MAGICAL(ChatColor.DARK_PURPLE),
     CURSED(ChatColor.DARK_RED),
     SOUL(ChatColor.DARK_AQUA),
-    MENU(ChatColor.YELLOW);
+    MENU(ChatColor.YELLOW),
+    ACHIEVEMENT(ChatColor.GREEN);
 
     private final ChatColor color;
 
