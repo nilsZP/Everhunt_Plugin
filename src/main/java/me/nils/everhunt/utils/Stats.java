@@ -1,6 +1,8 @@
 package me.nils.everhunt.utils;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.constants.Job;
+import me.nils.everhunt.data.JobData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
 import net.kyori.adventure.text.Component;
@@ -27,7 +29,8 @@ public class Stats {
     }
 
     private static ItemStack createStats(Player player) {
-        PlayerData pData = PlayerData.data.get(player.getUniqueId().toString());
+        String uuid = player.getUniqueId().toString();
+        PlayerData pData = PlayerData.data.get(uuid);
 
         int level = pData.getXp() / 100;
 
@@ -37,29 +40,12 @@ public class Stats {
         flow = (level + 1) * 5;
 
         toughness = base / 10;
-        damage = base / 5;
 
-        while (base %5 != 0) {
-            base--;
-        }
+        damage = (JobData.hasJob(uuid, Job.HUNTER)) ? base / 5 + ((double) JobData.getXp(uuid, Job.HUNTER) / 100) : base / 5;
 
-        if (base != 0) {
-            health = 20 + (base / 5);
-        } else {
-            health = 20;
-        }
+        health = 20 + Math.round(base / 5);
 
-        base = level;
-
-        while (base %2 != 0) {
-            base--;
-        }
-
-        if (base != 0) {
-            crit = base / 2;
-        } else {
-            crit = 0;
-        }
+        crit = Math.round(base / 2);
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
         player.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(toughness);
