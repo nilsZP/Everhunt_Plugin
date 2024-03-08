@@ -56,6 +56,6 @@ public class GuildData {
             e.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 }

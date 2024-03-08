@@ -2,6 +2,7 @@ package me.nils.everhunt.commands;
 
 import me.nils.everhunt.data.GuildData;
 import me.nils.everhunt.utils.Chat;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,6 +29,17 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
                 if (!message.isBlank() || !message.isEmpty()) {
                     for (Player receiver : GuildData.getReceivers(player)) {
                         Chat.guild(receiver, player.getName(), message);
+                    }
+                }
+            }
+            case "invite" -> {
+                if (!message.isBlank() || !message.isEmpty()) {
+                    if (Bukkit.getPlayer(message) != null && Bukkit.getPlayer(message).isOnline()) {
+                        Player invited = Bukkit.getPlayer(message);
+
+                        if (GuildData.getGuild(invited) != null && GuildData.getGuild(player).equals(GuildData.getGuild(invited))) {
+                            // TODO open guild invite menu
+                        }
                     }
                 }
             }
