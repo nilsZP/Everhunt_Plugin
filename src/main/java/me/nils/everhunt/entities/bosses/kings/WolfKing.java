@@ -5,8 +5,8 @@ import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.entities.Hologram;
 import me.nils.everhunt.entities.Wolfling;
+import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -31,14 +31,14 @@ public class WolfKing extends EntityData {
             }
         }
 
-        wolf.setCustomName("Wolf King");
-        wolf.setCustomNameVisible(false);
+        wolf.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 20, 20,"♥")));
+        wolf.setCustomNameVisible(true);
         wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
         wolf.setHealth(wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
         wolf.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(10);
 
-        Hologram.addHologram(wolf);
+        super.setEntity(wolf);
 
         new BukkitRunnable() {
             private boolean spawn = false;

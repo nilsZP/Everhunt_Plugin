@@ -1,10 +1,12 @@
 package me.nils.everhunt.entities;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.managers.ArmorManager;
+import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Head;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,14 +15,16 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 public class UndeadScarecrow extends EntityData {
     public UndeadScarecrow(Location loc) {
         super("Undead Scarecrow",5, Tier.BASIC, Ability.NONE, MobType.ENEMY);
         Zombie scare = (Zombie) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
 
-        scare.setCustomName("Undead Scarecrow");
+        scare.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 10, 10,"♥")));
         scare.setCustomNameVisible(true);
+        scare.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING,super.getDisplayName());
         scare.getEquipment().setBoots(ArmorManager.items.get("Farmers Boots").getItemStack());
         scare.getEquipment().setChestplate(ArmorManager.items.get("Farmers Shirt").getItemStack());
         scare.getEquipment().setLeggings(ArmorManager.items.get("Farmers Pants").getItemStack());
@@ -39,7 +43,6 @@ public class UndeadScarecrow extends EntityData {
         scare.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
         scare.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(4);
 
-        Hologram.addHologram(scare);
         super.setEntity(scare);
     }
 }

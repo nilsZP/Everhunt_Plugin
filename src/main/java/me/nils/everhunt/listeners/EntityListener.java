@@ -32,12 +32,6 @@ public class EntityListener implements Listener {
         event.getDrops().clear();
         if (!(event.getEntity() instanceof Player)) {
             LivingEntity entity = event.getEntity();
-            List<Entity> entityList = entity.getPassengers();
-            for (Entity passenger : entityList) {
-                if (passenger instanceof ArmorStand hologram) {
-                    hologram.remove();
-                }
-            }
             EntityData data = EntityData.data.get(entity.getName());
             if (data == null) {
                 return;
@@ -59,12 +53,11 @@ public class EntityListener implements Listener {
             return;
         }
         if (event.getEntity() instanceof LivingEntity entity) {
-            List<Entity> entityList = entity.getPassengers();
-            int maxHealth = (int) entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-            for (Entity passenger : entityList) {
-                if (passenger instanceof ArmorStand) {
-                    passenger.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", entity.getName(), Math.round(entity.getHealth() - event.getFinalDamage()), maxHealth, "♥")));
-                }
+            if (entity.getPersistentDataContainer().has(Everhunt.getKey())) {
+                int maxHealth = (int) entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                String name = entity.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
+
+                entity.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", name, Math.round(entity.getHealth() - event.getFinalDamage()), maxHealth, "♥")));
             }
         }
     }
@@ -92,20 +85,10 @@ public class EntityListener implements Listener {
         if (e.getEntity() instanceof Player) return;
         if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
             ArrayList<Entity> list = new ArrayList<>(List.of(e.getLocation().getChunk().getEntities()));
-            list.removeIf(entity -> entity instanceof ArmorStand && isNPC(entity) && entity instanceof Player);
+            list.removeIf(entity -> entity instanceof ArmorStand || isNPC(entity) || entity instanceof Player);
             if (list.size() >= 3) {
-                if (!e.getEntity().getPassengers().isEmpty()) {
-                    e.getEntity().getPassengers().clear();
-                }
                 e.setCancelled(true);
                 return;
-            }
-            if (e.getEntity() instanceof ArmorStand armorStand) {
-                if (armorStand.getPersistentDataContainer().has(Everhunt.getKey())) {
-                    if (armorStand.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.BOOLEAN)) {
-                        e.setCancelled(true);
-                    }
-                }
             }
             e.setCancelled(true);
             if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
@@ -116,7 +99,7 @@ public class EntityListener implements Listener {
         }
     }
 
-    @EventHandler
+    /*@EventHandler
     public void onDespawn(EntitiesUnloadEvent e) {
         for (Entity entity : e.getEntities()) {
             if (!isNPC(entity) && !(entity instanceof Player)) {
@@ -126,5 +109,5 @@ public class EntityListener implements Listener {
                 entity.remove();
             }
         }
-    }
+    }*/
 }
