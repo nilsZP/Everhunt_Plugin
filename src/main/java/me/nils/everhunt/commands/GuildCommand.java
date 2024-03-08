@@ -58,6 +58,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
 
         if (args.length == 1) {
             completions.add("chat");
+            completions.add("invite");
         }
 
         return completions;
