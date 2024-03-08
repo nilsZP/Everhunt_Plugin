@@ -74,6 +74,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onHit(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+            event.setCancelled(true);
+            return;
+        }
+
         if (event.getDamager() instanceof Player player) {
             if (event.getEntity() instanceof LivingEntity livingEntity) {
                 EntityData data = EntityData.data.get(livingEntity.getName());
@@ -158,8 +163,7 @@ public class PlayerListener implements Listener {
             new CookMenu(Everhunt.getPlayerMenuUtility(e.getPlayer())).open();
         }
 
-        if (block.getType() != Material.SUSPICIOUS_GRAVEL &&
-                block.getType() != Material.SUSPICIOUS_SAND) return;
+        if (block.getType() != Material.SUSPICIOUS_GRAVEL && block.getType() != Material.SUSPICIOUS_SAND) return;
         if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.BRUSH) return;
 
         // archeology system
