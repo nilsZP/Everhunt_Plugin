@@ -1,7 +1,9 @@
 package me.nils.everhunt;
 
 import me.nils.everhunt.commands.*;
-import me.nils.everhunt.data.*;
+import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.data.MarketData;
+import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.items.Items;
 import me.nils.everhunt.listeners.*;
 import me.nils.everhunt.managers.*;

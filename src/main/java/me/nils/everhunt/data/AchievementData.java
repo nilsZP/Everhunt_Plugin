@@ -2,8 +2,6 @@ package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.Menu;
-import me.nils.everhunt.utils.Stats;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,8 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class AchievementData {
     public AchievementData(Player player, String achievement, String description) {

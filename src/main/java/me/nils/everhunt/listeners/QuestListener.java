@@ -1,6 +1,5 @@
 package me.nils.everhunt.listeners;
 
-import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.constants.MobType;
@@ -8,8 +7,10 @@ import me.nils.everhunt.data.*;
 import me.nils.everhunt.entities.Springer;
 import me.nils.everhunt.entities.bosses.kings.WolfKing;
 import me.nils.everhunt.items.Items;
-import me.nils.everhunt.managers.*;
-import me.nils.everhunt.menu.standard.ProductMenu;
+import me.nils.everhunt.managers.ArmorManager;
+import me.nils.everhunt.managers.HelmetManager;
+import me.nils.everhunt.managers.ToolManager;
+import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;

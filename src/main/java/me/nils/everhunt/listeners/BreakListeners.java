@@ -2,21 +2,18 @@ package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.ItemType;
-import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Stats;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Brushable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 

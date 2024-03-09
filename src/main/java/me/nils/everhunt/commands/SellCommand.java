@@ -1,10 +1,8 @@
 package me.nils.everhunt.commands;
 
-import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.managers.ItemManager;
-import me.nils.everhunt.menu.standard.MarketMenu;
 import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

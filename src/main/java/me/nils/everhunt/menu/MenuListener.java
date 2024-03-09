@@ -3,7 +3,6 @@ package me.nils.everhunt.menu;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.standard.AddProductMenu;
 import me.nils.everhunt.menu.standard.MarketMenu;
-import me.nils.everhunt.utils.Chat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -2,7 +2,6 @@ package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.Menu;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class ReportData {
     public ReportData(Player reporter,String reported, String report) {

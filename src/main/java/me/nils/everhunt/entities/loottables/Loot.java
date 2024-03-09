@@ -6,7 +6,6 @@ import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.items.Items;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BrushableBlock;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;

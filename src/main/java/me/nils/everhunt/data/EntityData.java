@@ -4,7 +4,6 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
 
 import java.sql.ResultSet;
