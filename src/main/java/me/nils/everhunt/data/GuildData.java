@@ -18,7 +18,7 @@ public class GuildData {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblguild WHERE uuid = '" + player.getUniqueId().toString() + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblachievement (uuid, guild) VALUES ('" + player.getUniqueId().toString() + "','" + guild + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblguild (uuid, guild) VALUES ('" + player.getUniqueId().toString() + "','" + guild + "')").executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
