@@ -1,6 +1,8 @@
 package me.nils.everhunt.commands;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.data.GuildData;
+import me.nils.everhunt.menu.standard.InviteMenu;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -38,7 +40,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
                         Player invited = Bukkit.getPlayer(message);
 
                         if (GuildData.getGuild(invited) != null && GuildData.getGuild(player).equals(GuildData.getGuild(invited))) {
-                            // TODO open guild invite menu
+                            new InviteMenu(Everhunt.getPlayerMenuUtility(invited),GuildData.getGuild(player)).open();
                         }
                     }
                 }
