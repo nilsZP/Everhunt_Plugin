@@ -17,9 +17,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTransformEvent;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EntityListener implements Listener {
     @EventHandler
@@ -31,14 +33,12 @@ public class EntityListener implements Listener {
         event.getDrops().clear();
         if (!(event.getEntity() instanceof Player)) {
             LivingEntity entity = event.getEntity();
-            EntityData data = EntityData.data.get(entity.getName());
-            if (data == null) {
-                return;
+            if (entity.getPersistentDataContainer().has(Everhunt.getKey())) {
+                String name = entity.getPersistentDataContainer().get(Everhunt.getKey(),PersistentDataType.STRING);
+                Location location = entity.getLocation();
+
+                location.getWorld().dropItemNaturally(location, Loot.getLootTable(name).getRandom());
             }
-
-            Location location = entity.getLocation();
-
-            location.getWorld().dropItemNaturally(location, Loot.getLootTable(entity.getName()).getRandom());
         }
     }
 
@@ -83,16 +83,17 @@ public class EntityListener implements Listener {
     public void onSpawn(CreatureSpawnEvent e) {
         if (e.getEntity() instanceof Player) return;
         if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
-            ArrayList<Entity> list = new ArrayList<>(List.of(e.getLocation().getChunk().getEntities()));
+            e.setCancelled(true);
+            List<Entity> list = e.getEntity().getNearbyEntities(16,5,16);
             list.removeIf(entity -> entity instanceof ArmorStand || isNPC(entity) || entity instanceof Player);
-            if (list.size() >= 3) {
-                e.setCancelled(true);
+            if (list.size() >= 5) {
                 return;
             }
-            e.setCancelled(true);
-            if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
-                if (e.getEntity() instanceof Zombie) {
-                    new UndeadScarecrow(e.getLocation());
+            if (new Random().nextInt(0,5) == 0) {
+                if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
+                    if (e.getEntity() instanceof Zombie) {
+                        new UndeadScarecrow(e.getLocation());
+                    }
                 }
             }
         }

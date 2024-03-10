@@ -15,12 +15,15 @@ public class ReportsCommand implements CommandExecutor {
             return true;
         }
 
-        String user = args[0].toLowerCase();
+        String user = "";
+        if (args.length > 0) {
+            user = args[0];
+        }
 
         if (!user.isEmpty() && !user.isBlank()) {
             new ReportMenu(Everhunt.getPlayerMenuUtility(player),user).open();
         } else {
-            new ReportMenu(Everhunt.getPlayerMenuUtility(player),null);
+            new ReportMenu(Everhunt.getPlayerMenuUtility(player),null).open();
         }
 
         return true;

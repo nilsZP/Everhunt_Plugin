@@ -24,7 +24,12 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
         }
 
         String param = args[0].toLowerCase();
-        String message = args[1];
+        String param2 = args[1];
+        String message = "";
+
+        for (int i = 2; i < args.length; i++) {
+            message += args[i] + " ";
+        }
 
         switch (param) {
             case "chat" -> {
@@ -35,9 +40,9 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "invite" -> {
-                if (!message.isBlank() || !message.isEmpty()) {
-                    if (Bukkit.getPlayer(message) != null && Bukkit.getPlayer(message).isOnline()) {
-                        Player invited = Bukkit.getPlayer(message);
+                if (!param2.isBlank() || !param2.isEmpty()) {
+                    if (Bukkit.getPlayer(param2) != null && Bukkit.getPlayer(param2).isOnline()) {
+                        Player invited = Bukkit.getPlayer(param2);
 
                         if (GuildData.getGuild(invited) != null && GuildData.getGuild(player).equals(GuildData.getGuild(invited))) {
                             new InviteMenu(Everhunt.getPlayerMenuUtility(invited),GuildData.getGuild(player)).open();

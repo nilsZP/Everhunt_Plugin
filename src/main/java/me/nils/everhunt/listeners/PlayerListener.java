@@ -45,8 +45,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        player.getWorld().setSpawnLimit(SpawnCategory.MONSTER,30);
-        player.getWorld().setSpawnLimit(SpawnCategory.ANIMAL,15);
         event.joinMessage(Component.text(ChatColor.translateAlternateColorCodes('&', "&a" + player.getName() + " &fhas joined the server!")));
         new PlayerData(player.getUniqueId().toString(), player.getName(), 0, 0);
         int level = PlayerData.data.get(player.getUniqueId().toString()).getXp() / 100;

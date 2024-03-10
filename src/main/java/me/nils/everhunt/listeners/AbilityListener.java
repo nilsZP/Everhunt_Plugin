@@ -149,8 +149,8 @@ public class AbilityListener implements Listener {
 
             if (ability.needsTarget()) {
                 Entity entity = player.getTargetEntity(ability.getRange());
-                if (entity instanceof LivingEntity) {
-                    this.target = (LivingEntity) entity;
+                if (entity instanceof LivingEntity livingEntity) {
+                    this.target = livingEntity;
                 } else {
                     return;
                 }
@@ -161,7 +161,7 @@ public class AbilityListener implements Listener {
                     switch (ability) {
                         case SUMMON -> {
                             switch (item) {
-                                case "Undead Scarecrow" -> new UndeadScarecrow(player.getLocation()).getEntity().setTarget(target); // TODO fix this attacking me
+                                case "Undead Scarecrow" -> new UndeadScarecrow(player.getLocation(),target); // TODO fix this attacking me
                             }
                         }
                     }
@@ -287,7 +287,7 @@ public class AbilityListener implements Listener {
             }
         }
         if (!(damager instanceof Player)) {
-            if (!(entity instanceof Item)) {
+            if (!(entity instanceof Item) && !(entity instanceof Player)) {
                 PersistentDataContainer pdc = damager.getPersistentDataContainer();
                 if (pdc.has(Everhunt.getKey())) {
                     if (entity instanceof LivingEntity livingEntity) {
