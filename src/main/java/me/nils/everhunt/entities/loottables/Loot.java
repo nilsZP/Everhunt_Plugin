@@ -12,10 +12,10 @@ import java.util.Random;
 
 public class Loot {
 
-    public static CustomLootTable getLootTable(String mob) {
-        if (EntityData.data.get(mob) != null) {
-            EntityData data = EntityData.data.get(mob);
-            CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
+    public static CustomLootTable getLootTable(String name) {
+        CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
+        if (EntityData.data.get(name) != null) {
+            EntityData data = EntityData.data.get(name);
 
             if (data.getType().equals(MobType.ENEMY)) {
                 ItemStack flesh = new ItemStack(Items.getBase("Monster Flesh"));
@@ -23,7 +23,7 @@ public class Loot {
                 builder.add(flesh,80);
             }
 
-            switch (mob) {
+            switch (name) {
                 case "Wolf King" -> builder.add(new ItemStack(Items.getBase("Kings Bone")),20);
                 case "Wolfling" -> {
                     ItemStack itemStack = new ItemStack(Items.getBase("Wolfling Hide"));
@@ -31,6 +31,11 @@ public class Loot {
                     builder.add(itemStack,50);
                 }
             }
+
+            return builder.build();
+        } else if (name.contains("Crate")) {
+            builder.add(new ItemStack(Items.getBase("Wheat")),20);
+
 
             return builder.build();
         } else {

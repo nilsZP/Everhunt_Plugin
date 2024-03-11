@@ -49,16 +49,6 @@ public class ProductMenu extends Menu {
                     new ProductMenu(Everhunt.getPlayerMenuUtility(player),itemStack).open();
                 } else {
                     if (!data.pay(marketData.getPrice())) return;
-                    ItemStack itemStack = switch (Condition.getType(item)) {
-                        case ITEM -> ItemManager.items.get(item).getItemStack();
-                        case DISH -> DishManager.items.get(item).getItemStack();
-                        case SOUL -> SoulManager.souls.get(item).getItemStack();
-                        case TOOL -> ToolManager.items.get(item).getItemStack();
-                        case ARMOR -> ArmorManager.items.get(item).getItemStack();
-                        case HELMET -> HelmetManager.items.get(item).getItemStack();
-                        case WEAPON -> WeaponManager.items.get(item).getItemStack();
-                        default -> null;
-                    };
                     player.getInventory().addItem(itemStack);
                     marketData.setSold(true);
                     player.closeInventory();

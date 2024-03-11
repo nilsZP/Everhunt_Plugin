@@ -64,7 +64,8 @@ public class ItemManager {
             List<String> lore = new ArrayList<>();
 
             if (tier != Tier.MENU && value != 0) {
-                lore.add(Chat.color("&fValue: &e" + value + "&f coins"));
+                String coins = (displayName.contains("Crate")) ? "Cost" : "Value";
+                lore.add(Chat.color("&f" + coins + ": &e" + value + "&f coins"));
             }
             if (tier != Tier.MENU && nutrition != 0) {
                 lore.add(Chat.color("&fNutrition: &4" + nutrition));
