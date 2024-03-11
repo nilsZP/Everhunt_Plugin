@@ -28,17 +28,25 @@ public class CookMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
+        if (e.getSlot() == 31 && e.getCurrentItem() != null) {
+            playerMenuUtility.getOwner().getInventory().addItem(e.getCurrentItem());
+            inventory.setItem(31,new ItemStack(Material.AIR));
+            return;
+        }
+
         if (e.getCurrentItem().getType().equals(Material.RED_STAINED_GLASS_PANE)) {
             int totalNutrition = 0;
 
-            ItemStack[] ingredients = {inventory.getItem(13),inventory.getItem(21),inventory.getItem(32)};
+            ItemStack[] ingredients = {inventory.getItem(13),inventory.getItem(21),inventory.getItem(23)};
             for (ItemStack ingredient : ingredients) {
                 if (ingredient != null) {
-                    String name = ChatColor.stripColor(ingredient.displayName().toString());
-                    if (Condition.isCustom(ItemType.ITEM, name)) {
-                        ItemManager item = ItemManager.items.get(name);
+                    if (ingredient.getItemMeta() != null) {
+                        String name = ChatColor.stripColor(ingredient.getItemMeta().getDisplayName());
+                        if (Condition.isCustom(ItemType.ITEM, name)) {
+                            ItemManager item = ItemManager.items.get(name);
 
-                        totalNutrition += item.getNutrition();
+                            totalNutrition += item.getNutrition();
+                        }
                     }
                 }
             }

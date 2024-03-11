@@ -1,5 +1,6 @@
 package me.nils.everhunt.entities;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class Wolfling extends EntityData {
 
         wolf.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 8, 8,"♥")));
         wolf.setCustomNameVisible(true);
+        wolf.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING,super.getDisplayName());
 
         wolf.setBaby();
 

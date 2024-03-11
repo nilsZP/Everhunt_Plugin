@@ -1,5 +1,6 @@
 package me.nils.everhunt.listeners;
 
+import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.constants.MobType;
@@ -27,6 +28,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -308,22 +310,25 @@ public class QuestListener implements Listener { // TODO add task text
 
         if (killer instanceof Player player) {
             String uuid = player.getUniqueId().toString();
-            if (entity.getName().equals("Springer")) {
-                if (!(QuestData.getDone(uuid, 1)) && QuestData.getCompletion(uuid, 1) >= 1) {
-                    double completion = QuestData.getCompletion(uuid, 1) + 1;
-                    QuestData.setCompletion(player, 1, completion,"Kill all the Springers");
+            if (entity.getPersistentDataContainer().has(Everhunt.getKey())) {
+                String name = entity.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
+                if (name.equals("Springer")) {
+                    if (!(QuestData.getDone(uuid, 1)) && QuestData.getCompletion(uuid, 1) >= 1) {
+                        double completion = QuestData.getCompletion(uuid, 1) + 1;
+                        QuestData.setCompletion(player, 1, completion, "Kill all the Springers");
+                    }
                 }
-            }
-            if (entity.getName().equals("Undead Scarecrow")) {
-                if (!(QuestData.getDone(uuid,3)) && QuestData.getCompletion(uuid,3) == 7) {
-                    QuestData.setCompletion(player,3,8,"Talk to Mi");
+                if (name.equals("Undead Scarecrow")) {
+                    if (!(QuestData.getDone(uuid, 3)) && QuestData.getCompletion(uuid, 3) == 7) {
+                        QuestData.setCompletion(player, 3, 8, "Talk to Mi");
+                    }
                 }
-            }
-            if (entity.getName().equals("Wolf King")) {
-                if (!(QuestData.getDone(uuid, 2)) && QuestData.getCompletion(uuid, 2) >= 1) {
-                    double completion = QuestData.getCompletion(uuid, 2) + 2;
-                    if (completion > 4) QuestData.setCompletion(player, 2, 4, "Talk to Mi");
-                    PlayerData.data.get(uuid).addXp(50);
+                if (name.equals("Wolf King")) {
+                    if (!(QuestData.getDone(uuid, 2)) && QuestData.getCompletion(uuid, 2) >= 1) {
+                        double completion = QuestData.getCompletion(uuid, 2) + 2;
+                        if (completion > 4) QuestData.setCompletion(player, 2, 4, "Talk to Mi");
+                        PlayerData.data.get(uuid).addXp(50);
+                    }
                 }
             }
         }

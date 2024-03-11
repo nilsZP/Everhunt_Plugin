@@ -8,6 +8,7 @@ import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.Wolfling;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
@@ -33,6 +34,7 @@ public class WolfKing extends EntityData {
 
         wolf.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 20, 20,"♥")));
         wolf.setCustomNameVisible(true);
+        wolf.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,super.getDisplayName());
         wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
         wolf.setHealth(wolf.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
         wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(4);
