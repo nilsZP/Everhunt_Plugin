@@ -28,7 +28,7 @@ public class CookMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        if (e.getSlot() == 31 && e.getCurrentItem() != null) {
+        if (e.getSlot() == 31 && e.getCurrentItem() != null && !e.getCurrentItem().getType().equals(Material.GREEN_STAINED_GLASS_PANE)) {
             playerMenuUtility.getOwner().getInventory().addItem(e.getCurrentItem());
             inventory.setItem(31,new ItemStack(Material.AIR));
             return;

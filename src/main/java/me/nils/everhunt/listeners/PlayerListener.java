@@ -36,6 +36,9 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
@@ -77,17 +80,20 @@ public class PlayerListener implements Listener {
 
         if (event.getDamager() instanceof Player player) {
             if (event.getEntity() instanceof LivingEntity livingEntity) {
-                EntityData data = EntityData.data.get(livingEntity.getName());
+                if (livingEntity.getPersistentDataContainer().has(Everhunt.getKey())) {
+                    String name = livingEntity.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
+                    EntityData data = EntityData.data.get(name);
 
-                if (data != null) {
-                    if (data.getType() != MobType.NPC) {
-                        double damage = event.getDamage();
-                        int luck = (int) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
-                        Random random = new Random();
-                        int randInt = random.nextInt(0, 101);
-                        if (randInt <= luck) {
-                            event.setDamage(damage * 1.5);
-                            player.getWorld().playEffect(livingEntity.getLocation(), Effect.ELECTRIC_SPARK, 2);
+                    if (data != null) {
+                        if (data.getType() != MobType.NPC) {
+                            double damage = event.getDamage();
+                            int luck = (int) player.getAttribute(Attribute.GENERIC_LUCK).getValue();
+                            Random random = new Random();
+                            int randInt = random.nextInt(0, 101);
+                            if (randInt <= luck) {
+                                event.setDamage(damage * 1.5);
+                                player.getWorld().playEffect(livingEntity.getLocation(), Effect.ELECTRIC_SPARK, 2);
+                            }
                         }
                     }
                 }
