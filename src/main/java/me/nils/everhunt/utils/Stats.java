@@ -2,6 +2,7 @@ package me.nils.everhunt.utils;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Job;
+import me.nils.everhunt.data.GuildData;
 import me.nils.everhunt.data.JobData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.data.QuestData;
@@ -90,6 +91,11 @@ public class Stats {
         Objective objective = scoreboard.registerNewObjective("Title", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(ChatColor.BLUE + "Everhunt");
+
+        if (GuildData.getGuild(player) != null) {
+            Score guildScore = objective.getScore(ChatColor.DARK_GREEN + "Guild: " + ChatColor.MAGIC + GuildData.getGuild(player));
+            guildScore.setScore(4);
+        }
 
         Score score = objective.getScore(ChatColor.GOLD + "Coins: $" + ChatColor.GREEN + PlayerData.data.get(player.getUniqueId().toString()).getCoins());
         Score score1 = objective.getScore(ChatColor.AQUA + "Current Objective: ");
