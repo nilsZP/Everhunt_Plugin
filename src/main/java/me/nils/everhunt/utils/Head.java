@@ -21,7 +21,7 @@ public class Head {
     public static PlayerProfile createTexture(String url) {
         URL textureUrl = null;
         try {
-            textureUrl = new URL(url);
+            textureUrl = new URL("https://textures.minecraft.net/texture/" + url);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
