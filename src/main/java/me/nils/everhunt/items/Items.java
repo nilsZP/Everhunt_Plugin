@@ -2,6 +2,7 @@ package me.nils.everhunt.items;
 
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Condition;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Items {
     }
 
     public static ItemStack getBase(String item) {
-        return switch (Condition.getType(item)) {
+        return new ItemStack(switch (Condition.getType(item)) {
             case ITEM -> ItemManager.items.get(item).getItemStack();
             case DISH -> DishManager.items.get(item).getItemStack();
             case SOUL -> SoulManager.souls.get(item).getItemStack();
@@ -34,8 +35,7 @@ public class Items {
             case ARMOR -> ArmorManager.items.get(item).getItemStack();
             case HELMET -> HelmetManager.items.get(item).getItemStack();
             case WEAPON -> WeaponManager.items.get(item).getItemStack();
-            default -> null;
-        };
+        });
     }
 
     public void add(WeaponManager weapon) {

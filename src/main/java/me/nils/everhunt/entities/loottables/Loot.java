@@ -18,15 +18,15 @@ public class Loot {
             EntityData data = EntityData.data.get(name);
 
             if (data.getType().equals(MobType.ENEMY)) {
-                ItemStack flesh = new ItemStack(Items.getBase("Monster Flesh"));
+                ItemStack flesh = Items.getBase("Monster Flesh");
                 flesh.setAmount(new Random().nextInt(1,5));
                 builder.add(flesh,80);
             }
 
             switch (name) {
-                case "Wolf King" -> builder.add(new ItemStack(Items.getBase("Kings Bone")),20);
+                case "Wolf King" -> builder.add(Items.getBase("Kings Bone"),20);
                 case "Wolfling" -> {
-                    ItemStack itemStack = new ItemStack(Items.getBase("Wolfling Hide"));
+                    ItemStack itemStack = Items.getBase("Wolfling Hide");
                     itemStack.setAmount(new Random().nextInt(1,4));
                     builder.add(itemStack,50);
                 }
@@ -34,7 +34,7 @@ public class Loot {
 
             return builder.build();
         } else if (name.contains("Crate")) {
-            builder.add(new ItemStack(Items.getBase("Wheat")),20);
+            builder.add(Items.getBase("Wheat"),20);
 
 
             return builder.build();
@@ -80,7 +80,7 @@ public class Loot {
             }
         }
 
-        ItemStack itemStack = new ItemStack(Items.getBase(item));
+        ItemStack itemStack = Items.getBase(item);
         itemStack.setAmount(drops);
 
         return new CustomLootTable.CustomLootTableBuilder().add(itemStack,1).build();
@@ -123,7 +123,7 @@ public class Loot {
             }
         }
 
-        ItemStack itemStack = new ItemStack(Items.getBase(item));
+        ItemStack itemStack = Items.getBase(item);
         itemStack.setAmount(drops);
 
         return new CustomLootTable.CustomLootTableBuilder().add(itemStack,1).build();
