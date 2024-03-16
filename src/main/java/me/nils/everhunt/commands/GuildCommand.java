@@ -44,9 +44,16 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
                     if (Bukkit.getPlayer(param2) != null && Bukkit.getPlayer(param2).isOnline()) {
                         Player invited = Bukkit.getPlayer(param2);
 
-                        if (GuildData.getGuild(invited) != null && GuildData.getGuild(player).equals(GuildData.getGuild(invited))) {
+                        if (GuildData.getGuild(invited) == null && !GuildData.getGuild(player).equals(GuildData.getGuild(invited))) {
                             new InviteMenu(Everhunt.getPlayerMenuUtility(invited),GuildData.getGuild(player)).open();
                         }
+                    }
+                }
+            }
+            case "create" -> {
+                if (!param2.isBlank() || !param2.isEmpty()) {
+                    if (GuildData.getGuild(player) == null) {
+                        new GuildData(player,param2);
                     }
                 }
             }
@@ -66,6 +73,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             completions.add("chat");
             completions.add("invite");
+            completions.add("create");
         }
 
         return completions;
