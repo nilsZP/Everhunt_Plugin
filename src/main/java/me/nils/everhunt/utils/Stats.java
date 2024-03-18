@@ -93,7 +93,7 @@ public class Stats {
         objective.setDisplayName(ChatColor.BLUE + "Everhunt");
 
         if (GuildData.getGuild(player) != null) {
-            Score guildScore = objective.getScore(ChatColor.DARK_GREEN + "Guild: " + ChatColor.MAGIC + GuildData.getGuild(player));
+            Score guildScore = objective.getScore(ChatColor.DARK_GREEN + "Guild: " + ChatColor.BOLD + GuildData.getGuild(player));
             guildScore.setScore(4);
         }
 

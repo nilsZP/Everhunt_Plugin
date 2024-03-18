@@ -88,7 +88,7 @@ public class QuestListener implements Listener { // TODO add task text
                         }
                         if (QuestData.getCompletion(uuid, 2) >= 3 && Condition.isHolding(player, "Kings Bone", ItemType.ITEM) && QuestData.getCompletion(uuid, 2) < 5) {
                             Chat.npc(player,"Marcus","I can work with this.");
-                            player.getInventory().remove(player.getInventory().getItemInMainHand());
+                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                             QuestData.setCompletion(player, 2, 5,"Talk to Marcus");
                             Chat.npc(player,"Marcus","Talk to me in one second.");
                             return;
@@ -115,12 +115,12 @@ public class QuestListener implements Listener { // TODO add task text
                         }
                         if (QuestData.getCompletion(uuid,5) == 3 && Condition.isHolding(player,"Compressed Stone",ItemType.ITEM,2)) {
                             Chat.npc(player,"Marcus","Thanks for helping me again!");
-                            player.getInventory().remove(player.getInventory().getItemInMainHand());
+                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                             QuestData.setCompletion(player,5,4,"Click him again while holding Lucia I");
                             return;
                         }
                         if (QuestData.getCompletion(uuid,5) == 4 && Condition.isHolding(player,"Lucia I",ItemType.WEAPON)) {
-                            player.getInventory().remove(player.getInventory().getItemInMainHand());
+                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                             player.getInventory().addItem(Items.getBase("Lucia II"));
                             QuestData.setDone(player,5);
                             return;
@@ -248,7 +248,7 @@ public class QuestListener implements Listener { // TODO add task text
                             return;
                         }
                         if (QuestData.getCompletion(uuid,4) == 2 && Condition.isHolding(player,"Straw Hat",ItemType.ARMOR)) {
-                            player.getInventory().remove(player.getInventory().getItemInMainHand());
+                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                             player.getInventory().addItem(Items.getBase("Lucky Straw Hat"));
                             QuestData.setDone(player,4);
                             return;
@@ -342,7 +342,7 @@ public class QuestListener implements Listener { // TODO add task text
             if (event.getMessage().equals("yes") && Condition.isHolding(player,"Wooden Bat",ItemType.WEAPON)) {
                 Chat.npc(player,"Marcus","Thank you for the handle!");
                 PlayerData.data.get(uuid).addXp(25);
-                player.getInventory().remove(player.getInventory().getItemInMainHand());
+                player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                 Chat.npc(player,"Marcus","Can you please go fetch me something to make the blade?");
                 QuestData.setCompletion(player, 2, 3,"Look for the Kings Bone");
                 return;

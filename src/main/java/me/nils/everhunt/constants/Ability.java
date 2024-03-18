@@ -8,7 +8,7 @@ public enum Ability {
     EVOCATION("Evocation", 2, 5,Activation.RIGHT_CLICK,6,false,0),
     DIMENSION_SHATTER("Dimension Shatter", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     LETHAL_ABSORPTION("Lethal Absorption", 0, 20,Activation.RIGHT_CLICK,2,false,0),
-    THUNDER_WARP("Thunder Warp", 1.1, 2,Activation.THROW,5,false,0),
+    THUNDER_WARP("Thunder Warp", 1.1, 5,Activation.THROW,5,false,0),
     DIMENSION_UNISON("Dimension Unison", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     SNOWBALL("Snowball",0.5,0,Activation.RIGHT_CLICK,1,false,0,"&7shoots a snowball dealing &c50% &7damage."),
     CLAP("Clap",0.8,4,Activation.LEFT_CLICK,0,false,0,"&7Hit the enemy with extra force dealing &c80% &7damage."),

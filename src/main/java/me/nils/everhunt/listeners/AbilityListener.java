@@ -212,32 +212,27 @@ public class AbilityListener implements Listener {
     public void onTridentThrow(ProjectileLaunchEvent event) {
         if (event.getEntity().getType() == EntityType.TRIDENT) {
             Player player = (Player) event.getEntity().getShooter();
-            NamespacedKey key = Everhunt.getKey();
+            ItemStack itemStack = player.getInventory().getItemInMainHand();
 
-            ItemStack item = player.getInventory().getItemInMainHand();
-            ItemMeta meta = item.getItemMeta();
-            PersistentDataContainer pdc = meta.getPersistentDataContainer();
-            if (!(pdc.getKeys().contains(key))) {
-                return;
-            }
-            WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-            if (weapon == null) {
-                return;
-            }
-            Ability ability = weapon.getAbility();
-            if (ability.equals(Ability.THUNDER_WARP)) {
-                if (!(Cooldown.hasCooldown(item))) {
-                    if (Flow.useFlow(ability.getFlowCost(),player)) {
-                        Cooldown.setCooldown(item, 2);
-                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                        event.getEntity().getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, damage);
-                    } else {
-                        event.setCancelled(true);
+            if (!itemStack.hasItemMeta()) return;
+
+            String item = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
+
+            if (Condition.isCustom(ItemType.WEAPON,item)) {
+                Ability ability = WeaponManager.items.get(item).getAbility();
+                if (ability.equals(Ability.THUNDER_WARP)) {
+                    if (!(Cooldown.hasCooldown(itemStack))) {
+                        if (Flow.useFlow(ability.getFlowCost(), player)) {
+                            Cooldown.setCooldown(itemStack, ability.getCooldown());
+                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                            event.getEntity().getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.DOUBLE, damage);
+                            return;
+                        }
                     }
-                } else {
-                    event.setCancelled(true);
                 }
             }
+
+            event.setCancelled(true);
         }
     }
 

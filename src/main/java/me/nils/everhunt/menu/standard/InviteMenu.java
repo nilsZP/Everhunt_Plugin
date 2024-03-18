@@ -3,6 +3,7 @@ package me.nils.everhunt.menu.standard;
 import me.nils.everhunt.data.GuildData;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
+import me.nils.everhunt.utils.Stats;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -35,6 +36,7 @@ public class InviteMenu extends Menu {
 
         if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Accept")) new GuildData(player,guild);
+            Stats.setScoreBoard(player);
         }
     }
 

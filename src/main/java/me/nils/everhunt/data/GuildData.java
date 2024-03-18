@@ -50,9 +50,7 @@ public class GuildData {
 
             return resultSet.getString("guild");
         } catch (SQLException e) {
-            e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 }

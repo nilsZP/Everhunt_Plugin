@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.data.GuildData;
 import me.nils.everhunt.menu.standard.InviteMenu;
 import me.nils.everhunt.utils.Chat;
+import me.nils.everhunt.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
         String param2 = args[1];
         String message = "";
 
-        for (int i = 2; i < args.length; i++) {
+        for (int i = 1; i < args.length; i++) {
             message += args[i] + " ";
         }
 
@@ -54,6 +55,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
                 if (!param2.isBlank() || !param2.isEmpty()) {
                     if (GuildData.getGuild(player) == null) {
                         new GuildData(player,param2);
+                        Stats.setScoreBoard(player);
                     }
                 }
             }

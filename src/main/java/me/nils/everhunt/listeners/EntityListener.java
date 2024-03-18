@@ -54,9 +54,11 @@ public class EntityListener implements Listener {
         if (event.getEntity() instanceof LivingEntity entity) {
             if (entity.getPersistentDataContainer().has(Everhunt.getKey())) {
                 int maxHealth = (int) entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                int health = (int) Math.round(entity.getHealth() - event.getFinalDamage());
+                if (health < 0) health = 0;
                 String name = entity.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);
 
-                entity.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", name, Math.round(entity.getHealth() - event.getFinalDamage()), maxHealth, "♥")));
+                entity.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", name, health, maxHealth, "♥")));
             }
         }
     }
@@ -82,6 +84,7 @@ public class EntityListener implements Listener {
     @EventHandler
     public void onSpawn(CreatureSpawnEvent e) {
         if (e.getEntity() instanceof Player) return;
+        if (e.getEntity() instanceof Projectile) return;
         if (e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
             e.setCancelled(true);
             List<Entity> list = e.getEntity().getNearbyEntities(16,5,16);
