@@ -15,10 +15,11 @@ public class MenuListener implements Listener {
     public void onMenuClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        // NPCSellMenu doesn't reach this point how???
         if (event.getClickedInventory() == null) return;
 
-        if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().displayName().toString().contains(player.getName())) {
+        if (event.getCurrentItem() == null) return;
+
+        if (event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().displayName().toString().contains(player.getName())) {
             event.setCancelled(true);
             return;
         }
@@ -27,8 +28,6 @@ public class MenuListener implements Listener {
 
         if (holder instanceof Menu menu) {
             event.setCancelled(true);
-
-            if (event.getCurrentItem() == null) return;
 
             menu.handleMenu(event);
         }
@@ -62,6 +61,7 @@ public class MenuListener implements Listener {
                 playerMenuUtility.setInput(false);
 
                 e.getRecipients().clear();
+                e.getRecipients().add(player);
 
                 return;
             }

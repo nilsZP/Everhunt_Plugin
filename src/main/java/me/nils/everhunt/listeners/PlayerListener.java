@@ -15,10 +15,7 @@ import me.nils.everhunt.menu.standard.CookMenu;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -158,6 +155,16 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         Block block = e.getClickedBlock();
+
+        if(e.getAction() == Action.PHYSICAL) {
+
+            if(block == null) return;
+
+            if(block.getType() == Material.FARMLAND) {
+                e.setCancelled(true);
+            }
+        }
+
         if (e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (e.getClickedBlock() == null) return;
 
@@ -202,5 +209,12 @@ public class PlayerListener implements Listener {
     public void onXpGain(PlayerPickupExperienceEvent event) {
         event.getExperienceOrb().remove();
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPortalEnter(PlayerPortalEvent e) {
+        if (e.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {
+            e.setTo(new Location(Bukkit.getWorld("world"),-280,2,91));
+        }
     }
 }
