@@ -2,6 +2,7 @@ package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.Menu;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +36,7 @@ public class AchievementData {
                 String achievement = resultSet.getString("achievement");
                 String description = resultSet.getString("description");
 
-                list.add(Menu.makeItem(Material.EMERALD,achievement,description));
+                list.add(Menu.makeItem(Material.EMERALD, ChatColor.GREEN + achievement,description));
             }
         } catch (SQLException e) {
             e.printStackTrace();

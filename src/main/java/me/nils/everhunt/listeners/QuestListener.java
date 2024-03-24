@@ -1,6 +1,7 @@
 package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.commands.AchievementCommand;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.constants.MobType;
@@ -65,6 +66,7 @@ public class QuestListener implements Listener { // TODO add task text
                             player.teleport(new Location(player.getWorld(), 60, -7, -197));
                             new TeleportData(uuid, "Village", 60, -7, -197);
                             QuestData.setDone(player, 1);
+                            new AchievementData(player,"First quest","You've completed your first quest!");
                             PlayerData.data.get(uuid).addXp(100);
                             return;
                         }
@@ -226,6 +228,7 @@ public class QuestListener implements Listener { // TODO add task text
                             Chat.npc(player,"Guild Master","You are now officially a Monster Hunter!");
                             new JobData(uuid, Job.HUNTER,0);
                             playerData.addXp(235);
+                            new AchievementData(player,"First job","You've acquired your first job!");
                             QuestData.setDone(player,3);
                             return;
                         }
@@ -328,6 +331,7 @@ public class QuestListener implements Listener { // TODO add task text
                         double completion = QuestData.getCompletion(uuid, 2) + 2;
                         if (completion > 4) QuestData.setCompletion(player, 2, 4, "Talk to Mi");
                         PlayerData.data.get(uuid).addXp(50);
+                        new AchievementData(player,"First boss kill","You've defeated your first boss!");
                     }
                 }
             }
