@@ -40,11 +40,11 @@ public class Stats {
 
         flow = (level + 1) * 5;
 
-        toughness = base / 10;
+        toughness = (JobData.hasJob(uuid, Job.MINER)) ? base / 10 + JobData.getLevel(uuid,Job.MINER) : base / 10;
 
-        damage = (JobData.hasJob(uuid, Job.HUNTER)) ? base / 5 + ((double) JobData.getXp(uuid, Job.HUNTER) / 100) : base / 5;
+        damage = (JobData.hasJob(uuid, Job.HUNTER)) ? base / 5 + JobData.getLevel(uuid,Job.HUNTER) : base / 5;
 
-        health = 20 + Math.round(base / 5);
+        health = (JobData.hasJob(uuid, Job.FARMER)) ? 20 + Math.round(base / 5) + JobData.getLevel(uuid,Job.FARMER) : 20 + Math.round(base / 5);
 
         crit = Math.round(base / 2);
 
