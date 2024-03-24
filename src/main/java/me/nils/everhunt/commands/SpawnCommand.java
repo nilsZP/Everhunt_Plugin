@@ -26,45 +26,40 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
         switch (param) {
             case "oldmandave" -> {
                 new OldManDave(player.getLocation());
-                return true;
             }
             case "marcus" -> {
                 new Marcus(player.getLocation());
-                return true;
             }
             case "mi" -> {
                 new Mi(player.getLocation());
-                return true;
             }
             case "mikull" -> {
                 new Mikull(player.getLocation());
-                return true;
             }
             case "hunter" -> {
                 new Hunter(player.getLocation());
-                return true;
             }
             case "guildmaster" -> {
                 new GuildMaster(player.getLocation());
-                return true;
             }
             case "farmer" -> {
                 new Farmer(player.getLocation());
-                return true;
             }
             case "tim" -> {
                 new Tim(player.getLocation());
-                return true;
             }
             case "compresser" -> {
                 new Compresser(player.getLocation());
-                return true;
+            }
+            case "crateshop" -> {
+                new CrateShop(player.getLocation());
             }
             default -> {
                 player.sendMessage(Component.text(Chat.color("&cUse: /spawn <name>")));
-                return true;
             }
         }
+
+        return true;
     }
 
     @Override
@@ -84,6 +79,7 @@ public class SpawnCommand implements CommandExecutor, TabCompleter {
             completions.add("GuildMaster");
             completions.add("Farmer");
             completions.add("Tim");
+            completions.add("CrateShop");
         }
 
         return completions;

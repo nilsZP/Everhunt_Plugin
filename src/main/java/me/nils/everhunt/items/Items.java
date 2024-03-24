@@ -2,6 +2,7 @@ package me.nils.everhunt.items;
 
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Condition;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -87,48 +88,6 @@ public class Items {
         souls.add(dish.getItemStack());
     }
 
-    public ItemStack[] getWeapons() {
-        ItemStack[] list = new ItemStack[weapons.size()];
-        list = weapons.toArray(list);
-        return list;
-    }
-
-    public ItemStack[] getArmor() {
-        ItemStack[] list = new ItemStack[armors.size()];
-        list = armors.toArray(list);
-        return list;
-    }
-
-    public ItemStack[] getItems() {
-        ItemStack[] list = new ItemStack[items.size()];
-        list = items.toArray(list);
-        return list;
-    }
-
-    public ItemStack[] getTools() {
-        ItemStack[] list = new ItemStack[tools.size()];
-        list = tools.toArray(list);
-        return list;
-    }
-
-    public ItemStack[] getHelmets() {
-        ItemStack[] list = new ItemStack[helmets.size()];
-        list = helmets.toArray(list);
-        return list;
-    }
-
-    public ItemStack[] getSouls() {
-        ItemStack[] list = new ItemStack[souls.size()];
-        list = souls.toArray(list);
-        return list;
-    }
-
-    public ItemStack[] getDishes() {
-        ItemStack[] list = new ItemStack[dishes.size()];
-        list = dishes.toArray(list);
-        return list;
-    }
-
     public ArrayList<ItemStack> getAll() {
         ArrayList<ItemStack> list = new ArrayList<>();
 
@@ -139,6 +98,20 @@ public class Items {
         list.addAll(helmets);
         list.addAll(dishes);
         list.addAll(tools);
+
+        return list;
+    }
+
+    public ArrayList<ItemStack> getCrates() {
+        ArrayList<ItemStack> list = new ArrayList<>();
+
+        for (ItemStack itemStack : items) {
+            if (itemStack.hasItemMeta()) {
+                if (ChatColor.stripColor(itemStack.getItemMeta().getDisplayName()).contains("Crate")) {
+                    list.add(itemStack);
+                }
+            }
+        }
 
         return list;
     }

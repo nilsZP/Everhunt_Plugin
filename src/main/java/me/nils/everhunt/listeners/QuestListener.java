@@ -13,6 +13,7 @@ import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.managers.WeaponManager;
+import me.nils.everhunt.menu.standard.CratesMenu;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;
@@ -293,6 +294,10 @@ public class QuestListener implements Listener { // TODO add task text
                         });
                         player.getInventory().getItemInMainHand().setType(Material.AIR);
                     }
+                    return;
+                }
+                if (data.getDisplayName().equals("Crate Shop")) {
+                    new CratesMenu(Everhunt.getPlayerMenuUtility(player)).open();
                     return;
                 }
             }

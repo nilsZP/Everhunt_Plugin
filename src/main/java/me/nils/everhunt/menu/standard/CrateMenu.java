@@ -47,7 +47,12 @@ public class CrateMenu extends Menu {
         ItemManager item = ItemManager.items.get(crateName);
 
         if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
-            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) player.closeInventory();
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) {
+                if (inventory.getItem(22) != crate && inventory.getItem(22) != null) {
+                    player.getInventory().addItem(inventory.getItem(22));
+                }
+                player.closeInventory();
+            }
         }
 
         if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) {
@@ -69,12 +74,13 @@ public class CrateMenu extends Menu {
                             }
                             progress++;
                         } else {
+                            inventory.setItem(0,FILLER_GLASS);
                             inventory.setItem(22, Loot.getLootTable(crateName).getRandom());
                             inventory.setItem(49,CLOSE_BUTTON);
                             cancel();
                         }
                     }
-                }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
+                }.runTaskTimer(Everhunt.getInstance(), 0L,1L);
             }
         }
     }
