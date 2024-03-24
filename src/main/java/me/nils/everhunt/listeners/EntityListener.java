@@ -53,7 +53,7 @@ public class EntityListener implements Listener {
         }
         if (event.getEntity() instanceof LivingEntity entity) {
             if (entity.getPersistentDataContainer().has(Everhunt.getKey())) {
-                int maxHealth = (int) entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                int maxHealth = (int) entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - 1;
                 int health = (int) Math.round(entity.getHealth() - event.getFinalDamage());
                 if (health < 0) health = 0;
                 String name = entity.getPersistentDataContainer().get(Everhunt.getKey(), PersistentDataType.STRING);

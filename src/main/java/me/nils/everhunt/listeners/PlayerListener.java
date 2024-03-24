@@ -17,12 +17,12 @@ import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.Brushable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.SpawnCategory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -34,8 +34,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
@@ -215,6 +216,19 @@ public class PlayerListener implements Listener {
     public void onPortalEnter(PlayerPortalEvent e) {
         if (e.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {
             e.setTo(new Location(Bukkit.getWorld("world"),-280,2,91));
+        }
+    }
+
+    @EventHandler
+    public void onBiomesChange(PlayerTeleportEvent e) {
+        Player player = e.getPlayer();
+
+        if (e.getTo().getWorld().getBiome(e.getTo()) == Biome.SOUL_SAND_VALLEY) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,999999,1,true,false,false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,999999,1,true,false,false));
+        } else {
+            if (player.hasPotionEffect(PotionEffectType.SLOW_FALLING)) player.removePotionEffect(PotionEffectType.SLOW_FALLING);
+            if (player.hasPotionEffect(PotionEffectType.JUMP)) player.removePotionEffect(PotionEffectType.JUMP);
         }
     }
 }
