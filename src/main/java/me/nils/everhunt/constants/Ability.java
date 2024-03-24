@@ -7,7 +7,7 @@ import java.util.List;
 
 public enum Ability {
     METEOR_BLAST("Meteor Blast", 1.3, 1,Activation.RIGHT_CLICK,10,false,0),
-    EVOCATION("Evocation", 2, 5,Activation.RIGHT_CLICK,6,true,6,"&7Summons fangs under your enemy dealing &c200% &7damage."),
+    EVOCATION("Evocation", 2, 5,Activation.RIGHT_CLICK,6,true,10,"&7Summons fangs under your enemy dealing &c200% &7damage."),
     DIMENSION_SHATTER("Dimension Shatter", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     LETHAL_ABSORPTION("Lethal Absorption", 0, 20,Activation.RIGHT_CLICK,2,false,0),
     THUNDER_WARP("Thunder Warp", 1.1, 0,Activation.THROW,5,false,0),
