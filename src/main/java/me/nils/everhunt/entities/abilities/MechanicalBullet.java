@@ -12,7 +12,7 @@ import org.bukkit.entity.SmallFireball;
 import org.bukkit.persistence.PersistentDataType;
 
 public class MechanicalBullet extends EntityData {
-    public MechanicalBullet(Location loc, double damage, Entity entity) {
+    public MechanicalBullet(Location loc, double damage) {
         super("Mechanical Bullet",0, Tier.BASIC, Ability.NONE, MobType.ABILITY);
         SmallFireball bullet = (SmallFireball) loc.getWorld().spawnEntity(loc, EntityType.SMALL_FIREBALL);
 

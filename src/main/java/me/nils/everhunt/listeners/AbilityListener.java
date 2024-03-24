@@ -5,10 +5,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.entities.UndeadScarecrow;
-import me.nils.everhunt.entities.abilities.EvocationFang;
-import me.nils.everhunt.entities.abilities.Meteor;
-import me.nils.everhunt.entities.abilities.SnowBall;
-import me.nils.everhunt.entities.abilities.ThunderBolt;
+import me.nils.everhunt.entities.abilities.*;
 import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.SoulManager;
@@ -58,6 +55,7 @@ public class AbilityListener implements Listener {
         }
         Ability ability = weapon.getAbility();
         int cooldown = ability.getCooldown();
+        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (ability.needsTarget()) {
                 Entity entity = player.getTargetEntity(ability.getRange());
@@ -75,26 +73,22 @@ public class AbilityListener implements Listener {
                             player.swingMainHand();
                             Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                     toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             new Meteor(loc, damage);
                         }
                         case EVOCATION -> {
                             player.swingMainHand();
-                            Location loc;
-                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                            for (int i = 1; i <= 4; i++) {
-                                loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(i)).
-                                        toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                                loc.add(0, -1, 0);
-                                new EvocationFang(loc, damage);
-                            }
+                            Location loc = this.target.getLocation();
+                            new EvocationFang(loc,damage);
+                            new EvocationFang(loc.add(1,0,0),damage);
+                            new EvocationFang(loc.add(-1,0,0),damage);
+                            new EvocationFang(loc.add(0,0,1),damage);
+                            new EvocationFang(loc.add(0,0,-1),damage);
                             player.damage(player.getHealth() / 4);
                         }
                         case SNOWBALL -> {
                             player.swingMainHand();
                             Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                     toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             new SnowBall(loc, damage, player);
                         }
                         case DIMENSION_SHATTER,DIMENSION_UNISON -> {
@@ -122,6 +116,10 @@ public class AbilityListener implements Listener {
                                     target.teleport(loc);
                                 }
                             }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
+                        }
+                        case MECHANICAL_SHOT -> {
+                            player.swingMainHand();
+                            new MechanicalBullet(player.getLocation(),damage);
                         }
                     }
                 }
