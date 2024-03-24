@@ -1,6 +1,7 @@
 package me.nils.everhunt.managers;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Head;
@@ -65,6 +66,8 @@ public class DishManager {
                 lore.add(Chat.color("&fNutrition: &4" + nutrition));
             }
 
+            Ability.EAT.addAbilityLore(lore);
+
             lore.add(Chat.color("&r"));
             lore.add(tier.getColor() + String.valueOf(tier) + " ITEM");
 
@@ -87,6 +90,8 @@ public class DishManager {
             if (tier != Tier.MENU && nutrition != 0) {
                 lore.add(Chat.color("&fNutrition: &4" + nutrition));
             }
+
+            Ability.EAT.addAbilityLore(lore);
 
             lore.add(Chat.color("&r"));
             lore.add(tier.getColor() + String.valueOf(tier) + " DISH");
@@ -151,5 +156,9 @@ public class DishManager {
         }
 
         return new ItemStack(Material.AIR);
+    }
+
+    public int getNutrition() {
+        return nutrition;
     }
 }

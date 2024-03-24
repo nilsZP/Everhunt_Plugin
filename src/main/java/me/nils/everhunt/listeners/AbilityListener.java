@@ -6,10 +6,7 @@ import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.abilities.*;
-import me.nils.everhunt.managers.ArmorManager;
-import me.nils.everhunt.managers.HelmetManager;
-import me.nils.everhunt.managers.SoulManager;
-import me.nils.everhunt.managers.WeaponManager;
+import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Cooldown;
 import me.nils.everhunt.utils.Flow;
@@ -119,10 +116,37 @@ public class AbilityListener implements Listener {
                         }
                         case MECHANICAL_SHOT -> {
                             player.swingMainHand();
-                            new MechanicalBullet(player.getLocation(),damage);
+                            Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
+                                    toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
+                            new MechanicalBullet(loc,damage);
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onConsume(PlayerInteractEvent e) {
+        Player player = e.getPlayer();
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
+
+        if (!itemStack.hasItemMeta()) return;
+
+        String item = ChatColor.stripColor(itemStack.getItemMeta().getDisplayName());
+
+        if (Condition.isCustom(ItemType.DISH,item)) {
+            DishManager dish = DishManager.items.get(item);
+            int amplifier = dish.getNutrition() -1;
+
+            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (player.hasPotionEffect(PotionEffectType.REGENERATION)) {
+                    if (player.getPotionEffect(PotionEffectType.REGENERATION).getAmplifier() > amplifier) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL,2,amplifier,false,true,true));
+                    }
+                } else player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,10,amplifier, false,true,true));
+
+                player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
             }
         }
     }
