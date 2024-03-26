@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.Menu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,6 +20,8 @@ public class AchievementData {
             check.next();
             if (check.getInt(1) < 1) {
                 Everhunt.getDatabase().run("INSERT INTO tblachievement (uuid, achievement,description) VALUES ('" + player.getUniqueId().toString() + "','" + description + "','" + achievement + "')").executeUpdate();
+                player.sendTitle(ChatColor.GOLD + achievement,ChatColor.YELLOW + description,1,10,1);
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP,0.5F,1F);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

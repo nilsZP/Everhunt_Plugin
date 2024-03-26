@@ -254,6 +254,8 @@ public class QuestListener implements Listener { // TODO add task text
                         if (QuestData.getCompletion(uuid,4) == 2 && Condition.isHolding(player,"Straw Hat",ItemType.ARMOR)) {
                             player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                             player.getInventory().addItem(Items.getBase("Lucky Straw Hat"));
+                            new JobData(uuid,Job.FARMER,100);
+                            new AchievementData(player,"Lvl 1 farmer","You leveled up farmer to lvl 1!");
                             QuestData.setDone(player,4);
                             return;
                         }
@@ -274,6 +276,26 @@ public class QuestListener implements Listener { // TODO add task text
                             new TeleportData(uuid,"Mine",211,-16,187);
                             Chat.guide(player,"use /warp");
                             QuestData.setCompletion(player,5,3,"Go to the Mine");
+                            return;
+                        }
+                    }
+                    if (QuestData.getDone(uuid,5) && !QuestData.getDone(uuid,6)) {
+                        if (QuestData.getCompletion(uuid,6) == 0) {
+                            Chat.npc(player,"Tim","How's the drill doing?");
+                            Chat.npc(player,"Tim","If you can give me the resources,");
+                            Chat.npc(player,"Tim","I could give you a better one.");
+                            Chat.npc(player,"Tim","First bring me some coal. This drill will need fuel.");
+                            QuestData.setCompletion(player,6,1,"Give Tim 3 compressed coal.");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,6) == 1 && Condition.isHolding(player,"Compressed Coal",ItemType.ITEM,3)) {
+                            Chat.npc(player,"Tim","Thanks, now go get me some Iron.");
+                            QuestData.setCompletion(player,6,2,"Give Tim 3 compressed iron.");
+                            new JobData(uuid,Job.MINER,100);
+                            new AchievementData(player,"Lvl 1 miner","You leveled up miner to lvl 1!");
+                            return;
+                        } else if (QuestData.getCompletion(uuid,6) == 1) {
+                            Chat.guide(player,"Talk to him while holding 3 compressed coal");
                             return;
                         }
                     }

@@ -72,7 +72,7 @@ public class WolfKing extends EntityData {
                     snowball.setCustomNameVisible(false);
                     snowball.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.DOUBLE, wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue() * Ability.ALPHA_ROAR.getDamageMultiplier());
                     snowball.getWorld().spawnParticle(Particle.SONIC_BOOM,snowball.getLocation(),1);
-                    snowball.getWorld().playSound(snowball.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM,3F,1F);
+                    snowball.getWorld().playSound(snowball.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM,5F,1F);
             }
         }.runTaskTimer(Everhunt.getInstance(),EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L,EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L);
     }
