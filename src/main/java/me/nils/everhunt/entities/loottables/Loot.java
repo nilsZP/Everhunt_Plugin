@@ -20,7 +20,7 @@ public class Loot {
             if (data.getType().equals(MobType.ENEMY)) {
                 ItemStack flesh = Items.getBase("Monster Flesh");
                 flesh.setAmount(new Random().nextInt(1,5));
-                builder.add(flesh,80);
+                builder.add(flesh,100);
             }
 
             switch (name) {
@@ -28,8 +28,9 @@ public class Loot {
                 case "Wolfling" -> {
                     ItemStack itemStack = Items.getBase("Wolfling Hide");
                     itemStack.setAmount(new Random().nextInt(1,4));
-                    builder.add(itemStack,50);
+                    builder.add(itemStack,400);
                 }
+                case "Forgotten Soul" -> builder.add(Items.getBase("24k Gold Nugget"),1);
             }
 
             return builder.build();
