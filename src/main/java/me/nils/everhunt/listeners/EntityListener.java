@@ -3,6 +3,7 @@ package me.nils.everhunt.listeners;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
+import me.nils.everhunt.entities.ForgottenSoul;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.utils.Chat;
@@ -96,6 +97,11 @@ public class EntityListener implements Listener {
                 if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.PLAINS) {
                     if (e.getEntity() instanceof Zombie) {
                         new UndeadScarecrow(e.getLocation());
+                    }
+                }
+                if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.SOUL_SAND_VALLEY) {
+                    if (e.getEntity() instanceof Skeleton) {
+                        new ForgottenSoul(e.getLocation());
                     }
                 }
             }

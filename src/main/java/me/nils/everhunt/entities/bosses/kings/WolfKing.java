@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class WolfKing extends EntityData {
     public WolfKing(Location loc) {
-        super("Wolf King",10, Tier.BASIC, Ability.ALPHA_ROAR, MobType.BOSS);
+        super("Wolf King", Tier.BASIC, MobType.BOSS);
         Wolf wolf = (Wolf) loc.getWorld().spawnEntity(loc, EntityType.WOLF);
 
         wolf.setAngry(true);
@@ -70,10 +70,10 @@ public class WolfKing extends EntityData {
 
                     snowball.setCustomName("roar");
                     snowball.setCustomNameVisible(false);
-                    snowball.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.DOUBLE, wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue() * Ability.ALPHA_ROAR.getDamageMultiplier());
+                    snowball.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.DOUBLE, wolf.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue() * 1.5);
                     snowball.getWorld().spawnParticle(Particle.SONIC_BOOM,snowball.getLocation(),1);
                     snowball.getWorld().playSound(snowball.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM,5F,1F);
             }
-        }.runTaskTimer(Everhunt.getInstance(),EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L,EntityData.data.get("Wolf King").getAbility().getCooldown() * 20L);
+        }.runTaskTimer(Everhunt.getInstance(),5 * 20L,5 * 20L);
     }
 }

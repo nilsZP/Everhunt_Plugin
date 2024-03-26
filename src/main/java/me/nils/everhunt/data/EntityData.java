@@ -14,16 +14,12 @@ public class EntityData {
     public static final HashMap<String, EntityData> data = new HashMap<>();
     private final String displayName;
     private final MobType type;
-    private final Ability ability;
-    private final int level;
     private final Tier tier;
     private Mob entity;
 
-    public EntityData(String displayName, int level, Tier tier, Ability ability, MobType type) {
-        this.ability = ability;
+    public EntityData(String displayName, Tier tier, MobType type) {
         this.displayName = displayName;
         this.type = type;
-        this.level = level;
         this.tier = tier;
 
         data.put(displayName,this);
@@ -32,7 +28,7 @@ public class EntityData {
             ResultSet check = Everhunt.getDatabase().run("SELECT count(*) FROM tblentity WHERE displayname = '" + displayName + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, level, tier, ability, type) VALUES ('" + displayName + "','" + level + "','" + tier + "','" + ability + "','" +
+                Everhunt.getDatabase().run("INSERT INTO tblentity (displayname, tier, type) VALUES ('" + displayName + "','" + tier + "','" +
                         type + "')").executeUpdate();
             }
         } catch (SQLException e) {
@@ -46,12 +42,10 @@ public class EntityData {
 
             while (resultSet.next()) {
                 String displayName = resultSet.getString("displayname");
-                int level = resultSet.getInt("level");
                 Tier tier = Tier.valueOf(resultSet.getString("tier"));
                 MobType type = MobType.valueOf(resultSet.getString("type"));
-                Ability ability = Ability.valueOf(resultSet.getString("ability"));
 
-                new EntityData(displayName,level,tier,ability,type);
+                new EntityData(displayName,tier,type);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,10 +58,6 @@ public class EntityData {
 
     public String getDisplayName() {
         return displayName;
-    }
-
-    public Ability getAbility() {
-        return ability;
     }
 
     public Mob getEntity() {
