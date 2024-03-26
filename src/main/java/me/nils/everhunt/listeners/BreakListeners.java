@@ -30,11 +30,9 @@ public class BreakListeners implements Listener {
     @EventHandler
     public void onBlockBreak(BlockDamageEvent event){
         Player player = event.getPlayer();
-        String uuid = player.getUniqueId().toString();
         if (player.getInventory().getItemInMainHand().getItemMeta() == null) return;
         String name = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
         Block block = event.getBlock();
-        Material type = block.getType();
 
         if (!Condition.isHolding(player, name, ItemType.TOOL)) {
             event.setCancelled(true);
@@ -50,6 +48,9 @@ public class BreakListeners implements Listener {
 
         if (Condition.canMine(name,block)) {
             event.setCancelled(true);
+            if (Condition.itemNameContains(player,"G")) {
+                if (!Condition.has(player,"Coal",ItemType.ITEM,1)) return;
+            }
             Everhunt.brokenBlocksService.createBrokenBlock(event.getBlock(), Stats.getBreakTime(block));
         }
     }
@@ -64,8 +65,6 @@ public class BreakListeners implements Listener {
         Location blockPosition = block.getLocation();
 
         if(!Everhunt.brokenBlocksService.isBrokenBlock(blockPosition)) return;
-
-        ItemStack itemStack = player.getItemInHand();
 
         double distanceX = blockPosition.getX() - player.getLocation().getX();
         double distanceY = blockPosition.getY() - player.getLocation().getY();

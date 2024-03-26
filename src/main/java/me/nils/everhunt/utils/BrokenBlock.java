@@ -3,6 +3,7 @@ package me.nils.everhunt.utils;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.entities.loottables.Loot;
+import me.nils.everhunt.items.Items;
 import me.nils.everhunt.managers.ToolManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -67,6 +68,9 @@ public class BrokenBlock {
                 block.setType(material);
             }
         }.runTaskLater(Everhunt.getInstance(),100);
+        if (Condition.itemNameContains(breaker,"G")) {
+            breaker.getInventory().removeItem(Items.getBase("Coal"));
+        }
     }
 
     public void destroyBlockObject(Player player){
