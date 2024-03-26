@@ -260,6 +260,23 @@ public class QuestListener implements Listener { // TODO add task text
                             return;
                         }
                     }
+                    if (!QuestData.getDone(uuid,7) && QuestData.getDone(uuid,5)) {
+                        if (QuestData.getCompletion(uuid,7) == 0) {
+                            Chat.npc(player,"Farmer","I need a lot of wheat, go get some!");
+                            QuestData.setCompletion(player,7,1,"Collect 640 wheat");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,7) == 1 && Condition.has(player,"Wheat",ItemType.ITEM,640)) {
+                            Chat.npc(player,"Farmer","Good work!");
+                            player.getInventory().addItem(Items.getBase("Wheat Hoe"));
+                            QuestData.setDone(player,7);
+                            JobData.addXp(uuid,Job.FARMER,120);
+                            return;
+                        } else if (QuestData.getCompletion(uuid,7) == 1) {
+                            Chat.npc(player,"Farmer","That's not enough!");
+                            return;
+                        }
+                    }
                 }
                 if (data.getDisplayName().equals("Tim")) {
                     if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2)) {
@@ -296,6 +313,14 @@ public class QuestListener implements Listener { // TODO add task text
                             return;
                         } else if (QuestData.getCompletion(uuid,6) == 1) {
                             Chat.guide(player,"Talk to him while holding 3 compressed coal");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,6) == 2 && Condition.isHolding(player,"Compressed Iron",ItemType.ITEM,3)) {
+                            Chat.npc(player,"Tim","Thanks, here's the drill!");
+                            player.getInventory().addItem(Items.getBase("Drill G16"));
+                            QuestData.setDone(player,6);
+                            new AchievementData(player,"Gold digger","Get your first Drill model G!");
+                            JobData.addXp(uuid,Job.MINER,60);
                             return;
                         }
                     }

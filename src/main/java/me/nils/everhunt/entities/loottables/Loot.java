@@ -46,6 +46,7 @@ public class Loot {
     public static CustomLootTable getlootTable(Block block, Ability ability) {
         Material material = block.getType();
         Random random = new Random();
+        CustomLootTable.CustomLootTableBuilder table = new CustomLootTable.CustomLootTableBuilder();
         int drops = switch (material) {
             case STONE -> random.nextInt(3,11);
             case IRON_ORE -> random.nextInt(1,3);
@@ -71,9 +72,6 @@ public class Loot {
             default -> "null";
         };
 
-        if (ability.equals(Ability.BREAD_MAKER) && item.equals("Wheat")) {
-            drops += 3;
-        }
         if (ability.equals(Ability.FORTUNATE)) {
             if (random.nextInt(0,101) <= 1) {
                 drops *= 2;
@@ -83,7 +81,13 @@ public class Loot {
         ItemStack itemStack = Items.getBase(item);
         itemStack.setAmount(drops);
 
-        return new CustomLootTable.CustomLootTableBuilder().add(itemStack,1).build();
+        table.add(itemStack,10);
+
+        if (ability.equals(Ability.BREAD_MAKER) && item.equals("Wheat")) {
+            table.add(Items.getBase("Bread"),10);
+        }
+
+        return table.build();
     }
 
     public static CustomLootTable getlootTable(Block block, Ability ability, Ability helmetAbility) {
