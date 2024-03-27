@@ -1,6 +1,7 @@
 package me.nils.everhunt.commands;
 
 import me.nils.everhunt.Everhunt;
+import me.nils.everhunt.constants.Rank;
 import me.nils.everhunt.data.GuildData;
 import me.nils.everhunt.menu.standard.InviteMenu;
 import me.nils.everhunt.utils.Chat;
@@ -36,7 +37,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
             case "chat" -> {
                 if (!message.isBlank() || !message.isEmpty()) {
                     for (Player receiver : GuildData.getReceivers(player)) {
-                        Chat.guild(receiver, player.getName(), message);
+                        Chat.guild(receiver, player, message);
                     }
                 }
             }
@@ -54,8 +55,40 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
             case "create" -> {
                 if (!param2.isBlank() || !param2.isEmpty()) {
                     if (GuildData.getGuild(player) == null) {
-                        new GuildData(player,param2);
-                        Stats.setScoreBoard(player);
+                        new GuildData(player,param2, Rank.LEADER);
+                    }
+                }
+            }
+            case "promote" -> {
+                if (!param2.isBlank() || !param2.isEmpty()) {
+                    if (Bukkit.getPlayer(param2) != null) {
+                        Player promotee = Bukkit.getPlayer(param2);
+
+                        if (GuildData.getGuild(player).equals(GuildData.getGuild(promotee))) {
+                            if (GuildData.getRank(player).getHierarchy() > GuildData.getRank(promotee).getHierarchy()) {
+                                switch (GuildData.getRank(player)) {
+                                    case LEADER -> {
+                                        if (GuildData.getRank(promotee) == Rank.MODERATOR) GuildData.promote(promotee,Rank.CO_LEADER);
+                                        if (GuildData.getRank(promotee) == Rank.MEMBER) GuildData.promote(promotee,Rank.MODERATOR);
+                                    }
+                                    case CO_LEADER -> {
+                                        if (GuildData.getRank(promotee) == Rank.MEMBER) GuildData.promote(promotee,Rank.MODERATOR);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            case "kick" -> {
+                if (!param2.isBlank() || !param2.isEmpty()) {
+                    if (Bukkit.getPlayer(param2) != null) {
+                        Player kicked = Bukkit.getPlayer(param2);
+                        if (GuildData.getGuild(player).equals(GuildData.getGuild(kicked))) {
+                            if (GuildData.getRank(player).getHierarchy() > GuildData.getRank(kicked).getHierarchy()) {
+                                GuildData.kick(kicked);
+                            }
+                        }
                     }
                 }
             }
@@ -66,7 +99,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             return new ArrayList<>();
         }
 
@@ -76,6 +109,10 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
             completions.add("chat");
             completions.add("invite");
             completions.add("create");
+            if (GuildData.getGuild(player) != null) {
+                if (GuildData.getRank(player).getHierarchy() > 2) completions.add("promote");
+                if (GuildData.getRank(player).getHierarchy() >= 2) completions.add("kick");
+            }
         }
 
         return completions;

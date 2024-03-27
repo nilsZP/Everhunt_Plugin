@@ -1,5 +1,6 @@
 package me.nils.everhunt.utils;
 
+import io.papermc.paper.scoreboard.numbers.NumberFormat;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.data.GuildData;
@@ -93,8 +94,12 @@ public class Stats {
         objective.setDisplayName(ChatColor.BLUE + "Everhunt");
 
         if (GuildData.getGuild(player) != null) {
-            Score guildScore = objective.getScore(ChatColor.DARK_GREEN + "Guild: " + ChatColor.BOLD + GuildData.getGuild(player));
-            guildScore.setScore(4);
+            Score guild = objective.getScore(ChatColor.DARK_GREEN + "Guild: " + ChatColor.BOLD + GuildData.getGuild(player));
+            Score rank = objective.getScore(ChatColor.DARK_GREEN + "Rank: " + ChatColor.BOLD + GuildData.getRank(player));
+            guild.setScore(5);
+            guild.numberFormat(NumberFormat.blank());
+            rank.setScore(4);
+            rank.numberFormat(NumberFormat.blank());
         }
 
         Score score = objective.getScore(ChatColor.GOLD + "Coins: $" + ChatColor.GREEN + PlayerData.data.get(player.getUniqueId().toString()).getCoins());
@@ -102,8 +107,11 @@ public class Stats {
         Score score2 = objective.getScore(ChatColor.WHITE + QuestData.getCurrentTask(player.getUniqueId().toString()));
 
         score.setScore(3);
+        score.numberFormat(NumberFormat.blank());
         score1.setScore(2);
+        score1.numberFormat(NumberFormat.blank());
         score2.setScore(1);
+        score2.numberFormat(NumberFormat.blank());
 
         player.setScoreboard(scoreboard);
     }

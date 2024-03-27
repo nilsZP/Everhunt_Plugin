@@ -1,5 +1,6 @@
 package me.nils.everhunt.utils;
 
+import me.nils.everhunt.data.GuildData;
 import net.kyori.adventure.text.Component;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,7 +23,7 @@ public class Chat {
         player.sendMessage(color("&e" + name + ": &f" + message));
     }
 
-    public static void guild(Player receiver, String sender, String message) {
-        receiver.sendMessage(color("&2" + sender + ": &f" + message));
+    public static void guild(Player receiver, Player sender, String message) {
+        receiver.sendMessage(color("&2[" + GuildData.getRank(sender) + "] " + sender.getName() + ": &f" + message));
     }
 }

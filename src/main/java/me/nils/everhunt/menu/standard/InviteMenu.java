@@ -1,5 +1,6 @@
 package me.nils.everhunt.menu.standard;
 
+import me.nils.everhunt.constants.Rank;
 import me.nils.everhunt.data.GuildData;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
@@ -35,7 +36,7 @@ public class InviteMenu extends Menu {
         }
 
         if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) {
-            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Accept")) new GuildData(player,guild);
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Accept")) new GuildData(player,guild, Rank.MEMBER);
             Stats.setScoreBoard(player);
         }
     }
