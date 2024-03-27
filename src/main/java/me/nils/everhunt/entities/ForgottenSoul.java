@@ -24,7 +24,7 @@ public class ForgottenSoul extends EntityData {
         super("Forgotten Soul", Tier.SOUL, MobType.ENEMY);
         Stray scare = (Stray) loc.getWorld().spawnEntity(loc, EntityType.STRAY);
 
-        scare.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 10, 10,"♥")));
+        scare.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 30, 30,"♥")));
         scare.setCustomNameVisible(true);
         scare.getPersistentDataContainer().set(Everhunt.getKey(), PersistentDataType.STRING,super.getDisplayName());
 

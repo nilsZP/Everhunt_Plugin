@@ -187,9 +187,7 @@ public class QuestListener implements Listener { // TODO add task text
                         if (QuestData.getCompletion(uuid, 3) == 2 && Condition.isHolding(player, "Wheat", ItemType.ITEM, 30)) {
                             Chat.npc(player,"Hunter","Thanks!");
                             Chat.npc(player,"Hunter","Here have these Jester boots!");
-                            int amount = player.getInventory().getItemInMainHand().getAmount();
-                            amount -= 30;
-                            player.getInventory().getItemInMainHand().setAmount(amount);
+                            player.getInventory().getItemInMainHand().subtract(30);
                             player.getInventory().addItem(ArmorManager.items.get("Jester Boots").getItemStack());
                             new TeleportData(uuid, "Guild House", 186, -58, -56);
                             QuestData.setCompletion(player, 3, 3,"Go to the Guild House");
@@ -310,6 +308,7 @@ public class QuestListener implements Listener { // TODO add task text
                             QuestData.setCompletion(player,6,2,"Give Tim 3 compressed iron.");
                             new JobData(uuid,Job.MINER,100);
                             new AchievementData(player,"Lvl 1 miner","You leveled up miner to lvl 1!");
+                            player.getInventory().getItemInMainHand().subtract(3);
                             return;
                         } else if (QuestData.getCompletion(uuid,6) == 1) {
                             Chat.guide(player,"Talk to him while holding 3 compressed coal");
@@ -321,6 +320,7 @@ public class QuestListener implements Listener { // TODO add task text
                             QuestData.setDone(player,6);
                             new AchievementData(player,"Gold digger","Get your first Drill model G!");
                             JobData.addXp(uuid,Job.MINER,60);
+                            player.getInventory().getItemInMainHand().subtract(3);
                             return;
                         }
                     }
