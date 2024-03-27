@@ -12,7 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class Meteor extends EntityData {
     public Meteor(Location loc, double damage) {
-        super("Meteor", 0, Tier.BASIC, Ability.NONE, MobType.ABILITY);
+        super("Meteor", Tier.BASIC, MobType.ABILITY);
         Fireball meteor = (Fireball) loc.getWorld().spawnEntity(loc, EntityType.FIREBALL);
 
         meteor.setCustomName("Meteor");

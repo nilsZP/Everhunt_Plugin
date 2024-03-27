@@ -10,7 +10,7 @@ import org.bukkit.entity.Villager;
 
 public class Hunter extends EntityData {
     public Hunter(Location loc) {
-        super("Hunter",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Hunter",Tier.BASIC, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

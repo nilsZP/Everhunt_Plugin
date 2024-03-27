@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType;
 
 public class OldManDave extends EntityData {
     public OldManDave(Location loc) {
-        super("Old Man Dave",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Old Man Dave",Tier.BASIC, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

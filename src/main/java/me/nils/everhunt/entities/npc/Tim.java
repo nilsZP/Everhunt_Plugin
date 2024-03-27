@@ -10,7 +10,7 @@ import org.bukkit.entity.Villager;
 
 public class Tim extends EntityData {
     public Tim(Location loc) {
-        super("Tim",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Tim",Tier.BASIC, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

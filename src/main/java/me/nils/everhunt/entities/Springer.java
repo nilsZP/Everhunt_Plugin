@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class Springer extends EntityData {
     public Springer(Location loc) {
-        super("Springer", 1, Tier.BASIC, Ability.NONE, MobType.ENEMY);
+        super("Springer", Tier.BASIC, MobType.ENEMY);
         CaveSpider springer = (CaveSpider) loc.getWorld().spawnEntity(loc, EntityType.CAVE_SPIDER);
 
         springer.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 6, 6,"♥")));

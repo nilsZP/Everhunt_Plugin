@@ -10,7 +10,7 @@ import org.bukkit.entity.Villager;
 
 public class Farmer extends EntityData {
     public Farmer(Location loc) {
-        super("Farmer",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Farmer",Tier.BASIC, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

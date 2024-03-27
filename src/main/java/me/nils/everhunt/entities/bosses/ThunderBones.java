@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ThunderBones extends EntityData {
     public ThunderBones(Location loc) {
-        super("Thunder Bones",30, Tier.SOUL, Ability.NONE, MobType.BOSS);
+        super("Thunder Bones",Tier.SOUL, MobType.BOSS);
         WitherSkeleton bones = (WitherSkeleton) loc.getWorld().spawnEntity(loc, EntityType.WITHER_SKELETON);
 
         bones.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 20, 20,"♥")));

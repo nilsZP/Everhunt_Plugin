@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Wolfling extends EntityData {
     public Wolfling(Location loc) {
-        super("Wolfling", 1, Tier.BASIC, Ability.NONE, MobType.ENEMY);
+        super("Wolfling", Tier.BASIC, MobType.ENEMY);
         Wolf wolf = (Wolf) loc.getWorld().spawnEntity(loc, EntityType.WOLF);
 
         wolf.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 8, 8,"♥")));

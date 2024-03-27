@@ -10,7 +10,7 @@ import org.bukkit.entity.Villager;
 
 public class Compresser extends EntityData {
     public Compresser(Location loc) {
-        super("Compresser",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Compresser", Tier.BASIC, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

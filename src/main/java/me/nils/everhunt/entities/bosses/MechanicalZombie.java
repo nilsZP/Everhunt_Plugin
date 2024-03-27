@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.trim.TrimPattern;
 
 public class MechanicalZombie extends EntityData {
     public MechanicalZombie(Location loc) {
-        super("Mechanical Zombie",50, Tier.MECHANICAL, Ability.NONE, MobType.BOSS);
+        super("Mechanical Zombie",Tier.MECHANICAL, MobType.BOSS);
         Zombie zombie = (Zombie) loc.getWorld().spawnEntity(loc, EntityType.ZOMBIE);
 
         ItemStack helmet = new ItemStack(Material.CHAINMAIL_HELMET);

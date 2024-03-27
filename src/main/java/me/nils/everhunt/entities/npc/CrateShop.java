@@ -10,7 +10,7 @@ import org.bukkit.entity.Villager;
 
 public class CrateShop extends EntityData {
     public CrateShop(Location loc) {
-        super("Crate Shop",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Crate Shop",Tier.BASIC, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

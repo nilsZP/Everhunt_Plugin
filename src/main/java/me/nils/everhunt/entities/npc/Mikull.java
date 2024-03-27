@@ -10,7 +10,7 @@ import org.bukkit.entity.EntityType;
 
 public class Mikull extends EntityData {
     public Mikull(Location loc) {
-        super("Mikull",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Mikull",Tier.BASIC, MobType.NPC);
 
         Cat mi = (Cat) loc.getWorld().spawnEntity(loc, EntityType.CAT);
 

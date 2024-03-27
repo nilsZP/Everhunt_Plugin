@@ -183,7 +183,7 @@ public class AbilityListener implements Listener {
                     switch (ability) {
                         case SUMMON -> {
                             switch (item) {
-                                case "Undead Scarecrow" -> new UndeadScarecrow(player.getLocation(),target); // TODO fix this attacking me
+                                case "Undead Scarecrow" -> new UndeadScarecrow(player.getLocation()).getEntity().setTarget(target); // TODO fix this attacking me
                             }
                         }
                     }

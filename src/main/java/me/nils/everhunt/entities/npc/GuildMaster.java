@@ -10,7 +10,7 @@ import org.bukkit.entity.Villager;
 
 public class GuildMaster extends EntityData {
     public GuildMaster(Location loc) {
-        super("Guild Master",0, Tier.BASIC, Ability.NONE, MobType.NPC);
+        super("Guild Master", Tier.BASIC, MobType.NPC);
 
         Villager villager = (Villager) loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
 

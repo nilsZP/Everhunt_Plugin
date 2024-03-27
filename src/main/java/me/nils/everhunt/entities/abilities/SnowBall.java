@@ -13,7 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class SnowBall extends EntityData {
     public SnowBall(Location loc, double damage, Entity entity) {
-        super("SnowBall",0, Tier.BASIC, Ability.NONE, MobType.ABILITY);
+        super("SnowBall",Tier.BASIC, MobType.ABILITY);
         Snowball snowball = (Snowball) loc.getWorld().spawnEntity(loc, EntityType.SNOWBALL);
 
         snowball.setCustomName("SnowBall");

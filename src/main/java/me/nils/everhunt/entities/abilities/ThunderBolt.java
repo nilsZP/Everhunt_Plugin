@@ -12,7 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class ThunderBolt extends EntityData {
     public ThunderBolt(Location loc, double damage) {
-        super("Thunder",0, Tier.BASIC, Ability.NONE, MobType.ABILITY);
+        super("Thunder",Tier.BASIC, MobType.ABILITY);
         LightningStrike thunder = (LightningStrike) loc.getWorld().spawnEntity(loc, EntityType.LIGHTNING);
 
         thunder.setCustomName("Thunder");
