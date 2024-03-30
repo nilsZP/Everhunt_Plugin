@@ -92,6 +92,17 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
                     }
                 }
             }
+            case "leave" -> {
+                if (GuildData.getGuild(player) == null) {
+                    if (GuildData.getRank(player) == Rank.LEADER) {
+                        for (Player member : GuildData.getReceivers(player)) {
+                            GuildData.kick(member);
+                        }
+                    } else {
+                        GuildData.kick(player);
+                    }
+                }
+            }
         }
 
         return true;
@@ -109,6 +120,7 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
             completions.add("chat");
             completions.add("invite");
             completions.add("create");
+            completions.add("leave");
             if (GuildData.getGuild(player) != null) {
                 if (GuildData.getRank(player).getHierarchy() > 2) completions.add("promote");
                 if (GuildData.getRank(player).getHierarchy() >= 2) completions.add("kick");
