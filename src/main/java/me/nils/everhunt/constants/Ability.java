@@ -25,7 +25,7 @@ public enum Ability {
     FOOL("Fool",0.5,5,Activation.FULL_SET,0,false,0,"&7Fool the enemy by reducing damage taken by &c50%","&7And dealing &c25% &7to the enemy."),
     DIMENSIONAL_FREEZE("Dimensional Freeze",1,10,Activation.RIGHT_CLICK,20,false,0,"&7Freeze your enemy in place while dealing &c100% &7damage."),
     FORTUNATE("Fortunate",0,0,Activation.PASSIVE,0,false,0,"&7Gives you a &c1% &7chance of doubling you farming drops."),
-    SUMMON("Summon",0,10,Activation.DROP,40,true,20,"&7Reincarnates the soul and makes it attack the monster you're looking at.","&7Target must less than 6 blocks away."),
+    SUMMON("Summon",0,10,Activation.DROP,40,true,20,"&7Reincarnates the soul and makes it attack the monster you're looking at.","Some souls will only work as decoys."),
     EAT("Eat",0,0,Activation.RIGHT_CLICK,0,false,0,"&7Consume this dish and gain regeneration."
             ,"&7If you already have the regeneration effect with a higher amplifier,","&7you will heal with the same amplifier."),
     NONE("NONE", 0, 0,Activation.PASSIVE,0,false,0);

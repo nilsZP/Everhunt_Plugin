@@ -185,7 +185,11 @@ public class AbilityListener implements Listener {
                     switch (ability) {
                         case SUMMON -> {
                             switch (item) {
-                                case "Undead Scarecrow" -> new UndeadScarecrow(player.getLocation()).getEntity().setTarget(target); // TODO fix this attacking me
+                                case "Undead Scarecrow" -> {
+                                    LivingEntity entity = new UndeadScarecrow(player.getLocation()).getEntity();// TODO fix this attacking me
+                                    target.attack(entity);
+                                    entity.attack(target);
+                                }
                             }
                         }
                     }
@@ -310,9 +314,11 @@ public class AbilityListener implements Listener {
                 PersistentDataContainer pdc = damager.getPersistentDataContainer();
                 if (pdc.has(Everhunt.getKey())) {
                     if (entity instanceof LivingEntity livingEntity) {
-                        event.setCancelled(true);
-                        double damage = pdc.get(Everhunt.getKey(), PersistentDataType.DOUBLE);
-                        livingEntity.damage(damage);
+                        if (pdc.has(Everhunt.getKey(),PersistentDataType.DOUBLE)) {
+                            event.setCancelled(true);
+                            double damage = pdc.get(Everhunt.getKey(), PersistentDataType.DOUBLE);
+                            livingEntity.damage(damage);
+                        }
                     }
                 }
             }

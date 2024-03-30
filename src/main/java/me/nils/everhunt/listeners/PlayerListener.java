@@ -224,8 +224,8 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
 
         if (e.getTo().getWorld().getBiome(e.getTo()) == Biome.SOUL_SAND_VALLEY) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,999999,1,true,false,false));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,999999,1,true,false,false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,999999999,1,true,false,false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,999999999,1,true,false,false));
         } else {
             if (player.hasPotionEffect(PotionEffectType.SLOW_FALLING)) player.removePotionEffect(PotionEffectType.SLOW_FALLING);
             if (player.hasPotionEffect(PotionEffectType.JUMP)) player.removePotionEffect(PotionEffectType.JUMP);
