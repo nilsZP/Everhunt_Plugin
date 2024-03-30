@@ -10,7 +10,7 @@ public enum Ability {
     EVOCATION("Evocation", 2, 5,Activation.RIGHT_CLICK,6,true,10,"&7Summons fangs under your enemy dealing &c200% &7damage."),
     DIMENSION_SHATTER("Dimension Shatter", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     LETHAL_ABSORPTION("Lethal Absorption", 0, 20,Activation.RIGHT_CLICK,2,false,0),
-    THUNDER_WARP("Thunder Warp", 1.1, 0,Activation.THROW,5,false,0),
+    THUNDER_WARP("Thunder Warp", 1.1, 0,Activation.THROW,2,false,0),
     DIMENSION_UNISON("Dimension Unison", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     SNOWBALL("Snowball",0.5,0,Activation.RIGHT_CLICK,1,false,0,"&7shoots a snowball dealing &c50% &7damage."),
     CLAP("Clap",0.8,4,Activation.LEFT_CLICK,0,false,0,"&7Hit the enemy with extra force dealing &c80% &7damage."),
@@ -25,7 +25,7 @@ public enum Ability {
     FOOL("Fool",0.5,5,Activation.FULL_SET,0,false,0,"&7Fool the enemy by reducing damage taken by &c50%","&7And dealing &c25% &7to the enemy."),
     DIMENSIONAL_FREEZE("Dimensional Freeze",1,10,Activation.RIGHT_CLICK,20,false,0,"&7Freeze your enemy in place while dealing &c100% &7damage."),
     FORTUNATE("Fortunate",0,0,Activation.PASSIVE,0,false,0,"&7Gives you a &c1% &7chance of doubling you farming drops."),
-    SUMMON("Summon",0,10,Activation.DROP,40,true,20,"&7Reincarnates the soul and makes it attack the monster you're looking at.","Some souls will only work as decoys."),
+    SUMMON("Summon",0,10,Activation.DROP,40,true,5,"&7Reincarnates the soul and makes it attack the monster you're looking at.","Some souls will only work as decoys.","Hostile souls will start attacking you,","if their target has been eliminated."),
     EAT("Eat",0,0,Activation.RIGHT_CLICK,0,false,0,"&7Consume this dish and gain regeneration."
             ,"&7If you already have the regeneration effect with a higher amplifier,","&7you will heal with the same amplifier."),
     NONE("NONE", 0, 0,Activation.PASSIVE,0,false,0);
