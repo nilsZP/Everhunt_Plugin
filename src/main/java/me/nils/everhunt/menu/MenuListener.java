@@ -3,6 +3,7 @@ package me.nils.everhunt.menu;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.menu.standard.AddProductMenu;
 import me.nils.everhunt.menu.standard.MarketMenu;
+import me.nils.everhunt.menu.standard.WeaponCreationMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -57,6 +58,19 @@ public class MenuListener implements Listener {
                 int price = Integer.parseInt(e.getMessage());
 
                 new AddProductMenu(playerMenuUtility, price).open();
+
+                playerMenuUtility.setInput(false);
+
+                e.getRecipients().clear();
+                e.getRecipients().add(player);
+
+                return;
+            }
+
+            if (playerMenuUtility.getInputType().equalsIgnoreCase("Set Name")) {
+                String name = e.getMessage();
+
+                new WeaponCreationMenu(Everhunt.getPlayerMenuUtility(player),name).open();
 
                 playerMenuUtility.setInput(false);
 

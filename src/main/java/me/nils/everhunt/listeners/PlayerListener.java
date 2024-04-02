@@ -12,6 +12,7 @@ import me.nils.everhunt.managers.ArmorManager;
 import me.nils.everhunt.managers.HelmetManager;
 import me.nils.everhunt.managers.ToolManager;
 import me.nils.everhunt.menu.standard.CookMenu;
+import me.nils.everhunt.menu.standard.WeaponCreationMenu;
 import me.nils.everhunt.utils.Condition;
 import me.nils.everhunt.utils.Stats;
 import net.kyori.adventure.text.Component;
@@ -171,6 +172,8 @@ public class PlayerListener implements Listener {
 
         if (e.getClickedBlock().getType() == Material.SOUL_CAMPFIRE) {
             new CookMenu(Everhunt.getPlayerMenuUtility(e.getPlayer())).open();
+        } else if (e.getClickedBlock().getType() == Material.LAVA_CAULDRON) {
+            new WeaponCreationMenu(Everhunt.getPlayerMenuUtility(e.getPlayer()),"").open();
         }
 
         if (block.getType() != Material.SUSPICIOUS_GRAVEL && block.getType() != Material.SUSPICIOUS_SAND) return;

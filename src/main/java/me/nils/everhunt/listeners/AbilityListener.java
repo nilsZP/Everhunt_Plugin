@@ -142,9 +142,14 @@ public class AbilityListener implements Listener {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if (player.hasPotionEffect(PotionEffectType.REGENERATION)) {
                     if (player.getPotionEffect(PotionEffectType.REGENERATION).getAmplifier() > amplifier) {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL,40,amplifier-1,false,true,true));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL,2,amplifier-1,false,true,true));
+                    } else {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,200,amplifier, false,true,true));
                     }
-                } else player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,200,amplifier, false,true,true));
+                } else {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,200,amplifier, false,true,true));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL,2,0,false,true,true));
+                }
 
                 if (itemStack.getAmount() > 1) {
                     itemStack.subtract();

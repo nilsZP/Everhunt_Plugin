@@ -1,11 +1,14 @@
 package me.nils.everhunt.menu;
 
+import me.nils.everhunt.constants.Ability;
 import org.bukkit.entity.Player;
 
 public class PlayerMenuUtility {
     private Player owner;
     private String search;
     private String inputType;
+    private String material;
+    private String ability;
     private boolean input;
     // you can add more attributes so that you can save variables between menus
 
@@ -44,5 +47,21 @@ public class PlayerMenuUtility {
 
     public void setInput(boolean input) {
         this.input = input;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public String getAbility() {
+        return ability;
+    }
+
+    public void setAbility(String ability) {
+        this.ability = ability;
     }
 }

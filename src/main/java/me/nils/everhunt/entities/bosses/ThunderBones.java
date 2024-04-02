@@ -30,10 +30,10 @@ public class ThunderBones extends EntityData {
         bones.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 20, 20,"♥")));
         bones.setCustomNameVisible(true);
         bones.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,super.getDisplayName());
-        bones.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(100);
+        bones.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300);
         bones.setHealth(bones.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
-        bones.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(8);
-        bones.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(15);
+        bones.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(10);
+        bones.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(10);
         bones.getEquipment().setHelmet(Items.getBase("ThunderBones Head"));
         bones.getEquipment().setItemInMainHand(Items.getBase("AzureWrath"));
 
