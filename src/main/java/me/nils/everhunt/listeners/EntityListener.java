@@ -5,6 +5,7 @@ import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.ForgottenSoul;
 import me.nils.everhunt.entities.UndeadScarecrow;
+import me.nils.everhunt.entities.bosses.ThunderBones;
 import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
@@ -102,6 +103,9 @@ public class EntityListener implements Listener {
                 if (e.getLocation().getWorld().getBiome(e.getLocation()) == Biome.SOUL_SAND_VALLEY) {
                     if (e.getEntity() instanceof Skeleton) {
                         new ForgottenSoul(e.getLocation());
+                    }
+                    if (e.getEntity() instanceof Enderman) {
+                        new ThunderBones(e.getLocation());
                     }
                 }
             }
