@@ -3,12 +3,11 @@ package me.nils.everhunt.entities.loottables;
 import org.bukkit.inventory.ItemStack;
 
 public class Entry {
-    private int weight;
     private ItemStack item;
     private double chance;
 
-    public Entry(ItemStack item, int weight) {
-        this.weight = weight;
+    public Entry(ItemStack item, double chance) {
+        this.chance = chance;
         this.item = item;
     }
 
@@ -18,13 +17,5 @@ public class Entry {
 
     public double getChance() {
         return chance;
-    }
-
-    public void setChance(double chance) {
-        this.chance = chance;
-    }
-
-    public int getWeight() {
-        return weight;
     }
 }

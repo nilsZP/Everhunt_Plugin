@@ -3,6 +3,7 @@ package me.nils.everhunt.entities.loottables;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CustomLootTable {
     private ArrayList<Entry> entries;
@@ -12,38 +13,28 @@ public class CustomLootTable {
     }
 
     public ItemStack getRandom() {
-        double random = Math.random();
         for (Entry entry : entries) {
+            double random = new Random().nextDouble(0,101);
             if (entry.getChance() > random) return entry.getItem();
         }
 
         return entries.get(entries.size() -1).getItem();
     }
     public static class CustomLootTableBuilder {
-        private int totalWeight = 0;
         private ArrayList<Entry> entries = new ArrayList<>();
 
-        public void add(ItemStack item, int weight) {
-            totalWeight += weight;
-            entries.add(new Entry(item, weight));
+        public void add(ItemStack item, double chance) {
+            entries.add(new Entry(item, chance));
         }
 
         public boolean isBuilt() {
-            return !entries.isEmpty() && totalWeight > 0;
+            return !entries.isEmpty();
         }
 
         public CustomLootTable build() {
             if (!isBuilt()) return null;
 
-            for (Entry entry : entries) {
-                entry.setChance(getChance(entry.getWeight()));
-            }
-
             return new CustomLootTable(entries);
-        }
-
-        private double getChance(double weight) {
-            return weight / totalWeight;
         }
     }
 }

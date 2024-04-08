@@ -51,7 +51,7 @@ public class Loot {
                 builder.add(Items.getBase("Meteor Sword"),10);
             }
 
-            // builder.add(Items.getBase("Cyriacus"),1);
+            builder.add(Items.getBase("Cyriacus"),1);
 
             return builder.build();
         } else {
@@ -62,7 +62,7 @@ public class Loot {
     public static CustomLootTable getlootTable(Block block, Ability ability) {
         Material material = block.getType();
         Random random = new Random();
-        CustomLootTable.CustomLootTableBuilder table = new CustomLootTable.CustomLootTableBuilder();
+        CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
         int drops = switch (material) {
             case STONE -> random.nextInt(3,11);
             case IRON_ORE -> random.nextInt(1,3);
@@ -97,13 +97,13 @@ public class Loot {
         ItemStack itemStack = Items.getBase(item);
         itemStack.setAmount(drops);
 
-        table.add(itemStack,10);
+        builder.add(itemStack,90);
 
         if (ability.equals(Ability.BREAD_MAKER) && item.equals("Wheat")) {
-            table.add(Items.getBase("Bread"),10);
+            builder.add(Items.getBase("Bread"),10);
         }
 
-        return table.build();
+        return builder.build();
     }
 
     public static CustomLootTable getlootTable(Block block, Ability ability, Ability helmetAbility) {
@@ -148,16 +148,16 @@ public class Loot {
 
         CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
 
-        builder.add(itemStack,1);
+        builder.add(itemStack,100);
 
         return builder.build();
     }
 
     public static CustomLootTable getLootTable() {
         CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
-        builder.add(Items.getBase("6k Gold Ingot"),10);
-        builder.add(Items.getBase("Monster Flesh"),40);
-        builder.add(Items.getBase("Ancient Shard"),1);
+        builder.add(Items.getBase("6k Gold Ingot"),40);
+        builder.add(Items.getBase("Monster Flesh"),70);
+        builder.add(Items.getBase("Ancient Shard"),10);
         return builder.build();
     }
 }
