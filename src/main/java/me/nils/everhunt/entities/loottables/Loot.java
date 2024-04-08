@@ -36,8 +36,22 @@ public class Loot {
 
             return builder.build();
         } else if (name.contains("Crate")) {
-            builder.add(Items.getBase("Wheat"),20);
+            builder.add(Items.getBase("Wheat"),50);
+            builder.add(Items.getBase("Backpack (gray)"),25);
+            builder.add(Items.getBase("Compressed Stone"),40);
+            builder.add(Items.getBase("6k Gold Ingot"),20);
 
+            if (name.contains("Mechanical")) {
+                builder.add(Items.getBase("Compressed Coal"),30);
+                builder.add(Items.getBase("Brokkr"),10);
+            }
+
+            if (name.contains("Magical")) {
+                builder.add(Items.getBase("Ancient Shard"),30);
+                builder.add(Items.getBase("Meteor Sword"),10);
+            }
+
+            // builder.add(Items.getBase("Cyriacus"),1);
 
             return builder.build();
         } else {
@@ -132,11 +146,18 @@ public class Loot {
         ItemStack itemStack = Items.getBase(item);
         itemStack.setAmount(drops);
 
-        return new CustomLootTable.CustomLootTableBuilder().add(itemStack,1).build();
+        CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
+
+        builder.add(itemStack,1);
+
+        return builder.build();
     }
 
     public static CustomLootTable getLootTable() {
-        return new CustomLootTable.CustomLootTableBuilder().add(Items.getBase("6k Gold Ingot"),10).add(Items.getBase("Monster Flesh"),40)
-                .add(Items.getBase("Ancient Shard"),1).build();
+        CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
+        builder.add(Items.getBase("6k Gold Ingot"),10);
+        builder.add(Items.getBase("Monster Flesh"),40);
+        builder.add(Items.getBase("Ancient Shard"),1);
+        return builder.build();
     }
 }

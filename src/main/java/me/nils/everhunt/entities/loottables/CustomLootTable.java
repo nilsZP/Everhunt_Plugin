@@ -23,10 +23,9 @@ public class CustomLootTable {
         private int totalWeight = 0;
         private ArrayList<Entry> entries = new ArrayList<>();
 
-        public CustomLootTableBuilder add(ItemStack item, int weight) {
+        public void add(ItemStack item, int weight) {
             totalWeight += weight;
             entries.add(new Entry(item, weight));
-            return this;
         }
 
         public boolean isBuilt() {
@@ -36,11 +35,8 @@ public class CustomLootTable {
         public CustomLootTable build() {
             if (!isBuilt()) return null;
 
-            double base;
             for (Entry entry : entries) {
-                base = entry.getWeight();
-                double chance = getChance(base);
-                entry.setChance(chance);
+                entry.setChance(getChance(entry.getWeight()));
             }
 
             return new CustomLootTable(entries);
