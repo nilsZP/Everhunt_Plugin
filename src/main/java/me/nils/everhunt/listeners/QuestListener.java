@@ -73,7 +73,7 @@ public class QuestListener implements Listener { // TODO add task text
                         }
                     }
                 }
-                if (data.getDisplayName().equals("Marcus")) {
+                if (data.getDisplayName().equals("Marcus")) { // TODO add more Lucia quests
                     if (!(QuestData.getDone(uuid, 2)) ) {
                         if (QuestData.getCompletion(uuid, 2) == 0) {
                             Chat.npc(player,"Marcus","My wife divorced me after she said that I will");
@@ -295,7 +295,7 @@ public class QuestListener implements Listener { // TODO add task text
                         }
                     }
                 }
-                if (data.getDisplayName().equals("Tim")) {
+                if (data.getDisplayName().equals("Tim")) { // TODO add more drill quests
                     if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2)) {
                         if (QuestData.getCompletion(uuid,5) == 1) {
                             Chat.npc(player,"Tim","Buy my drill for 500 coins!");

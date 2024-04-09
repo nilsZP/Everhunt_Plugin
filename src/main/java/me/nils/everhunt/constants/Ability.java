@@ -19,7 +19,7 @@ public enum Ability {
     SPRING("Spring",0,2,Activation.PASSIVE,3,false,0),
     UNITE("Unite",0,5,Activation.PASSIVE,20,false,0),
     MECHANICAL_SHOT("Mechanical Shot", 0.8,0,Activation.RIGHT_CLICK,2,false,0,"&7Shoots a Mechanical Bullet dealing &c80% &7damage."),
-    BREAD_MAKER("Bread Maker",0,0,Activation.PASSIVE,0,false,0),
+    BREAD_MAKER("Bread Maker",0,0,Activation.PASSIVE,0,false,0,"&7Gives a &c10% &7chance of generating bread.","Activates when farming wheat."),
     POWER_OF_THE_SUN("Power Of The Sun",0.6,4,Activation.PASSIVE,0,false,0),
     INFECTATION("Infectation",0,5,Activation.PASSIVE,0,false,0),
     FOOL("Fool",0.5,5,Activation.FULL_SET,0,false,0,"&7Fool the enemy by reducing damage taken by &c50%","&7And dealing &c25% &7to the enemy."),
