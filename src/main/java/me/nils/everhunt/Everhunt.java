@@ -65,6 +65,7 @@ public final class Everhunt extends JavaPlugin {
         Bukkit.getPluginCommand("guild").setExecutor(new GuildCommand());
         Bukkit.getPluginCommand("report").setExecutor(new ReportCommand());
         Bukkit.getPluginCommand("reports").setExecutor(new ReportsCommand());
+        Bukkit.getPluginCommand("job").setExecutor(new JobCommand());
     }
 
     private void loadListeners() {

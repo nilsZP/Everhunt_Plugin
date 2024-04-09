@@ -39,7 +39,7 @@ public class Stats {
         double toughness, damage, health,crit,flow;
         double base = level;
 
-        flow = (level + 1) * 5;
+        flow = (JobData.hasJob(uuid, Job.CHEF)) ? (level + 1 + JobData.getLevel(uuid,Job.CHEF)) * 5 : (level + 1) * 5;
 
         toughness = (JobData.hasJob(uuid, Job.MINER)) ? base / 10 + JobData.getLevel(uuid,Job.MINER) : base / 10;
 

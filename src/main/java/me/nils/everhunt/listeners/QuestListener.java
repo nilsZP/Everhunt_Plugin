@@ -241,6 +241,14 @@ public class QuestListener implements Listener { // TODO add task text
                             QuestData.setCompletion(player,8,1,"Find a portal leading to the VoidWalker");
                             return;
                         }
+                        if (QuestData.getCompletion(uuid,8) == 1 && Condition.isHolding(player,"AzureWrath",ItemType.WEAPON)) {
+                            Chat.npc(player,"Guild Master","Thank you for returning my weapon!");
+                            QuestData.setDone(player,8);
+                            playerData.addXp(200);
+                            new AchievementData(player,"Nobel Sacrifice","Give away AzureWrath to it's rightful owner");
+                            JobData.addXp(uuid,Job.HUNTER,200);
+                            return;
+                        }
                     }
                 }
                 if (data.getDisplayName().equals("Farmer")) {
@@ -395,6 +403,9 @@ public class QuestListener implements Listener { // TODO add task text
                         PlayerData.data.get(uuid).addXp(50);
                         new AchievementData(player,"First boss kill","You've defeated your first boss!");
                     }
+                }
+                if (name.equals("Thunder Bones")) {
+                    new AchievementData(player,"Just Bones","Defeat a Thunder Bones boss!");
                 }
             }
         }

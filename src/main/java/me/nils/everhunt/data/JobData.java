@@ -62,7 +62,9 @@ public class JobData {
     }
 
     public static void addXp(String uuid, Job job, int xp) {
-        setXp(uuid,job,getXp(uuid,job)+xp);
+        if (hasJob(uuid,job)) {
+            setXp(uuid, job, getXp(uuid, job) + xp);
+        }
     }
 
     public static boolean hasJob(String uuid, Job job) {
