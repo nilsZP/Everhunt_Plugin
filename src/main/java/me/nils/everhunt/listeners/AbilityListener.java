@@ -215,17 +215,19 @@ public class AbilityListener implements Listener {
         }
         if (Condition.getFullSet(Ability.VOIDWALK,player)) {
             ability = Ability.VOIDWALK;
-            if (!(Cooldown.hasCooldown(boots))) {
-                if (Flow.useFlow(ability.getFlowCost(), player)) {
-                    Cooldown.setCooldown(boots, ability.getCooldown());
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,100,3,false,true,true));
+            if (player.isSneaking()) {
+                if (!(Cooldown.hasCooldown(boots))) {
+                    if (Flow.useFlow(ability.getFlowCost(), player)) {
+                        Cooldown.setCooldown(boots, ability.getCooldown());
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 100, 3, false, true, true));
 
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,40,0,false,true,true));
-                        }
-                    }.runTaskLater(Everhunt.getInstance(),100L);
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 40, 0, false, true, true));
+                            }
+                        }.runTaskLater(Everhunt.getInstance(), 100L);
+                    }
                 }
             }
         }
@@ -340,55 +342,53 @@ public class AbilityListener implements Listener {
 
             ItemStack item = player.getInventory().getItemInMainHand();
             ItemMeta meta = item.getItemMeta();
-            if (meta == null) {
-                return;
-            }
-            PersistentDataContainer pdc = meta.getPersistentDataContainer();
-            if (pdc.has(key)) {
-                WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
-                if (weapon == null) {
-                    return;
-                }
-                Ability ability = weapon.getAbility();
-                if (ability.equals(Ability.DIMENSION_SHATTER)) {
-                    if (entity instanceof LivingEntity livingEntity) {
-                        if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
-                            livingEntity.setMaximumNoDamageTicks(0);
-                        } else {
-                            livingEntity.setMaximumNoDamageTicks(20);
-                        }
-                    }
-                }
-                if (ability.equals(Ability.DIMENSION_UNISON)) { // TODO fix ability so it works with players
-                    if (entity instanceof LivingEntity livingEntity) {
-                        if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
-                            List<Entity> entityList = livingEntity.getNearbyEntities(5, 5, 5);
-                            livingEntity.damage(entityList.size() * 5);
-                        }
-                    }
-                }
-                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH) || ability.equals(Ability.CLAP)) {
-                    if (entity instanceof LivingEntity) {
-                        if (!(Cooldown.hasCooldown(item))) {
-                            if (Flow.useFlow(ability.getFlowCost(), player)) {
-                                Cooldown.setCooldown(item, ability.getCooldown());
-                                Location loc = entity.getLocation();
-                                double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                                if (ability.equals(Ability.CLAP)) {
-                                    event.setDamage(event.getDamage() + damage);
-                                    player.spawnParticle(Particle.CRIT_MAGIC, entity.getLocation(), 16);
+            if (meta != null) {
+                PersistentDataContainer pdc = meta.getPersistentDataContainer();
+                if (pdc.has(key)) {
+                    if (Condition.isCustom(ItemType.WEAPON, ChatColor.stripColor(meta.getDisplayName()))) {
+                        WeaponManager weapon = WeaponManager.items.get(ChatColor.stripColor(meta.getDisplayName()));
+                        Ability ability = weapon.getAbility();
+                        if (ability.equals(Ability.DIMENSION_SHATTER)) {
+                            if (entity instanceof LivingEntity livingEntity) {
+                                if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
+                                    livingEntity.setMaximumNoDamageTicks(0);
+                                } else {
+                                    livingEntity.setMaximumNoDamageTicks(20);
                                 }
-                                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
-                                    new ThunderBolt(loc, damage);
-                                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
+                            }
+                        }
+                        if (ability.equals(Ability.DIMENSION_UNISON)) { // TODO fix ability so it works with players
+                            if (entity instanceof LivingEntity livingEntity) {
+                                if (livingEntity.hasPotionEffect(PotionEffectType.SLOW)) {
+                                    List<Entity> entityList = livingEntity.getNearbyEntities(5, 5, 5);
+                                    livingEntity.damage(entityList.size() * 5);
                                 }
-                                if (ability.equals(Ability.THUNDER_FLASH)) {
-                                    loc = player.getLocation();
-                                    Vector dir = loc.getDirection();
-                                    dir.normalize();
-                                    dir.multiply(5);
-                                    loc.add(dir);
-                                    player.teleport(loc);
+                            }
+                        }
+                        if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH) || ability.equals(Ability.CLAP)) {
+                            if (entity instanceof LivingEntity) {
+                                if (!(Cooldown.hasCooldown(item))) {
+                                    if (Flow.useFlow(ability.getFlowCost(), player)) {
+                                        Cooldown.setCooldown(item, ability.getCooldown());
+                                        Location loc = entity.getLocation();
+                                        double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                                        if (ability.equals(Ability.CLAP)) {
+                                            event.setDamage(event.getDamage() + damage);
+                                            player.spawnParticle(Particle.CRIT_MAGIC, entity.getLocation(), 16);
+                                        }
+                                        if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
+                                            new ThunderBolt(loc, damage);
+                                            player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
+                                        }
+                                        if (ability.equals(Ability.THUNDER_FLASH)) {
+                                            loc = player.getLocation();
+                                            Vector dir = loc.getDirection();
+                                            dir.normalize();
+                                            dir.multiply(5);
+                                            loc.add(dir);
+                                            player.teleport(loc);
+                                        }
+                                    }
                                 }
                             }
                         }
