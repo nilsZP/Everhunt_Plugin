@@ -19,7 +19,7 @@ public class AchievementData {
                     achievement + "'").executeQuery();
             check.next();
             if (check.getInt(1) < 1) {
-                Everhunt.getDatabase().run("INSERT INTO tblachievement (uuid, achievement,description) VALUES ('" + player.getUniqueId().toString() + "','" + description + "','" + achievement + "')").executeUpdate();
+                Everhunt.getDatabase().run("INSERT INTO tblachievement (uuid, achievement,description) VALUES ('" + player.getUniqueId().toString() + "','" + achievement + "','" + description + "')").executeUpdate();
                 player.sendTitle(ChatColor.GOLD + achievement,ChatColor.YELLOW + description,1,10,1);
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP,0.5F,1F);
                 PlayerData.data.get(player.getUniqueId().toString()).addXp(25);

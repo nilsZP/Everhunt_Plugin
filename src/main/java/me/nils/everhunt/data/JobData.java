@@ -2,9 +2,15 @@ package me.nils.everhunt.data;
 
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Job;
+import me.nils.everhunt.menu.Menu;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class JobData {
     private String uuid;
@@ -72,5 +78,32 @@ public class JobData {
         }
 
         return false;
+    }
+
+    public static ArrayList<ItemStack> getJobs(Player player) {
+        String uuid = player.getUniqueId().toString();
+        ArrayList<ItemStack> list = new ArrayList<>();
+
+        try {
+            ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbljob where uuid = '" + uuid + "'").executeQuery();
+
+            while (resultSet.next()) {
+                Job job = Job.valueOf(resultSet.getString("job"));
+                int level = (int) (resultSet.getDouble("xp") / 100);
+
+                list.add(Menu.makeItem(switch (job) {
+
+                    case ARCHEOLOGIST -> Material.BRUSH;
+                    case MINER -> Material.IRON_PICKAXE;
+                    case FARMER -> Material.IRON_HOE;
+                    case HUNTER -> Material.IRON_SWORD;
+                    case CHEF -> Material.RABBIT_STEW;
+                },ChatColor.GOLD + job.toString(), String.valueOf(level)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

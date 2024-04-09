@@ -232,6 +232,16 @@ public class QuestListener implements Listener { // TODO add task text
                             return;
                         }
                     }
+                    if (!(QuestData.getDone(uuid,8)) && QuestData.getDone(uuid,5)) {
+                        if (QuestData.getCompletion(uuid,8) == 0) {
+                            Chat.npc(player,"Guild Master","Our science team once created a special type of armor.");
+                            Chat.npc(player,"Guild Master","I could give it to you, if you can give me AzureWrath.");
+                            Chat.npc(player,"Guild Master","AzureWrath is a soul weapon and it was once mine.");
+                            Chat.guide(player,"hint to find AzureWrath you need to kill a boss in a spaceship called the VoidWalker");
+                            QuestData.setCompletion(player,8,1,"Find a portal leading to the VoidWalker");
+                            return;
+                        }
+                    }
                 }
                 if (data.getDisplayName().equals("Farmer")) {
                     if (!QuestData.getDone(uuid,4) && QuestData.getDone(uuid,3) ) {
