@@ -10,7 +10,7 @@ public enum Ability {
     EVOCATION("Evocation", 2, 5,Activation.RIGHT_CLICK,6,true,10,"&7Summons fangs under your enemy dealing &c200% &7damage."),
     DIMENSION_SHATTER("Dimension Shatter", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     LETHAL_ABSORPTION("Lethal Absorption", 0, 20,Activation.RIGHT_CLICK,2,false,0),
-    THUNDER_WARP("Thunder Warp", 1.1, 0,Activation.THROW,2,false,0),
+    THUNDER_WARP("Thunder Warp", 1.1, 0,Activation.THROW,2,false,0,"&7Teleport and summon thunder on enemies.","&7The thunder deals &c110% &7damage."),
     DIMENSION_UNISON("Dimension Unison", 0, 10,Activation.RIGHT_CLICK,50,false,0),
     SNOWBALL("Snowball",0.5,0,Activation.RIGHT_CLICK,1,false,0,"&7shoots a snowball dealing &c50% &7damage."),
     CLAP("Clap",0.8,4,Activation.LEFT_CLICK,0,false,0,"&7Hit the enemy with extra force dealing &c80% &7damage."),
@@ -27,6 +27,7 @@ public enum Ability {
     FORTUNATE("Fortunate",0,0,Activation.PASSIVE,0,false,0,"&7Gives you a &c1% &7chance of doubling you farming drops."),
     SUMMON("Summon",0,10,Activation.DROP,40,true,5,"&7Reincarnates the soul and makes it attack the monster you're looking at.","&7Some souls will only work as decoys.","&7Hostile souls will start attacking you,","&7if their target has been eliminated."),
     EAT("Eat",0,0,Activation.RIGHT_CLICK,0,false,0,"&7Consume this dish and gain regeneration and instant health."),
+    VOIDWALK("Void Walk",0,10,Activation.FULL_SET,0,false,4,"&7Make enemies nearby you float.","&7This can also make you float if you jump.","&7This ability activates on jump or hit."),
     NONE("NONE", 0, 0,Activation.PASSIVE,0,false,0);
 
     private final String name;

@@ -247,6 +247,7 @@ public class QuestListener implements Listener { // TODO add task text
                             playerData.addXp(200);
                             new AchievementData(player,"Nobel Sacrifice","Give away AzureWrath to it's rightful owner");
                             JobData.addXp(uuid,Job.HUNTER,200);
+                            player.getInventory().addItem(Items.getBase("VoidWalker Chestplate"),Items.getBase("VoidWalker Leggings"),Items.getBase("VoidWalker Boots"),Items.getBase("VoidWalker Helmet"));
                             return;
                         }
                     }

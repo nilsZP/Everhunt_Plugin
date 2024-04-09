@@ -213,6 +213,22 @@ public class AbilityListener implements Listener {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 60, 3, false, false, false));
             }
         }
+        if (Condition.getFullSet(Ability.VOIDWALK,player)) {
+            ability = Ability.VOIDWALK;
+            if (!(Cooldown.hasCooldown(boots))) {
+                if (Flow.useFlow(ability.getFlowCost(), player)) {
+                    Cooldown.setCooldown(boots, ability.getCooldown());
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,100,3,false,true,true));
+
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,40,0,false,true,true));
+                        }
+                    }.runTaskLater(Everhunt.getInstance(),100L);
+                }
+            }
+        }
     }
 
     @EventHandler
@@ -352,28 +368,28 @@ public class AbilityListener implements Listener {
                     }
                 }
                 if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH) || ability.equals(Ability.CLAP)) {
-                    int cooldown = ability.getCooldown();
                     if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
-                            Cooldown.setCooldown(item, cooldown);
-                            Flow.useFlow(ability.getFlowCost(), player);
-                            Location loc = entity.getLocation();
-                            double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
-                            if (ability.equals(Ability.CLAP)) {
-                                event.setDamage(event.getDamage() + damage);
-                                player.spawnParticle(Particle.CRIT_MAGIC, entity.getLocation(), 16);
-                            }
-                            if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
-                                new ThunderBolt(loc, damage);
-                                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
-                            }
-                            if (ability.equals(Ability.THUNDER_FLASH)) {
-                                loc = player.getLocation();
-                                Vector dir = loc.getDirection();
-                                dir.normalize();
-                                dir.multiply(5);
-                                loc.add(dir);
-                                player.teleport(loc);
+                            if (Flow.useFlow(ability.getFlowCost(), player)) {
+                                Cooldown.setCooldown(item, ability.getCooldown());
+                                Location loc = entity.getLocation();
+                                double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
+                                if (ability.equals(Ability.CLAP)) {
+                                    event.setDamage(event.getDamage() + damage);
+                                    player.spawnParticle(Particle.CRIT_MAGIC, entity.getLocation(), 16);
+                                }
+                                if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
+                                    new ThunderBolt(loc, damage);
+                                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 30, 254, false, true));
+                                }
+                                if (ability.equals(Ability.THUNDER_FLASH)) {
+                                    loc = player.getLocation();
+                                    Vector dir = loc.getDirection();
+                                    dir.normalize();
+                                    dir.multiply(5);
+                                    loc.add(dir);
+                                    player.teleport(loc);
+                                }
                             }
                         }
                     }
@@ -384,6 +400,21 @@ public class AbilityListener implements Listener {
             if (helmet == null) {
                 return;
             }
+
+            if (Condition.getFullSet(Ability.VOIDWALK,player)) {
+                Ability ability = Ability.VOIDWALK;
+                if (!(Cooldown.hasCooldown(helmet))) {
+                    if (Flow.useFlow(ability.getFlowCost(), player)) {
+                        Cooldown.setCooldown(helmet, ability.getCooldown());
+                        for (Entity entity1 : player.getNearbyEntities(ability.getRange(), ability.getRange(), ability.getRange())) {
+                            if (entity1 instanceof LivingEntity livingEntity) {
+                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,100,3,false,true,true));
+                            }
+                        }
+                    }
+                }
+            }
+
             HelmetManager helm = HelmetManager.items.get(ChatColor.stripColor(helmet.getItemMeta().getDisplayName()));
             if (helm == null) {
                 return;
