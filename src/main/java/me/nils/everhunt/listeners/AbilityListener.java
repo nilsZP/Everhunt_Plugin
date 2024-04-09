@@ -63,7 +63,7 @@ public class AbilityListener implements Listener {
                 }
             }
             if (!(Cooldown.hasCooldown(item))) {
-                if (Flow.useFlow(ability.getFlowCost(),player)) {
+                if (Flow.useFlow(ability.getFlowCost(), player)) {
                     Cooldown.setCooldown(item, cooldown);
                     switch (ability) {
                         case METEOR_BLAST -> {
@@ -75,11 +75,11 @@ public class AbilityListener implements Listener {
                         case EVOCATION -> {
                             player.swingMainHand();
                             Location loc = this.target.getLocation();
-                            new EvocationFang(loc,damage);
-                            new EvocationFang(loc.add(1,0,0),damage);
-                            new EvocationFang(loc.add(-1,0,0),damage);
-                            new EvocationFang(loc.add(0,0,1),damage);
-                            new EvocationFang(loc.add(0,0,-1),damage);
+                            new EvocationFang(loc, damage);
+                            new EvocationFang(loc.add(1, 0, 0), damage);
+                            new EvocationFang(loc.add(-1, 0, 0), damage);
+                            new EvocationFang(loc.add(0, 0, 1), damage);
+                            new EvocationFang(loc.add(0, 0, -1), damage);
                             player.damage(player.getHealth() / 4);
                         }
                         case SNOWBALL -> {
@@ -88,7 +88,7 @@ public class AbilityListener implements Listener {
                                     toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
                             new SnowBall(loc, damage, player);
                         }
-                        case DIMENSION_SHATTER,DIMENSION_UNISON -> {
+                        case DIMENSION_SHATTER, DIMENSION_UNISON -> {
                             player.swingMainHand();
                             this.target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 254, false, true));
                             if (ability.equals(Ability.DIMENSION_SHATTER)) {
@@ -102,7 +102,7 @@ public class AbilityListener implements Listener {
                         }
                         case DIMENSIONAL_FREEZE -> {
                             player.swingMainHand();
-                            player.playSound(player,Sound.BLOCK_GLASS_BREAK,1,1);
+                            player.playSound(player, Sound.BLOCK_GLASS_BREAK, 1, 1);
                             Location loc = target.getLocation();
                             new BukkitRunnable() {
                                 @Override
@@ -112,13 +112,13 @@ public class AbilityListener implements Listener {
                                     }
                                     target.teleport(loc);
                                 }
-                            }.runTaskTimer(Everhunt.getInstance(), 20L,20L);
+                            }.runTaskTimer(Everhunt.getInstance(), 20L, 20L);
                         }
                         case MECHANICAL_SHOT -> {
                             player.swingMainHand();
                             Location loc = player.getEyeLocation().toVector().add(player.getLocation().getDirection().multiply(2)).
                                     toLocation(player.getWorld(), player.getLocation().getYaw(), player.getLocation().getPitch());
-                            new MechanicalBullet(loc,damage);
+                            new MechanicalBullet(loc, damage);
                         }
                     }
                 }
@@ -135,21 +135,13 @@ public class AbilityListener implements Listener {
 
         String item = ChatColor.stripColor(itemStack.getItemMeta().getDisplayName());
 
-        if (Condition.isCustom(ItemType.DISH,item)) {
+        if (Condition.isCustom(ItemType.DISH, item)) {
             DishManager dish = DishManager.items.get(item);
             int amplifier = dish.getNutrition();
 
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (player.hasPotionEffect(PotionEffectType.REGENERATION)) {
-                    if (player.getPotionEffect(PotionEffectType.REGENERATION).getAmplifier() > amplifier) {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL,2,amplifier-1,false,true,true));
-                    } else {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,200,amplifier, false,true,true));
-                    }
-                } else {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,200,amplifier, false,true,true));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL,2,0,false,true,true));
-                }
+                player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, amplifier, false, true, true));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 2, amplifier - 1, false, true, true));
 
                 if (itemStack.getAmount() > 1) {
                     itemStack.subtract();
@@ -162,7 +154,7 @@ public class AbilityListener implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         e.setCancelled(true);
 
-        Player player  = e.getPlayer();
+        Player player = e.getPlayer();
         ItemStack itemStack = player.getInventory().getItemInOffHand();
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -170,7 +162,7 @@ public class AbilityListener implements Listener {
 
         String item = ChatColor.stripColor(meta.getDisplayName());
 
-        if (Condition.isCustom(ItemType.SOUL,item)) {
+        if (Condition.isCustom(ItemType.SOUL, item)) {
             SoulManager soul = SoulManager.souls.get(item);
 
             Ability ability = soul.getAbility();
@@ -217,7 +209,7 @@ public class AbilityListener implements Listener {
         if (ability == Ability.SPRING) {
             if (!(Cooldown.hasCooldown(boots))) {
                 Cooldown.setCooldown(boots, ability.getCooldown());
-                Flow.useFlow(ability.getFlowCost(),player);
+                Flow.useFlow(ability.getFlowCost(), player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 60, 3, false, false, false));
             }
         }
@@ -250,7 +242,7 @@ public class AbilityListener implements Listener {
 
             String item = ChatColor.stripColor(player.getInventory().getItemInMainHand().getItemMeta().getDisplayName());
 
-            if (Condition.isCustom(ItemType.WEAPON,item)) {
+            if (Condition.isCustom(ItemType.WEAPON, item)) {
                 Ability ability = WeaponManager.items.get(item).getAbility();
                 if (ability.equals(Ability.THUNDER_WARP)) {
                     if (!(Cooldown.hasCooldown(itemStack))) {
@@ -318,7 +310,7 @@ public class AbilityListener implements Listener {
                 PersistentDataContainer pdc = damager.getPersistentDataContainer();
                 if (pdc.has(Everhunt.getKey())) {
                     if (entity instanceof LivingEntity livingEntity) {
-                        if (pdc.has(Everhunt.getKey(),PersistentDataType.DOUBLE)) {
+                        if (pdc.has(Everhunt.getKey(), PersistentDataType.DOUBLE)) {
                             event.setCancelled(true);
                             double damage = pdc.get(Everhunt.getKey(), PersistentDataType.DOUBLE);
                             livingEntity.damage(damage);
@@ -364,12 +356,12 @@ public class AbilityListener implements Listener {
                     if (entity instanceof LivingEntity) {
                         if (!(Cooldown.hasCooldown(item))) {
                             Cooldown.setCooldown(item, cooldown);
-                            Flow.useFlow(ability.getFlowCost(),player);
+                            Flow.useFlow(ability.getFlowCost(), player);
                             Location loc = entity.getLocation();
                             double damage = player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue() * ability.getDamageMultiplier();
                             if (ability.equals(Ability.CLAP)) {
-                                event.setDamage(event.getDamage()+damage);
-                                player.spawnParticle(Particle.CRIT_MAGIC,entity.getLocation(),16);
+                                event.setDamage(event.getDamage() + damage);
+                                player.spawnParticle(Particle.CRIT_MAGIC, entity.getLocation(), 16);
                             }
                             if (ability.equals(Ability.THUNDER_CLAP) || ability.equals(Ability.THUNDER_FLASH)) {
                                 new ThunderBolt(loc, damage);
