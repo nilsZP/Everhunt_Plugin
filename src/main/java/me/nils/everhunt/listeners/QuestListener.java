@@ -35,7 +35,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestListener implements Listener { // TODO add task text
+public class QuestListener implements Listener {
     @EventHandler
     public void onNPCInteract(PlayerInteractAtEntityEvent event) {
         Player player = event.getPlayer();
@@ -106,27 +106,99 @@ public class QuestListener implements Listener { // TODO add task text
                             Chat.npc(player,"Marcus","Thanks for helping me! Here have the blade and talk to me later!");
                             QuestData.setDone(player, 2);
                             PlayerData.data.get(uuid).addXp(125);
+                            new AchievementData(player,"The strongest weapon","Obtain Lucia I!");
                             return;
                         }
                     }
                     if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2) ) {
-                        if (QuestData.getCompletion(uuid,5) == 0) {
-                            Chat.npc(player,"Marcus","I need new materials for Lucia II.");
-                            Chat.npc(player,"Marcus","Give me 2 compressed stone pls?");
-                            QuestData.setCompletion(player,5,1,"Find a way to collect compressed stone");
+                        if (QuestData.getCompletion(uuid, 5) == 0) {
+                            Chat.npc(player, "Marcus", "I need new materials for Lucia II.");
+                            Chat.npc(player, "Marcus", "Give me 2 compressed stone pls?");
+                            QuestData.setCompletion(player, 5, 1, "Find a way to collect compressed stone");
                             return;
                         }
-                        if (QuestData.getCompletion(uuid,5) == 3 && Condition.isHolding(player,"Compressed Stone",ItemType.ITEM,2)) {
-                            Chat.npc(player,"Marcus","Thanks for helping me again!");
+                        if (QuestData.getCompletion(uuid, 5) == 3 && Condition.isHolding(player, "Compressed Stone", ItemType.ITEM, 2)) {
+                            Chat.npc(player, "Marcus", "Thanks for helping me again!");
                             player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-                            QuestData.setCompletion(player,5,4,"Click him again while holding Lucia I");
+                            QuestData.setCompletion(player, 5, 4, "Click him again while holding Lucia I");
                             return;
                         }
-                        if (QuestData.getCompletion(uuid,5) == 4 && Condition.isHolding(player,"Lucia I",ItemType.WEAPON)) {
+                        if (QuestData.getCompletion(uuid, 5) == 4 && Condition.isHolding(player, "Lucia I", ItemType.WEAPON)) {
                             player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
                             player.getInventory().addItem(Items.getBase("Lucia II"));
-                            QuestData.setDone(player,5);
+                            QuestData.setDone(player, 5);
+                            new AchievementData(player,"New upgrade","Obtain Lucia II!");
                             return;
+                        }
+                        if (!QuestData.getDone(uuid, 9) && QuestData.getDone(uuid, 6)) {
+                            if (QuestData.getCompletion(uuid,9) == 0) {
+                                Chat.npc(player,"Marcus","How's my Lucia II doing?");
+                                Chat.npc(player,"Marcus","If you give me 2 compressed iron i can make it stronger.");
+                                QuestData.setCompletion(player,9,1,"Collect 2 Compressed Iron");
+                                return;
+                            }
+                            if (QuestData.getCompletion(uuid,9) == 1 && Condition.isHolding(player,"Compressed Iron",ItemType.ITEM,2)) {
+                                player.getInventory().getItemInMainHand().subtract(2);
+                                Chat.npc(player,"Marcus","Okay, now give me Lucia II!");
+                                QuestData.setCompletion(player, 9, 2, "Click him again while holding Lucia II");
+                                return;
+                            }
+                            if (QuestData.getCompletion(uuid,9) == 2 && Condition.isHolding(player,"Lucia II",ItemType.WEAPON)) {
+                                Chat.npc(player,"Marcus","Here you go, the new Lucia III!");
+                                player.getInventory().getItemInMainHand().subtract();
+                                player.getInventory().addItem(Items.getBase("Lucia III"));
+                                QuestData.setDone(player,9);
+                                new AchievementData(player,"Stronger, better, faster","Obtain Lucia III!");
+                                return;
+                            }
+                        }
+                        if (!QuestData.getDone(uuid, 10) && QuestData.getDone(uuid, 9)) {
+                            if (QuestData.getCompletion(uuid,10) == 0) {
+                                Chat.npc(player,"Marcus","Apparently the soul can increase the damage of your weapon.");
+                                Chat.npc(player,"Marcus","I've heard that gold can harness your souls strength.");
+                                Chat.npc(player,"Marcus","If you give me 2 6k Gold Ingots i can make Lucia even stronger.");
+                                QuestData.setCompletion(player,10,1,"Collect 2 6k Gold Ingots");
+                                return;
+                            }
+                            if (QuestData.getCompletion(uuid,10) == 1 && Condition.isHolding(player,"6k Gold Ingot",ItemType.ITEM,2)) {
+                                player.getInventory().getItemInMainHand().subtract(2);
+                                Chat.npc(player,"Marcus","Okay, now give me Lucia III!");
+                                QuestData.setCompletion(player, 10, 2, "Click him again while holding Lucia III");
+                                return;
+                            }
+                            if (QuestData.getCompletion(uuid,10) == 2 && Condition.isHolding(player,"Lucia III",ItemType.WEAPON)) {
+                                Chat.npc(player,"Marcus","Your soul is roaring with thunder!");
+                                Chat.npc(player,"Marcus","Here you go, the new Lucia IV!");
+                                player.getInventory().getItemInMainHand().subtract();
+                                player.getInventory().addItem(Items.getBase("Lucia IV"));
+                                QuestData.setDone(player,10);
+                                new AchievementData(player,"The power of the soul","Obtain Lucia IV!");
+                                return;
+                            }
+                        }
+                        if (!QuestData.getDone(uuid, 11) && QuestData.getDone(uuid, 10)) {
+                            if (QuestData.getCompletion(uuid,11) == 0) {
+                                Chat.npc(player,"Marcus","I need stronger gold.");
+                                Chat.npc(player,"Marcus","If you give me 2 12k Gold Ingots i can make Lucia the strongest.");
+                                Chat.npc(player,"Marcus","Probably.");
+                                QuestData.setCompletion(player,11,1,"Collect 2 12k Gold Ingots");
+                                return;
+                            }
+                            if (QuestData.getCompletion(uuid,11) == 1 && Condition.isHolding(player,"12k Gold Ingot",ItemType.ITEM,2)) {
+                                player.getInventory().getItemInMainHand().subtract(2);
+                                Chat.npc(player,"Marcus","Okay, now give me Lucia IV!");
+                                QuestData.setCompletion(player, 11, 2, "Click him again while holding Lucia IV");
+                                return;
+                            }
+                            if (QuestData.getCompletion(uuid,11) == 2 && Condition.isHolding(player,"Lucia IV",ItemType.WEAPON)) {
+                                Chat.npc(player,"Marcus","I can see the lightning flash!");
+                                Chat.npc(player,"Marcus","Here you go, the strongest weapon, Lucia V!");
+                                player.getInventory().getItemInMainHand().subtract();
+                                player.getInventory().addItem(Items.getBase("Lucia V"));
+                                QuestData.setDone(player,11);
+                                new AchievementData(player,"The Final upgrade","Obtain Lucia V!");
+                                return;
+                            }
                         }
                     }
                 }
