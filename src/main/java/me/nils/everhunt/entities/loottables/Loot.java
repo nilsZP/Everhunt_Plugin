@@ -39,9 +39,10 @@ public class Loot {
             builder.add(Items.getBase("Wheat"),50);
             builder.add(Items.getBase("Backpack (gray)"),25);
             builder.add(Items.getBase("Compressed Stone"),40);
-            builder.add(Items.getBase("6k Gold Ingot"),20);
+            builder.add(Items.getBase("Brush"),20);
 
             if (name.contains("Mechanical")) {
+                builder.add(Items.getBase("6k Gold Ingot"),20);
                 builder.add(Items.getBase("Compressed Coal"),30);
                 builder.add(Items.getBase("Brokkr"),10);
             }
