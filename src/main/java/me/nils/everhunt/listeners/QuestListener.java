@@ -73,7 +73,7 @@ public class QuestListener implements Listener {
                         }
                     }
                 }
-                if (data.getDisplayName().equals("Marcus")) { // TODO add more Lucia quests
+                if (data.getDisplayName().equals("Marcus")) {
                     if (!(QuestData.getDone(uuid, 2)) ) {
                         if (QuestData.getCompletion(uuid, 2) == 0) {
                             Chat.npc(player,"Marcus","My wife divorced me after she said that I will");
@@ -367,7 +367,7 @@ public class QuestListener implements Listener {
                         }
                     }
                 }
-                if (data.getDisplayName().equals("Tim")) { // TODO add more drill quests
+                if (data.getDisplayName().equals("Tim")) {
                     if (!QuestData.getDone(uuid,5) && QuestData.getDone(uuid,2)) {
                         if (QuestData.getCompletion(uuid,5) == 1) {
                             Chat.npc(player,"Tim","Buy my drill for 500 coins!");
@@ -412,6 +412,50 @@ public class QuestListener implements Listener {
                             new AchievementData(player,"Gold digger","Get your first Drill model G!");
                             JobData.addXp(uuid,Job.MINER,60);
                             player.getInventory().getItemInMainHand().subtract(3);
+                            return;
+                        }
+                    }
+                    if (!QuestData.getDone(uuid,12) && QuestData.getDone(uuid,6)) {
+                        if (QuestData.getCompletion(uuid,12) == 0) {
+                            Chat.npc(player,"Tim","Need a new upgrade?");
+                            Chat.npc(player,"Tim","Give me some gold then!");
+                            QuestData.setCompletion(player,12,1,"Collect 36 3k Gold Ingots");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,12) == 1 && Condition.isHolding(player,"3k Gold Ingots",ItemType.ITEM,36)) {
+                            player.getInventory().getItemInMainHand().subtract(36);
+                            Chat.npc(player,"Tim","Give me the drill!");
+                            JobData.addXp(uuid,Job.MINER,120);
+                            QuestData.setCompletion(player,12,2,"Hand over your drill");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,12) == 2 && Condition.isHolding(player,"Drill G16",ItemType.TOOL)) {
+                            player.getInventory().getItemInMainHand().subtract();
+                            player.getInventory().addItem(Items.getBase("Drill G29"));
+                            Chat.npc(player,"Tim","Here!");
+                            QuestData.setDone(player,12);
+                            return;
+                        }
+                    }
+                    if (!QuestData.getDone(uuid,13) && QuestData.getDone(uuid,12)) {
+                        if (QuestData.getCompletion(uuid,13) == 0) {
+                            Chat.npc(player,"Tim","Need a new upgrade?");
+                            Chat.npc(player,"Tim","Give me some gold then!");
+                            QuestData.setCompletion(player,13,1,"Collect 40 6k Gold Ingots");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,13) == 1 && Condition.isHolding(player,"6k Gold Ingots",ItemType.ITEM,40)) {
+                            player.getInventory().getItemInMainHand().subtract(40);
+                            Chat.npc(player,"Tim","Give me the drill!");
+                            JobData.addXp(uuid,Job.MINER,120);
+                            QuestData.setCompletion(player,13,2,"Hand over your drill");
+                            return;
+                        }
+                        if (QuestData.getCompletion(uuid,13) == 2 && Condition.isHolding(player,"Drill G29",ItemType.TOOL)) {
+                            player.getInventory().getItemInMainHand().subtract();
+                            player.getInventory().addItem(Items.getBase("Drill G42"));
+                            Chat.npc(player,"Tim","Here!");
+                            QuestData.setDone(player,13);
                             return;
                         }
                     }
