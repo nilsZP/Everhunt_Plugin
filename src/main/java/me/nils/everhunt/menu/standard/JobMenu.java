@@ -14,7 +14,7 @@ public class JobMenu extends PaginatedMenu {
 
     @Override
     public String getMenuName() {
-        return "Achievements";
+        return "Jobs";
     }
 
     @Override

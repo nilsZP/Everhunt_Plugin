@@ -67,7 +67,7 @@ public class QuestListener implements Listener {
                             player.teleport(new Location(player.getWorld(), 60, -7, -197));
                             new TeleportData(uuid, "Village", 60, -7, -197);
                             QuestData.setDone(player, 1);
-                            new AchievementData(player, "First quest", "You've completed your first quest!");
+                            new AchievementData(player, "First quest", "You have completed your first quest!");
                             PlayerData.data.get(uuid).addXp(100);
                             return;
                         }
@@ -91,7 +91,7 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid, 2) >= 3 && Condition.isHolding(player, "Kings Bone", ItemType.ITEM) && QuestData.getCompletion(uuid, 2) < 5) {
                             Chat.npc(player, "Marcus", "I can work with this.");
-                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                            player.getInventory().getItemInMainHand().subtract();
                             QuestData.setCompletion(player, 2, 5, "Talk to Marcus");
                             Chat.npc(player, "Marcus", "Talk to me in one second.");
                             return;
@@ -119,12 +119,12 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid, 5) == 3 && Condition.isHolding(player, "Compressed Stone", ItemType.ITEM, 2)) {
                             Chat.npc(player, "Marcus", "Thanks for helping me again!");
-                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                            player.getInventory().getItemInMainHand().subtract(2);
                             QuestData.setCompletion(player, 5, 4, "Click him again while holding Lucia I");
                             return;
                         }
                         if (QuestData.getCompletion(uuid, 5) == 4 && Condition.isHolding(player, "Lucia I", ItemType.WEAPON)) {
-                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                            player.getInventory().getItemInMainHand().subtract();
                             player.getInventory().addItem(Items.getBase("Lucia II"));
                             QuestData.setDone(player, 5);
                             new AchievementData(player, "New upgrade", "Obtain Lucia II!");
@@ -300,7 +300,7 @@ public class QuestListener implements Listener {
                             Chat.npc(player, "Guild Master", "You are now officially a Monster Hunter!");
                             new JobData(uuid, Job.HUNTER, 0);
                             playerData.addXp(235);
-                            new AchievementData(player, "First job", "You've acquired your first job!");
+                            new AchievementData(player, "First job", "You have acquired your first job!");
                             QuestData.setDone(player, 3);
                             return;
                         }
@@ -316,9 +316,10 @@ public class QuestListener implements Listener {
                         }
                         if (QuestData.getCompletion(uuid, 8) == 1 && Condition.isHolding(player, "AzureWrath", ItemType.WEAPON)) {
                             Chat.npc(player, "Guild Master", "Thank you for returning my weapon!");
+                            player.getInventory().getItemInMainHand().subtract();
                             QuestData.setDone(player, 8);
                             playerData.addXp(200);
-                            new AchievementData(player, "Nobel Sacrifice", "Give away AzureWrath to it's rightful owner");
+                            new AchievementData(player, "Nobel Sacrifice", "Give away AzureWrath to its rightful owner");
                             JobData.addXp(uuid, Job.HUNTER, 200);
                             player.getInventory().addItem(Items.getBase("VoidWalker Chestplate"), Items.getBase("VoidWalker Leggings"), Items.getBase("VoidWalker Boots"), Items.getBase("VoidWalker Helmet"));
                             return;
@@ -383,6 +384,8 @@ public class QuestListener implements Listener {
                         if (QuestData.getCompletion(uuid, 5) == 2 && Condition.isHolding(player, "Drill", ItemType.TOOL)) {
                             new TeleportData(uuid, "Mine", 211, -16, 187);
                             Chat.guide(player, "use /warp");
+                            Chat.guide(player,"Drills use coal as fuel");
+                            player.getInventory().addItem(Items.getBase("Coal").add(59));
                             QuestData.setCompletion(player, 5, 3, "Go to the Mine");
                             return;
                         }
@@ -476,7 +479,7 @@ public class QuestListener implements Listener {
                             case IRON_INGOT -> Items.getBase("Compressed Iron");
                             default -> new ItemStack(Material.AIR);
                         });
-                        player.getInventory().getItemInMainHand().setType(Material.AIR);
+                        player.getInventory().getItemInMainHand().subtract(64);
                     }
                     return;
                 }
@@ -520,7 +523,7 @@ public class QuestListener implements Listener {
                         double completion = QuestData.getCompletion(uuid, 2) + 2;
                         if (completion > 4) QuestData.setCompletion(player, 2, 4, "Talk to Mi");
                         PlayerData.data.get(uuid).addXp(50);
-                        new AchievementData(player, "First boss kill", "You've defeated your first boss!");
+                        new AchievementData(player, "First boss kill", "You have defeated your first boss!");
                     }
                 }
                 if (name.equals("Thunder Bones")) {

@@ -27,7 +27,7 @@ public class ThunderBones extends EntityData {
         super("Thunder Bones",Tier.SOUL, MobType.BOSS);
         WitherSkeleton bones = (WitherSkeleton) loc.getWorld().spawnEntity(loc, EntityType.WITHER_SKELETON);
 
-        bones.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 20, 20,"♥")));
+        bones.setCustomName(Chat.color(String.format("%s &c%d&f/&c%d%s", super.getDisplayName(), 300, 300,"♥")));
         bones.setCustomNameVisible(true);
         bones.getPersistentDataContainer().set(Everhunt.getKey(),PersistentDataType.STRING,super.getDisplayName());
         bones.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(300);

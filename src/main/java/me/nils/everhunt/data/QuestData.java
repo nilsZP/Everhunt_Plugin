@@ -73,6 +73,8 @@ public class QuestData {
             } else {
                 if (!QuestData.hasOngoing(uuid)) {
                     new QuestData(uuid, number, 0, "", false);
+                } else {
+                    return true;
                 }
             }
         } catch (SQLException e) {

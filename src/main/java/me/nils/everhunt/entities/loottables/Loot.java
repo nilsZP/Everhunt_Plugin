@@ -20,7 +20,7 @@ public class Loot {
             if (data.getType().equals(MobType.ENEMY)) {
                 ItemStack flesh = Items.getBase("Monster Flesh");
                 flesh.setAmount(new Random().nextInt(1,5));
-                builder.add(flesh,100);
+                builder.add(flesh,60);
             }
 
             switch (name) {
@@ -30,8 +30,8 @@ public class Loot {
                     itemStack.setAmount(new Random().nextInt(1,4));
                     builder.add(itemStack,400);
                 }
-                case "Forgotten Soul" -> builder.add(Items.getBase("24k Gold Nugget"),1);
-                case "Thunder Bones" -> builder.add(Items.getBase("AzureWrath"),1);
+                case "Forgotten Soul" -> builder.add(Items.getBase("24k Gold Nugget"),30);
+                case "Thunder Bones" -> builder.add(Items.getBase("AzureWrath"),100);
             }
 
             return builder.build();
@@ -73,7 +73,7 @@ public class Loot {
                     case RAW_GOLD_BLOCK -> "12k Gold Ingot";
                     case NETHER_GOLD_ORE -> "24k Gold Nugget";
                     default -> "3k Gold Ingot";
-                }),40);
+                }),80);
 
                 return builder.build();
             }
@@ -130,7 +130,7 @@ public class Loot {
                     case RAW_GOLD_BLOCK -> "12k Gold Ingot";
                     case NETHER_GOLD_ORE -> "24k Gold Nugget";
                     default -> "3k Gold Ingot";
-                }),40);
+                }),80);
 
                 return builder.build();
             }

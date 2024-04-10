@@ -407,7 +407,7 @@ public class AbilityListener implements Listener {
                     if (Flow.useFlow(ability.getFlowCost(), player)) {
                         Cooldown.setCooldown(helmet, ability.getCooldown());
                         for (Entity entity1 : player.getNearbyEntities(ability.getRange(), ability.getRange(), ability.getRange())) {
-                            if (entity1 instanceof LivingEntity livingEntity) {
+                            if (entity1 instanceof LivingEntity livingEntity && !(entity1 instanceof Player)) {
                                 livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,100,3,false,true,true));
                             }
                         }

@@ -176,9 +176,7 @@ public class Condition {
         String name = ChatColor.stripColor(item.displayName().toString());
 
         if (name != null) {
-            if (name.contains(text)) {
-                return true;
-            }
+            return name.contains(text);
         }
 
         return false;
