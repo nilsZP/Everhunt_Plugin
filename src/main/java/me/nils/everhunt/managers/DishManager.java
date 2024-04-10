@@ -3,6 +3,7 @@ package me.nils.everhunt.managers;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.Tier;
+import me.nils.everhunt.items.Items;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
@@ -144,12 +145,9 @@ public class DishManager {
             ResultSet resultSet = Everhunt.getDatabase().run("SELECT * FROM tbldish WHERE  nutrition = " + nutrition).executeQuery();
 
             if (resultSet.next()) {
-                Material material = Material.valueOf(resultSet.getString("material"));
                 String displayName = resultSet.getString("displayname");
-                Tier tier = Tier.valueOf(resultSet.getString("tier"));
-                String url = resultSet.getString("url");
 
-                return new DishManager(material,displayName,tier,nutrition,url).getItemStack();
+                return Items.getBase(displayName);
             }
         } catch (SQLException e) {
             e.printStackTrace();

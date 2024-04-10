@@ -25,12 +25,16 @@ public class GuildCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        String param = args[0].toLowerCase();
-        String param2 = args[1];
+        String param2 = "";
         String message = "";
 
-        for (int i = 1; i < args.length; i++) {
-            message += args[i] + " ";
+        String param = args[0].toLowerCase();
+        if (args.length >= 2) {
+            param2 = args[1];
+
+            for (int i = 1; i < args.length; i++) {
+                message += args[i] + " ";
+            }
         }
 
         switch (param) {

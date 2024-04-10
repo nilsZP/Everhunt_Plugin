@@ -93,6 +93,10 @@ public class Stats {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(ChatColor.BLUE + "Everhunt");
 
+        Score level = objective.getScore(ChatColor.RED + "Level: " + ChatColor.BOLD + PlayerData.data.get(player.getUniqueId().toString()).getLevel());
+        level.setScore(6);
+        level.numberFormat(NumberFormat.blank());
+
         if (GuildData.getGuild(player) != null) {
             Score guild = objective.getScore(ChatColor.DARK_GREEN + "Guild: " + ChatColor.BOLD + GuildData.getGuild(player));
             Score rank = objective.getScore(ChatColor.DARK_GREEN + "Rank: " + ChatColor.BOLD + GuildData.getRank(player));
