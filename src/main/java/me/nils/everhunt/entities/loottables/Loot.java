@@ -63,10 +63,24 @@ public class Loot {
         Material material = block.getType();
         Random random = new Random();
         CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
+
+        switch (material) {
+            case GOLD_ORE,DEEPSLATE_GOLD_ORE,RAW_GOLD_BLOCK,NETHER_GOLD_ORE -> {
+                builder.add(Items.getBase("3k Gold Ingot"),80);
+                builder.add(Items.getBase(switch (material) {
+                    case DEEPSLATE_GOLD_ORE -> "6k Gold Ingot";
+                    case RAW_GOLD_BLOCK -> "12k Gold Ingot";
+                    case NETHER_GOLD_ORE -> "24k Gold Nugget";
+                    default -> "3k Gold Ingot";
+                }),40);
+
+                return builder.build();
+            }
+        }
+
         int drops = switch (material) {
             case STONE -> random.nextInt(3,11);
             case IRON_ORE -> random.nextInt(1,3);
-            case GOLD_ORE,DEEPSLATE_GOLD_ORE,RAW_GOLD_BLOCK,NETHER_GOLD_ORE -> random.nextInt(1,6);
             case WHEAT -> random.nextInt(1,4);
             case POTATOES,CARROTS,COAL_ORE -> random.nextInt(2,5);
             case BEETROOTS -> random.nextInt(0,3);
@@ -77,10 +91,6 @@ public class Loot {
             case STONE -> "Stone";
             case COAL_ORE -> "Coal";
             case IRON_ORE -> "Iron Ingot";
-            case GOLD_ORE -> "3k Gold Ingot";
-            case DEEPSLATE_GOLD_ORE -> "6k Gold Ingot";
-            case RAW_GOLD_BLOCK -> "12k Gold Ingot";
-            case NETHER_GOLD_ORE -> "24k Gold Nugget";
             case WHEAT -> "Wheat";
             case POTATOES -> "Potato";
             case CARROTS -> "Carrot";
@@ -110,10 +120,24 @@ public class Loot {
         Material material = block.getType();
         Random random = new Random();
         CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
+
+        switch (material) {
+            case GOLD_ORE,DEEPSLATE_GOLD_ORE,RAW_GOLD_BLOCK,NETHER_GOLD_ORE -> {
+                builder.add(Items.getBase("3k Gold Ingot"),80);
+                builder.add(Items.getBase(switch (material) {
+                    case DEEPSLATE_GOLD_ORE -> "6k Gold Ingot";
+                    case RAW_GOLD_BLOCK -> "12k Gold Ingot";
+                    case NETHER_GOLD_ORE -> "24k Gold Nugget";
+                    default -> "3k Gold Ingot";
+                }),40);
+
+                return builder.build();
+            }
+        }
+
         int drops = switch (material) {
             case STONE -> random.nextInt(3,11);
             case IRON_ORE -> random.nextInt(1,3);
-            case GOLD_ORE,DEEPSLATE_GOLD_ORE,RAW_GOLD_BLOCK,NETHER_GOLD_ORE -> random.nextInt(1,6);
             case WHEAT -> random.nextInt(1,4);
             case POTATOES,CARROTS,COAL_ORE -> random.nextInt(2,5);
             case BEETROOTS -> random.nextInt(0,3);
@@ -124,10 +148,6 @@ public class Loot {
             case STONE -> "Stone";
             case COAL_ORE -> "Coal";
             case IRON_ORE -> "Iron Ingot";
-            case GOLD_ORE -> "3k Gold Ingot";
-            case DEEPSLATE_GOLD_ORE -> "6k Gold Ingot";
-            case RAW_GOLD_BLOCK -> "12k Gold Ingot";
-            case NETHER_GOLD_ORE -> "24k Gold Nugget";
             case WHEAT -> "Wheat";
             case POTATOES -> "Potato";
             case CARROTS -> "Carrot";

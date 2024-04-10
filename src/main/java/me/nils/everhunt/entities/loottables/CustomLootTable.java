@@ -18,7 +18,7 @@ public class CustomLootTable {
             if (entry.getChance() > random) return entry.getItem();
         }
 
-        return entries.get(entries.size() -1).getItem();
+        return entries.get(0).getItem();
     }
     public static class CustomLootTableBuilder {
         private ArrayList<Entry> entries = new ArrayList<>();
