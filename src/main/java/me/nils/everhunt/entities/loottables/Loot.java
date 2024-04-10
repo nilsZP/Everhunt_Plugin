@@ -178,8 +178,11 @@ public class Loot {
     public static CustomLootTable getLootTable() {
         CustomLootTable.CustomLootTableBuilder builder = new CustomLootTable.CustomLootTableBuilder();
         builder.add(Items.getBase("6k Gold Ingot"),40);
+        builder.add(Items.getBase("Backpack (orange)"),20);
         builder.add(Items.getBase("Monster Flesh"),70);
+        builder.add(Items.getBase("Kings Bone"),30);
         builder.add(Items.getBase("Ancient Shard"),10);
+        builder.add(Items.getBase("24k Gold Nugget"),1);
         return builder.build();
     }
 }
