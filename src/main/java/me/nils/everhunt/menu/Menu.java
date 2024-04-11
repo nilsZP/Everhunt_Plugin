@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -65,6 +66,7 @@ public abstract class Menu implements InventoryHolder {
         itemMeta.setDisplayName(displayName);
 
         itemMeta.setLore(Arrays.asList(lore));
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,ItemFlag.HIDE_ITEM_SPECIFICS,ItemFlag.HIDE_UNBREAKABLE);
         item.setItemMeta(itemMeta);
 
         return item;

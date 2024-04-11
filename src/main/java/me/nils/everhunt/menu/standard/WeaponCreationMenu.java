@@ -47,14 +47,15 @@ public class WeaponCreationMenu extends Menu {
         Player player = (Player) e.getWhoClicked();
         String material = playerMenuUtility.getMaterial();
         String ability = playerMenuUtility.getAbility();
+        Material mold = playerMenuUtility.getMold();
 
         if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) player.closeInventory();
             if (inventory.getItem(21).getType() != Material.WHITE_STAINED_GLASS_PANE) {
                 player.getInventory().addItem(inventory.getItem(21));
             }
-            if (inventory.getItem(23).getType() != Material.WHITE_STAINED_GLASS_PANE) {
-                player.getInventory().addItem(inventory.getItem(23));
+            if (inventory.getItem(20).getType() != Material.WHITE_STAINED_GLASS_PANE) {
+                player.getInventory().addItem(inventory.getItem(20));
             }
 
             playerMenuUtility.setMaterial(null);
@@ -74,13 +75,23 @@ public class WeaponCreationMenu extends Menu {
             }
         }
 
+        if (e.getCurrentItem().getType().equals(Material.WOODEN_SWORD)) {
+            if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Select mold")) {
+                new MoldSelectionMenu(playerMenuUtility).open();
+
+                return;
+            }
+        }
+
         if (e.getCurrentItem().getType().equals(Material.EMERALD_BLOCK)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("CONFIRM")) {
                 if (inventory.getItem(21) == null || inventory.getItem(21).getItemMeta() == null) return;
-                if (inventory.getItem(23) == null || inventory.getItem(23).getItemMeta() == null) return;
+                if (inventory.getItem(20) == null || inventory.getItem(20).getItemMeta() == null) return;
                 if (name.isBlank() || name.isEmpty()) return;
                 if (material.isBlank() || material.isEmpty()) return;
                 if (ability == null) return;
+                if (mold == null) return;
+
 
                 char[] chars = {material.charAt(0),material.charAt(1)};
                 String karat = (material.charAt(1) == 'k') ? String.valueOf(material.charAt(0)) : new String(chars);
@@ -91,8 +102,8 @@ public class WeaponCreationMenu extends Menu {
                 if (!data.pay(price)) return;
                 playerMenuUtility.setMaterial(null);
                 playerMenuUtility.setAbility(null);
-                player.getInventory().removeItem(inventory.getItem(21),inventory.getItem(23));
-                player.getInventory().addItem(new WeaponManager(Material.GOLDEN_SWORD,name,WeaponManager.items.get(ability).getAbility(),Tier.SOUL,quality,quality*10,(quality/3)*10).getItemStack());
+                player.getInventory().removeItem(inventory.getItem(21),inventory.getItem(20));
+                player.getInventory().addItem(new WeaponManager(playerMenuUtility.getMold(),name,WeaponManager.items.get(ability).getAbility(),Tier.SOUL,quality,quality*10,(quality/3)*10).getItemStack());
                 player.closeInventory();
 
                 return;
@@ -111,7 +122,7 @@ public class WeaponCreationMenu extends Menu {
                 playerMenuUtility.setMaterial(name);
                 e.getCursor().subtract();
             } else if (Condition.isCustom(ItemType.WEAPON,name)) {
-                inventory.setItem(23,itemStack);
+                inventory.setItem(20,itemStack);
                 playerMenuUtility.setAbility(name);
                 e.getCursor().subtract();
             }
@@ -127,11 +138,12 @@ public class WeaponCreationMenu extends Menu {
         } else {
             inventory.setItem(21,ItemManager.items.get(playerMenuUtility.getMaterial()).getItemStack());
         }
-        inventory.setItem(22,makeItem(Material.CHERRY_SIGN,"SET NAME"));
+        inventory.setItem(23,makeItem(Material.CHERRY_SIGN,"SET NAME"));
+        inventory.setItem(24,makeItem(Material.WOODEN_SWORD,"SELECT MOLD",ChatColor.RED + "DO THIS FIRST!"));
         if (playerMenuUtility.getAbility() == null) {
-            inventory.setItem(23, makeItem(Material.WHITE_STAINED_GLASS_PANE, "ABILITY", ChatColor.RED + "BEWARE ONLY LEFT AND RIGHT CLICK ABILITIES WORK!"));
+            inventory.setItem(20, makeItem(Material.WHITE_STAINED_GLASS_PANE, "ABILITY", ChatColor.RED + "BEWARE ONLY LEFT AND RIGHT CLICK ABILITIES WORK!"));
         } else {
-            inventory.setItem(23,WeaponManager.items.get(playerMenuUtility.getAbility()).getItemStack());
+            inventory.setItem(20,WeaponManager.items.get(playerMenuUtility.getAbility()).getItemStack());
         }
         inventory.setItem(49,CLOSE_BUTTON);
         inventory.setItem(31,makeItem(Material.EMERALD_BLOCK, ChatColor.GREEN + "CONFIRM","Cost " + price + " coins!"));
