@@ -1,6 +1,5 @@
 package me.nils.everhunt.menu.standard;
 
-import me.nils.everhunt.data.AchievementData;
 import me.nils.everhunt.data.JobData;
 import me.nils.everhunt.menu.PaginatedMenu;
 import me.nils.everhunt.menu.PlayerMenuUtility;

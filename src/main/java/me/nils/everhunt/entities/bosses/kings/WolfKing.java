@@ -1,14 +1,12 @@
 package me.nils.everhunt.entities.bosses.kings;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.Wolfling;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;

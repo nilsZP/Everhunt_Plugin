@@ -1,7 +1,6 @@
 package me.nils.everhunt.entities.abilities;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;

@@ -1,10 +1,7 @@
 package me.nils.everhunt.menu.standard;
 
-import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.constants.Tier;
-import me.nils.everhunt.data.MarketData;
 import me.nils.everhunt.data.PlayerData;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.managers.WeaponManager;
