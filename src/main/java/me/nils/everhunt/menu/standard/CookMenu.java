@@ -28,12 +28,6 @@ public class CookMenu extends Menu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        if (e.getSlot() == 31 && e.getCurrentItem() != null && !e.getCurrentItem().getType().equals(Material.GREEN_STAINED_GLASS_PANE)) {
-            playerMenuUtility.getOwner().getInventory().addItem(e.getCurrentItem());
-            inventory.setItem(31,new ItemStack(Material.AIR));
-            return;
-        }
-
         if (e.getCurrentItem().getType().equals(Material.RED_STAINED_GLASS_PANE)) {
             int totalNutrition = 0;
 
@@ -53,21 +47,19 @@ public class CookMenu extends Menu {
 
             totalNutrition /= 10;
 
-            inventory.setItem(13,new ItemStack(Material.AIR));
-            inventory.setItem(21,new ItemStack(Material.AIR));
-            inventory.setItem(23,new ItemStack(Material.AIR));
+            if (inventory.getItem(13) != null) inventory.getItem(13).subtract();
+            if (inventory.getItem(21) != null) inventory.getItem(21).subtract();
+            if (inventory.getItem(23) != null) inventory.getItem(23).subtract();
             inventory.setItem(31,DishManager.getViaNutrition(totalNutrition));
-        } else if (!inventory.contains(e.getCurrentItem())) {
-            if (inventory.getItem(13).isEmpty()) {
-                inventory.setItem(13,e.getCurrentItem());
-            } else if (inventory.getItem(21).isEmpty()) {
-                inventory.setItem(21,e.getCurrentItem());
-            }
+
+            playerMenuUtility.getOwner().getInventory().addItem(DishManager.getViaNutrition(totalNutrition));
         }
 
-        if (Condition.isCustom(ChatColor.stripColor(e.getCurrentItem().displayName().toString())) && inventory.contains(e.getCurrentItem())) {
-            playerMenuUtility.getOwner().getInventory().addItem(e.getCurrentItem());
-            inventory.remove(e.getCurrentItem());
+        if (e.getSlot() == 13 || e.getSlot() == 21 || e.getSlot() == 23) {
+            if (e.getCurrentItem() != null) {
+                playerMenuUtility.getOwner().getInventory().addItem(e.getCurrentItem());
+                inventory.setItem(e.getSlot(),new ItemStack(Material.AIR));
+            }
         }
     }
 
