@@ -403,12 +403,14 @@ public class AbilityListener implements Listener {
 
             if (Condition.getFullSet(Ability.VOIDWALK,player)) {
                 Ability ability = Ability.VOIDWALK;
-                if (!(Cooldown.hasCooldown(helmet))) {
-                    if (Flow.useFlow(ability.getFlowCost(), player)) {
-                        Cooldown.setCooldown(helmet, ability.getCooldown());
-                        for (Entity entity1 : player.getNearbyEntities(ability.getRange(), ability.getRange(), ability.getRange())) {
-                            if (entity1 instanceof LivingEntity livingEntity && !(entity1 instanceof Player)) {
-                                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION,100,3,false,true,true));
+                if (player.isSneaking()) {
+                    if (!(Cooldown.hasCooldown(helmet))) {
+                        if (Flow.useFlow(ability.getFlowCost(), player)) {
+                            Cooldown.setCooldown(helmet, ability.getCooldown());
+                            for (Entity entity1 : player.getNearbyEntities(ability.getRange(), ability.getRange(), ability.getRange())) {
+                                if (entity1 instanceof LivingEntity livingEntity && !(entity1 instanceof Player)) {
+                                    livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 100, 3, false, true, true));
+                                }
                             }
                         }
                     }
