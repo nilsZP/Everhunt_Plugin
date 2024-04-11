@@ -1,12 +1,10 @@
 package me.nils.everhunt.entities.abilities;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.SmallFireball;
 import org.bukkit.persistence.PersistentDataType;

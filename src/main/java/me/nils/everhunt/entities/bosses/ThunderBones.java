@@ -1,22 +1,18 @@
 package me.nils.everhunt.entities.bosses;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.constants.Tier;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.abilities.ThunderBolt;
 import me.nils.everhunt.items.Items;
-import me.nils.everhunt.managers.WeaponManager;
 import me.nils.everhunt.utils.Chat;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.WitherSkeleton;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 

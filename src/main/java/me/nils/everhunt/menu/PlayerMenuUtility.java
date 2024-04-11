@@ -1,6 +1,5 @@
 package me.nils.everhunt.menu;
 
-import me.nils.everhunt.constants.Ability;
 import org.bukkit.entity.Player;
 
 public class PlayerMenuUtility {

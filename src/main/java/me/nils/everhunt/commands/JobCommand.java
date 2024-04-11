@@ -1,7 +1,6 @@
 package me.nils.everhunt.commands;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.menu.standard.AchievementMenu;
 import me.nils.everhunt.menu.standard.JobMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

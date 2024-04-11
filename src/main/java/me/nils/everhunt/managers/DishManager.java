@@ -7,7 +7,6 @@ import me.nils.everhunt.items.Items;
 import me.nils.everhunt.utils.Chat;
 import me.nils.everhunt.utils.Head;
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;

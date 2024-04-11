@@ -1,7 +1,6 @@
 package me.nils.everhunt.listeners;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.commands.AchievementCommand;
 import me.nils.everhunt.constants.ItemType;
 import me.nils.everhunt.constants.Job;
 import me.nils.everhunt.constants.MobType;

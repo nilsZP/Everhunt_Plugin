@@ -3,7 +3,6 @@ package me.nils.everhunt.items;
 import me.nils.everhunt.managers.*;
 import me.nils.everhunt.utils.Condition;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

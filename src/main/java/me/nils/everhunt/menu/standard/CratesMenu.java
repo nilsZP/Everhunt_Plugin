@@ -1,15 +1,11 @@
 package me.nils.everhunt.menu.standard;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.items.Items;
-import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PaginatedMenu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-
-import java.util.ArrayList;
 
 public class CratesMenu extends PaginatedMenu {
     public CratesMenu(PlayerMenuUtility playerMenuUtility) {

@@ -5,7 +5,6 @@ import me.nils.everhunt.constants.Rank;
 import me.nils.everhunt.data.GuildData;
 import me.nils.everhunt.menu.standard.InviteMenu;
 import me.nils.everhunt.utils.Chat;
-import me.nils.everhunt.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

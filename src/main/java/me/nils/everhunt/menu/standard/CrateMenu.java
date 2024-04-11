@@ -1,26 +1,17 @@
 package me.nils.everhunt.menu.standard;
 
 import me.nils.everhunt.Everhunt;
-import me.nils.everhunt.constants.Ability;
-import me.nils.everhunt.data.EntityData;
-import me.nils.everhunt.data.MarketData;
 import me.nils.everhunt.data.PlayerData;
-import me.nils.everhunt.entities.Wolfling;
 import me.nils.everhunt.entities.loottables.Loot;
 import me.nils.everhunt.managers.ItemManager;
 import me.nils.everhunt.menu.Menu;
 import me.nils.everhunt.menu.PlayerMenuUtility;
-import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EntityType;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Snowball;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Random;
 
 public class CrateMenu extends Menu {
     private ItemStack crate;
