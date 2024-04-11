@@ -65,6 +65,7 @@ public class CrateMenu extends Menu {
                             inventory.setItem(0,FILLER_GLASS);
                             inventory.setItem(22, Loot.getLootTable(crateName).getRandom());
                             player.getInventory().addItem(inventory.getItem(22));
+                            inventory.setItem(31, makeItem(Material.GOLD_BLOCK, ChatColor.GOLD + "Open"));
                             inventory.setItem(49,CLOSE_BUTTON);
                             cancel();
                         }

@@ -36,23 +36,23 @@ public class Loot {
 
             return builder.build();
         } else if (name.contains("Crate")) {
-            builder.add(Items.getBase("Wheat"),50);
+            builder.add(Items.getBase("Wheat"),10);
             builder.add(Items.getBase("Backpack (gray)"),25);
             builder.add(Items.getBase("Compressed Stone"),40);
             builder.add(Items.getBase("Brush"),20);
 
             if (name.contains("Mechanical")) {
-                builder.add(Items.getBase("6k Gold Ingot"),20);
+                builder.add(Items.getBase("12k Gold Ingot"),20);
                 builder.add(Items.getBase("Compressed Coal"),30);
-                builder.add(Items.getBase("Brokkr"),10);
+                builder.add(Items.getBase("Brokkr"),60);
             }
 
             if (name.contains("Magical")) {
                 builder.add(Items.getBase("Ancient Shard"),30);
-                builder.add(Items.getBase("Meteor Sword"),10);
+                builder.add(Items.getBase("Meteor Sword"),60);
             }
 
-            builder.add(Items.getBase("Cyriacus"),1);
+            builder.add(Items.getBase("Cyriacus"),10);
 
             return builder.build();
         } else {
