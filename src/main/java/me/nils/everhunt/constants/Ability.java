@@ -27,7 +27,7 @@ public enum Ability {
     FORTUNATE("Fortunate",0,0,Activation.PASSIVE,0,false,0,"&7Gives you a &c1% &7chance of doubling you farming drops."),
     SUMMON("Summon",0,10,Activation.DROP,40,true,5,"&7Reincarnates the soul and makes it attack the monster you're looking at.","&7Some souls will only work as decoys.","&7Hostile souls will start attacking you,","&7if their target has been eliminated."),
     EAT("Eat",0,0,Activation.RIGHT_CLICK,0,false,0,"&7Consume this dish and gain regeneration and instant health."),
-    VOIDWALK("Void Walk",0,10,Activation.FULL_SET,0,false,4,"&7Make enemies nearby you float.","&7This can also make you float if you sneakjump.","&7This ability activates on sneakjump or hit."),
+    VOIDWALK("Void Walk",0,10,Activation.FULL_SET,0,false,4,"&7Make enemies nearby you float.","&7This can also make you float if you sneakjump.","&7This ability activates on sneakjump or sneakhit."),
     NONE("NONE", 0, 0,Activation.PASSIVE,0,false,0);
 
     private final String name;
