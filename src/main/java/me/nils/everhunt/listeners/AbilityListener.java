@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.Ability;
 import me.nils.everhunt.constants.ItemType;
+import me.nils.everhunt.entities.LostSoul;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.abilities.*;
 import me.nils.everhunt.managers.*;
@@ -184,6 +185,10 @@ public class AbilityListener implements Listener {
                             switch (item) {
                                 case "Undead Scarecrow" -> {
                                     LivingEntity entity = new UndeadScarecrow(target.getLocation()).getEntity();
+                                    entity.attack(target);
+                                }
+                                case "Lost Soul" -> {
+                                    LivingEntity entity = new LostSoul(target.getLocation()).getEntity();
                                     entity.attack(target);
                                 }
                             }

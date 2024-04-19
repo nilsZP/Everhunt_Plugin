@@ -4,6 +4,7 @@ import me.nils.everhunt.Everhunt;
 import me.nils.everhunt.constants.MobType;
 import me.nils.everhunt.data.EntityData;
 import me.nils.everhunt.entities.ForgottenSoul;
+import me.nils.everhunt.entities.LostSoul;
 import me.nils.everhunt.entities.UndeadScarecrow;
 import me.nils.everhunt.entities.bosses.ThunderBones;
 import me.nils.everhunt.entities.loottables.Loot;
@@ -104,6 +105,9 @@ public class EntityListener implements Listener {
                     }
                     if (e.getEntity() instanceof Enderman) {
                         new ThunderBones(e.getLocation());
+                    }
+                    if (e.getEntity() instanceof Ghast) {
+                        new LostSoul(e.getLocation());
                     }
                 }
             }

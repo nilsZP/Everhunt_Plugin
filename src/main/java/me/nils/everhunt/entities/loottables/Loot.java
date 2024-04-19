@@ -32,6 +32,7 @@ public class Loot {
                 }
                 case "Forgotten Soul" -> builder.add(Items.getBase("24k Gold Nugget"),30);
                 case "Thunder Bones" -> builder.add(Items.getBase("AzureWrath"),100);
+                case "Lost Soul" -> builder.add(Items.getBase("Lost Soul"),30);
             }
 
             return builder.build();
