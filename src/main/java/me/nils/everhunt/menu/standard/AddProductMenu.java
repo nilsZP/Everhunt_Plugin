@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class AddProductMenu extends Menu {
     private int price;
-    private ItemStack itemStack;
     public AddProductMenu(PlayerMenuUtility playerMenuUtility, int price) {
         super(playerMenuUtility);
         this.price = price;
@@ -35,7 +34,7 @@ public class AddProductMenu extends Menu {
 
         if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Close")) player.closeInventory();
-
+            playerMenuUtility.setItemStack(inventory.getItem(22));
             return;
         }
 
@@ -43,6 +42,7 @@ public class AddProductMenu extends Menu {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Set Price")) {
                 playerMenuUtility.setInput(true);
                 playerMenuUtility.setInputType("Set Price");
+                playerMenuUtility.setItemStack(inventory.getItem(22));
                 player.closeInventory();
                 Chat.guide(player,"Type your price in chat");
 
@@ -57,15 +57,18 @@ public class AddProductMenu extends Menu {
                 int amount = inventory.getItem(22).getAmount();
                 new MarketData(player.getName(),item,amount,price,false,false);
                 new SellMenu(Everhunt.getPlayerMenuUtility(player)).open();
-                player.getInventory().removeItem(inventory.getItem(22));
+                playerMenuUtility.setItemStack(null);
 
                 return;
             }
         }
 
-        if (!inventory.contains(e.getCursor())) {
-            itemStack = e.getCursor();
-            inventory.setItem(22,e.getCursor());
+        if (e.getSlot() == 22) {
+            if (inventory.getItem(22) != null) {
+                player.getInventory().addItem(inventory.getItem(22));
+                inventory.setItem(22,new ItemStack(Material.AIR));
+                return;
+            }
         }
     }
 
@@ -75,10 +78,10 @@ public class AddProductMenu extends Menu {
         inventory.setItem(49,CLOSE_BUTTON);
         inventory.setItem(30,ADD_BUTTON);
         setFillerGlass();
-        if (itemStack == null) {
+        if (playerMenuUtility.getItemStack() == null) {
             inventory.setItem(22,new ItemStack(Material.AIR));
         } else {
-            inventory.setItem(22,itemStack);
+            inventory.setItem(22,playerMenuUtility.getItemStack());
         }
     }
 }

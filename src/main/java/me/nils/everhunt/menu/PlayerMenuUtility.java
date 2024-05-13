@@ -2,6 +2,7 @@ package me.nils.everhunt.menu;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerMenuUtility {
     private Player owner;
@@ -10,6 +11,7 @@ public class PlayerMenuUtility {
     private String material;
     private String ability;
     private Material mold;
+    private ItemStack itemStack;
     private boolean input;
     // you can add more attributes so that you can save variables between menus
 
@@ -72,5 +74,13 @@ public class PlayerMenuUtility {
 
     public void setMold(Material mold) {
         this.mold = mold;
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
+
+    public void setItemStack(ItemStack itemStack) {
+        this.itemStack = itemStack;
     }
 }
