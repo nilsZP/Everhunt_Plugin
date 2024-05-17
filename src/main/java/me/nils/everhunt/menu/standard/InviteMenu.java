@@ -38,6 +38,7 @@ public class InviteMenu extends Menu {
         if (e.getCurrentItem().getType().equals(Material.GOLD_BLOCK)) {
             if (ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equalsIgnoreCase("Accept")) new GuildData(player,guild, Rank.MEMBER);
             Stats.setScoreBoard(player);
+            player.closeInventory();
         }
     }
 

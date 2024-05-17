@@ -34,7 +34,8 @@ public class GuildData {
             while (resultSet.next()) {
                 String uuid = resultSet.getString("uuid");
 
-                list.add(Bukkit.getPlayer(UUID.fromString(uuid)));
+                Player receiver = Bukkit.getPlayer(UUID.fromString(uuid));
+                if (receiver != null) list.add(receiver);
             }
         } catch (SQLException e) {
             e.printStackTrace();
