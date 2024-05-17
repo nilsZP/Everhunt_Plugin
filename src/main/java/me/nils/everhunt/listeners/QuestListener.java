@@ -109,7 +109,7 @@ public class QuestListener implements Listener {
                             return;
                         }
                     }
-                    if (!QuestData.getDone(uuid, 5) && QuestData.getDone(uuid, 2)) {
+                    if (!QuestData.getDone(uuid, 5) && QuestData.getDone(uuid, 3)) {
                         if (QuestData.getCompletion(uuid, 5) == 0) {
                             Chat.npc(player, "Marcus", "I need new materials for Lucia II.");
                             Chat.npc(player, "Marcus", "Give me 2 compressed stone pls?");
