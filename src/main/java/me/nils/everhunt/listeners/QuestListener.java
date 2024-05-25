@@ -520,7 +520,7 @@ public class QuestListener implements Listener {
                 if (name.equals("Wolf King")) {
                     if (!(QuestData.getDone(uuid, 2)) && QuestData.getCompletion(uuid, 2) >= 1) {
                         double completion = QuestData.getCompletion(uuid, 2) + 2;
-                        if (completion > 4) QuestData.setCompletion(player, 2, 4, "Talk to Mi");
+                        if (completion > 4) QuestData.setCompletion(player, 2, 4, "Talk to Mi & Marcus");
                         PlayerData.data.get(uuid).addXp(50);
                         new AchievementData(player, "First boss kill", "You have defeated your first boss!");
                     }
